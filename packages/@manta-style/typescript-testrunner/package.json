@@ -1,0 +1,22 @@
+{
+  "name": "@manta-style/typescript-testrunner",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "test": "ts-node ./runner/index.ts && jest"
+  },
+  "devDependencies": {
+    "@manta-style/runtime": "^0.0.1",
+    "@manta-style/typescript-transformer": "^0.0.1",
+    "@types/babel-core": "^6.25.5",
+    "@types/glob": "^5.0.35",
+    "@types/jest": "^23.3.0",
+    "@types/node": "^10.5.2",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "glob": "^7.1.2",
+    "jest": "^23.4.1",
+    "ts-node": "^7.0.0"
+  }
+}

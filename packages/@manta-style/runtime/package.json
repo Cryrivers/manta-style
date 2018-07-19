@@ -1,0 +1,18 @@
+{
+  "name": "@manta-style/runtime",
+  "version": "0.0.1",
+  "description": "Manta Style Runtime",
+  "main": "./lib/umd/manta-style.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/esm/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json && webpack"
+  },
+  "devDependencies": {
+    "source-map-loader": "^0.2.3",
+    "typescript": "2.9.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  }
+}

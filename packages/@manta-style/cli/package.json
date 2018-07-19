@@ -1,0 +1,16 @@
+{
+  "name": "@manta-style/cli",
+  "version": "0.0.1",
+  "description": "A command line tool for Manta Style",
+  "main": "./lib/index.js",
+  "author": "Zhongliang Wang",
+  "license": "MIT",
+  "bin": {
+    "ms": "./lib/index.js"
+  },
+  "devDependencies": {
+    "@manta-style/typescript-builder": "^0.0.1",
+    "@types/express": "^4.16.0",
+    "express": "^4.16.3"
+  }
+}

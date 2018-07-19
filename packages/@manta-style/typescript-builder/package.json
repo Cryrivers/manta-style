@@ -1,0 +1,20 @@
+{
+  "name": "@manta-style/typescript-builder",
+  "version": "0.0.1",
+  "main": "./src/index.ts",
+  "license": "MIT",
+  "peerDependencies": {
+    "typescript": "*"
+  },
+  "devDependencies": {
+    "@manta-style/typescript-transformer": "^0.0.1",
+    "@types/babel-core": "^6.25.5",
+    "@types/glob": "^5.0.35",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "glob": "^7.1.2",
+    "typescript": "^2.9.2",
+    "webpack": "^4.16.1",
+    "webpack-cli": "^3.1.0"
+  }
+}
