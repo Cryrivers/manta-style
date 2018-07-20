@@ -1,5 +1,7 @@
 {
-  "packages": ["packages/@manta-style/*"],
+  "packages": [
+    "packages/@manta-style/*"
+  ],
   "npmClient": "yarn",
   "useWorkspaces": true,
   "version": "0.0.1"
