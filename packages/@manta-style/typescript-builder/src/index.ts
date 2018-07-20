@@ -14,11 +14,14 @@ export default function build(fileName: string, destDir: string) {
     module: ts.ModuleKind.ESNext,
     outDir: destDir
   });
-  program.emit(undefined, undefined, undefined, undefined, {
+  const result = program.emit(undefined, undefined, undefined, undefined, {
     before: [MantaStyleTranformer]
   });
-  const jsModuleFiles = glob.sync(path.resolve(destDir + "**/*.js"));
+  console.log(result);
+  console.log(result.emittedFiles);
+  const jsModuleFiles = glob.sync(path.join(destDir, "**/*.js"));
   for (const file of jsModuleFiles) {
+    console.log("Babel processing file: " + file);
     const result = babelCore.transformFileSync(file, {
       plugins: ["transform-es2015-modules-commonjs"]
     });
