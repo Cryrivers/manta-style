@@ -1,15 +1,12 @@
 export abstract class Type {
-  protected annotations: Annotation[] = [];
   public neverType: boolean = false;
   // abstract assignable(type: Type): boolean;
-  public annotate(annotations: Annotation[]) {
-    this.annotations = annotations;
-  }
-  protected getAnnotationByKey(key: string): string[] {
-    return this.annotations.filter(item => item.key === key).map(item => item.value);
-  }
-  abstract mock(): any;
+  abstract mock(annotations?: Annotation[]): any;
   abstract validate(input: any): boolean;
+}
+
+export function getAnnotationByKey(key: string, annotations?: Annotation[]): string[] {
+  return annotations ? annotations.filter(item => item.key === key).map(item => item.value) : [];
 }
 
 export type Annotation = {
@@ -21,6 +18,7 @@ export type Property = {
   name: string;
   type: Type;
   questionMark: boolean;
+  annotations: Annotation[];
 };
 
 export const enum ComputedPropertyOperator {

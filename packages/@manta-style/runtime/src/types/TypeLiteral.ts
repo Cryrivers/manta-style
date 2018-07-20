@@ -22,11 +22,11 @@ export default class TypeLiteral extends Type {
     questionMark: boolean,
     annotations: Annotation[]
   ) {
-    type.annotate(annotations);
     this.properties.push({
       name,
       type,
-      questionMark
+      questionMark,
+      annotations
     });
   }
   public computedProperty(
@@ -34,14 +34,16 @@ export default class TypeLiteral extends Type {
     keyType: Type,
     type: Type,
     operator: ComputedPropertyOperator,
-    questionMark: boolean
+    questionMark: boolean,
+    annotations: Annotation[]
   ) {
     this.computedProperties.push({
       name,
       keyType,
       type,
       operator,
-      questionMark
+      questionMark,
+      annotations
     });
   }
   public mock() {
@@ -53,7 +55,7 @@ export default class TypeLiteral extends Type {
           ? Math.random()
           : 1;
       if (chance > 0.5) {
-        obj[property.name] = property.type.mock();
+        obj[property.name] = property.type.mock(property.annotations);
       }
     }
     // TODO: Process computed properties and index signatures

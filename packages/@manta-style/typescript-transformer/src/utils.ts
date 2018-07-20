@@ -173,9 +173,11 @@ function createTypeLiteralProperties(
               member.questionToken ? ts.createTrue() : ts.createFalse(),
               ts.createArrayLiteral(
                 jsdocArray.map(tag => {
-                  console.log(tag);
                   return ts.createObjectLiteral([
-                    ts.createPropertyAssignment("key", ts.createStringLiteral(tag.tagName.text)),
+                    ts.createPropertyAssignment(
+                      "key",
+                      ts.createStringLiteral(tag.tagName.text)
+                    ),
                     ts.createPropertyAssignment(
                       "value",
                       ts.createStringLiteral(tag.comment || "")

@@ -25,27 +25,20 @@ export type Category = "event" | "realtime" | "historical";
 export interface ChartData {
   /**
    * only valid if realtime
-   * example:
-   * 0.0283
+   * @example 0.0283
    */
   increaseRateAgainstD1?: number; // float64
   /**
    * only valid if realtime
-   * example:
-   * -0.0368
+   * @example -0.0368
    */
   increaseRateAgainstD7?: number; // float64
-  /**
-   * example:
-   * [object Object]
-   */
   lines: {
     [name: string]: Line;
   };
   /**
    * for realtime,it is current value of metric;for historical, it should be the sum of all historical values.
-   * example:
-   * 273394
+   * @example 273394
    */
   value: number; // float64
 }
@@ -61,31 +54,25 @@ export interface ChartLine {
 }
 /**
  * the request body tells how to query elastic search to get chart data.
- * example:
- * [object Object]
  */
 export interface ChartRequestBody {
   category: Category;
   dimensionSetting: DimensionSetting;
   /**
-   * example:
-   * impression
+   * @example impression
    */
   eventName?: string;
   metricName: MetricName;
   /**
-   * example:
-   * home
+   * @example home
    */
   pageName?: string;
   /**
-   * example:
-   * top_product
+   * @example top_product
    */
   sectionName?: string;
   /**
-   * example:
-   * cluster
+   * @example cluster
    */
   targetName?: string;
   timeEnd: string;
@@ -100,13 +87,11 @@ export type ChartType = "lineChart" | "histogram" | "pieChart";
 export type Country = "SG" | "VN" | "ID" | "MY" | "PH" | "TH" | "TW";
 export interface Dashboard {
   /**
-   * example:
-   * 1
+   * @example 1
    */
   dashboardId?: number; // int32
   /**
-   * example:
-   * my dashboard
+   * @example my dashboard
    */
   dashboardName?: string;
 }
@@ -129,37 +114,32 @@ export interface DimensionSetting {
   viewBy: Dimension;
   /**
    * this tells all the possible values of the dimension which is chose as viewBy
-   * example:
-   * TW,SG
+   * @example TW
+   * @example SG
    */
   viewByValues: string[];
 }
 export type EventMappingTable = {
   /**
-   * example:
-   * Flashsale Landing Page
+   * @example Flashsale Landing Page
    */
   page?: string;
   /**
-   * example:
-   * Whole Page
+   * @example Whole Page
    */
   section?: string;
   /**
-   * example:
-   * Whole Page
+   * @example Whole Page
    */
   target?: string;
   /**
-   * example:
-   * Pageview
+   * @example Pageview
    */
   event?: string;
 }[];
 export interface Filter {
   /**
-   * example:
-   * platform
+   * @example platform
    */
   field: string;
   operator: "eq" | "nq";
@@ -170,30 +150,22 @@ export type Line = {
   y: number;
 }[];
 export interface LoginResponse {
-  /**
-   * example:
-   *
-   */
   content: string;
   /**
-   * example:
-   * u1sw4qc6lvwogkq16z05bxr726yijgv64gycfw3u
+   * @example u1sw4qc6lvwogkq16z05bxr726yijgv64gycfw3u
    */
   sso_key: string;
   user: {
     /**
-     * example:
-     * zhouz
+     * @example zhouz
      */
     username?: string;
     /**
-     * example:
-     * 100
+     * @example 100
      */
     userid?: number;
     /**
-     * example:
-     * zhouz@seagroup.com
+     * @example zhouz@seagroup.com
      */
     email?: string;
   };
@@ -202,15 +174,9 @@ export type LoginStatus = "login" | "logout";
 export interface Metric {
   displayName: string;
   metricCategories: Category[];
-  /**
-   * example:
-   *
-   */
   metricDefinition: string;
   /**
    * here dimension stores this metric's dimension and all its possible values in an array.
-   * example:
-   * [object Object]
    */
   metricDimensions: {
     country?: Country[];
@@ -230,39 +196,32 @@ export interface MetricCard {
   chartType: ChartType;
   dimensionSetting: DimensionSetting;
   /**
-   * example:
-   * impression
+   * @example impression
    */
   eventName?: string;
   /**
-   * example:
-   * 1
+   * @example 1
    */
   metricCardColumn?: number;
   /**
-   * example:
-   * 1
+   * @example 1
    */
   metricCardId: number; // int32
   /**
-   * example:
-   * shopping_cart/ymal/item/impression
+   * @example shopping_cart/ymal/item/impression
    */
   metricCardName: string;
   metricName: MetricName;
   /**
-   * example:
-   * shopping_cart
+   * @example shopping_cart
    */
   pageName?: string;
   /**
-   * example:
-   * ymal
+   * @example ymal
    */
   sectionName?: string;
   /**
-   * example:
-   * item
+   * @example item
    */
   targetName?: string;
   timeRange?: TimeRange;
@@ -320,13 +279,11 @@ export type Platform =
  */
 export interface Point {
   /**
-   * example:
-   * 1527234734
+   * @example 1527234734
    */
   xAxis: number; // int64
   /**
-   * example:
-   * 237483
+   * @example 237483
    */
   yAxis: number; // float64
 }

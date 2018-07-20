@@ -1,18 +1,17 @@
-import { Type } from "../utils";
-import * as faker from 'faker';
+import { Type, Annotation, getAnnotationByKey } from "../utils";
+import { sample } from "lodash-es";
+import * as faker from "faker";
 
-/**
- * @example Test
- * @example Hehee
- */
+const DEFAULT_STATIC_STRING =
+  "This is a string message. Use @example or @faker to customize.";
+
 export default class StringKeyword extends Type {
-  public mock() {
-    // see if there's @example
-    const examples = this.getAnnotationByKey('example');
-    if (examples.length > 0) {
-      return examples[0];
+  public mock(annotations?: Annotation[]) {
+    const jsdocExample = getAnnotationByKey("example", annotations);
+    if (jsdocExample.length > 0) {
+      return sample(jsdocExample) || DEFAULT_STATIC_STRING;
     } else {
-      return 'This is a string message. Use @example or @faker to customize.'
+      return DEFAULT_STATIC_STRING;
     }
   }
   public validate(input: any) {

@@ -7,10 +7,10 @@ type Fulfill<T> = {
 type Failure = {
   status: 'no permisson' | 'not login',
   /**
-   *
+   * @description
+   * Error message
    * @example You are too handsome to use
    * @example Server Error
-   * @type {string}
    */
   message: string
 }
