@@ -7,7 +7,13 @@ import * as faker from 'faker';
  */
 export default class StringKeyword extends Type {
   public mock() {
-    return faker.name.findName();
+    // see if there's @example
+    const examples = this.getAnnotationByKey('example');
+    if (examples.length > 0) {
+      return examples[0];
+    } else {
+      return 'This is a string message. Use @example or @faker to customize.'
+    }
   }
   public validate(input: any) {
     return typeof input === "string";

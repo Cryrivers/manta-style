@@ -3,7 +3,8 @@ import {
   Property,
   AnyObject,
   ComputedProperty,
-  ComputedPropertyOperator
+  ComputedPropertyOperator,
+  Annotation
 } from "../utils";
 
 export default class TypeLiteral extends Type {
@@ -15,7 +16,13 @@ export default class TypeLiteral extends Type {
   public getKeys() {
     return this.properties.map(prop => prop.name);
   }
-  public property(name: string, type: Type, questionMark: boolean) {
+  public property(
+    name: string,
+    type: Type,
+    questionMark: boolean,
+    annotations: Annotation[]
+  ) {
+    type.annotate(annotations);
     this.properties.push({
       name,
       type,

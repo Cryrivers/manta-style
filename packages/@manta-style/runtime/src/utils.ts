@@ -1,12 +1,12 @@
 export abstract class Type {
-  private annotations: Annotation[] = [];
+  protected annotations: Annotation[] = [];
   public neverType: boolean = false;
   // abstract assignable(type: Type): boolean;
-  public annotate(key: string, value: string) {
-    this.annotations.push({
-      key,
-      value
-    })
+  public annotate(annotations: Annotation[]) {
+    this.annotations = annotations;
+  }
+  protected getAnnotationByKey(key: string): string[] {
+    return this.annotations.filter(item => item.key === key).map(item => item.value);
   }
   abstract mock(): any;
   abstract validate(input: any): boolean;
