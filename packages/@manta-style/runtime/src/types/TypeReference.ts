@@ -1,16 +1,15 @@
 import { Type } from "../utils";
 import MantaStyle from "../index";
 
-// TODO: Support generics
 export default class TypeReference extends Type {
   private referenceName: string;
-  private deferredGenericTypes: Type[] = [];
+  private deferredArgumentedTypes: Type[] = [];
   constructor(referenceName: string) {
     super();
     this.referenceName = referenceName;
   }
-  public ref(types: Type[]) {
-    this.deferredGenericTypes = types;
+  public argumentTypes(types: Type[]) {
+    this.deferredArgumentedTypes = types;
     return this;
   }
   public mock() {
@@ -22,7 +21,7 @@ export default class TypeReference extends Type {
   private getActualType() {
     // Evaluate Generics
     const actualType = MantaStyle._referenceType(this.referenceName);
-    actualType.ref(this.deferredGenericTypes);
+    actualType.argumentTypes(this.deferredArgumentedTypes);
     return actualType;
   }
 }

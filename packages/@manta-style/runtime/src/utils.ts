@@ -1,8 +1,5 @@
 export abstract class Type {
   public neverType: boolean = false;
-  public ref(_types: Type[]): Type {
-    return this;
-  }
   // abstract assignable(type: Type): boolean;
   abstract mock(): any;
   abstract validate(input: any): boolean;
@@ -31,15 +28,15 @@ export type AnyObject = {
 export type Literals = string | boolean | number;
 
 export class ErrorType extends Type {
-  private errorMessage: string;
+  private message: string;
   constructor(errorMessage: string) {
     super();
-    this.errorMessage = errorMessage;
+    this.message = errorMessage;
   }
   public mock() {
-    throw new Error(this.errorMessage);
+    throw new Error(this.message);
   }
   public validate(): never {
-    throw new Error(this.errorMessage);
+    throw new Error(this.message);
   }
 }

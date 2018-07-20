@@ -32,6 +32,43 @@ export function createConstVariableStatement(
   );
 }
 
+export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
+  const typeAliasName = node.name.getText();
+  const varCreation = createConstVariableStatement(
+    typeAliasName,
+    createRuntimeFunctionCall(
+      'TypeAliasDeclaration',
+      [
+        ts.createArrowFunction(
+          undefined,
+          undefined,
+          [
+            ts.createParameter(
+              undefined,
+              undefined,
+              undefined,
+              "type",
+              undefined,
+              undefined,
+              undefined
+            )
+          ],
+          undefined,
+          undefined,
+          ts.createBlock(
+            [
+              ...createTypeParameters(node.typeParameters),
+              ...createTypeLiteralProperties(node.type)
+            ],
+            true
+          )
+        )
+      ]
+    )
+  );
+  return varCreation;
+}
+
 export function createRuntimeFunctionCall(
   methodName: string,
   argArray: ReadonlyArray<ts.Expression>,
@@ -57,7 +94,7 @@ function createRuntimePropertyRef(
   );
 }
 
-function createTypeLiteralGenerics(
+function createTypeParameters(
   typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
 ): ts.Statement[] {
   const statements: ts.Statement[] = [];
@@ -174,7 +211,7 @@ export function createTypeLiteral(
       undefined,
       ts.createBlock(
         [
-          ...createTypeLiteralGenerics(typeParameters),
+          ...createTypeParameters(typeParameters),
           ...createTypeLiteralProperties(node.members)
         ],
         true
@@ -237,35 +274,13 @@ export function createMantaStyleRuntimeObject(
       createMantaStyleRuntimeObject(node.type)
     ]);
   } else if (ts.isTypeReferenceNode(node)) {
-    // Array Special Case
+    // Special Cases
     if (
       node.typeName.getText() === "Array" &&
       node.typeArguments &&
       node.typeArguments.length === 1
     ) {
       return createArrayType(ts.createArrayTypeNode(node.typeArguments[0]));
-    } else if (
-      node.typeName.getText() === "ReadOnly" &&
-      node.typeArguments &&
-      node.typeArguments.length === 1
-    ) {
-      return createMantaStyleRuntimeObject(node.typeArguments[0]);
-    } else if (
-      node.typeName.getText() === "Partial" &&
-      node.typeArguments &&
-      node.typeArguments.length === 1
-    ) {
-      return createRuntimeFunctionCall("Partial", [
-        createMantaStyleRuntimeObject(node.typeArguments[0])
-      ]);
-    } else if (
-      node.typeName.getText() === "Required" &&
-      node.typeArguments &&
-      node.typeArguments.length === 1
-    ) {
-      return createRuntimeFunctionCall("Required", [
-        createMantaStyleRuntimeObject(node.typeArguments[0])
-      ]);
     }
     return createTypeReference(node);
   } else {

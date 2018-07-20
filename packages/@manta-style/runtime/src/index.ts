@@ -11,18 +11,18 @@ import AnyKeyword from "./types/AnyKeyword";
 import NeverKeyword from "./types/NeverKeyword";
 import StringKeyword from "./types/StringKeyword";
 import TypeReference from "./types/TypeReference";
-import TypeAliasDeclaration from "./types/TypeAliasDeclaration";
+import TypeAliasDeclaration from "./nodes/TypeAliasDeclaration";
 
 class MantaStyle {
-  private static typeReferences: { [key: string]: Type } = {};
-  public static _registerType(name: string, type: Type) {
+  private static typeReferences: { [key: string]: TypeAliasDeclaration } = {};
+  public static _registerType(name: string, type: TypeAliasDeclaration) {
     if (MantaStyle.typeReferences[name]) {
       throw new Error(`Type "${name}" has already been registered.`);
     } else {
       MantaStyle.typeReferences[name] = type;
     }
   }
-  public static _referenceType(name: string): Type {
+  public static _referenceType(name: string): TypeAliasDeclaration {
     if (!MantaStyle.typeReferences[name]) {
       throw new Error(`Type "${name}" hasn't been registered yet.`);
     } else {
@@ -30,16 +30,15 @@ class MantaStyle {
     }
   }
   public static TypeAliasDeclaration(
-    typeCallback: (currentType: TypeAliasDeclaration) => void
+    typeName: string,
+    typeCallback: (currentType: TypeAliasDeclaration) => Type
   ) {
-    const newType = new TypeAliasDeclaration();
-    typeCallback(newType);
+    const newType = new TypeAliasDeclaration(typeName);
+    newType.setType(typeCallback(newType));
     return newType;
   }
-  public static TypeLiteral(typeCallback: (currentType: TypeLiteral) => void) {
-    const newType = new TypeLiteral();
-    typeCallback(newType);
-    return newType;
+  public static TypeLiteral() {
+    return new TypeLiteral();
   }
   public static UnionType(types: Type[]) {
     return new UnionType(types);
@@ -64,8 +63,6 @@ class MantaStyle {
     const keys = type.getKeys();
     return new UnionType(keys.map(key => new LiteralType(key)));
   }
-  public static Partial = TypeLiteral.partialFrom;
-  public static Required = TypeLiteral.requiredFrom;
 }
 
 export default MantaStyle;
