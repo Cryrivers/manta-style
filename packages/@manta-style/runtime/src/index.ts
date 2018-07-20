@@ -11,6 +11,7 @@ import AnyKeyword from "./types/AnyKeyword";
 import NeverKeyword from "./types/NeverKeyword";
 import StringKeyword from "./types/StringKeyword";
 import TypeReference from "./types/TypeReference";
+import TypeAliasDeclaration from "./types/TypeAliasDeclaration";
 
 class MantaStyle {
   private static typeReferences: { [key: string]: Type } = {};
@@ -27,6 +28,13 @@ class MantaStyle {
     } else {
       return MantaStyle.typeReferences[name];
     }
+  }
+  public static TypeAliasDeclaration(
+    typeCallback: (currentType: TypeAliasDeclaration) => void
+  ) {
+    const newType = new TypeAliasDeclaration();
+    typeCallback(newType);
+    return newType;
   }
   public static TypeLiteral(typeCallback: (currentType: TypeLiteral) => void) {
     const newType = new TypeLiteral();
