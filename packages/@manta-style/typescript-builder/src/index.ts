@@ -5,7 +5,11 @@ import * as glob from "glob";
 import * as babelCore from "babel-core";
 import MantaStyleTranformer from "@manta-style/typescript-transformer";
 
-export default function build(fileName: string, destDir: string) {
+export default function build(
+  fileName: string,
+  destDir: string,
+  verbose: boolean = false
+) {
   const program = ts.createProgram([fileName], {
     strict: true,
     noEmitOnError: true,
@@ -14,14 +18,23 @@ export default function build(fileName: string, destDir: string) {
     module: ts.ModuleKind.ESNext,
     outDir: destDir
   });
-  const result = program.emit(undefined, undefined, undefined, undefined, {
-    before: [MantaStyleTranformer]
-  });
-  console.log(result);
-  console.log(result.emittedFiles);
+  const result: ts.EmitResult = program.emit(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    {
+      before: [MantaStyleTranformer]
+    }
+  );
+  if (verbose) {
+    console.log("[TYPESCRIPT] Compile Result", result);
+  }
   const jsModuleFiles = glob.sync(path.join(destDir, "**/*.js"));
   for (const file of jsModuleFiles) {
-    console.log("Babel processing file: " + file);
+    if (verbose) {
+      console.log("[BABEL] Processing file: " + file);
+    }
     const result = babelCore.transformFileSync(file, {
       plugins: ["transform-es2015-modules-commonjs"]
     });

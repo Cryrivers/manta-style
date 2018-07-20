@@ -28,9 +28,16 @@ program
     "--useSnapshot <file>",
     "To launch a server with data snapshot (Not yet implemented.)"
   )
+  .option("-v --verbose", "show debug information")
   .parse(process.argv);
 
-const { configFile, port, generateSnapshot, useSnapshot } = program;
+const {
+  configFile,
+  port,
+  generateSnapshot,
+  useSnapshot,
+  verbose = false
+} = program;
 
 if (!configFile) {
   console.log(
@@ -47,7 +54,7 @@ if (generateSnapshot && useSnapshot) {
 
 const app = express();
 const tmpDir = findRoot(process.cwd()) + "/.mantastyle-tmp";
-builder(path.resolve(configFile), tmpDir);
+builder(path.resolve(configFile), tmpDir, verbose);
 
 const compileConfig = require(path.join(
   tmpDir,
