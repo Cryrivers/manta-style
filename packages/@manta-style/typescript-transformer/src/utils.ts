@@ -77,6 +77,16 @@ function createTypeLiteralGenerics(
   return statements;
 }
 
+function createPropertyName(node: ts.PropertySignature) {
+  const { name } = node;
+  if (ts.isStringLiteral(name)) {
+    return name;
+  } else if (ts.isIdentifier(name)) {
+    return ts.createStringLiteral(name.getText());
+  }
+  throw new Error("Unsupported types when creating property name.");
+}
+
 function createTypeLiteralProperties(
   members: ts.NodeArray<ts.TypeElement>
 ): ts.Statement[] {
@@ -88,9 +98,7 @@ function createTypeLiteralProperties(
           createRuntimeFunctionCall(
             "property",
             [
-              // TODO: Should be either StringLiteral, Identifier
-              // maybe should add a new runtime arrays for indexer and mapped type
-              ts.createStringLiteral(member.name.getText()),
+              createPropertyName(member),
               createMantaStyleRuntimeObject(member.type),
               member.questionToken ? ts.createTrue() : ts.createFalse()
             ],
@@ -98,6 +106,8 @@ function createTypeLiteralProperties(
           )
         )
       );
+    } else if (ts.isIndexSignatureDeclaration(member)) {
+      // TODO: To be implemented
     }
   }
   return statements;
@@ -218,6 +228,22 @@ export function createMantaStyleRuntimeObject(
       node.typeArguments.length === 1
     ) {
       return createMantaStyleRuntimeObject(node.typeArguments[0]);
+    } else if (
+      node.typeName.getText() === "Partial" &&
+      node.typeArguments &&
+      node.typeArguments.length === 1
+    ) {
+      return createRuntimeFunctionCall("Partial", [
+        createMantaStyleRuntimeObject(node.typeArguments[0])
+      ]);
+    } else if (
+      node.typeName.getText() === "Required" &&
+      node.typeArguments &&
+      node.typeArguments.length === 1
+    ) {
+      return createRuntimeFunctionCall("Required", [
+        createMantaStyleRuntimeObject(node.typeArguments[0])
+      ]);
     }
     return createTypeReference(node);
   } else {

@@ -6,6 +6,9 @@
   "peerDependencies": {
     "typescript": "*"
   },
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
   "devDependencies": {
     "@manta-style/typescript-transformer": "^0.0.1",
     "@types/babel-core": "^6.25.5",

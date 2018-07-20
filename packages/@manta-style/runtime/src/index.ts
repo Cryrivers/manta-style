@@ -33,11 +33,12 @@ class MantaStyle {
   public static NullKeyword = new NullKeyword();
   public static UndefinedKeyword = new UndefinedKeyword();
   public static AnyKeyword = new AnyKeyword();
-
   public static KeyOfKeyword(type: TypeLiteral) {
     const keys = type.getKeys();
     return new UnionType(keys.map(key => new LiteralType(key)));
   }
+  public static Partial = TypeLiteral.partialFrom;
+  public static Required = TypeLiteral.requiredFrom;
 }
 
 export default MantaStyle;

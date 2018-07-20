@@ -3,7 +3,7 @@ export abstract class Type {
   public ref(_types: Type[]): Type {
     return this;
   }
-  // abstract extends(type: Type): boolean;
+  // abstract assignable(type: Type): boolean;
   abstract mock(): any;
   abstract validate(input: any): boolean;
 }
@@ -12,6 +12,16 @@ export type Property = {
   name: string;
   type: Type;
   questionMark: boolean;
+};
+
+export const enum ComputedPropertyOperator {
+  INDEX_SIGNATURE,
+  IN_KEYWORD
+}
+
+export type ComputedProperty = Property & {
+  keyType: Type;
+  operator: ComputedPropertyOperator;
 };
 
 export type AnyObject = {
