@@ -11,9 +11,7 @@ type Failure = {
 type Response<T> = Fulfill<T> | Failure;
 
 type Config = {
-  "/metricCard/findAll": {
-    chart: Response<MetricCard>;
-  };
+  "/metricCard/findAll": Response<MetricCard>;
 };
 
 export default Config;

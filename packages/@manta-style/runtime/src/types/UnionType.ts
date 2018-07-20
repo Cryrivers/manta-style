@@ -10,7 +10,7 @@ export default class UnionType extends Type {
     const chosenType = this.unionTypes[
       Math.floor(Math.random() * this.unionTypes.length)
     ];
-    // TODO: never type could be accidentally called.
+    // FIXME: never type could be accidentally called.
     return chosenType.mock();
   }
   public validate(input: any) {

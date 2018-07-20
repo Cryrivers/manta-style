@@ -1,8 +1,20 @@
 export abstract class Type {
+  private annotations: Annotation[] = [];
   public neverType: boolean = false;
   // abstract assignable(type: Type): boolean;
+  public annotate(key: string, value: string) {
+    this.annotations.push({
+      key,
+      value
+    })
+  }
   abstract mock(): any;
   abstract validate(input: any): boolean;
+}
+
+export type Annotation = {
+  key: string,
+  value: string
 }
 
 export type Property = {
