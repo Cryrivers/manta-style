@@ -58,7 +58,7 @@ const compiledFilePath = builder(path.resolve(configFile), tmpDir, verbose);
 
 const compileConfig = require(compiledFilePath);
 
-const endpoints = compileConfig.default._getProperties();
+const endpoints = compileConfig.default.getType()._getProperties();
 
 for (const endpoint of endpoints) {
   // snapshot[endpoint.name.replace(/"/g, "")] = p.type.mock();

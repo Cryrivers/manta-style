@@ -2,39 +2,17 @@ import * as ts from "typescript";
 import {
   createMantaStyleRuntimeObject,
   createConstVariableStatement,
-  createRuntimeFunctionCall
+  createRuntimeFunctionCall,
+  createTypeAliasDeclaration
 } from "./utils";
 import { MANTASTYLE_RUNTIME_NAME, MANTASTYLE_PACKAGE_NAME } from "./constants";
 
 const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
   const MantaStyleRuntimeTypeVisitor: ts.Visitor = node => {
     if (ts.isTypeAliasDeclaration(node)) {
-      const typeAliasName = node.name.getText();
-      const varCreation = createConstVariableStatement(
-        typeAliasName,
-        createMantaStyleRuntimeObject(node.type, node.typeParameters)
-      );
-      const registerToRuntime = createRuntimeFunctionCall("_registerType", [
-        ts.createStringLiteral(typeAliasName),
-        ts.createIdentifier(typeAliasName)
-      ]);
-      varCreation.modifiers = node.modifiers;
-      return [varCreation, registerToRuntime];
+      return createTypeAliasDeclaration(node);
     } else if (ts.isInterfaceDeclaration(node)) {
-      const interfaceName = node.name.getText();
-      const varCreation = createConstVariableStatement(
-        interfaceName,
-        createMantaStyleRuntimeObject(
-          ts.createTypeLiteralNode(node.members),
-          node.typeParameters
-        )
-      );
-      const registerToRuntime = createRuntimeFunctionCall("_registerType", [
-        ts.createStringLiteral(interfaceName),
-        ts.createIdentifier(interfaceName)
-      ]);
-      varCreation.modifiers = node.modifiers;
-      return [varCreation, registerToRuntime];
+      return createTypeAliasDeclaration(ts.createTypeAliasDeclaration(node.decorators, node.modifiers, node.name, node.typeParameters, ts.createTypeLiteralNode(node.members)));
     } else if (ts.isImportSpecifier(node)) {
       // Do not erase type import
       // TODO: It might be wrong

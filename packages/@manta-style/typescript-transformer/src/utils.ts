@@ -36,37 +36,42 @@ export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
   const typeAliasName = node.name.getText();
   const varCreation = createConstVariableStatement(
     typeAliasName,
-    createRuntimeFunctionCall(
-      'TypeAliasDeclaration',
-      [
-        ts.createArrowFunction(
-          undefined,
-          undefined,
-          [
-            ts.createParameter(
-              undefined,
-              undefined,
-              undefined,
-              "type",
-              undefined,
-              undefined,
-              undefined
-            )
-          ],
-          undefined,
-          undefined,
-          ts.createBlock(
-            [
-              ...createTypeParameters(node.typeParameters),
-              ...createTypeLiteralProperties(node.type)
-            ],
-            true
+    createRuntimeFunctionCall("TypeAliasDeclaration", [
+      ts.createStringLiteral(typeAliasName),
+      ts.createArrowFunction(
+        undefined,
+        undefined,
+        [
+          ts.createParameter(
+            undefined,
+            undefined,
+            undefined,
+            "typeFactory",
+            undefined,
+            undefined,
+            undefined
           )
+        ],
+        undefined,
+        undefined,
+        ts.createBlock(
+          [
+            ...createTypeParameters(node.typeParameters || ts.createNodeArray()),
+            //...createTypeLiteralProperties(node.type),
+            createConstVariableStatement('type', createMantaStyleRuntimeObject(node.type, node.typeParameters || ts.createNodeArray())),
+            ts.createReturn(ts.createIdentifier('type'))
+          ],
+          true
         )
-      ]
-    )
+      )
+    ])
   );
-  return varCreation;
+  const registerToRuntime = createRuntimeFunctionCall("_registerType", [
+    ts.createStringLiteral(typeAliasName),
+    ts.createIdentifier(typeAliasName)
+  ]);
+  varCreation.modifiers = node.modifiers;
+  return [varCreation, registerToRuntime];
 }
 
 export function createRuntimeFunctionCall(
@@ -95,7 +100,7 @@ function createRuntimePropertyRef(
 }
 
 function createTypeParameters(
-  typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>
 ): ts.Statement[] {
   const statements: ts.Statement[] = [];
   if (typeParameters) {
@@ -104,9 +109,9 @@ function createTypeParameters(
         createConstVariableStatement(
           param.name.getText(),
           createRuntimeFunctionCall(
-            "RefType",
+            "TypeParameter",
             [ts.createStringLiteral(param.name.getText())],
-            "type"
+            "typeFactory"
           )
         )
       );
@@ -125,17 +130,16 @@ function createPropertyName(node: ts.PropertySignature) {
   throw new Error("Unsupported types when creating property name.");
 }
 
-function createTypeLiteralType(
+function isGenericTypeReference(typeName: string, typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>): boolean {
+  return (typeParameters && typeParameters.some(item => item.name.getText() === typeName)) || false;
+}
+
+function createTypeReferenceOrIdentifier(
   node: ts.TypeNode,
-  typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>
 ) {
-  // is it a generic type parameter?
   const nodeName = node.getText();
-  if (
-    typeParameters &&
-    typeParameters.some(item => item.name.getText() === nodeName)
-  ) {
-    console.log("Generic: ", nodeName);
+  if (isGenericTypeReference(nodeName, typeParameters)) {
     return ts.createIdentifier(nodeName);
   }
   return createMantaStyleRuntimeObject(node, typeParameters);
@@ -143,7 +147,7 @@ function createTypeLiteralType(
 
 function createTypeLiteralProperties(
   members: ts.NodeArray<ts.TypeElement>,
-  typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>
 ): ts.Statement[] {
   const statements: ts.Statement[] = [];
   for (const member of members) {
@@ -154,10 +158,10 @@ function createTypeLiteralProperties(
             "property",
             [
               createPropertyName(member),
-              createTypeLiteralType(member.type, typeParameters),
+              createTypeReferenceOrIdentifier(member.type, typeParameters),
               member.questionToken ? ts.createTrue() : ts.createFalse()
             ],
-            "type"
+            "typeLiteral"
           )
         )
       );
@@ -168,10 +172,10 @@ function createTypeLiteralProperties(
   return statements;
 }
 
-function createUnionType(node: ts.UnionTypeNode): ts.Expression {
+function createUnionType(node: ts.UnionTypeNode, typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>): ts.Expression {
   return createRuntimeFunctionCall("UnionType", [
     ts.createArrayLiteral(
-      node.types.map(item => createMantaStyleRuntimeObject(item))
+      node.types.map(item => createTypeReferenceOrIdentifier(item, typeParameters))
     )
   ]);
 }
@@ -182,15 +186,15 @@ function createLiteralType(node: ts.LiteralTypeNode): ts.Expression {
   ]);
 }
 
-function createArrayType(node: ts.ArrayTypeNode): ts.Expression {
+function createArrayType(node: ts.ArrayTypeNode, typeParameters:ts.NodeArray<ts.TypeParameterDeclaration>): ts.Expression {
   return createRuntimeFunctionCall("ArrayType", [
-    createMantaStyleRuntimeObject(node.elementType)
+    createMantaStyleRuntimeObject(node.elementType, typeParameters)
   ]);
 }
 
 export function createTypeLiteral(
   node: ts.TypeLiteralNode,
-  typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>
 ) {
   return createRuntimeFunctionCall("TypeLiteral", [
     ts.createArrowFunction(
@@ -201,7 +205,7 @@ export function createTypeLiteral(
           undefined,
           undefined,
           undefined,
-          "type",
+          "typeLiteral",
           undefined,
           undefined,
           undefined
@@ -210,48 +214,46 @@ export function createTypeLiteral(
       undefined,
       undefined,
       ts.createBlock(
-        [
-          ...createTypeParameters(typeParameters),
-          ...createTypeLiteralProperties(node.members)
-        ],
+        createTypeLiteralProperties(node.members, typeParameters),
         true
       )
     )
   ]);
 }
 
-function createTypeReference(node: ts.TypeReferenceNode): ts.Expression {
-  const typeReferenceCallExpression = createRuntimeFunctionCall(
+function createTypeReference(node: ts.TypeReferenceNode, typeParameters: ts.NodeArray<ts.TypeParameterDeclaration> ): ts.Expression {
+  const typeName = node.typeName.getText();
+  const typeReferenceNode = isGenericTypeReference(typeName, typeParameters) ? ts.createIdentifier(typeName) :  createRuntimeFunctionCall(
     "TypeReference",
-    [ts.createStringLiteral(node.typeName.getText())]
+    [ts.createStringLiteral(typeName)]
   );
   if (node.typeArguments) {
     return ts.createCall(
-      ts.createPropertyAccess(typeReferenceCallExpression, "ref"),
+      ts.createPropertyAccess(typeReferenceNode, "argumentTypes"),
       [],
       [
         ts.createArrayLiteral(
-          node.typeArguments.map(type => createMantaStyleRuntimeObject(type))
+          node.typeArguments.map(type => createTypeReferenceOrIdentifier(type, typeParameters))
         )
       ]
     );
   } else {
-    return typeReferenceCallExpression;
+    return typeReferenceNode;
   }
 }
 
 export function createMantaStyleRuntimeObject(
   node: ts.Node,
-  typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>
 ): ts.Expression {
   if (ts.isTypeLiteralNode(node)) {
     return createTypeLiteral(node, typeParameters);
   } else if (ts.isUnionTypeNode(node)) {
-    return createUnionType(node);
+    return createUnionType(node, typeParameters);
   } else if (ts.isLiteralTypeNode(node)) {
     return createLiteralType(node);
   } else if (ts.isArrayTypeNode(node)) {
-    return createArrayType(node);
+    return createArrayType(node, typeParameters);
   } else if (node.kind === ts.SyntaxKind.NumberKeyword) {
     return createRuntimePropertyRef("NumberKeyword");
   } else if (node.kind === ts.SyntaxKind.BooleanKeyword) {
@@ -271,7 +273,7 @@ export function createMantaStyleRuntimeObject(
     node.operator === ts.SyntaxKind.KeyOfKeyword
   ) {
     return createRuntimeFunctionCall("KeyOfKeyword", [
-      createMantaStyleRuntimeObject(node.type)
+      createMantaStyleRuntimeObject(node.type, typeParameters)
     ]);
   } else if (ts.isTypeReferenceNode(node)) {
     // Special Cases
@@ -280,9 +282,9 @@ export function createMantaStyleRuntimeObject(
       node.typeArguments &&
       node.typeArguments.length === 1
     ) {
-      return createArrayType(ts.createArrayTypeNode(node.typeArguments[0]));
+      return createArrayType(ts.createArrayTypeNode(node.typeArguments[0]), typeParameters);
     }
-    return createTypeReference(node);
+    return createTypeReference(node, typeParameters);
   } else {
     throw new Error(`Unhandled Type. ${node.getText()}`);
   }

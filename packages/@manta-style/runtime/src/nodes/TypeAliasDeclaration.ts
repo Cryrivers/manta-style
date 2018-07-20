@@ -15,7 +15,6 @@ export default class TypeAliasDeclaration extends Type {
     return newTypeParam;
   }
   public argumentTypes(types: Type[]) {
-    console.assert(types.length === this.typeParameters.length);
     for (let i = 0; i < types.length; i++) {
       this.typeParameters[i].setActualType(types[i]);
     }
@@ -23,6 +22,9 @@ export default class TypeAliasDeclaration extends Type {
   }
   public setType(type: Type) {
     this.type = type;
+  }
+  public getType() {
+    return this.type;
   }
   public mock() {
     return this.type.mock();

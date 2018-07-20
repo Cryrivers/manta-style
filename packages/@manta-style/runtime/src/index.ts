@@ -37,8 +37,10 @@ class MantaStyle {
     newType.setType(typeCallback(newType));
     return newType;
   }
-  public static TypeLiteral() {
-    return new TypeLiteral();
+  public static TypeLiteral(typeCallback: (currentType: TypeLiteral) => void) {
+    const newType = new TypeLiteral();
+    typeCallback(newType);
+    return newType;
   }
   public static UnionType(types: Type[]) {
     return new UnionType(types);
