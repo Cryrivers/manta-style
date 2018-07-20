@@ -6,6 +6,18 @@
   "module": "./lib/esm/index.js",
   "typings": "./lib/esm/index.d.js",
   "license": "MIT",
+  "author": {
+    "name": "Zhongliang Wang",
+    "email": "zwang@rebelworks.io",
+    "url": "https://github.com/Cryrivers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/mantastyle"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json && webpack"
   },

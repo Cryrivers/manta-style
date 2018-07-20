@@ -2,8 +2,19 @@
   "name": "@manta-style/cli",
   "version": "0.0.1",
   "description": "A command line tool for Manta Style",
-  "author": "Zhongliang Wang",
+  "author": {
+    "name": "Zhongliang Wang",
+    "email": "zwang@rebelworks.io",
+    "url": "https://github.com/Cryrivers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/mantastyle"
+  },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "bin": {
     "ms": "./lib/index.js"
   },

@@ -1,7 +1,20 @@
 {
   "name": "@manta-style/typescript-builder",
   "version": "0.0.1",
-  "main": "./src/index.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.js",
+  "author": {
+    "name": "Zhongliang Wang",
+    "email": "zwang@rebelworks.io",
+    "url": "https://github.com/Cryrivers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/mantastyle"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "peerDependencies": {
     "typescript": "*"
