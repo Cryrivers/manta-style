@@ -14,6 +14,16 @@ const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
       );
       result.modifiers = node.modifiers;
       return result;
+    } else if (ts.isInterfaceDeclaration(node)) {
+      const result = createConstVariableStatement(
+        node.name.getText(),
+        createMantaStyleRuntimeObject(
+          ts.createTypeLiteralNode(node.members),
+          node.typeParameters
+        )
+      );
+      result.modifiers = node.modifiers;
+      return result;
     } else if (ts.isImportSpecifier(node)) {
       // Do not erase type import
       // TODO: It might be wrong
