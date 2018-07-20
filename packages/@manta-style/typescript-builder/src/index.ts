@@ -16,7 +16,9 @@ export default function build(
     target: ts.ScriptTarget.ES5,
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
     module: ts.ModuleKind.ESNext,
-    outDir: destDir
+    rootDir: destDir,
+    outDir: destDir,
+    listEmittedFiles: true
   });
   const result: ts.EmitResult = program.emit(
     undefined,
