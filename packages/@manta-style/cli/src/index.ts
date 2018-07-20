@@ -54,12 +54,9 @@ if (generateSnapshot && useSnapshot) {
 
 const app = express();
 const tmpDir = findRoot(process.cwd()) + "/.mantastyle-tmp";
-builder(path.resolve(configFile), tmpDir, verbose);
+const compiledFilePath = builder(path.resolve(configFile), tmpDir, verbose);
 
-const compileConfig = require(path.join(
-  tmpDir,
-  path.basename(configFile).replace(".ts", "")
-));
+const compileConfig = require(compiledFilePath);
 
 const endpoints = compileConfig.default._getProperties();
 

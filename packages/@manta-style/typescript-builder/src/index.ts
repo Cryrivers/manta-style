@@ -4,6 +4,7 @@ import * as path from "path";
 import * as glob from "glob";
 import * as babelCore from "babel-core";
 import MantaStyleTranformer from "@manta-style/typescript-transformer";
+import { Result } from "range-parser";
 
 export default function build(
   fileName: string,
@@ -16,7 +17,6 @@ export default function build(
     target: ts.ScriptTarget.ES5,
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
     module: ts.ModuleKind.ESNext,
-    rootDir: destDir,
     outDir: destDir,
     listEmittedFiles: true
   });
@@ -42,4 +42,7 @@ export default function build(
     });
     fs.writeFileSync(file, result.code);
   }
+  return (
+    result.emittedFiles && result.emittedFiles[result.emittedFiles.length - 1]
+  );
 }
