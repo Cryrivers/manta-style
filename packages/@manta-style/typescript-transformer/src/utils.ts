@@ -1,5 +1,6 @@
 import * as ts from "typescript";
 import { MANTASTYLE_RUNTIME_NAME } from "./constants";
+import { typeParameter } from "babel-types";
 /*
 type X = {
   haha: string
@@ -31,7 +32,7 @@ export function createConstVariableStatement(
   );
 }
 
-function createRuntimeFunctionCall(
+export function createRuntimeFunctionCall(
   methodName: string,
   argArray: ReadonlyArray<ts.Expression>,
   variableName: string = MANTASTYLE_RUNTIME_NAME
@@ -87,8 +88,25 @@ function createPropertyName(node: ts.PropertySignature) {
   throw new Error("Unsupported types when creating property name.");
 }
 
+function createTypeLiteralType(
+  node: ts.TypeNode,
+  typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
+) {
+  // is it a generic type parameter?
+  const nodeName = node.getText();
+  if (
+    typeParameters &&
+    typeParameters.some(item => item.name.getText() === nodeName)
+  ) {
+    console.log("Generic: ", nodeName);
+    return ts.createIdentifier(nodeName);
+  }
+  return createMantaStyleRuntimeObject(node, typeParameters);
+}
+
 function createTypeLiteralProperties(
-  members: ts.NodeArray<ts.TypeElement>
+  members: ts.NodeArray<ts.TypeElement>,
+  typeParameters?: ts.NodeArray<ts.TypeParameterDeclaration>
 ): ts.Statement[] {
   const statements: ts.Statement[] = [];
   for (const member of members) {
@@ -99,7 +117,7 @@ function createTypeLiteralProperties(
             "property",
             [
               createPropertyName(member),
-              createMantaStyleRuntimeObject(member.type),
+              createTypeLiteralType(member.type, typeParameters),
               member.questionToken ? ts.createTrue() : ts.createFalse()
             ],
             "type"
@@ -166,18 +184,22 @@ export function createTypeLiteral(
 }
 
 function createTypeReference(node: ts.TypeReferenceNode): ts.Expression {
+  const typeReferenceCallExpression = createRuntimeFunctionCall(
+    "TypeReference",
+    [ts.createStringLiteral(node.typeName.getText())]
+  );
   if (node.typeArguments) {
-    return createRuntimeFunctionCall(
-      "ref",
+    return ts.createCall(
+      ts.createPropertyAccess(typeReferenceCallExpression, "ref"),
+      [],
       [
         ts.createArrayLiteral(
           node.typeArguments.map(type => createMantaStyleRuntimeObject(type))
         )
-      ],
-      node.typeName.getText()
+      ]
     );
   } else {
-    return ts.createIdentifier(node.typeName.getText());
+    return typeReferenceCallExpression;
   }
 }
 

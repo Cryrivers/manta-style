@@ -69,7 +69,7 @@ export default class TypeLiteral extends Type {
     return newTypeLiteral;
   }
   public ref(types: Type[]) {
-    // console.assert(types.length === this.genericRefs.length);
+    console.assert(types.length === this.genericRefs.length);
     for (let i = 0; i < types.length; i++) {
       this.genericRefs[i].setRefType(types[i]);
     }
