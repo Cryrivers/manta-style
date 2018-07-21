@@ -33,6 +33,10 @@ type Config = {
      */
     email: string;
     /**
+     * @example {{name.title}}
+     */
+    jobTitle: string;
+    /**
      * @example {{address.streetAddress}}
      */
     address: string;

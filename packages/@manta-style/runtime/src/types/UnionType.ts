@@ -1,11 +1,14 @@
 import { Type } from "../utils";
-import { sample } from 'lodash-es';
+import { sample } from "lodash-es";
 
 export default class UnionType extends Type {
   private unionTypes: Type[] = [];
   constructor(types: Type[]) {
     super();
     this.unionTypes = types;
+  }
+  public mockAll() {
+    return this.unionTypes.map(type => type.mock());
   }
   public mock() {
     const chosenType = sample(this.unionTypes);

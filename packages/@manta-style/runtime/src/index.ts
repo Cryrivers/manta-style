@@ -12,6 +12,7 @@ import NeverKeyword from "./types/NeverKeyword";
 import StringKeyword from "./types/StringKeyword";
 import TypeReference from "./types/TypeReference";
 import TypeAliasDeclaration from "./nodes/TypeAliasDeclaration";
+import KeyOfKeyword from "./types/KeyOfKeyword";
 
 class MantaStyle {
   private static typeReferences: { [key: string]: TypeAliasDeclaration } = {};
@@ -61,9 +62,8 @@ class MantaStyle {
   public static NullKeyword = new NullKeyword();
   public static UndefinedKeyword = new UndefinedKeyword();
   public static AnyKeyword = new AnyKeyword();
-  public static KeyOfKeyword(type: TypeLiteral) {
-    const keys = type.getKeys();
-    return new UnionType(keys.map(key => new LiteralType(key)));
+  public static KeyOfKeyword(type: Type) {
+    return new KeyOfKeyword(type);
   }
 }
 

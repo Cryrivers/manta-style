@@ -3,7 +3,7 @@ import { sample } from "lodash-es";
 import * as faker from "faker";
 
 const DEFAULT_STATIC_STRING =
-  "This is a string message. Use @example or @faker to customize.";
+  "This is a string message. Customize it with JSDoc tag @example";
 
 export default class StringKeyword extends Type {
   public mock(annotations?: Annotation[]) {

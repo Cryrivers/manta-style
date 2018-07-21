@@ -18,7 +18,7 @@ export default class TypeReference extends Type {
   public validate(input: any) {
     return this.getActualType().validate(input);
   }
-  private getActualType() {
+  public getActualType() {
     // Evaluate Generics
     const actualType = MantaStyle._referenceType(this.referenceName);
     actualType.argumentTypes(this.deferredArgumentedTypes);

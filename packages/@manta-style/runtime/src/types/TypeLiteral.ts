@@ -6,6 +6,10 @@ import {
   ComputedPropertyOperator,
   Annotation
 } from "../utils";
+import UnionType from "./UnionType";
+import KeyOfKeyword from "./KeyOfKeyword";
+import TypeReference from "./TypeReference";
+import TypeAliasDeclaration from "../nodes/TypeAliasDeclaration";
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -58,15 +62,65 @@ export default class TypeLiteral extends Type {
         obj[property.name] = property.type.mock(property.annotations);
       }
     }
+    // Enumerate IndexSignatures
     for (const computedProperty of this.computedProperties) {
-      for (let i =0 ;i < 5; i++) {
-        // TODO: Extract annotations for key and value
-        const key = computedProperty.keyType.mock(computedProperty.annotations);
-        const value = computedProperty.type.mock(computedProperty.annotations);
-        obj[key] = value;
+      const jsDocExampleForKeys: Annotation[] = computedProperty.annotations
+        .filter(item => item.key === "keyExample")
+        .map(item => ({ ...item, key: "example" }));
+
+      if (
+        computedProperty.operator === ComputedPropertyOperator.INDEX_SIGNATURE
+      ) {
+        for (let i = 0; i < 5; i++) {
+          // TODO: Extract annotations for key and value
+          const key = computedProperty.keyType.mock(
+            jsDocExampleForKeys
+          );
+          const value = computedProperty.type.mock(
+            computedProperty.annotations
+          );
+          obj[key] = value;
+        }
+      } else if (
+        computedProperty.operator === ComputedPropertyOperator.IN_KEYWORD
+      ) {
+        // FIXME: I feel this implementation is not correct
+        const { keyType, name } = computedProperty;
+        const subobj = (obj[name] = {} as AnyObject);
+        let actualType = keyType;
+
+        // Resolve the actual type
+        while (
+          actualType instanceof TypeReference ||
+          actualType instanceof TypeAliasDeclaration
+        ) {
+          if (actualType instanceof TypeReference) {
+            actualType = actualType.getActualType();
+          } else if (actualType instanceof TypeAliasDeclaration) {
+            actualType = actualType.getType();
+          } else {
+            throw new Error("Something bad happens :(");
+          }
+        }
+
+        if (actualType instanceof KeyOfKeyword) {
+          for (const key of actualType.getKeys()) {
+            subobj[key] = computedProperty.type.mock(
+              computedProperty.annotations
+            );
+          }
+        } else if (actualType instanceof UnionType) {
+          for (const key of actualType.mockAll()) {
+            subobj[key] = computedProperty.type.mock(
+              computedProperty.annotations
+            );
+          }
+        } else {
+          console.log(actualType);
+          throw new Error(`Unsupported Type after keyword "in"`);
+        }
       }
     }
-    // TODO: Process computed properties
     return obj;
   }
   public validate(input: any) {

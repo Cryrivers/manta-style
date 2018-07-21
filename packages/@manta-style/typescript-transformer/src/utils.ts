@@ -180,20 +180,46 @@ function createTypeLiteralProperties(
   for (const member of members) {
     const jsdocArray = ts.getJSDocTags(member);
     if (ts.isPropertySignature(member) && member.type) {
-      statements.push(
-        ts.createStatement(
-          createRuntimeFunctionCall(
-            "property",
-            [
-              createPropertyName(member),
-              createTypeReferenceOrIdentifier(member.type, typeParameters),
-              member.questionToken ? ts.createTrue() : ts.createFalse(),
-              generateJSDocParam(jsdocArray)
-            ],
-            "typeLiteral"
+      if (
+        ts.isMappedTypeNode(member.type) &&
+        member.type.typeParameter.constraint &&
+        member.type.type
+      ) {
+        statements.push(
+          ts.createStatement(
+            createRuntimeFunctionCall(
+              "computedProperty",
+              [
+                createPropertyName(member),
+                createTypeReferenceOrIdentifier(
+                  member.type.typeParameter.constraint,
+                  typeParameters
+                ),
+                createTypeReferenceOrIdentifier(member.type.type, typeParameters),
+                ts.createNumericLiteral("1"), // ComputedPropertyOperator.IN_KEYWORD
+                member.questionToken ? ts.createTrue() : ts.createFalse(),
+                generateJSDocParam(jsdocArray)
+              ],
+              "typeLiteral"
+            )
           )
-        )
-      );
+        );
+      } else {
+        statements.push(
+          ts.createStatement(
+            createRuntimeFunctionCall(
+              "property",
+              [
+                createPropertyName(member),
+                createTypeReferenceOrIdentifier(member.type, typeParameters),
+                member.questionToken ? ts.createTrue() : ts.createFalse(),
+                generateJSDocParam(jsdocArray)
+              ],
+              "typeLiteral"
+            )
+          )
+        );
+      }
     } else if (ts.isIndexSignatureDeclaration(member)) {
       if (member.parameters.length === 1 && member.type) {
         const parameter = member.parameters[0];

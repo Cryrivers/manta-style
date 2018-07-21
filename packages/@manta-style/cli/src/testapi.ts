@@ -34,11 +34,14 @@ export interface ChartData {
    */
   increaseRateAgainstD7?: number; // float64
   lines: {
+    /**
+     * @keyExample D0
+     * @keyExample D1
+     * @keyExample D7
+     */
     [name: string]: Line;
   };
-  test: {
-    [key in ApiStatus]: Line;
-  };
+  test: { [key in ApiStatus]: Line };
   /**
    * for realtime,it is current value of metric;for historical, it should be the sum of all historical values.
    * @example 273394
@@ -149,6 +152,9 @@ export interface Filter {
   values?: string[];
 }
 export type Line = {
+  /**
+   * @example 2018-12-15
+   */
   x: string;
   y: number;
 }[];
