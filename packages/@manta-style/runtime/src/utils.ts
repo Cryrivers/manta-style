@@ -5,7 +5,7 @@ export abstract class Type {
   abstract validate(input: any): boolean;
 }
 
-export function getAnnotationByKey(key: string, annotations?: Annotation[]): string[] {
+export function getAnnotationsByKey(key: string, annotations?: Annotation[]): string[] {
   return annotations ? annotations.filter(item => item.key === key).map(item => item.value) : [];
 }
 

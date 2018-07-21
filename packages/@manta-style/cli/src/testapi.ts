@@ -25,7 +25,8 @@ export type Category = "event" | "realtime" | "historical";
 export interface ChartData {
   /**
    * only valid if realtime
-   * @example 0.0283
+   * @example 0
+   * @example 1
    */
   increaseRateAgainstD1?: number; // float64
   /**

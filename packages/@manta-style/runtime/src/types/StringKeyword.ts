@@ -1,4 +1,4 @@
-import { Type, Annotation, getAnnotationByKey } from "../utils";
+import { Type, Annotation, getAnnotationsByKey } from "../utils";
 import { sample } from "lodash-es";
 import * as faker from "faker";
 
@@ -7,7 +7,7 @@ const DEFAULT_STATIC_STRING =
 
 export default class StringKeyword extends Type {
   public mock(annotations?: Annotation[]) {
-    const jsdocExample = getAnnotationByKey("example", annotations);
+    const jsdocExample = getAnnotationsByKey("example", annotations);
     if (jsdocExample.length > 0) {
       return faker.fake(sample(jsdocExample) || DEFAULT_STATIC_STRING);
     } else {
