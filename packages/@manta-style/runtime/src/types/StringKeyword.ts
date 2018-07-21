@@ -9,7 +9,7 @@ export default class StringKeyword extends Type {
   public mock(annotations?: Annotation[]) {
     const jsdocExample = getAnnotationByKey("example", annotations);
     if (jsdocExample.length > 0) {
-      return sample(jsdocExample) || DEFAULT_STATIC_STRING;
+      return faker.fake(sample(jsdocExample) || DEFAULT_STATIC_STRING);
     } else {
       return DEFAULT_STATIC_STRING;
     }

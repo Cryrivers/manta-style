@@ -18,6 +18,25 @@ type Response<T> = Fulfill<T> | Failure;
 
 type Config = {
   "/metricCard/findAll": Response<ChartData>;
+  "/userProfile": {
+    /**
+     * @example {{name.firstName}} {{name.lastName}}
+     */
+    name: string;
+    /**
+     *
+     * @example {{internet.avatar}}
+     */
+    avatar: string;
+    /**
+     * @example {{internet.email}}
+     */
+    email: string;
+    /**
+     * @example {{address.streetAddress}}
+     */
+    address: string;
+  }
 };
 
 export default Config;
