@@ -22,8 +22,8 @@ export type Property = {
 };
 
 export const enum ComputedPropertyOperator {
-  INDEX_SIGNATURE,
-  IN_KEYWORD
+  INDEX_SIGNATURE = 0,
+  IN_KEYWORD = 1
 }
 
 export type ComputedProperty = Property & {

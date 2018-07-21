@@ -155,14 +155,31 @@ function createTypeReferenceOrIdentifier(
   return createMantaStyleRuntimeObject(node, typeParameters);
 }
 
+function generateJSDocParam(jsdocArray: ReadonlyArray<ts.JSDocTag>) {
+  return ts.createArrayLiteral(
+    jsdocArray.map(tag => {
+      return ts.createObjectLiteral([
+        ts.createPropertyAssignment(
+          "key",
+          ts.createStringLiteral(tag.tagName.text)
+        ),
+        ts.createPropertyAssignment(
+          "value",
+          ts.createStringLiteral(tag.comment || "")
+        )
+      ]);
+    })
+  );
+}
+
 function createTypeLiteralProperties(
   members: ts.NodeArray<ts.TypeElement>,
   typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>
 ): ts.Statement[] {
   const statements: ts.Statement[] = [];
   for (const member of members) {
+    const jsdocArray = ts.getJSDocTags(member);
     if (ts.isPropertySignature(member) && member.type) {
-      const jsdocArray = ts.getJSDocTags(member);
       statements.push(
         ts.createStatement(
           createRuntimeFunctionCall(
@@ -171,27 +188,37 @@ function createTypeLiteralProperties(
               createPropertyName(member),
               createTypeReferenceOrIdentifier(member.type, typeParameters),
               member.questionToken ? ts.createTrue() : ts.createFalse(),
-              ts.createArrayLiteral(
-                jsdocArray.map(tag => {
-                  return ts.createObjectLiteral([
-                    ts.createPropertyAssignment(
-                      "key",
-                      ts.createStringLiteral(tag.tagName.text)
-                    ),
-                    ts.createPropertyAssignment(
-                      "value",
-                      ts.createStringLiteral(tag.comment || "")
-                    )
-                  ]);
-                })
-              )
+              generateJSDocParam(jsdocArray)
             ],
             "typeLiteral"
           )
         )
       );
     } else if (ts.isIndexSignatureDeclaration(member)) {
-      // TODO: To be implemented
+      if (member.parameters.length === 1 && member.type) {
+        const parameter = member.parameters[0];
+        if (parameter.type) {
+          statements.push(
+            ts.createStatement(
+              createRuntimeFunctionCall(
+                "computedProperty",
+                [
+                  ts.createStringLiteral(parameter.name.getText()),
+                  createTypeReferenceOrIdentifier(
+                    parameter.type,
+                    typeParameters
+                  ),
+                  createTypeReferenceOrIdentifier(member.type, typeParameters),
+                  ts.createNumericLiteral("0"), // ComputedPropertyOperator.INDEX_SIGNATURE
+                  member.questionToken ? ts.createTrue() : ts.createFalse(),
+                  generateJSDocParam(jsdocArray)
+                ],
+                "typeLiteral"
+              )
+            )
+          );
+        }
+      }
     }
   }
   return statements;

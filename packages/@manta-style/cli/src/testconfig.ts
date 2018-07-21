@@ -1,4 +1,4 @@
-import { MetricCard } from "./testapi";
+import { ChartData } from "./testapi";
 
 type Fulfill<T> = {
   status: 'ok',
@@ -17,7 +17,7 @@ type Failure = {
 type Response<T> = Fulfill<T> | Failure;
 
 type Config = {
-  "/metricCard/findAll": Response<MetricCard>;
+  "/metricCard/findAll": Response<ChartData>;
 };
 
 export default Config;

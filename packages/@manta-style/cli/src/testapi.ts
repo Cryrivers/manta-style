@@ -36,6 +36,9 @@ export interface ChartData {
   lines: {
     [name: string]: Line;
   };
+  test: {
+    [key in ApiStatus]: Line;
+  };
   /**
    * for realtime,it is current value of metric;for historical, it should be the sum of all historical values.
    * @example 273394

@@ -1,8 +1,5 @@
 import * as ts from "typescript";
 import {
-  createMantaStyleRuntimeObject,
-  createConstVariableStatement,
-  createRuntimeFunctionCall,
   createTypeAliasDeclaration
 } from "./utils";
 import { MANTASTYLE_RUNTIME_NAME, MANTASTYLE_PACKAGE_NAME } from "./constants";

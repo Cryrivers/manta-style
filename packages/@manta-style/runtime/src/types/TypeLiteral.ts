@@ -58,7 +58,15 @@ export default class TypeLiteral extends Type {
         obj[property.name] = property.type.mock(property.annotations);
       }
     }
-    // TODO: Process computed properties and index signatures
+    for (const computedProperty of this.computedProperties) {
+      for (let i =0 ;i < 5; i++) {
+        // TODO: Extract annotations for key and value
+        const key = computedProperty.keyType.mock(computedProperty.annotations);
+        const value = computedProperty.type.mock(computedProperty.annotations);
+        obj[key] = value;
+      }
+    }
+    // TODO: Process computed properties
     return obj;
   }
   public validate(input: any) {
