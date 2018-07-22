@@ -1,4 +1,9 @@
-import { Type } from "../utils";
+import {
+  Type,
+  Annotation,
+  getAnnotationsByKey,
+  getNumberFromAnnotationKey
+} from "../utils";
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -6,10 +11,19 @@ export default class ArrayType extends Type {
     super();
     this.elementType = elementType;
   }
-  public mock() {
+  public mock(annotations?: Annotation[]) {
     const array = [];
-    const randomLength = Math.floor(Math.random() * 5) + 1;
-    for (let i = 0; i < randomLength; i++) {
+    const lengthFromJSDoc = getNumberFromAnnotationKey({
+      key: "length",
+      annotations,
+      startFromZero: false
+    });
+    const length =
+      typeof lengthFromJSDoc !== "undefined"
+        ? lengthFromJSDoc
+        : Math.floor(Math.random() * 5) + 1;
+
+    for (let i = 0; i < length; i++) {
       array.push(this.elementType.mock());
     }
     return array;

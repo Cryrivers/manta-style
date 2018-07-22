@@ -36,9 +36,9 @@ export interface ChartData {
   increaseRateAgainstD7?: number; // float64
   lines: {
     /**
-     * @keyExample D0
-     * @keyExample D1
-     * @keyExample D7
+     * @key D0
+     * @key D1
+     * @key D7
      */
     [name: string]: Line;
   };

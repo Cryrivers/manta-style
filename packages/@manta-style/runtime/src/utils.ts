@@ -1,3 +1,5 @@
+import { max, min, round } from "lodash-es";
+
 export abstract class Type {
   public neverType: boolean = false;
   // abstract assignable(type: Type): boolean;
@@ -5,14 +7,19 @@ export abstract class Type {
   abstract validate(input: any): boolean;
 }
 
-export function getAnnotationsByKey(key: string, annotations?: Annotation[]): string[] {
-  return annotations ? annotations.filter(item => item.key === key).map(item => item.value) : [];
+export function getAnnotationsByKey(
+  key: string,
+  annotations?: Annotation[]
+): string[] {
+  return annotations
+    ? annotations.filter(item => item.key === key).map(item => item.value)
+    : [];
 }
 
 export type Annotation = {
-  key: string,
-  value: string
-}
+  key: string;
+  value: string;
+};
 
 export type Property = {
   name: string;
@@ -48,5 +55,33 @@ export class ErrorType extends Type {
   }
   public validate(): never {
     throw new Error(this.message);
+  }
+}
+
+export function getNumberFromAnnotationKey({
+  key,
+  precision = 2,
+  startFromZero = true,
+  annotations
+}: {
+  key: string;
+  precision?: number;
+  startFromZero?: boolean;
+  annotations?: Annotation[];
+}): number | undefined {
+  const values = getAnnotationsByKey(key, annotations).map(item =>
+    parseFloat(item)
+  );
+  if (values.length > 0) {
+    const maxValue = max(values);
+    const minValueFromArray = min(values);
+    const minValue = startFromZero
+      ? minValueFromArray === maxValue
+        ? 0
+        : minValueFromArray
+      : minValueFromArray;
+    if (typeof minValue !== "undefined" && typeof maxValue !== "undefined") {
+      return round(Math.random() * (maxValue - minValue) + minValue, precision);
+    }
   }
 }

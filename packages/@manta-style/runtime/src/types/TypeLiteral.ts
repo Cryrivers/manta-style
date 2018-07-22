@@ -64,21 +64,30 @@ export default class TypeLiteral extends Type {
     }
     // Enumerate IndexSignatures
     for (const computedProperty of this.computedProperties) {
-      const jsDocExampleForKeys: Annotation[] = computedProperty.annotations
-        .filter(item => item.key === "keyExample")
+      const jsDocForKeys: Annotation[] = computedProperty.annotations
+        .filter(item => item.key === "key")
         .map(item => ({ ...item, key: "example" }));
+      const jsDocForValues: Annotation[] = computedProperty.annotations.filter(
+        item => item.key !== "key"
+      );
 
       if (
         computedProperty.operator === ComputedPropertyOperator.INDEX_SIGNATURE
       ) {
-        for (let i = 0; i < 5; i++) {
-          // TODO: Extract annotations for key and value
-          const key = computedProperty.keyType.mock(
-            jsDocExampleForKeys
-          );
-          const value = computedProperty.type.mock(
-            computedProperty.annotations
-          );
+        if (jsDocForKeys.length > 0) {
+          for (let i = 0; i < jsDocForKeys.length; i++) {
+            const key = computedProperty.keyType.mock([jsDocForKeys[i]]);
+            const value = computedProperty.type.mock(jsDocForValues);
+            obj[key] = value;
+          }
+        } else {
+          const key = computedProperty.keyType.mock([
+            {
+              key: "example",
+              value: "This is a key. Customize it with JSDoc tag @key"
+            }
+          ]);
+          const value = computedProperty.type.mock(jsDocForValues);
           obj[key] = value;
         }
       } else if (
