@@ -5,8 +5,9 @@ import * as builder from "@manta-style/typescript-builder";
 import * as program from "commander";
 import findRoot = require("find-root");
 import packageInfo = require("../package.json");
+import { Snapshot } from "@manta-style/cli/src/utils/snapshot";
 
-type HTTPMethods = "get" | "post" | "put" | "delete" | "patch";
+export type HTTPMethods = "get" | "post" | "put" | "delete" | "patch";
 
 // const snapshot = {};
 
@@ -63,6 +64,11 @@ const compiledFilePath = builder.build(
   verbose
 );
 
+if (useSnapshot) {
+  console.log("Using snapshot file: " + useSnapshot);
+}
+let isSnapshotMode = Boolean(useSnapshot);
+const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
 const compileConfig = require(compiledFilePath);
 
 function buildEndpoints(method: HTTPMethods) {
@@ -70,9 +76,13 @@ function buildEndpoints(method: HTTPMethods) {
   if (methodTypeDef) {
     const endpoints = methodTypeDef.getType()._getProperties();
     for (const endpoint of endpoints) {
-      // snapshot[endpoint.name.replace(/"/g, "")] = p.type.mock();
       app[method](endpoint.name, (req, res) => {
-        res.send(endpoint.type.mock());
+        const randomMockData = endpoint.type.mock();
+        const mockData = isSnapshotMode
+          ? snapshot.fetchSnapshot(method, endpoint.name) || randomMockData
+          : randomMockData;
+        snapshot.updateSnapshot(method, endpoint.name, mockData);
+        res.send(mockData);
       });
     }
   }
@@ -84,6 +94,48 @@ function buildEndpoints(method: HTTPMethods) {
 
 app.listen(port || 3000);
 
-console.log(
-  "Manta Style Mock Server launched at http://localhost:" + (port || 3000)
-);
+console.log("Manta Style launched at http://localhost:" + (port || 3000));
+
+if (!isSnapshotMode) {
+  console.log("Press S to enter Instant Snapshot mode.");
+} else {
+  console.log("You have entered Instant Snapshot mode. Press X to exit.");
+}
+
+const { stdin } = process;
+
+stdin.on("data", function(key: Buffer) {
+  const keyCode = key.toString();
+  switch (keyCode) {
+    case "\u0003": {
+      process.exit();
+      break;
+    }
+    case "s":
+    case "S": {
+      if (!isSnapshotMode) {
+        console.log("You have entered Instant Snapshot mode. Press X to exit.");
+      } else {
+        console.log("Saving snapshot to disk.");
+      }
+      isSnapshotMode = true;
+      snapshot.writeToDisk(
+        path.join(path.dirname(configFile), "mock-snapshot.json")
+      );
+      break;
+    }
+    case "x":
+    case "X": {
+      if (isSnapshotMode) {
+        snapshot.clearSnapshot();
+        isSnapshotMode = false;
+        console.log(
+          "You have exited Instant Snapshot mode. All mock data would be randomly-generated."
+        );
+      }
+    }
+  }
+});
+
+stdin.setRawMode && stdin.setRawMode(true);
+stdin.resume();
