@@ -9,53 +9,49 @@ type AnyObject = {
 type SnapshotStructure = { [key in HTTPMethods]?: AnyObject };
 
 export class Snapshot {
-  private snapshots: SnapshotStructure = {};
+  private diskSnapshots: SnapshotStructure = {};
+  private stashedSnapshots: SnapshotStructure = {};
   public static fromDisk(filePath: string) {
     const content = fs.readFileSync(path.resolve(filePath));
-    const obj = JSON.parse(content.toString());
     const snapshotInstance = new Snapshot();
-    snapshotInstance.snapshots = obj;
+    snapshotInstance.diskSnapshots = JSON.parse(content.toString());
+    snapshotInstance.stashedSnapshots = JSON.parse(content.toString());
     return snapshotInstance;
   }
-  public updateSnapshot(
-    method: HTTPMethods,
-    url: string,
-    payload: any
-  ): boolean {
-    const methodObj = this.snapshots[method];
+  public updateSnapshot(method: HTTPMethods, url: string, payload: any) {
+    const methodObj = this.stashedSnapshots[method];
     if (!methodObj) {
-      this.snapshots = {
-        ...this.snapshots,
+      this.stashedSnapshots = {
+        ...this.stashedSnapshots,
         [method]: {
           [url]: payload
         }
       };
-      return true;
     } else {
-      if (!methodObj[url]) {
-        this.snapshots = {
-          ...this.snapshots,
-          [method]: {
-            ...methodObj,
-            [url]: payload
-          }
-        };
-        return true;
-      }
-      return false;
+      this.stashedSnapshots = {
+        ...this.stashedSnapshots,
+        [method]: {
+          ...methodObj,
+          [url]: payload
+        }
+      };
     }
   }
   public fetchSnapshot(method: HTTPMethods, url: string) {
-    const methodObj = this.snapshots[method];
+    const methodObj = this.diskSnapshots[method];
     return methodObj && methodObj[url];
   }
   public clearSnapshot() {
-    this.snapshots = {};
+    this.stashedSnapshots = {};
+    this.diskSnapshots = {};
   }
   public writeToDisk(filePath: string) {
-    fs.writeFileSync(
-      path.resolve(filePath),
-      JSON.stringify(this.snapshots, undefined, 2)
+    const stashedJsonString = JSON.stringify(
+      this.stashedSnapshots,
+      undefined,
+      2
     );
+    fs.writeFileSync(path.resolve(filePath), stashedJsonString);
+    this.diskSnapshots = JSON.parse(stashedJsonString);
   }
 }

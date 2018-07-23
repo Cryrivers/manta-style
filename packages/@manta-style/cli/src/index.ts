@@ -7,6 +7,7 @@ import findRoot = require("find-root");
 import packageInfo = require("../package.json");
 import { Snapshot } from "./utils/snapshot";
 import Table = require("cli-table");
+import * as fs from "fs";
 import * as logUpdate from "log-update";
 import chalk from "chalk";
 
@@ -75,11 +76,15 @@ function buildEndpoints(method: HTTPMethods) {
       ]);
       app[method](endpoint.name, (req, res) => {
         const randomMockData = endpoint.type.mock();
-        const mockData = isSnapshotMode
-          ? snapshot.fetchSnapshot(method, endpoint.name) || randomMockData
-          : randomMockData;
-        snapshot.updateSnapshot(method, endpoint.name, mockData);
-        res.send(mockData);
+        if (isSnapshotMode) {
+          const mockData = snapshot.fetchSnapshot(method, endpoint.name);
+          if (mockData) {
+            res.send(mockData);
+            return;
+          }
+        }
+        snapshot.updateSnapshot(method, endpoint.name, randomMockData);
+        res.send(randomMockData);
       });
     }
   }
@@ -101,8 +106,10 @@ function toggleSnapshotMode(showMessageOnly?: boolean) {
   logUpdate(
     isSnapshotMode
       ? `${chalk.yellow("[SNAPSHOT MODE]")} Press ${chalk.bold(
+          "S"
+        )} to take a snapshot for other APIs. Press ${chalk.bold(
           "X"
-        )} to switch back`
+        )} to disable Snapshot Mode`
       : `${chalk.yellow("[FAKER MODE]")} Press ${chalk.bold(
           "S"
         )} to take an instant snapshot`
@@ -124,9 +131,16 @@ stdin.on("data", function(key: Buffer) {
     case "S": {
       if (!isSnapshotMode) {
         toggleSnapshotMode();
+        fs.watchFile(
+          path.join(path.dirname(configFile), "ms.snapshot.json"),
+          {},
+          () => {
+            console.log("changed");
+          }
+        );
       }
       snapshot.writeToDisk(
-        path.join(path.dirname(configFile), "mock-snapshot.json")
+        path.join(path.dirname(configFile), "ms.snapshot.json")
       );
       break;
     }
