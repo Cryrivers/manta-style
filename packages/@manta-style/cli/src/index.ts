@@ -4,17 +4,17 @@ import * as path from "path";
 import * as builder from "@manta-style/typescript-builder";
 import * as program from "commander";
 import findRoot = require("find-root");
-import packageInfo = require("../package.json");
 import { Snapshot } from "./utils/snapshot";
 import Table = require("cli-table");
 import * as fs from "fs";
 import * as logUpdate from "log-update";
 import chalk from "chalk";
+import * as chokidar from "chokidar";
 
 export type HTTPMethods = "get" | "post" | "put" | "delete" | "patch";
 
 program
-  .version(packageInfo.version)
+  .version("0.0.9")
   .option(
     "-c --configFile <file>",
     "the TypeScript config file to generate entry points"
@@ -54,7 +54,12 @@ const table = new Table({
   colors: false,
   head: ["Method", "Endpoint"]
 });
+const snapshotFilePath = path.join(
+  path.dirname(configFile),
+  "ms.snapshot.json"
+);
 const tmpDir = findRoot(process.cwd()) + "/.mantastyle-tmp";
+const snapshotWatcher = chokidar.watch(snapshotFilePath);
 const compiledFilePath = builder.build(
   path.resolve(configFile),
   tmpDir,
@@ -64,6 +69,10 @@ const compiledFilePath = builder.build(
 let isSnapshotMode = Boolean(useSnapshot);
 const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
 const compileConfig = require(compiledFilePath);
+
+snapshotWatcher.on("change", () => {
+  snapshot.reloadFromFile(snapshotFilePath);
+});
 
 function buildEndpoints(method: HTTPMethods) {
   const methodTypeDef = compileConfig[method.toUpperCase()];
@@ -131,17 +140,8 @@ stdin.on("data", function(key: Buffer) {
     case "S": {
       if (!isSnapshotMode) {
         toggleSnapshotMode();
-        fs.watchFile(
-          path.join(path.dirname(configFile), "ms.snapshot.json"),
-          {},
-          () => {
-            console.log("changed");
-          }
-        );
       }
-      snapshot.writeToDisk(
-        path.join(path.dirname(configFile), "ms.snapshot.json")
-      );
+      snapshot.writeToDisk(snapshotFilePath);
       break;
     }
     case "x":

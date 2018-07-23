@@ -18,6 +18,11 @@ export class Snapshot {
     snapshotInstance.stashedSnapshots = JSON.parse(content.toString());
     return snapshotInstance;
   }
+  public reloadFromFile(filePath: string) {
+    const content = fs.readFileSync(path.resolve(filePath));
+    this.diskSnapshots = JSON.parse(content.toString());
+    this.stashedSnapshots = JSON.parse(content.toString());
+  }
   public updateSnapshot(method: HTTPMethods, url: string, payload: any) {
     const methodObj = this.stashedSnapshots[method];
     if (!methodObj) {
