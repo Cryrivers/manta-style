@@ -3,6 +3,7 @@
   "compilerOptions": {
     "outDir": "./lib",
     "removeComments": false,
-    "module": "commonjs"
+    "module": "commonjs",
+    "resolveJsonModule": true
   }
 }

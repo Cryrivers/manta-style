@@ -551,6 +551,12 @@
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@types/faker/-/faker-4.1.2.tgz#f8ab50c9f9af68c160dd71b63f83e24b712d0df5"
 
+"@types/fb-watchman@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/fb-watchman/-/fb-watchman-2.0.0.tgz#ca60ded406baa8c81c65ac1f86763a5d00aa7c55"
+  dependencies:
+    "@types/events" "*"
+
 "@types/find-root@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/find-root/-/find-root-1.1.1.tgz#1cc5a8008aa3273f870f2ae17bb3461a1632d4b8"
@@ -1227,6 +1233,12 @@ browserify-zlib@^0.2.0:
   resolved "https://registry.yarnpkg.com/browserify-zlib/-/browserify-zlib-0.2.0.tgz#2869459d9aa3be245fe8fe2ca1f46e2e7f54d73f"
   dependencies:
     pako "~1.0.5"
+
+bser@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/bser/-/bser-2.0.0.tgz#9ac78d3ed5d915804fd87acb158bc797147a1719"
+  dependencies:
+    node-int64 "^0.4.0"
 
 buffer-from@^1.0.0:
   version "1.1.0"
@@ -2197,6 +2209,12 @@ fast-glob@^2.0.2:
 fast-json-stable-stringify@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/fast-json-stable-stringify/-/fast-json-stable-stringify-2.0.0.tgz#d5142c0caee6b1189f87d3a76111064f86c8bbf2"
+
+fb-watchman@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/fb-watchman/-/fb-watchman-2.0.0.tgz#54e9abf7dfa2f26cd9b1636c588c1afc05de5d58"
+  dependencies:
+    bser "^2.0.0"
 
 figures@^2.0.0:
   version "2.0.0"
@@ -3488,6 +3506,10 @@ node-gyp@^3.6.2:
     semver "~5.3.0"
     tar "^2.0.0"
     which "1"
+
+node-int64@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/node-int64/-/node-int64-0.4.0.tgz#87a9065cdb355d3182d8f94ce11188b825c68a3b"
 
 node-libs-browser@^2.0.0:
   version "2.1.0"

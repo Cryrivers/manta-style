@@ -1,9 +1,4 @@
-import {
-  Type,
-  Annotation,
-  getAnnotationsByKey,
-  getNumberFromAnnotationKey
-} from "../utils";
+import { Type, Annotation, getNumberFromAnnotationKey } from "../utils";
 
 export default class ArrayType extends Type {
   private elementType: Type;

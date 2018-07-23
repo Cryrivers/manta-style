@@ -1,9 +1,12 @@
 #!/usr/bin/env node
 import * as express from "express";
 import * as path from "path";
-import builder from "@manta-style/typescript-builder";
+import * as builder from "@manta-style/typescript-builder";
 import * as program from "commander";
 import findRoot = require("find-root");
+import packageInfo = require("../package.json");
+
+type HTTPMethods = "get" | "post" | "put" | "delete" | "patch";
 
 // const snapshot = {};
 
@@ -14,7 +17,7 @@ import findRoot = require("find-root");
 // );
 
 program
-  .version("0.0.0")
+  .version(packageInfo.version)
   .option(
     "-c --configFile <file>",
     "the TypeScript config file to generate entry points"
@@ -54,18 +57,30 @@ if (generateSnapshot && useSnapshot) {
 
 const app = express();
 const tmpDir = findRoot(process.cwd()) + "/.mantastyle-tmp";
-const compiledFilePath = builder(path.resolve(configFile), tmpDir, verbose);
+const compiledFilePath = builder.build(
+  path.resolve(configFile),
+  tmpDir,
+  verbose
+);
 
 const compileConfig = require(compiledFilePath);
 
-const endpoints = compileConfig.default.getType()._getProperties();
-
-for (const endpoint of endpoints) {
-  // snapshot[endpoint.name.replace(/"/g, "")] = p.type.mock();
-  app.get(endpoint.name, (req, res) => {
-    res.send(endpoint.type.mock());
-  });
+function buildEndpoints(method: HTTPMethods) {
+  const methodTypeDef = compileConfig[method.toUpperCase()];
+  if (methodTypeDef) {
+    const endpoints = methodTypeDef.getType()._getProperties();
+    for (const endpoint of endpoints) {
+      // snapshot[endpoint.name.replace(/"/g, "")] = p.type.mock();
+      app[method](endpoint.name, (req, res) => {
+        res.send(endpoint.type.mock());
+      });
+    }
+  }
 }
+
+(["get", "post", "put", "delete", "patch"] as HTTPMethods[]).forEach(
+  buildEndpoints
+);
 
 app.listen(port || 3000);
 

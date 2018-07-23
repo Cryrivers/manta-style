@@ -21,7 +21,9 @@ export default class KeyOfKeyword extends Type {
     }
   }
   public mock() {
-    return new UnionType(this.getKeys().map(key => new LiteralType(key)));
+    return new UnionType(
+      this.getKeys().map(key => new LiteralType(key))
+    ).mock();
   }
   public validate(input: any) {
     return this.getKeys().includes(input);
