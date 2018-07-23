@@ -5,17 +5,12 @@ import * as builder from "@manta-style/typescript-builder";
 import * as program from "commander";
 import findRoot = require("find-root");
 import packageInfo = require("../package.json");
-import { Snapshot } from "@manta-style/cli/src/utils/snapshot";
+import { Snapshot } from "./utils/snapshot";
+import Table = require("cli-table");
+import * as logUpdate from "log-update";
+import chalk from "chalk";
 
 export type HTTPMethods = "get" | "post" | "put" | "delete" | "patch";
-
-// const snapshot = {};
-
-// fs.writeFileSync("snapshot.json", JSON.stringify(snapshot, undefined, 2));
-
-// app.listen(3000, () =>
-//   console.log("Manta Style Mock Server is working on port 3000.")
-// );
 
 program
   .version(packageInfo.version)
@@ -28,10 +23,7 @@ program
     "--generateSnapshot <file>",
     "To generate a API mock data snapshot (Not yet implemented.)"
   )
-  .option(
-    "--useSnapshot <file>",
-    "To launch a server with data snapshot (Not yet implemented.)"
-  )
+  .option("--useSnapshot <file>", "To launch a server with data snapshot")
   .option("-v --verbose", "show debug information")
   .parse(process.argv);
 
@@ -57,6 +49,10 @@ if (generateSnapshot && useSnapshot) {
 }
 
 const app = express();
+const table = new Table({
+  colors: false,
+  head: ["Method", "Endpoint"]
+});
 const tmpDir = findRoot(process.cwd()) + "/.mantastyle-tmp";
 const compiledFilePath = builder.build(
   path.resolve(configFile),
@@ -64,9 +60,6 @@ const compiledFilePath = builder.build(
   verbose
 );
 
-if (useSnapshot) {
-  console.log("Using snapshot file: " + useSnapshot);
-}
 let isSnapshotMode = Boolean(useSnapshot);
 const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
 const compileConfig = require(compiledFilePath);
@@ -76,6 +69,10 @@ function buildEndpoints(method: HTTPMethods) {
   if (methodTypeDef) {
     const endpoints = methodTypeDef.getType()._getProperties();
     for (const endpoint of endpoints) {
+      table.push([
+        method.toUpperCase(),
+        `http://localhost:${port || 3000}${endpoint.name}`
+      ]);
       app[method](endpoint.name, (req, res) => {
         const randomMockData = endpoint.type.mock();
         const mockData = isSnapshotMode
@@ -94,13 +91,25 @@ function buildEndpoints(method: HTTPMethods) {
 
 app.listen(port || 3000);
 
-console.log("Manta Style launched at http://localhost:" + (port || 3000));
+console.log(`Manta Style launched at http://localhost:${port || 3000}`);
+console.log(table.toString());
 
-if (!isSnapshotMode) {
-  console.log("Press S to enter Instant Snapshot mode.");
-} else {
-  console.log("You have entered Instant Snapshot mode. Press X to exit.");
+function toggleSnapshotMode(showMessageOnly?: boolean) {
+  if (!showMessageOnly) {
+    isSnapshotMode = !isSnapshotMode;
+  }
+  logUpdate(
+    isSnapshotMode
+      ? `${chalk.yellow("[SNAPSHOT MODE]")} Press ${chalk.bold(
+          "X"
+        )} to switch back`
+      : `${chalk.yellow("[FAKER MODE]")} Press ${chalk.bold(
+          "S"
+        )} to take an instant snapshot`
+  );
 }
+
+toggleSnapshotMode(true);
 
 const { stdin } = process;
 
@@ -114,11 +123,8 @@ stdin.on("data", function(key: Buffer) {
     case "s":
     case "S": {
       if (!isSnapshotMode) {
-        console.log("You have entered Instant Snapshot mode. Press X to exit.");
-      } else {
-        console.log("Saving snapshot to disk.");
+        toggleSnapshotMode();
       }
-      isSnapshotMode = true;
       snapshot.writeToDisk(
         path.join(path.dirname(configFile), "mock-snapshot.json")
       );
@@ -128,10 +134,7 @@ stdin.on("data", function(key: Buffer) {
     case "X": {
       if (isSnapshotMode) {
         snapshot.clearSnapshot();
-        isSnapshotMode = false;
-        console.log(
-          "You have exited Instant Snapshot mode. All mock data would be randomly-generated."
-        );
+        toggleSnapshotMode();
       }
     }
   }
