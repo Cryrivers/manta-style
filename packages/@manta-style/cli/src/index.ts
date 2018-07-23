@@ -6,7 +6,6 @@ import * as program from "commander";
 import findRoot = require("find-root");
 import { Snapshot } from "./utils/snapshot";
 import Table = require("cli-table");
-import * as fs from "fs";
 import * as logUpdate from "log-update";
 import chalk from "chalk";
 import * as chokidar from "chokidar";
@@ -14,7 +13,7 @@ import * as chokidar from "chokidar";
 export type HTTPMethods = "get" | "post" | "put" | "delete" | "patch";
 
 program
-  .version("0.0.9")
+  .version("0.0.10")
   .option(
     "-c --configFile <file>",
     "the TypeScript config file to generate entry points"
