@@ -13,7 +13,7 @@ import * as chokidar from "chokidar";
 export type HTTPMethods = "get" | "post" | "put" | "delete" | "patch";
 
 program
-  .version("0.0.10")
+  .version("0.0.11")
   .option(
     "-c --configFile <file>",
     "the TypeScript config file to generate entry points"

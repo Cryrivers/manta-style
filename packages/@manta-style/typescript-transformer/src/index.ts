@@ -30,7 +30,8 @@ const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
         node.expression
       );
     }
-    return ts.visitEachChild(node, MantaStyleRuntimeTypeVisitor, context);
+    return ts.createEmptyStatement();
+    // return ts.visitEachChild(node, MantaStyleRuntimeTypeVisitor, context);
   };
   return sourceFile => {
     const preappendedSource = ts.updateSourceFileNode(sourceFile, [
