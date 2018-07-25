@@ -10,6 +10,6 @@ export default class ArrayLiteral extends Type {
     return this;
   }
   public mock() {
-    return this.elements.map(type => type.mock);
+    return this.elements.map(type => type.mock());
   }
 }
