@@ -6,7 +6,6 @@ export type Annotation = {
 export abstract class Type {
   public neverType: boolean = false;
   abstract mock(annotations?: Annotation[]): any;
-  abstract validate(input: any): boolean;
 }
 
 export type Property = {

@@ -152,9 +152,6 @@ export default class ConditionalType extends Type {
       return resolvedType.mock(annotations);
     }
   }
-  public validate(input: any) {
-    return input === null;
-  }
 }
 
 function resolveConditionalType(

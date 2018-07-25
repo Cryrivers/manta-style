@@ -21,9 +21,6 @@ export default class UnionType extends Type {
     const chosenResult = sample(this.mockAll());
     return chosenResult;
   }
-  public validate(input: any) {
-    return this.types.some(type => type.validate(input));
-  }
   public getTypes(): Type[] {
     return this.types;
   }

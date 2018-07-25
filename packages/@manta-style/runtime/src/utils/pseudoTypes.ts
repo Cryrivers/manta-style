@@ -9,7 +9,4 @@ export class ErrorType extends Type {
   public mock() {
     throw new Error(this.message);
   }
-  public validate(): never {
-    throw new Error(this.message);
-  }
 }

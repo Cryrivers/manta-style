@@ -23,7 +23,4 @@ export default class TypeParameter extends Type {
   public mock() {
     return this.actualType.mock();
   }
-  public validate(input: any) {
-    return this.actualType.validate(input);
-  }
 }

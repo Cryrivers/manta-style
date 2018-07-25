@@ -9,7 +9,4 @@ export default class LiteralType<T extends Literals> extends Type {
   public mock() {
     return this.literal;
   }
-  public validate(input: any) {
-    return input === this.literal;
-  }
 }

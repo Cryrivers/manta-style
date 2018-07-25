@@ -32,7 +32,4 @@ export default class TypeAliasDeclaration extends Type {
   public mock() {
     return this.type.mock();
   }
-  public validate(input: any) {
-    return this.type.validate(input);
-  }
 }

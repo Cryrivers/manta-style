@@ -25,7 +25,4 @@ export default class KeyOfKeyword extends Type {
       this.getKeys().map(key => new LiteralType(key))
     ).mock();
   }
-  public validate(input: any) {
-    return this.getKeys().includes(input);
-  }
 }

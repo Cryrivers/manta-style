@@ -49,7 +49,4 @@ export default class NumberKeyword extends Type {
       ? exampleAnnotations
       : round(Math.random() * 100, precision);
   }
-  public validate(input: any) {
-    return typeof input === "number";
-  }
 }

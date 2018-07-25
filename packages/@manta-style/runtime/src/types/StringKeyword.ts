@@ -15,7 +15,4 @@ export default class StringKeyword extends Type {
       return DEFAULT_STATIC_STRING;
     }
   }
-  public validate(input: any) {
-    return typeof input === "string";
-  }
 }

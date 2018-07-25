@@ -24,10 +24,4 @@ export default class ArrayType extends Type {
     }
     return array;
   }
-  public validate(input: any) {
-    return (
-      Array.isArray(input) &&
-      input.every(item => this.elementType.validate(item))
-    );
-  }
 }

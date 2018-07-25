@@ -15,9 +15,6 @@ export default class TypeReference extends Type {
   public mock() {
     return this.getActualType().mock();
   }
-  public validate(input: any) {
-    return this.getActualType().validate(input);
-  }
   public getActualType() {
     // Evaluate Generics
     const actualType = MantaStyle._referenceType(this.referenceName);

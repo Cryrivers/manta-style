@@ -116,7 +116,4 @@ export default class TypeLiteral extends Type {
     }
     return obj;
   }
-  public validate(input: any) {
-    return true;
-  }
 }
