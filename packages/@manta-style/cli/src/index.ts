@@ -83,20 +83,17 @@ function buildEndpoints(method: HTTPMethods) {
         `http://localhost:${port || 3000}${endpoint.name}`
       ]);
       app[method](endpoint.name, (req, res) => {
-        const mockedLiteralType = endpoint.type.deriveLiteral();
+        const literalType = endpoint.type.deriveLiteral();
+        const mockData = literalType.mock();
         if (isSnapshotMode) {
-          const mockData = snapshot.fetchSnapshot(method, endpoint.name);
-          if (mockData) {
-            res.send(mockData);
+          const snapshotData = snapshot.fetchSnapshot(method, endpoint.name);
+          if (snapshotData) {
+            res.send(snapshotData);
             return;
           }
         }
-        snapshot.updateSnapshot(
-          method,
-          endpoint.name,
-          mockedLiteralType.mock()
-        );
-        res.send(mockedLiteralType.mock());
+        snapshot.updateSnapshot(method, endpoint.name, mockData);
+        res.send(mockData);
       });
     }
   }
