@@ -6,7 +6,7 @@ export default class ArrayLiteral extends Type {
     super();
     this.elements = elements;
   }
-  public deriveLiteralType() {
+  public deriveLiteral() {
     return this;
   }
   public mock() {

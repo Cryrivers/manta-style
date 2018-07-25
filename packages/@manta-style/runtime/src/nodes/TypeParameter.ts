@@ -20,7 +20,7 @@ export default class TypeParameter extends Type {
   public getActualType() {
     return this.actualType;
   }
-  public deriveLiteralType() {
-    return this.actualType.deriveLiteralType();
+  public deriveLiteral() {
+    return this.actualType.deriveLiteral();
   }
 }

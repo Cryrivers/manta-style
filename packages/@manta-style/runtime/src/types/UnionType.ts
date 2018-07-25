@@ -7,8 +7,8 @@ export default class UnionType extends Type {
     super();
     this.types = types;
   }
-  public deriveLiteralType() {
-    const derivedTypes = this.types.map(type => type.deriveLiteralType());
+  public deriveLiteral() {
+    const derivedTypes = this.types.map(type => type.deriveLiteral());
     const chosenType = sample(derivedTypes);
     if (chosenType) {
       return chosenType;

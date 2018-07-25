@@ -18,7 +18,7 @@ export default class KeyOfKeyword extends Type {
       throw new Error('Unsupported Type in "keyof" keyword');
     }
   }
-  public deriveLiteralType() {
+  public deriveLiteral() {
     return new UnionType(this.getKeys().map(key => new Literal(key)));
   }
 }

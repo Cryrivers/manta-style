@@ -31,7 +31,7 @@ export default class TypeAliasDeclaration extends Type {
   public getType() {
     return this.type;
   }
-  public deriveLiteralType() {
-    return this.type.deriveLiteralType();
+  public deriveLiteral() {
+    return this.type.deriveLiteral();
   }
 }

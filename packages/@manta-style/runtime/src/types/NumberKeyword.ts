@@ -51,7 +51,7 @@ function getNumberLiteral(annotations?: Annotation[]) {
 }
 
 export default class NumberKeyword extends Type {
-  public deriveLiteralType(annotations?: Annotation[]) {
+  public deriveLiteral(annotations?: Annotation[]) {
     return new Literal(getNumberLiteral(annotations));
   }
 }

@@ -50,7 +50,7 @@ export default class TypeLiteral extends Type {
       annotations
     });
   }
-  public deriveLiteralType() {
+  public deriveLiteral() {
     const typeLiteral = new TypeLiteral();
 
     for (const property of this.properties) {
@@ -58,7 +58,7 @@ export default class TypeLiteral extends Type {
       if (chance > 0.5) {
         typeLiteral.property(
           property.name,
-          property.type.deriveLiteralType(property.annotations),
+          property.type.deriveLiteral(property.annotations),
           true,
           property.annotations
         );

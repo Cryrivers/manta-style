@@ -6,7 +6,7 @@ export default class Literal<T extends Literals> extends Type {
     super();
     this.literal = literal;
   }
-  public deriveLiteralType() {
+  public deriveLiteral() {
     return this;
   }
   public mock() {

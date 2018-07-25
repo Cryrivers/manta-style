@@ -17,7 +17,7 @@ function getStringLiteral(annotations?: Annotation[]) {
 }
 
 export default class StringKeyword extends Type {
-  public deriveLiteralType(annotations?: Annotation[]) {
+  public deriveLiteral(annotations?: Annotation[]) {
     return new Literal(getStringLiteral(annotations));
   }
 }
