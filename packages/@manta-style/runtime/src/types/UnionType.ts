@@ -7,19 +7,13 @@ export default class UnionType extends Type {
     super();
     this.types = types;
   }
-  public mockAll() {
-    // Evalutate every item
-    const mockResult: any[] = [];
-    this.types.forEach(type => {
-      if (!type.neverType) {
-        mockResult.push(type.mock());
-      }
-    });
-    return mockResult;
-  }
-  public mock() {
-    const chosenResult = sample(this.mockAll());
-    return chosenResult;
+  public deriveLiteralType() {
+    const derivedTypes = this.types.map(type => type.deriveLiteralType());
+    const chosenType = sample(derivedTypes);
+    if (chosenType) {
+      return chosenType;
+    }
+    throw new Error("Something bad happens :(");
   }
   public getTypes(): Type[] {
     return this.types;

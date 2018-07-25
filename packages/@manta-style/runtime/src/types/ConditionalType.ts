@@ -140,7 +140,7 @@ export default class ConditionalType extends Type {
       );
       console.log("resolved type");
       console.log(resolvedType);
-      return resolvedType.deriveLiteralType(annotations);
+      return resolvedType.deriveLiteralType();
     } else {
       console.log("non-union type");
       const resolvedType = resolveConditionalType(

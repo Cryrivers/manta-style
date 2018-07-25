@@ -12,8 +12,8 @@ export default class TypeReference extends Type {
     this.deferredArgumentedTypes = types;
     return this;
   }
-  public mock() {
-    return this.getActualType().mock();
+  public deriveLiteralType() {
+    return this.getActualType().deriveLiteralType();
   }
   public getActualType() {
     // Evaluate Generics

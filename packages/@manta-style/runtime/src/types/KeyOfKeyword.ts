@@ -12,10 +12,8 @@ export default class KeyOfKeyword extends Type {
   }
   public getKeys(): string[] {
     const { type } = this;
-    const actualType =
-      type instanceof TypeReference ? type.getActualType().getType() : type;
-    if (actualType instanceof TypeLiteral) {
-      return actualType.getKeys();
+    if (type instanceof TypeLiteral) {
+      return type.getKeys();
     } else {
       throw new Error('Unsupported Type in "keyof" keyword');
     }

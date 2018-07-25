@@ -21,15 +21,7 @@ export default class TypeAliasDeclaration extends Type {
   }
   public argumentTypes(types: Type[]) {
     for (let i = 0; i < types.length; i++) {
-      // TODO: Remove this code after `deriveLiteralType` refactoring
-      const type = types[i];
-      if (type instanceof BooleanKeyword) {
-        this.typeParameters[i].setActualType(
-          Math.random() < 0.5 ? new LiteralType(false) : new LiteralType(true)
-        );
-      } else {
-        this.typeParameters[i].setActualType(types[i]);
-      }
+      this.typeParameters[i].setActualType(types[i]);
     }
     return this;
   }
@@ -39,7 +31,7 @@ export default class TypeAliasDeclaration extends Type {
   public getType() {
     return this.type;
   }
-  public mock() {
-    return this.type.mock();
+  public deriveLiteralType() {
+    return this.type.deriveLiteralType();
   }
 }
