@@ -47,7 +47,7 @@ class MantaStyle {
   public static UnionType(types: Type[]) {
     return new UnionType(types);
   }
-  public static LiteralType(literal: Literals) {
+  public static Literal(literal: Literals) {
     return new Literal(literal);
   }
   public static ArrayType(elementType: Type) {

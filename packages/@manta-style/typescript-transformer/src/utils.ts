@@ -267,7 +267,7 @@ function createUnionType(
 }
 
 function createLiteralType(node: ts.LiteralTypeNode): ts.Expression {
-  return createRuntimeFunctionCall("LiteralType", [
+  return createRuntimeFunctionCall("Literal", [
     ts.createIdentifier(node.literal.getText())
   ]);
 }

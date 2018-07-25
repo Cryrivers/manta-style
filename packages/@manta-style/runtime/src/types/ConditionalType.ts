@@ -11,7 +11,7 @@ import BooleanKeyword from "./BooleanKeyword";
 function isAssignable(typeS: Type, typeT: Type): boolean {
   const S = resolveReferencedType(typeS);
   const T = resolveReferencedType(typeT);
-  console.log("S:\n", S, "\nT:\n", T);
+
   if (Object.getPrototypeOf(S) === Object.getPrototypeOf(T)) {
     // - S and T are identical types.
     if (S instanceof Literal && T instanceof Literal) {
@@ -125,7 +125,6 @@ export default class ConditionalType extends Type {
 
     const checkType = resolveReferencedType(maybeReferencedCheckType);
     if (checkType instanceof UnionType) {
-      console.log("union type");
       const resolvedType = new UnionType(
         checkType
           .getTypes()
@@ -138,11 +137,8 @@ export default class ConditionalType extends Type {
             )
           )
       );
-      console.log("resolved type");
-      console.log(resolvedType);
       return resolvedType.deriveLiteral();
     } else {
-      console.log("non-union type");
       const resolvedType = resolveConditionalType(
         checkType,
         extendsType,

@@ -21,7 +21,7 @@ export default class TypeAliasDeclaration extends Type {
   }
   public argumentTypes(types: Type[]) {
     for (let i = 0; i < types.length; i++) {
-      this.typeParameters[i].setActualType(types[i]);
+      this.typeParameters[i].setActualType(types[i].deriveLiteral());
     }
     return this;
   }
