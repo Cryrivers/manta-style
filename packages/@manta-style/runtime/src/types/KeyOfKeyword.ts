@@ -20,9 +20,7 @@ export default class KeyOfKeyword extends Type {
       throw new Error('Unsupported Type in "keyof" keyword');
     }
   }
-  public mock() {
-    return new UnionType(
-      this.getKeys().map(key => new LiteralType(key))
-    ).mock();
+  public deriveLiteralType() {
+    return new UnionType(this.getKeys().map(key => new LiteralType(key)));
   }
 }

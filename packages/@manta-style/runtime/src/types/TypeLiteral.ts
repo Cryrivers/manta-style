@@ -49,8 +49,9 @@ export default class TypeLiteral extends Type {
       annotations
     });
   }
-  public mock() {
-    const obj: AnyObject = {};
+  public deriveLiteralType() {
+    const typeLiteral = new TypeLiteral();
+
     for (const property of this.properties) {
       const chance = property.type.neverType
         ? 0
@@ -58,9 +59,15 @@ export default class TypeLiteral extends Type {
           ? Math.random()
           : 1;
       if (chance > 0.5) {
-        obj[property.name] = property.type.mock(property.annotations);
+        typeLiteral.property(
+          property.name,
+          property.type.deriveLiteralType(property.annotations),
+          true,
+          property.annotations
+        );
       }
     }
+
     // Enumerate IndexSignatures
     for (const computedProperty of this.computedProperties) {
       const jsDocForKeys: Annotation[] = computedProperty.annotations

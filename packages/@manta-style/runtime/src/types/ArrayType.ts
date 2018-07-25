@@ -1,5 +1,6 @@
 import { Type, Annotation } from "../utils/baseType";
 import { getNumberFromAnnotationKey } from "../utils/annotation";
+import ArrayLiteral from "./ArrayLiteral";
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -7,8 +8,8 @@ export default class ArrayType extends Type {
     super();
     this.elementType = elementType;
   }
-  public mock(annotations?: Annotation[]) {
-    const array = [];
+  public deriveLiteralType(annotations?: Annotation[]) {
+    const array: Type[] = [];
     const lengthFromJSDoc = getNumberFromAnnotationKey({
       key: "length",
       precision: 0,
@@ -20,8 +21,8 @@ export default class ArrayType extends Type {
         : Math.floor(Math.random() * 5) + 1;
 
     for (let i = 0; i < length; i++) {
-      array.push(this.elementType.mock());
+      array.push(this.elementType.deriveLiteralType(annotations));
     }
-    return array;
+    return new ArrayLiteral(array);
   }
 }

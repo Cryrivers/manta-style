@@ -108,7 +108,7 @@ export default class ConditionalType extends Type {
     this.trueType = trueType;
     this.falseType = falseType;
   }
-  public mock(annotations?: Annotation[]) {
+  public deriveLiteralType(annotations?: Annotation[]) {
     /*
       From: http://koerbitz.me/posts/a-look-at-typescripts-conditional-types.html
       The Distributive Rule of Conditional and Union Types
@@ -140,7 +140,7 @@ export default class ConditionalType extends Type {
       );
       console.log("resolved type");
       console.log(resolvedType);
-      return resolvedType.mock();
+      return resolvedType.deriveLiteralType(annotations);
     } else {
       console.log("non-union type");
       const resolvedType = resolveConditionalType(
@@ -149,7 +149,7 @@ export default class ConditionalType extends Type {
         trueType,
         falseType
       );
-      return resolvedType.mock(annotations);
+      return resolvedType.deriveLiteralType(annotations);
     }
   }
 }
