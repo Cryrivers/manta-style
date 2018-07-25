@@ -5,6 +5,7 @@ import {
   getNumberFromAnnotationKey,
   findAnnotation
 } from "../utils/annotation";
+import LiteralType from "./LiteralType";
 
 const DEFAULT_PRECISION = 0;
 
@@ -24,29 +25,33 @@ function getTimestamp(date: Date) {
   return Math.floor(date.getTime() / 1000);
 }
 
-export default class NumberKeyword extends Type {
-  public mock(annotations?: Annotation[]) {
-    const integerAnnotation = findAnnotation("integer", annotations);
-    const precisionAnnotation = findAnnotation("precision", annotations);
-    const timestampAnnotation = findAnnotation("timestamp", annotations);
-    const precision = getPrecision(integerAnnotation, precisionAnnotation);
-    const exampleAnnotations = getNumberFromAnnotationKey({
-      key: "example",
-      precision,
-      annotations
-    });
-    if (timestampAnnotation) {
-      switch (timestampAnnotation.value) {
-        case "past":
-          return getTimestamp(faker.date.past());
-        case "future":
-          return getTimestamp(faker.date.future());
-        default:
-          return getTimestamp(faker.date.recent());
-      }
+function getNumberLiteral(annotations?: Annotation[]) {
+  const integerAnnotation = findAnnotation("integer", annotations);
+  const precisionAnnotation = findAnnotation("precision", annotations);
+  const timestampAnnotation = findAnnotation("timestamp", annotations);
+  const precision = getPrecision(integerAnnotation, precisionAnnotation);
+  const exampleAnnotations = getNumberFromAnnotationKey({
+    key: "example",
+    precision,
+    annotations
+  });
+  if (timestampAnnotation) {
+    switch (timestampAnnotation.value) {
+      case "past":
+        return getTimestamp(faker.date.past());
+      case "future":
+        return getTimestamp(faker.date.future());
+      default:
+        return getTimestamp(faker.date.recent());
     }
-    return typeof exampleAnnotations !== "undefined"
-      ? exampleAnnotations
-      : round(Math.random() * 100, precision);
+  }
+  return typeof exampleAnnotations !== "undefined"
+    ? exampleAnnotations
+    : round(Math.random() * 100, precision);
+}
+
+export default class NumberKeyword extends Type {
+  public deriveLiteralType(annotations?: Annotation[]) {
+    return new LiteralType(getNumberLiteral(annotations));
   }
 }
