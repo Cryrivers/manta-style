@@ -3,7 +3,7 @@ type Exclude<T, U> = T extends U ? never : T;
 
 type Test<T extends boolean> = {
   value: T;
-  obj: T extends true ? { nice: string } : null;
+  obj: T extends true ? { nice: string } : never;
 };
 export type GET = {
   "/": Test<boolean>;

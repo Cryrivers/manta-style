@@ -20,7 +20,7 @@ export default class TypeParameter extends Type {
   public getActualType() {
     return this.actualType;
   }
-  public mock() {
-    return this.actualType.mock();
+  public deriveLiteralType() {
+    return this.actualType.deriveLiteralType();
   }
 }

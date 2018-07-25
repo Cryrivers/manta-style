@@ -4,7 +4,6 @@ export type Annotation = {
 };
 
 export abstract class Type {
-  public neverType: boolean = false;
   abstract deriveLiteralType(annotations?: Annotation[]): Type;
   public mock(): any {
     throw new Error("Literal types should be derived before mock.");

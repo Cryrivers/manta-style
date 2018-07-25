@@ -83,7 +83,7 @@ function buildEndpoints(method: HTTPMethods) {
         `http://localhost:${port || 3000}${endpoint.name}`
       ]);
       app[method](endpoint.name, (req, res) => {
-        const randomMockData = endpoint.type.mock();
+        const randomObjectLiteralType = endpoint.type.deriveLiteralType();
         if (isSnapshotMode) {
           const mockData = snapshot.fetchSnapshot(method, endpoint.name);
           if (mockData) {
@@ -91,8 +91,12 @@ function buildEndpoints(method: HTTPMethods) {
             return;
           }
         }
-        snapshot.updateSnapshot(method, endpoint.name, randomMockData);
-        res.send(randomMockData);
+        snapshot.updateSnapshot(
+          method,
+          endpoint.name,
+          randomObjectLiteralType.mock()
+        );
+        res.send(randomObjectLiteralType.mock());
       });
     }
   }

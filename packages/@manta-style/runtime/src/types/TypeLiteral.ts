@@ -9,6 +9,7 @@ import {
   AnyObject
 } from "../utils/baseType";
 import { resolveReferencedType } from "../utils/referenceTypes";
+import NeverKeyword from "./NeverKeyword";
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -53,11 +54,7 @@ export default class TypeLiteral extends Type {
     const typeLiteral = new TypeLiteral();
 
     for (const property of this.properties) {
-      const chance = property.type.neverType
-        ? 0
-        : property.questionMark
-          ? Math.random()
-          : 1;
+      const chance = property.questionMark ? Math.random() : 1;
       if (chance > 0.5) {
         typeLiteral.property(
           property.name,
@@ -69,56 +66,65 @@ export default class TypeLiteral extends Type {
     }
 
     // Enumerate IndexSignatures
-    for (const computedProperty of this.computedProperties) {
-      const jsDocForKeys: Annotation[] = computedProperty.annotations
-        .filter(item => item.key === "key")
-        .map(item => ({ ...item, key: "example" }));
-      const jsDocForValues: Annotation[] = computedProperty.annotations.filter(
-        item => item.key !== "key"
-      );
+    // for (const computedProperty of this.computedProperties) {
+    //   const jsDocForKeys: Annotation[] = computedProperty.annotations
+    //     .filter(item => item.key === "key")
+    //     .map(item => ({ ...item, key: "example" }));
+    //   const jsDocForValues: Annotation[] = computedProperty.annotations.filter(
+    //     item => item.key !== "key"
+    //   );
 
-      if (
-        computedProperty.operator === ComputedPropertyOperator.INDEX_SIGNATURE
-      ) {
-        if (jsDocForKeys.length > 0) {
-          for (let i = 0; i < jsDocForKeys.length; i++) {
-            const key = computedProperty.keyType.mock([jsDocForKeys[i]]);
-            const value = computedProperty.type.mock(jsDocForValues);
-            obj[key] = value;
-          }
-        } else {
-          const key = computedProperty.keyType.mock([
-            {
-              key: "example",
-              value: "This is a key. Customize it with JSDoc tag @key"
-            }
-          ]);
-          const value = computedProperty.type.mock(jsDocForValues);
-          obj[key] = value;
-        }
-      } else if (
-        computedProperty.operator === ComputedPropertyOperator.IN_KEYWORD
-      ) {
-        // FIXME: I feel this implementation is not correct
-        const { keyType, name } = computedProperty;
-        const subobj = (obj[name] = {} as AnyObject);
-        const actualType = resolveReferencedType(keyType);
-        if (actualType instanceof KeyOfKeyword) {
-          for (const key of actualType.getKeys()) {
-            subobj[key] = computedProperty.type.mock(
-              computedProperty.annotations
-            );
-          }
-        } else if (actualType instanceof UnionType) {
-          for (const key of actualType.mockAll()) {
-            subobj[key] = computedProperty.type.mock(
-              computedProperty.annotations
-            );
-          }
-        } else {
-          console.log(actualType);
-          throw new Error(`Unsupported Type after keyword "in"`);
-        }
+    //   if (
+    //     computedProperty.operator === ComputedPropertyOperator.INDEX_SIGNATURE
+    //   ) {
+    //     if (jsDocForKeys.length > 0) {
+    //       for (let i = 0; i < jsDocForKeys.length; i++) {
+    //         const key = computedProperty.keyType.mock([jsDocForKeys[i]]);
+    //         const value = computedProperty.type.mock(jsDocForValues);
+    //         obj[key] = value;
+    //       }
+    //     } else {
+    //       const key = computedProperty.keyType.mock([
+    //         {
+    //           key: "example",
+    //           value: "This is a key. Customize it with JSDoc tag @key"
+    //         }
+    //       ]);
+    //       const value = computedProperty.type.mock(jsDocForValues);
+    //       obj[key] = value;
+    //     }
+    //   } else if (
+    //     computedProperty.operator === ComputedPropertyOperator.IN_KEYWORD
+    //   ) {
+    //     // FIXME: I feel this implementation is not correct
+    //     const { keyType, name } = computedProperty;
+    //     const subobj = (obj[name] = {} as AnyObject);
+    //     const actualType = resolveReferencedType(keyType);
+    //     if (actualType instanceof KeyOfKeyword) {
+    //       for (const key of actualType.getKeys()) {
+    //         subobj[key] = computedProperty.type.mock(
+    //           computedProperty.annotations
+    //         );
+    //       }
+    //     } else if (actualType instanceof UnionType) {
+    //       for (const key of actualType.mockAll()) {
+    //         subobj[key] = computedProperty.type.mock(
+    //           computedProperty.annotations
+    //         );
+    //       }
+    //     } else {
+    //       console.log(actualType);
+    //       throw new Error(`Unsupported Type after keyword "in"`);
+    //     }
+    //   }
+    // }
+    return typeLiteral;
+  }
+  public mock() {
+    const obj: AnyObject = {};
+    for (const property of this.properties) {
+      if (!(property.type instanceof NeverKeyword)) {
+        obj[property.name] = property.type.mock();
       }
     }
     return obj;
