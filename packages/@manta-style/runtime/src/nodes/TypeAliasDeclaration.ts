@@ -1,10 +1,13 @@
 import TypeParameter from "./TypeParameter";
-import { Type, ErrorType } from "../utils";
+import { Type } from "../utils/baseType";
+import { ErrorType } from "../utils/pseudoTypes";
 
 export default class TypeAliasDeclaration extends Type {
   private name: string;
   private typeParameters: TypeParameter[] = [];
-  private type: Type = new ErrorType(`TypeAliasDeclaration "${this.name}" hasn't been initialized.`);
+  private type: Type = new ErrorType(
+    `TypeAliasDeclaration "${this.name}" hasn't been initialized.`
+  );
   constructor(name: string) {
     super();
     this.name = name;

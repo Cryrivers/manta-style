@@ -1,4 +1,5 @@
-import { Type, ErrorType } from "../utils";
+import { Type } from "../utils/baseType";
+import { ErrorType } from "../utils/pseudoTypes";
 
 export default class TypeParameter extends Type {
   private name: string;

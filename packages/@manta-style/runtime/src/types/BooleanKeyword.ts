@@ -1,4 +1,4 @@
-import { Type } from "../utils";
+import { Type } from "../utils/baseType";
 
 export default class BooleanKeyword extends Type {
   public mock() {

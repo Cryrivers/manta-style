@@ -1,6 +1,7 @@
-import { Type, Annotation, getAnnotationsByKey } from "../utils";
 import { sample } from "lodash-es";
 import * as faker from "faker";
+import { getAnnotationsByKey } from "../utils/annotation";
+import { Type, Annotation } from "../utils/baseType";
 
 const DEFAULT_STATIC_STRING =
   "This is a string message. Customize it with JSDoc tag @example";

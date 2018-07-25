@@ -1,15 +1,14 @@
+import UnionType from "./UnionType";
+import KeyOfKeyword from "./KeyOfKeyword";
 import {
   Type,
   Property,
-  AnyObject,
   ComputedProperty,
+  Annotation,
   ComputedPropertyOperator,
-  Annotation
-} from "../utils";
-import UnionType from "./UnionType";
-import KeyOfKeyword from "./KeyOfKeyword";
-import TypeReference from "./TypeReference";
-import TypeAliasDeclaration from "../nodes/TypeAliasDeclaration";
+  AnyObject
+} from "../utils/baseType";
+import { resolveReferencedType } from "../utils/referenceTypes";
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -96,22 +95,7 @@ export default class TypeLiteral extends Type {
         // FIXME: I feel this implementation is not correct
         const { keyType, name } = computedProperty;
         const subobj = (obj[name] = {} as AnyObject);
-        let actualType = keyType;
-
-        // Resolve the actual type
-        while (
-          actualType instanceof TypeReference ||
-          actualType instanceof TypeAliasDeclaration
-        ) {
-          if (actualType instanceof TypeReference) {
-            actualType = actualType.getActualType();
-          } else if (actualType instanceof TypeAliasDeclaration) {
-            actualType = actualType.getType();
-          } else {
-            throw new Error("Something bad happens :(");
-          }
-        }
-
+        const actualType = resolveReferencedType(keyType);
         if (actualType instanceof KeyOfKeyword) {
           for (const key of actualType.getKeys()) {
             subobj[key] = computedProperty.type.mock(

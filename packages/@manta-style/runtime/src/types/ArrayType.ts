@@ -1,4 +1,5 @@
-import { Type, Annotation, getNumberFromAnnotationKey } from "../utils";
+import { Type, Annotation } from "../utils/baseType";
+import { getNumberFromAnnotationKey } from "../utils/annotation";
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -10,8 +11,8 @@ export default class ArrayType extends Type {
     const array = [];
     const lengthFromJSDoc = getNumberFromAnnotationKey({
       key: "length",
-      annotations,
-      startFromZero: false
+      precision: 0,
+      annotations
     });
     const length =
       typeof lengthFromJSDoc !== "undefined"

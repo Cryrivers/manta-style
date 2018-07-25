@@ -195,7 +195,10 @@ function createTypeLiteralProperties(
                   member.type.typeParameter.constraint,
                   typeParameters
                 ),
-                createTypeReferenceOrIdentifier(member.type.type, typeParameters),
+                createTypeReferenceOrIdentifier(
+                  member.type.type,
+                  typeParameters
+                ),
                 ts.createNumericLiteral("1"), // ComputedPropertyOperator.IN_KEYWORD
                 member.questionToken ? ts.createTrue() : ts.createFalse(),
                 generateJSDocParam(jsdocArray)
@@ -346,6 +349,13 @@ export function createMantaStyleRuntimeObject(
     return createLiteralType(node);
   } else if (ts.isArrayTypeNode(node)) {
     return createArrayType(node, typeParameters);
+  } else if (ts.isConditionalTypeNode(node)) {
+    return createRuntimeFunctionCall("ConditionalType", [
+      createMantaStyleRuntimeObject(node.checkType, typeParameters),
+      createMantaStyleRuntimeObject(node.extendsType, typeParameters),
+      createMantaStyleRuntimeObject(node.trueType, typeParameters),
+      createMantaStyleRuntimeObject(node.falseType, typeParameters)
+    ]);
   } else if (node.kind === ts.SyntaxKind.NumberKeyword) {
     return createRuntimePropertyRef("NumberKeyword");
   } else if (node.kind === ts.SyntaxKind.BooleanKeyword) {

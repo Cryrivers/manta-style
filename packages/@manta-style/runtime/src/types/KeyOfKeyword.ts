@@ -1,8 +1,8 @@
-import { Type } from "../utils";
 import TypeReference from "./TypeReference";
 import TypeLiteral from "./TypeLiteral";
 import UnionType from "./UnionType";
 import LiteralType from "./LiteralType";
+import { Type } from "../utils/baseType";
 
 export default class KeyOfKeyword extends Type {
   private type: Type;

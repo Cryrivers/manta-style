@@ -1,21 +1,30 @@
-import { Type } from "../utils";
+import { Type } from "../utils/baseType";
 import { sample } from "lodash-es";
 
 export default class UnionType extends Type {
-  private unionTypes: Type[] = [];
+  private types: Type[] = [];
   constructor(types: Type[]) {
     super();
-    this.unionTypes = types;
+    this.types = types;
   }
   public mockAll() {
-    return this.unionTypes.map(type => type.mock());
+    // Evalutate every item
+    const mockResult: any[] = [];
+    this.types.forEach(type => {
+      if (!type.neverType) {
+        mockResult.push(type.mock());
+      }
+    });
+    return mockResult;
   }
   public mock() {
-    const chosenType = sample(this.unionTypes);
-    // FIXME: never type could be accidentally called.
-    return chosenType && chosenType.mock();
+    const chosenResult = sample(this.mockAll());
+    return chosenResult;
   }
   public validate(input: any) {
-    return this.unionTypes.some(type => type.validate(input));
+    return this.types.some(type => type.validate(input));
+  }
+  public getTypes(): Type[] {
+    return this.types;
   }
 }

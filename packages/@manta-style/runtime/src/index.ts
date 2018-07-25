@@ -1,4 +1,3 @@
-import { Type, Literals } from "./utils";
 import NumberKeyword from "./types/NumberKeyword";
 import BooleanKeyword from "./types/BooleanKeyword";
 import UndefinedKeyword from "./types/UndefinedKeyword";
@@ -12,7 +11,9 @@ import NeverKeyword from "./types/NeverKeyword";
 import StringKeyword from "./types/StringKeyword";
 import TypeReference from "./types/TypeReference";
 import TypeAliasDeclaration from "./nodes/TypeAliasDeclaration";
+import ConditionalType from "./types/ConditionalType";
 import KeyOfKeyword from "./types/KeyOfKeyword";
+import { Type, Literals } from "./utils/baseType";
 
 class MantaStyle {
   private static typeReferences: { [key: string]: TypeAliasDeclaration } = {};
@@ -54,6 +55,14 @@ class MantaStyle {
   }
   public static TypeReference(referenceName: string) {
     return new TypeReference(referenceName);
+  }
+  public static ConditionalType(
+    checkType: Type,
+    extendsType: Type,
+    trueType: Type,
+    falseType: Type
+  ) {
+    return new ConditionalType(checkType, extendsType, trueType, falseType);
   }
   public static NumberKeyword = new NumberKeyword();
   public static BooleanKeyword = new BooleanKeyword();

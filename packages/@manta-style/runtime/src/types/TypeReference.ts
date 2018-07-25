@@ -1,5 +1,5 @@
-import { Type } from "../utils";
 import MantaStyle from "../index";
+import { Type } from "../utils/baseType";
 
 export default class TypeReference extends Type {
   private referenceName: string;
