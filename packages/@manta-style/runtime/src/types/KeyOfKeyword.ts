@@ -1,7 +1,7 @@
 import TypeReference from "./TypeReference";
 import TypeLiteral from "./TypeLiteral";
 import UnionType from "./UnionType";
-import LiteralType from "./LiteralType";
+import Literal from "./Literal";
 import { Type } from "../utils/baseType";
 
 export default class KeyOfKeyword extends Type {
@@ -19,6 +19,6 @@ export default class KeyOfKeyword extends Type {
     }
   }
   public deriveLiteralType() {
-    return new UnionType(this.getKeys().map(key => new LiteralType(key)));
+    return new UnionType(this.getKeys().map(key => new Literal(key)));
   }
 }

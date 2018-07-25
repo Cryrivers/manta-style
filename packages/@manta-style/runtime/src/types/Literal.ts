@@ -1,6 +1,6 @@
 import { Literals, Type } from "../utils/baseType";
 
-export default class LiteralType<T extends Literals> extends Type {
+export default class Literal<T extends Literals> extends Type {
   private literal: T;
   constructor(literal: T) {
     super();

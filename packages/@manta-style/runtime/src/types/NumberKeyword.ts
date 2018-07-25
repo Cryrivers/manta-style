@@ -5,7 +5,7 @@ import {
   getNumberFromAnnotationKey,
   findAnnotation
 } from "../utils/annotation";
-import LiteralType from "./LiteralType";
+import Literal from "./Literal";
 
 const DEFAULT_PRECISION = 0;
 
@@ -52,6 +52,6 @@ function getNumberLiteral(annotations?: Annotation[]) {
 
 export default class NumberKeyword extends Type {
   public deriveLiteralType(annotations?: Annotation[]) {
-    return new LiteralType(getNumberLiteral(annotations));
+    return new Literal(getNumberLiteral(annotations));
   }
 }

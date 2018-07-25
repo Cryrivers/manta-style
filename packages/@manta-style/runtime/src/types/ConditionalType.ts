@@ -1,7 +1,7 @@
 import { Type, Annotation, Property } from "../utils/baseType";
 import UnionType from "./UnionType";
 import AnyKeyword from "./AnyKeyword";
-import LiteralType from "./LiteralType";
+import Literal from "./Literal";
 import NumberKeyword from "./NumberKeyword";
 import StringKeyword from "./StringKeyword";
 import TypeLiteral from "./TypeLiteral";
@@ -14,7 +14,7 @@ function isAssignable(typeS: Type, typeT: Type): boolean {
   console.log("S:\n", S, "\nT:\n", T);
   if (Object.getPrototypeOf(S) === Object.getPrototypeOf(T)) {
     // - S and T are identical types.
-    if (S instanceof LiteralType && T instanceof LiteralType) {
+    if (S instanceof Literal && T instanceof Literal) {
       // For LiteralType, we also need to compare the literal
       return S.mock() === T.mock();
     }
@@ -23,21 +23,21 @@ function isAssignable(typeS: Type, typeT: Type): boolean {
     // - S or T is the Any type.
     return true;
   } else if (
-    S instanceof LiteralType &&
+    S instanceof Literal &&
     typeof S.mock() === "number" &&
     T instanceof NumberKeyword
   ) {
     // - S or T is an enum type and the other is the primitive type Number
     return true;
   } else if (
-    S instanceof LiteralType &&
+    S instanceof Literal &&
     typeof S.mock() === "string" &&
     T instanceof StringKeyword
   ) {
     // - S is a string literal type and T is the primitive type String.
     return true;
   } else if (
-    S instanceof LiteralType &&
+    S instanceof Literal &&
     typeof S.mock() === "boolean" &&
     T instanceof BooleanKeyword
   ) {

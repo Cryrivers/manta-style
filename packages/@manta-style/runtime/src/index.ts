@@ -4,7 +4,7 @@ import UndefinedKeyword from "./types/UndefinedKeyword";
 import NullKeyword from "./types/NullKeyword";
 import TypeLiteral from "./types/TypeLiteral";
 import ArrayType from "./types/ArrayType";
-import LiteralType from "./types/LiteralType";
+import Literal from "./types/Literal";
 import UnionType from "./types/UnionType";
 import AnyKeyword from "./types/AnyKeyword";
 import NeverKeyword from "./types/NeverKeyword";
@@ -48,7 +48,7 @@ class MantaStyle {
     return new UnionType(types);
   }
   public static LiteralType(literal: Literals) {
-    return new LiteralType(literal);
+    return new Literal(literal);
   }
   public static ArrayType(elementType: Type) {
     return new ArrayType(elementType);

@@ -2,7 +2,7 @@ import TypeParameter from "./TypeParameter";
 import { Type } from "../utils/baseType";
 import { ErrorType } from "../utils/pseudoTypes";
 import BooleanKeyword from "../types/BooleanKeyword";
-import LiteralType from "../types/LiteralType";
+import Literal from "../types/Literal";
 
 export default class TypeAliasDeclaration extends Type {
   private name: string;
