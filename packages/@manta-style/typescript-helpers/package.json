@@ -1,0 +1,28 @@
+{
+  "name": "@manta-style/typescript-helpers",
+  "version": "0.0.0",
+  "description": "Manta Style Helper for TypeScript",
+  "main": "./lib/index.js",
+  "author": {
+    "name": "Zhongliang Wang",
+    "email": "zwang@rebelworks.io",
+    "url": "https://github.com/Cryrivers"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/mantastyle"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "node ./script/build.js"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@manta-style/typescript-builder": "^0.0.12",
+    "typescript": "2.9.2",
+    "webpack": "^4.16.2",
+    "webpack-cli": "^3.1.0"
+  }
+}

@@ -1,4 +1,3 @@
-import TypeReference from "./TypeReference";
 import TypeLiteral from "./TypeLiteral";
 import UnionType from "./UnionType";
 import Literal from "./Literal";

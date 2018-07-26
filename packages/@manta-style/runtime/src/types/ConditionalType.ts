@@ -1,4 +1,4 @@
-import { Type, Annotation, Property } from "../utils/baseType";
+import { Type, Annotation } from "../utils/baseType";
 import UnionType from "./UnionType";
 import AnyKeyword from "./AnyKeyword";
 import Literal from "./Literal";
@@ -119,11 +119,13 @@ export default class ConditionalType extends Type {
     const {
       checkType: maybeReferencedCheckType,
       extendsType,
-      trueType,
-      falseType
+      trueType: maybeReferencedTrueType,
+      falseType: maybeReferencedFalseType
     } = this;
 
     const checkType = resolveReferencedType(maybeReferencedCheckType);
+    const trueType = resolveReferencedType(maybeReferencedTrueType);
+    const falseType = resolveReferencedType(maybeReferencedFalseType);
     if (checkType instanceof UnionType) {
       const resolvedType = new UnionType(
         checkType

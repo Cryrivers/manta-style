@@ -1,15 +1,15 @@
-import UnionType from "./UnionType";
-import KeyOfKeyword from "./KeyOfKeyword";
+import UnionType from './UnionType';
+import KeyOfKeyword from './KeyOfKeyword';
 import {
   Type,
   Property,
   ComputedProperty,
   Annotation,
   ComputedPropertyOperator,
-  AnyObject
-} from "../utils/baseType";
-import { resolveReferencedType } from "../utils/referenceTypes";
-import NeverKeyword from "./NeverKeyword";
+  AnyObject,
+} from '../utils/baseType';
+import { resolveReferencedType } from '../utils/referenceTypes';
+import NeverKeyword from './NeverKeyword';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -18,19 +18,19 @@ export default class TypeLiteral extends Type {
     return this.properties;
   }
   public getKeys() {
-    return this.properties.map(prop => prop.name);
+    return this.properties.map((prop) => prop.name);
   }
   public property(
     name: string,
     type: Type,
     questionMark: boolean,
-    annotations: Annotation[]
+    annotations: Annotation[],
   ) {
     this.properties.push({
       name,
       type,
       questionMark,
-      annotations
+      annotations,
     });
   }
   public computedProperty(
@@ -39,7 +39,7 @@ export default class TypeLiteral extends Type {
     type: Type,
     operator: ComputedPropertyOperator,
     questionMark: boolean,
-    annotations: Annotation[]
+    annotations: Annotation[],
   ) {
     this.computedProperties.push({
       name,
@@ -47,7 +47,7 @@ export default class TypeLiteral extends Type {
       type,
       operator,
       questionMark,
-      annotations
+      annotations,
     });
   }
   public deriveLiteral() {
@@ -60,7 +60,7 @@ export default class TypeLiteral extends Type {
           property.name,
           property.type.deriveLiteral(property.annotations),
           false,
-          property.annotations
+          property.annotations,
         );
       }
     }
@@ -68,10 +68,10 @@ export default class TypeLiteral extends Type {
     // Enumerate IndexSignatures
     for (const computedProperty of this.computedProperties) {
       const jsDocForKeys: Annotation[] = computedProperty.annotations
-        .filter(item => item.key === "key")
-        .map(item => ({ ...item, key: "example" }));
+        .filter((item) => item.key === 'key')
+        .map((item) => ({ ...item, key: 'example' }));
       const jsDocForValues: Annotation[] = computedProperty.annotations.filter(
-        item => item.key !== "key"
+        (item) => item.key !== 'key',
       );
 
       if (
@@ -88,16 +88,16 @@ export default class TypeLiteral extends Type {
                 jsDocForKeys[i].value,
                 literal,
                 false,
-                jsDocForValues
+                jsDocForValues,
               );
             }
           }
         } else {
           typeLiteral.property(
-            "This is a key. Customize it with JSDoc tag @key",
+            'This is a key. Customize it with JSDoc tag @key',
             computedProperty.type.deriveLiteral(jsDocForValues),
             false,
-            jsDocForValues
+            jsDocForValues,
           );
         }
       } else if (
@@ -116,17 +116,19 @@ export default class TypeLiteral extends Type {
           const keys =
             actualType instanceof KeyOfKeyword
               ? actualType.getKeys()
-              : actualType.getTypes().map(type => type.deriveLiteral().mock());
+              : actualType
+                  .getTypes()
+                  .map((type) => type.deriveLiteral().mock());
           for (const key of keys) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
             if (chance > 0.5) {
               subTypeLiteral.property(
                 key,
                 computedProperty.type.deriveLiteral(
-                  computedProperty.annotations
+                  computedProperty.annotations,
                 ),
                 false,
-                computedProperty.annotations
+                computedProperty.annotations,
               );
             }
           }

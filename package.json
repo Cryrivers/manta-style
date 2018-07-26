@@ -2,7 +2,8 @@
   "name": "manta-style",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.0.0-beta.21"
+    "lerna": "^3.0.0-beta.21",
+    "prettier": "^1.13.7"
   },
   "workspaces": [
     "packages/@manta-style/*"
