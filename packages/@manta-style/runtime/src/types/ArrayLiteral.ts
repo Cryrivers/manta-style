@@ -1,4 +1,4 @@
-import { Type } from "../utils/baseType";
+import { Type } from '../utils/baseType';
 
 export default class ArrayLiteral extends Type {
   private elements: Type[];
@@ -10,6 +10,6 @@ export default class ArrayLiteral extends Type {
     return this;
   }
   public mock() {
-    return this.elements.map(type => type.mock());
+    return this.elements.map((type) => type.mock());
   }
 }

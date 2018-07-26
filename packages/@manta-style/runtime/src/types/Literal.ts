@@ -1,4 +1,4 @@
-import { Literals, Type } from "../utils/baseType";
+import { Literals, Type } from '../utils/baseType';
 
 export default class Literal<T extends Literals> extends Type {
   private literal: T;

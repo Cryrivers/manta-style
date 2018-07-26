@@ -1,15 +1,15 @@
-import * as ts from "typescript";
-import * as fs from "fs";
-import * as path from "path";
-import * as glob from "glob";
-import * as babelCore from "babel-core";
-import { createTransformer } from "@manta-style/typescript-transformer";
+import * as ts from 'typescript';
+import * as fs from 'fs';
+import * as path from 'path';
+import * as glob from 'glob';
+import * as babelCore from 'babel-core';
+import { createTransformer } from '@manta-style/typescript-transformer';
 
 export default function build(
   fileName: string,
   destDir: string,
   verbose: boolean = false,
-  importHelpers: boolean = true
+  importHelpers: boolean = true,
 ) {
   const MantaStyleTranformer = createTransformer(importHelpers);
   const program = ts.createProgram([fileName], {
@@ -19,7 +19,7 @@ export default function build(
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
     module: ts.ModuleKind.ESNext,
     outDir: destDir,
-    listEmittedFiles: true
+    listEmittedFiles: true,
   });
   const result: ts.EmitResult = program.emit(
     undefined,
@@ -27,19 +27,19 @@ export default function build(
     undefined,
     undefined,
     {
-      before: [MantaStyleTranformer]
-    }
+      before: [MantaStyleTranformer],
+    },
   );
   if (verbose) {
-    console.log("[TYPESCRIPT] Compile Result", result);
+    console.log('[TYPESCRIPT] Compile Result', result);
   }
-  const jsModuleFiles = glob.sync(path.join(destDir, "**/*.js"));
+  const jsModuleFiles = glob.sync(path.join(destDir, '**/*.js'));
   for (const file of jsModuleFiles) {
     if (verbose) {
-      console.log("[BABEL] Processing file: " + file);
+      console.log('[BABEL] Processing file: ' + file);
     }
     const result = babelCore.transformFileSync(file, {
-      plugins: ["transform-es2015-modules-commonjs"]
+      plugins: ['transform-es2015-modules-commonjs'],
     });
     fs.writeFileSync(file, result.code);
   }

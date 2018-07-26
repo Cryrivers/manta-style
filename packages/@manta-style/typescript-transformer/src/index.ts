@@ -1,15 +1,15 @@
-import * as ts from "typescript";
-import { createTypeAliasDeclaration } from "./utils";
+import * as ts from 'typescript';
+import { createTypeAliasDeclaration } from './utils';
 import {
   MANTASTYLE_RUNTIME_NAME,
   MANTASTYLE_PACKAGE_NAME,
   HELPERS,
-  HELPER_PACKAGE_NAME
-} from "./constants";
+  HELPER_PACKAGE_NAME,
+} from './constants';
 
 export function createTransformer(importHelpers: boolean) {
-  const transformer: ts.TransformerFactory<ts.SourceFile> = context => {
-    const MantaStyleRuntimeTypeVisitor: ts.Visitor = node => {
+  const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
+    const MantaStyleRuntimeTypeVisitor: ts.Visitor = (node) => {
       if (ts.isTypeAliasDeclaration(node)) {
         return createTypeAliasDeclaration(node);
       } else if (ts.isInterfaceDeclaration(node)) {
@@ -19,8 +19,8 @@ export function createTransformer(importHelpers: boolean) {
             node.modifiers,
             node.name,
             node.typeParameters,
-            ts.createTypeLiteralNode(node.members)
-          )
+            ts.createTypeLiteralNode(node.members),
+          ),
         );
       } else if (ts.isImportSpecifier(node)) {
         // Do not erase type import
@@ -33,21 +33,21 @@ export function createTransformer(importHelpers: boolean) {
           node.decorators,
           node.modifiers,
           node.isExportEquals || false,
-          node.expression
+          node.expression,
         );
       }
       return ts.visitEachChild(node, MantaStyleRuntimeTypeVisitor, context);
     };
-    return sourceFile => {
+    return (sourceFile) => {
       const preappendedSource = ts.updateSourceFileNode(sourceFile, [
         ts.createImportDeclaration(
           [],
           [],
           ts.createImportClause(
             ts.createIdentifier(MANTASTYLE_RUNTIME_NAME),
-            undefined
+            undefined,
           ),
-          ts.createLiteral(MANTASTYLE_PACKAGE_NAME)
+          ts.createLiteral(MANTASTYLE_PACKAGE_NAME),
         ),
         ...(importHelpers
           ? [
@@ -57,23 +57,23 @@ export function createTransformer(importHelpers: boolean) {
                 ts.createImportClause(
                   undefined,
                   ts.createNamedImports(
-                    HELPERS.map(item =>
+                    HELPERS.map((item) =>
                       ts.createImportSpecifier(
                         undefined,
-                        ts.createIdentifier(item)
-                      )
-                    )
-                  )
+                        ts.createIdentifier(item),
+                      ),
+                    ),
+                  ),
                 ),
-                ts.createLiteral(HELPER_PACKAGE_NAME)
-              )
+                ts.createLiteral(HELPER_PACKAGE_NAME),
+              ),
             ]
           : []),
-        ...sourceFile.statements
+        ...sourceFile.statements,
       ]);
       const visitedNode = ts.visitNode(
         preappendedSource,
-        MantaStyleRuntimeTypeVisitor
+        MantaStyleRuntimeTypeVisitor,
       );
       return visitedNode;
     };

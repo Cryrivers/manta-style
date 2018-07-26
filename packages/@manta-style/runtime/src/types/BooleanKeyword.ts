@@ -1,5 +1,5 @@
-import { Type } from "../utils/baseType";
-import Literal from "./Literal";
+import { Type } from '../utils/baseType';
+import Literal from './Literal';
 
 export default class BooleanKeyword extends Type {
   public deriveLiteral() {

@@ -1,19 +1,19 @@
-import NumberKeyword from "./types/NumberKeyword";
-import BooleanKeyword from "./types/BooleanKeyword";
-import UndefinedKeyword from "./types/UndefinedKeyword";
-import NullKeyword from "./types/NullKeyword";
-import TypeLiteral from "./types/TypeLiteral";
-import ArrayType from "./types/ArrayType";
-import Literal from "./types/Literal";
-import UnionType from "./types/UnionType";
-import AnyKeyword from "./types/AnyKeyword";
-import NeverKeyword from "./types/NeverKeyword";
-import StringKeyword from "./types/StringKeyword";
-import TypeReference from "./types/TypeReference";
-import TypeAliasDeclaration from "./nodes/TypeAliasDeclaration";
-import ConditionalType from "./types/ConditionalType";
-import KeyOfKeyword from "./types/KeyOfKeyword";
-import { Type, Literals } from "./utils/baseType";
+import NumberKeyword from './types/NumberKeyword';
+import BooleanKeyword from './types/BooleanKeyword';
+import UndefinedKeyword from './types/UndefinedKeyword';
+import NullKeyword from './types/NullKeyword';
+import TypeLiteral from './types/TypeLiteral';
+import ArrayType from './types/ArrayType';
+import Literal from './types/Literal';
+import UnionType from './types/UnionType';
+import AnyKeyword from './types/AnyKeyword';
+import NeverKeyword from './types/NeverKeyword';
+import StringKeyword from './types/StringKeyword';
+import TypeReference from './types/TypeReference';
+import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
+import ConditionalType from './types/ConditionalType';
+import KeyOfKeyword from './types/KeyOfKeyword';
+import { Type, Literals } from './utils/baseType';
 
 class MantaStyle {
   private static typeReferences: { [key: string]: TypeAliasDeclaration } = {};
@@ -33,7 +33,7 @@ class MantaStyle {
   }
   public static TypeAliasDeclaration(
     typeName: string,
-    typeCallback: (currentType: TypeAliasDeclaration) => Type
+    typeCallback: (currentType: TypeAliasDeclaration) => Type,
   ) {
     const newType = new TypeAliasDeclaration(typeName);
     newType.setType(typeCallback(newType));
@@ -60,7 +60,7 @@ class MantaStyle {
     checkType: Type,
     extendsType: Type,
     trueType: Type,
-    falseType: Type
+    falseType: Type,
   ) {
     return new ConditionalType(checkType, extendsType, trueType, falseType);
   }

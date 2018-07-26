@@ -1,6 +1,6 @@
-import { HTTPMethods } from "..";
-import * as fs from "fs";
-import * as path from "path";
+import { HTTPMethods } from '..';
+import * as fs from 'fs';
+import * as path from 'path';
 
 type AnyObject = {
   [key: string]: any;
@@ -29,16 +29,16 @@ export class Snapshot {
       this.stashedSnapshots = {
         ...this.stashedSnapshots,
         [method]: {
-          [url]: payload
-        }
+          [url]: payload,
+        },
       };
     } else {
       this.stashedSnapshots = {
         ...this.stashedSnapshots,
         [method]: {
           ...methodObj,
-          [url]: payload
-        }
+          [url]: payload,
+        },
       };
     }
   }
@@ -54,7 +54,7 @@ export class Snapshot {
     const stashedJsonString = JSON.stringify(
       this.stashedSnapshots,
       undefined,
-      2
+      2,
     );
     fs.writeFileSync(path.resolve(filePath), stashedJsonString);
     this.diskSnapshots = JSON.parse(stashedJsonString);

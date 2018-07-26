@@ -1,17 +1,17 @@
-import { round } from "lodash-es";
-import * as faker from "faker";
-import { Type, Annotation } from "../utils/baseType";
+import { round } from 'lodash-es';
+import * as faker from 'faker';
+import { Type, Annotation } from '../utils/baseType';
 import {
   getNumberFromAnnotationKey,
-  findAnnotation
-} from "../utils/annotation";
-import Literal from "./Literal";
+  findAnnotation,
+} from '../utils/annotation';
+import Literal from './Literal';
 
 const DEFAULT_PRECISION = 0;
 
 function getPrecision(
   integerAnnotation?: Annotation,
-  precisionAnnotation?: Annotation
+  precisionAnnotation?: Annotation,
 ) {
   if (integerAnnotation) {
     return 0;
@@ -26,26 +26,26 @@ function getTimestamp(date: Date) {
 }
 
 function getNumberLiteral(annotations?: Annotation[]) {
-  const integerAnnotation = findAnnotation("integer", annotations);
-  const precisionAnnotation = findAnnotation("precision", annotations);
-  const timestampAnnotation = findAnnotation("timestamp", annotations);
+  const integerAnnotation = findAnnotation('integer', annotations);
+  const precisionAnnotation = findAnnotation('precision', annotations);
+  const timestampAnnotation = findAnnotation('timestamp', annotations);
   const precision = getPrecision(integerAnnotation, precisionAnnotation);
   const exampleAnnotations = getNumberFromAnnotationKey({
-    key: "example",
+    key: 'example',
     precision,
-    annotations
+    annotations,
   });
   if (timestampAnnotation) {
     switch (timestampAnnotation.value) {
-      case "past":
+      case 'past':
         return getTimestamp(faker.date.past());
-      case "future":
+      case 'future':
         return getTimestamp(faker.date.future());
       default:
         return getTimestamp(faker.date.recent());
     }
   }
-  return typeof exampleAnnotations !== "undefined"
+  return typeof exampleAnnotations !== 'undefined'
     ? exampleAnnotations
     : round(Math.random() * 100, precision);
 }

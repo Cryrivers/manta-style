@@ -6,7 +6,7 @@ export type Annotation = {
 export abstract class Type {
   abstract deriveLiteral(annotations?: Annotation[]): Type;
   public mock(): any {
-    throw new Error("Literal types should be derived before mock.");
+    throw new Error('Literal types should be derived before mock.');
   }
 }
 
@@ -19,7 +19,7 @@ export type Property = {
 
 export const enum ComputedPropertyOperator {
   INDEX_SIGNATURE = 0,
-  IN_KEYWORD = 1
+  IN_KEYWORD = 1,
 }
 
 export type ComputedProperty = Property & {

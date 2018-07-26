@@ -1,4 +1,4 @@
-import { Type } from "./baseType";
+import { Type } from './baseType';
 
 export class ErrorType extends Type {
   private message: string;

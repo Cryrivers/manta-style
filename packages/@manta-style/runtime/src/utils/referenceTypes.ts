@@ -1,7 +1,7 @@
-import TypeReference from "../types/TypeReference";
-import TypeAliasDeclaration from "../nodes/TypeAliasDeclaration";
-import { Type } from "./baseType";
-import TypeParameter from "../nodes/TypeParameter";
+import TypeReference from '../types/TypeReference';
+import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
+import { Type } from './baseType';
+import TypeParameter from '../nodes/TypeParameter';
 
 export function resolveReferencedType(type: Type): Type {
   let actualType = type;
@@ -17,7 +17,7 @@ export function resolveReferencedType(type: Type): Type {
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();
     } else {
-      throw new Error("Something bad happens :(");
+      throw new Error('Something bad happens :(');
     }
   }
   return actualType;

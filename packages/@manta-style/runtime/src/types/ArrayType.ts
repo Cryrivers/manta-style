@@ -1,6 +1,6 @@
-import { Type, Annotation } from "../utils/baseType";
-import { getNumberFromAnnotationKey } from "../utils/annotation";
-import ArrayLiteral from "./ArrayLiteral";
+import { Type, Annotation } from '../utils/baseType';
+import { getNumberFromAnnotationKey } from '../utils/annotation';
+import ArrayLiteral from './ArrayLiteral';
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -11,12 +11,12 @@ export default class ArrayType extends Type {
   public deriveLiteral(annotations?: Annotation[]) {
     const array: Type[] = [];
     const lengthFromJSDoc = getNumberFromAnnotationKey({
-      key: "length",
+      key: 'length',
       precision: 0,
-      annotations
+      annotations,
     });
     const length =
-      typeof lengthFromJSDoc !== "undefined"
+      typeof lengthFromJSDoc !== 'undefined'
         ? lengthFromJSDoc
         : Math.floor(Math.random() * 5) + 1;
 

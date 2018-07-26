@@ -1,15 +1,15 @@
-import { Type } from "../utils/baseType";
-import { sample } from "lodash-es";
-import NeverKeyword from "./NeverKeyword";
+import { Type } from '../utils/baseType';
+import { sample } from 'lodash-es';
+import NeverKeyword from './NeverKeyword';
 
 export default class UnionType extends Type {
   private types: Type[] = [];
   constructor(types: Type[]) {
     super();
-    this.types = types.filter(type => !(type instanceof NeverKeyword));
+    this.types = types.filter((type) => !(type instanceof NeverKeyword));
   }
   public deriveLiteral() {
-    const derivedTypes = this.types.map(type => type.deriveLiteral());
+    const derivedTypes = this.types.map((type) => type.deriveLiteral());
     return new UnionType(derivedTypes);
   }
   public mock() {
@@ -17,7 +17,7 @@ export default class UnionType extends Type {
     if (chosenType) {
       return chosenType.mock();
     }
-    throw Error("Something bad happens :(");
+    throw Error('Something bad happens :(');
   }
   public getTypes(): Type[] {
     return this.types;

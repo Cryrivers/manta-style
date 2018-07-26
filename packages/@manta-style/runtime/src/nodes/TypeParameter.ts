@@ -1,5 +1,5 @@
-import { Type } from "../utils/baseType";
-import { ErrorType } from "../utils/pseudoTypes";
+import { Type } from '../utils/baseType';
+import { ErrorType } from '../utils/pseudoTypes';
 
 export default class TypeParameter extends Type {
   private name: string;
@@ -7,7 +7,7 @@ export default class TypeParameter extends Type {
   constructor(name: string) {
     super();
     this.actualType = new ErrorType(
-      `Generic type parameter "${name}" have not been initialized. `
+      `Generic type parameter "${name}" have not been initialized. `,
     );
     this.name = name;
   }
