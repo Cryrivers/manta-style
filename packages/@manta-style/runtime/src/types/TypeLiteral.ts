@@ -28,7 +28,7 @@ export default class TypeLiteral extends Type {
   ) {
     this.properties.push({
       name,
-      type,
+      type: resolveReferencedType(type),
       questionMark,
       annotations,
     });
@@ -43,8 +43,8 @@ export default class TypeLiteral extends Type {
   ) {
     this.computedProperties.push({
       name,
-      keyType,
-      type,
+      keyType: resolveReferencedType(keyType),
+      type: resolveReferencedType(type),
       operator,
       questionMark,
       annotations,
@@ -108,17 +108,11 @@ export default class TypeLiteral extends Type {
         const subTypeLiteral = new TypeLiteral();
         // TODO: Correct annotation
         typeLiteral.property(name, subTypeLiteral, false, []);
-        const actualType = resolveReferencedType(keyType);
-        if (
-          actualType instanceof KeyOfKeyword ||
-          actualType instanceof UnionType
-        ) {
+        if (keyType instanceof KeyOfKeyword || keyType instanceof UnionType) {
           const keys =
-            actualType instanceof KeyOfKeyword
-              ? actualType.getKeys()
-              : actualType
-                  .getTypes()
-                  .map((type) => type.deriveLiteral().mock());
+            keyType instanceof KeyOfKeyword
+              ? keyType.getKeys()
+              : keyType.getTypes().map((type) => type.deriveLiteral().mock());
           for (const key of keys) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
             if (chance > 0.5) {
@@ -133,7 +127,7 @@ export default class TypeLiteral extends Type {
             }
           }
         } else {
-          console.log(actualType);
+          console.log(keyType);
           throw new Error(`Unsupported Type after keyword "in"`);
         }
       }
