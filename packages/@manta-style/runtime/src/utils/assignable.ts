@@ -7,6 +7,7 @@ import StringKeyword from '../types/StringKeyword';
 import BooleanKeyword from '../types/BooleanKeyword';
 import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
+import IntersectionType from '../types/IntersectionType';
 
 export function isAssignable(typeS: Type, typeT: Type): boolean {
   const S = resolveReferencedType(typeS);
@@ -46,13 +47,15 @@ export function isAssignable(typeS: Type, typeT: Type): boolean {
   } else if (S instanceof UnionType) {
     // - S is a union type and each constituent type of S is assignable to T
     return S.getTypes().every((type) => isAssignable(type, T));
-  } else if (false /* TODO: Implement intersection type first */) {
+  } else if (S instanceof IntersectionType) {
     // - S is an intersection type and at least one constituent type of S is assignable to T.
+    return S.getTypes().some((type) => isAssignable(type, T));
   } else if (T instanceof UnionType) {
     // - T is a union type and S is assignable to at least one constituent type of T
     return T.getTypes().some((type) => isAssignable(S, type));
-  } else if (false /* TODO: Implement intersection type first */) {
+  } else if (T instanceof IntersectionType) {
     // - T is an intersection type and S is assignable to each constituent type of T.
+    return T.getTypes().every((type) => isAssignable(S, type));
   } else if (S instanceof TypeLiteral && T instanceof TypeLiteral) {
     // - S is an object type, an intersection type, an enum type, or the Number, Boolean, or String
     // primitive type, T is an object type, and for each member M in T, one of the following is true:
