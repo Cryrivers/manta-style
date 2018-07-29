@@ -5,18 +5,34 @@ import { resolveReferencedType } from '../utils/referenceTypes';
 
 export default class UnionType extends Type {
   private types: Type[] = [];
-  constructor(types: Type[]) {
+  private chosenType?: Type;
+  constructor(types: Type[], chosenType?: Type) {
     super();
-    this.types = types
-      .map(resolveReferencedType)
-      .filter((type) => !(type instanceof NeverKeyword));
+    this.types = types;
+    this.chosenType = chosenType;
   }
   public deriveLiteral() {
-    const derivedTypes = this.types.map((type) => type.deriveLiteral());
-    return new UnionType(derivedTypes);
+    const { chosenType } = this;
+    if (chosenType) {
+      return chosenType;
+    } else {
+      const { chosenType } = this.derivePreservedUnionLiteral();
+      if (chosenType) {
+        return chosenType;
+      }
+      throw Error('Something bad happens :(');
+    }
+  }
+  public derivePreservedUnionLiteral() {
+    const derivedTypes = this.types
+      .map(resolveReferencedType)
+      .filter((type) => !(type instanceof NeverKeyword))
+      .map((type) => type.deriveLiteral());
+    const chosenType = sample(derivedTypes);
+    return new UnionType(derivedTypes, chosenType);
   }
   public mock() {
-    const chosenType = sample(this.types);
+    const { chosenType } = this;
     if (chosenType) {
       return chosenType.mock();
     }

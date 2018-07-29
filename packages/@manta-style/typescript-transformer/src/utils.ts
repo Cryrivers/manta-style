@@ -35,6 +35,7 @@ export function createConstVariableStatement(
 export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
   const name = node.name.getText();
   const typeParameters = node.typeParameters || ts.createNodeArray();
+  const jsdocTags = ts.getJSDocTags(node);
   const varCreation = createConstVariableStatement(
     name,
     createRuntimeFunctionCall('TypeAliasDeclaration', [
@@ -67,6 +68,7 @@ export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
           true,
         ),
       ),
+      generateJSDocParam(jsdocTags),
     ]),
   );
   const registerToRuntime = createRuntimeFunctionCall('_registerType', [

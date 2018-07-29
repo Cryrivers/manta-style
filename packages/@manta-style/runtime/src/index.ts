@@ -13,7 +13,7 @@ import TypeReference from './types/TypeReference';
 import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
 import ConditionalType from './types/ConditionalType';
 import KeyOfKeyword from './types/KeyOfKeyword';
-import { Type, Literals } from './utils/baseType';
+import { Type, Literals, Annotation } from './utils/baseType';
 
 class MantaStyle {
   private static typeReferences: { [key: string]: TypeAliasDeclaration } = {};
@@ -34,8 +34,9 @@ class MantaStyle {
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
+    annotations: Annotation[],
   ) {
-    const newType = new TypeAliasDeclaration(typeName);
+    const newType = new TypeAliasDeclaration(typeName, annotations);
     newType.setType(typeCallback(newType));
     return newType;
   }
