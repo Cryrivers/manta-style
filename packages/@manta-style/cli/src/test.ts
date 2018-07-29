@@ -1,10 +1,9 @@
 type A = 'a' | 'b' | 'c' | 'd' | 'e';
 
-type Test<T extends boolean> = {
-  value: T;
-  obj: T extends true ? { nice: string } : never;
-  aaa: Exclude<A, 'd' | 'e'>;
+type Test<T extends boolean, X extends number> = {
+  x: X;
+  bbb: X extends 0 ? 'nil' : 'has';
 };
 export type GET = {
-  '/': Test<boolean>;
+  '/': Test<boolean, 0 | 1>;
 };

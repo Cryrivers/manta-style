@@ -15,10 +15,10 @@ export default class ConditionalType extends Type {
     falseType: Type,
   ) {
     super();
-    this.checkType = resolveReferencedType(checkType);
-    this.extendsType = resolveReferencedType(extendsType);
-    this.trueType = resolveReferencedType(trueType);
-    this.falseType = resolveReferencedType(falseType);
+    this.checkType = checkType;
+    this.extendsType = extendsType;
+    this.trueType = trueType;
+    this.falseType = falseType;
   }
   public deriveLiteral(annotations?: Annotation[]) {
     /*
@@ -28,7 +28,15 @@ export default class ConditionalType extends Type {
       A conditional types distributes over a union type with the following distribution law:
       (A | B) extends T ? X : U = (A extends T ? X : U) | (B extends T ? X : U)
     */
-    const { checkType, extendsType, trueType, falseType } = this;
+    const {
+      checkType: maybeReferencedCheckType,
+      extendsType,
+      trueType: maybeReferencedTrueType,
+      falseType: maybeReferencedFalseType,
+    } = this;
+    const checkType = resolveReferencedType(maybeReferencedCheckType);
+    const trueType = resolveReferencedType(maybeReferencedTrueType);
+    const falseType = resolveReferencedType(maybeReferencedFalseType);
     if (checkType instanceof UnionType) {
       const resolvedType = new UnionType(
         checkType
