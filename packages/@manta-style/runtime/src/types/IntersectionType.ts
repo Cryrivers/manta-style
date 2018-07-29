@@ -32,12 +32,14 @@ export default class IntersectionType extends Type {
   private types: Type[];
   constructor(types: Type[]) {
     super();
-    this.types = types.map(resolveReferencedType);
+    this.types = types;
   }
   public deriveLiteral() {
-    const reducedType = this.types.reduce((previousType, currentType) =>
-      intersection(previousType, currentType),
-    );
+    const reducedType = this.types
+      .map(resolveReferencedType)
+      .reduce((previousType, currentType) =>
+        intersection(previousType, currentType),
+      );
     return reducedType.deriveLiteral();
   }
   public getTypes() {

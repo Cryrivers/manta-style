@@ -3,6 +3,13 @@ import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
 import { Type } from './baseType';
 import TypeParameter from '../nodes/TypeParameter';
 
+/**
+ * @description
+ * Get the actual type a TypeReference, TypeAliasDeclaration
+ * or TypeParameter (generic type) refers to. It can only be used
+ * in `deriveLiteral` methods.
+ * @param type Type to be resolved
+ */
 export function resolveReferencedType(type: Type): Type {
   let actualType = type;
   while (
