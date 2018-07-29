@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/cli",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "A command line tool for Manta Style",
   "author": {
     "name": "Zhongliang Wang",
@@ -30,9 +30,9 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
-    "@manta-style/runtime": "^0.0.8",
-    "@manta-style/typescript-builder": "^0.0.13",
-    "@manta-style/typescript-helpers": "^0.0.1",
+    "@manta-style/runtime": "^0.0.9",
+    "@manta-style/typescript-builder": "^0.0.14",
+    "@manta-style/typescript-helpers": "^0.0.2",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
     "cli-table": "^0.3.1",
