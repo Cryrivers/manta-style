@@ -1,6 +1,9 @@
 import TypeParameter from './TypeParameter';
-import { Type } from '../utils/baseType';
+import { Type, Annotation } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
+import { findAnnotation } from '../utils/annotation';
+import { resolveReferencedType } from '../utils/referenceTypes';
+import UnionType from '../types/UnionType';
 
 export default class TypeAliasDeclaration extends Type {
   private name: string;
@@ -8,9 +11,11 @@ export default class TypeAliasDeclaration extends Type {
   private type: Type = new ErrorType(
     `TypeAliasDeclaration "${this.name}" hasn't been initialized.`,
   );
-  constructor(name: string) {
+  private annotations: Annotation[];
+  constructor(name: string, annotations: Annotation[]) {
     super();
     this.name = name;
+    this.annotations = annotations;
   }
   public TypeParameter(name: string) {
     const newTypeParam = new TypeParameter(name);
@@ -18,8 +23,16 @@ export default class TypeAliasDeclaration extends Type {
     return newTypeParam;
   }
   public argumentTypes(types: Type[]) {
+    const preserveUnionType = findAnnotation('preserveUnion', this.annotations);
     for (let i = 0; i < types.length; i++) {
-      this.typeParameters[i].setActualType(types[i].deriveLiteral());
+      const type = resolveReferencedType(types[i]);
+      if (type instanceof UnionType && preserveUnionType) {
+        this.typeParameters[i].setActualType(
+          type.derivePreservedUnionLiteral(),
+        );
+      } else {
+        this.typeParameters[i].setActualType(type.deriveLiteral());
+      }
     }
     return this;
   }
