@@ -86,6 +86,7 @@ function buildEndpoints(method: HTTPMethods) {
       ]);
       app[method](endpoint.name, (req, res) => {
         const { query } = req;
+        const queryString = qs.stringify(query);
         MantaStyle.clearQueryTypes();
         if (typeof query === 'object') {
           Object.keys(query).forEach((key) => {
@@ -98,14 +99,14 @@ function buildEndpoints(method: HTTPMethods) {
           const snapshotData = snapshot.fetchSnapshot(
             method,
             endpoint.name,
-            qs.stringify(req.query),
+            queryString,
           );
           if (snapshotData) {
             res.send(snapshotData);
             return;
           }
         }
-        snapshot.updateSnapshot(method, endpoint.name, mockData);
+        snapshot.updateSnapshot(method, endpoint.name, queryString, mockData);
         res.send(mockData);
       });
     }
