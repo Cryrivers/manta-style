@@ -6,6 +6,9 @@ export default class ArrayLiteral extends Type {
     super();
     this.elements = elements;
   }
+  public getElements() {
+    return this.elements;
+  }
   public deriveLiteral() {
     return this;
   }

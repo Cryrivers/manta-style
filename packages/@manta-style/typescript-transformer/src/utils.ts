@@ -1,5 +1,6 @@
 import * as ts from 'typescript';
 import { MANTASTYLE_RUNTIME_NAME } from './constants';
+import { isOptionalType, isRestType } from './typescript';
 
 /*
 type X = {
@@ -365,6 +366,22 @@ export function createMantaStyleRuntimeObject(
     return createLiteralType(node);
   } else if (ts.isArrayTypeNode(node)) {
     return createArrayType(node, typeParameters);
+  } else if (ts.isTupleTypeNode(node)) {
+    return createRuntimeFunctionCall('TupleType', [
+      ts.createArrayLiteral(
+        node.elementTypes.map((type) =>
+          createMantaStyleRuntimeObject(type, typeParameters),
+        ),
+      ),
+    ]);
+  } else if (isOptionalType(node)) {
+    return createRuntimeFunctionCall('OptionalType', [
+      createMantaStyleRuntimeObject(node.type, typeParameters),
+    ]);
+  } else if (isRestType(node) && ts.isArrayTypeNode(node.type)) {
+    return createRuntimeFunctionCall('RestType', [
+      createMantaStyleRuntimeObject(node.type.elementType, typeParameters),
+    ]);
   } else if (ts.isConditionalTypeNode(node)) {
     return createRuntimeFunctionCall('ConditionalType', [
       createMantaStyleRuntimeObject(node.checkType, typeParameters),

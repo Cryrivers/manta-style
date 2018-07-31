@@ -13,8 +13,11 @@ import TypeReference from './types/TypeReference';
 import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
 import ConditionalType from './types/ConditionalType';
 import KeyOfKeyword from './types/KeyOfKeyword';
-import { Type, Literals, Annotation } from './utils/baseType';
 import ArrayLiteral from './types/ArrayLiteral';
+import TupleType from './types/TupleType';
+import RestType from './types/RestType';
+import OptionalType from './types/OptionalType';
+import { Type, Literals, Annotation } from './utils/baseType';
 
 export const URL_QUERY_TYPE_PREFIX = '@@URLQuery/';
 
@@ -82,6 +85,15 @@ class MantaStyle {
   }
   public static ArrayType(elementType: Type) {
     return new ArrayType(elementType);
+  }
+  public static TupleType(elementTypes: Type[]) {
+    return new TupleType(elementTypes);
+  }
+  public static RestType(elementType: Type) {
+    return new RestType(elementType);
+  }
+  public static OptionalType(type: Type) {
+    return new OptionalType(type);
   }
   public static TypeReference(referenceName: string) {
     return new TypeReference(referenceName);
