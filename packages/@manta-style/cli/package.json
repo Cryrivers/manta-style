@@ -27,7 +27,8 @@
     "@types/express": "^4.16.0",
     "@types/find-root": "^1.1.1",
     "@types/log-update": "^2.0.0",
-    "typescript": "^2.9.2"
+    "@types/query-string": "^6.1.0",
+    "typescript": "^3.0.1"
   },
   "dependencies": {
     "@manta-style/runtime": "^0.0.9",
@@ -39,6 +40,7 @@
     "commander": "^2.16.0",
     "express": "^4.16.3",
     "find-root": "^1.1.0",
-    "log-update": "^2.3.0"
+    "log-update": "^2.3.0",
+    "query-string": "^6.1.0"
   }
 }

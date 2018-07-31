@@ -14,22 +14,51 @@ import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
 import ConditionalType from './types/ConditionalType';
 import KeyOfKeyword from './types/KeyOfKeyword';
 import { Type, Literals, Annotation } from './utils/baseType';
+import ArrayLiteral from './types/ArrayLiteral';
+
+export const URL_QUERY_TYPE_PREFIX = '@@URLQuery/';
 
 class MantaStyle {
   private static typeReferences: { [key: string]: TypeAliasDeclaration } = {};
-  public static _registerType(name: string, type: TypeAliasDeclaration) {
+  public static registerType(name: string, type: TypeAliasDeclaration) {
     if (MantaStyle.typeReferences[name]) {
       throw new Error(`Type "${name}" has already been registered.`);
     } else {
       MantaStyle.typeReferences[name] = type;
     }
   }
-  public static _referenceType(name: string): TypeAliasDeclaration {
+  public static referenceType(name: string): TypeAliasDeclaration {
     if (!MantaStyle.typeReferences[name]) {
+      if (name.startsWith(URL_QUERY_TYPE_PREFIX)) {
+        return MantaStyle.TypeAliasDeclaration(
+          `Anonymous "Never" Type Alias`,
+          () => MantaStyle.NeverKeyword,
+          [],
+        );
+      }
       throw new Error(`Type "${name}" hasn't been registered yet.`);
     } else {
       return MantaStyle.typeReferences[name];
     }
+  }
+  public static clearQueryTypes() {
+    Object.keys(MantaStyle.typeReferences).forEach((key) => {
+      if (key.startsWith(URL_QUERY_TYPE_PREFIX)) {
+        delete MantaStyle.typeReferences[key];
+      }
+    });
+  }
+  public static createTypeByQuery(key: string, value: string | string[]) {
+    let type: Type;
+    if (Array.isArray(value)) {
+      type = new ArrayLiteral(value.map((item) => new Literal(item)));
+    } else {
+      type = new Literal(value);
+    }
+    MantaStyle.registerType(
+      `${URL_QUERY_TYPE_PREFIX}${key}`,
+      MantaStyle.TypeAliasDeclaration(`"${key}" in query`, () => type, []),
+    );
   }
   public static TypeAliasDeclaration(
     typeName: string,
