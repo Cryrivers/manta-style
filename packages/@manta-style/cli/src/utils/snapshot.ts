@@ -23,13 +23,13 @@ export class Snapshot {
     this.diskSnapshots = JSON.parse(content.toString());
     this.stashedSnapshots = JSON.parse(content.toString());
   }
-  public updateSnapshot(method: HTTPMethods, url: string, payload: any) {
+  public updateSnapshot(method: HTTPMethods, url: string, query: string, payload: any) {
     const methodObj = this.stashedSnapshots[method];
     if (!methodObj) {
       this.stashedSnapshots = {
         ...this.stashedSnapshots,
         [method]: {
-          [url]: payload,
+          [url + query]: payload,
         },
       };
     } else {
