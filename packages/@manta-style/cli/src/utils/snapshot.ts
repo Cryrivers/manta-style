@@ -42,9 +42,9 @@ export class Snapshot {
       };
     }
   }
-  public fetchSnapshot(method: HTTPMethods, url: string) {
+  public fetchSnapshot(method: HTTPMethods, url: string, query: string) {
     const methodObj = this.diskSnapshots[method];
-    return methodObj && methodObj[url];
+    return methodObj && methodObj[url + query];
   }
   public clearSnapshot() {
     this.stashedSnapshots = {};

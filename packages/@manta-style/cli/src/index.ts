@@ -9,6 +9,8 @@ import Table = require('cli-table');
 import * as logUpdate from 'log-update';
 import chalk from 'chalk';
 import * as chokidar from 'chokidar';
+import * as qs from 'query-string';
+import MantaStyle from '@manta-style/runtime';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -67,7 +69,7 @@ const compiledFilePath = builder.build(
 
 let isSnapshotMode = Boolean(useSnapshot);
 const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
-const compileConfig = require(compiledFilePath);
+const compileConfig = require(compiledFilePath || '');
 
 snapshotWatcher.on('change', () => {
   snapshot.reloadFromFile(snapshotFilePath);
@@ -83,10 +85,21 @@ function buildEndpoints(method: HTTPMethods) {
         `http://localhost:${port || 3000}${endpoint.name}`,
       ]);
       app[method](endpoint.name, (req, res) => {
+        const { query } = req;
+        MantaStyle.clearQueryTypes();
+        if (typeof query === 'object') {
+          Object.keys(query).forEach((key) => {
+            MantaStyle.createTypeByQuery(key, query[key]);
+          });
+        }
         const literalType = endpoint.type.deriveLiteral();
         const mockData = literalType.mock();
         if (isSnapshotMode) {
-          const snapshotData = snapshot.fetchSnapshot(method, endpoint.name);
+          const snapshotData = snapshot.fetchSnapshot(
+            method,
+            endpoint.name,
+            qs.stringify(req.query),
+          );
           if (snapshotData) {
             res.send(snapshotData);
             return;

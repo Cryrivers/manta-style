@@ -71,7 +71,7 @@ export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
       generateJSDocParam(jsdocTags),
     ]),
   );
-  const registerToRuntime = createRuntimeFunctionCall('_registerType', [
+  const registerToRuntime = createRuntimeFunctionCall('registerType', [
     ts.createStringLiteral(name),
     ts.createIdentifier(name),
   ]);
@@ -317,6 +317,20 @@ function createTypeReference(
   typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>,
 ): ts.Expression {
   const typeName = node.typeName.getText();
+  // Magic type to convert query string to types
+  if (typeName === 'unstable_Query' && node.typeArguments) {
+    const queryKey = node.typeArguments[0];
+    if (
+      ts.isLiteralTypeNode(queryKey) &&
+      ts.isStringLiteral(queryKey.literal)
+    ) {
+      return createRuntimeFunctionCall('TypeReference', [
+        ts.createStringLiteral(`@@URLQuery/${queryKey.literal.text}`),
+      ]);
+    } else {
+      throw Error('key in unstable_Query is not a string literal.');
+    }
+  }
   const typeReferenceNode = isGenericTypeReference(typeName, typeParameters)
     ? ts.createIdentifier(typeName)
     : createRuntimeFunctionCall('TypeReference', [
