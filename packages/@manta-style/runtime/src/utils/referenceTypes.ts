@@ -2,6 +2,7 @@ import TypeReference from '../types/TypeReference';
 import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
 import { Type } from './baseType';
 import TypeParameter from '../nodes/TypeParameter';
+import KeyOfKeyword from '../types/KeyOfKeyword';
 
 /**
  * @description
@@ -15,7 +16,8 @@ export function resolveReferencedType(type: Type): Type {
   while (
     actualType instanceof TypeReference ||
     actualType instanceof TypeAliasDeclaration ||
-    actualType instanceof TypeParameter
+    actualType instanceof TypeParameter ||
+    actualType instanceof KeyOfKeyword
   ) {
     if (actualType instanceof TypeReference) {
       actualType = actualType.getActualType();
@@ -23,6 +25,8 @@ export function resolveReferencedType(type: Type): Type {
       actualType = actualType.getType();
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();
+    } else if (actualType instanceof KeyOfKeyword) {
+      actualType = actualType.deriveLiteral();
     } else {
       throw new Error('Something bad happens :(');
     }

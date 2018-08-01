@@ -78,7 +78,9 @@ snapshotWatcher.on('change', () => {
 function buildEndpoints(method: HTTPMethods) {
   const methodTypeDef = compileConfig[method.toUpperCase()];
   if (methodTypeDef) {
-    const endpoints = methodTypeDef.getType()._getProperties();
+    const endpoints = methodTypeDef()
+      .getType()
+      ._getProperties();
     for (const endpoint of endpoints) {
       table.push([
         method.toUpperCase(),

@@ -23,13 +23,18 @@ export class Snapshot {
     this.diskSnapshots = JSON.parse(content.toString());
     this.stashedSnapshots = JSON.parse(content.toString());
   }
-  public updateSnapshot(method: HTTPMethods, url: string, query: string, payload: any) {
+  public updateSnapshot(
+    method: HTTPMethods,
+    url: string,
+    query: string,
+    payload: any,
+  ) {
     const methodObj = this.stashedSnapshots[method];
     if (!methodObj) {
       this.stashedSnapshots = {
         ...this.stashedSnapshots,
         [method]: {
-          [url + query]: payload,
+          [url + '?' + query]: payload,
         },
       };
     } else {
@@ -37,14 +42,14 @@ export class Snapshot {
         ...this.stashedSnapshots,
         [method]: {
           ...methodObj,
-          [url]: payload,
+          [url + '?' + query]: payload,
         },
       };
     }
   }
   public fetchSnapshot(method: HTTPMethods, url: string, query: string) {
     const methodObj = this.diskSnapshots[method];
-    return methodObj && methodObj[url + query];
+    return methodObj && methodObj[url + '?' + query];
   }
   public clearSnapshot() {
     this.stashedSnapshots = {};

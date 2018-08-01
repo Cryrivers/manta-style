@@ -1,8 +1,10 @@
 import MantaStyle from '../index';
 import { Type } from '../utils/baseType';
+import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
 
 export default class TypeReference extends Type {
   private referenceName: string;
+  private referencedType?: TypeAliasDeclaration;
   private deferredArgumentedTypes: Type[] = [];
   constructor(referenceName: string) {
     super();
@@ -16,9 +18,13 @@ export default class TypeReference extends Type {
     return this.getActualType().deriveLiteral();
   }
   public getActualType() {
-    // Evaluate Generics
-    const actualType = MantaStyle.referenceType(this.referenceName);
-    actualType.argumentTypes(this.deferredArgumentedTypes);
-    return actualType;
+    if (!this.referencedType || this.referenceName.startsWith('@@URLQuery/')) {
+      this.referencedType = MantaStyle.referenceType(this.referenceName);
+      this.referencedType.argumentTypes(this.deferredArgumentedTypes);
+    } else {
+      // Same as above line, but made TypeScript happy
+      this.referencedType.argumentTypes(this.deferredArgumentedTypes);
+    }
+    return this.referencedType;
   }
 }
