@@ -17,13 +17,18 @@ import ArrayLiteral from './types/ArrayLiteral';
 import TupleType from './types/TupleType';
 import RestType from './types/RestType';
 import OptionalType from './types/OptionalType';
+import IndexedAccessType from './types/IndexedAccessType';
+import MappedType from './types/MappedType';
 import { Type, Literals, Annotation } from './utils/baseType';
 
 export const URL_QUERY_TYPE_PREFIX = '@@URLQuery/';
 
+type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 class MantaStyle {
-  private static typeReferences: { [key: string]: TypeAliasDeclaration } = {};
-  public static registerType(name: string, type: TypeAliasDeclaration) {
+  private static typeReferences: {
+    [key: string]: TypeAliasDeclarationFactory;
+  } = {};
+  public static registerType(name: string, type: TypeAliasDeclarationFactory) {
     if (MantaStyle.typeReferences[name]) {
       throw new Error(`Type "${name}" has already been registered.`);
     } else {
@@ -41,7 +46,7 @@ class MantaStyle {
       }
       throw new Error(`Type "${name}" hasn't been registered yet.`);
     } else {
-      return MantaStyle.typeReferences[name];
+      return MantaStyle.typeReferences[name]();
     }
   }
   public static clearQueryTypes() {
@@ -58,8 +63,7 @@ class MantaStyle {
     } else {
       type = new Literal(value);
     }
-    MantaStyle.registerType(
-      `${URL_QUERY_TYPE_PREFIX}${key}`,
+    MantaStyle.registerType(`${URL_QUERY_TYPE_PREFIX}${key}`, () =>
       MantaStyle.TypeAliasDeclaration(`"${key}" in query`, () => type, []),
     );
   }
@@ -76,6 +80,14 @@ class MantaStyle {
     const newType = new TypeLiteral();
     typeCallback(newType);
     return newType;
+  }
+  public static MappedType(typeCallback: (currentType: MappedType) => Type) {
+    const newType = new MappedType();
+    newType.setType(typeCallback(newType));
+    return newType;
+  }
+  public static IndexedAccessType(objectType: Type, indexType: Type) {
+    return new IndexedAccessType(objectType, indexType);
   }
   public static UnionType(types: Type[]) {
     return new UnionType(types);

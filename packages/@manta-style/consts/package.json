@@ -1,0 +1,22 @@
+{
+  "name": "@manta-style/consts",
+  "version": "0.0.0",
+  "description": "Manta Style Common Constants for TypeScript",
+  "main": "./src/index.ts",
+  "author": {
+    "name": "Zhongliang Wang",
+    "email": "zwang@rebelworks.io",
+    "url": "https://github.com/Cryrivers"
+  },
+  "scripts": {
+    "build": "echo 'no need to build'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/manta-style"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  }
+}

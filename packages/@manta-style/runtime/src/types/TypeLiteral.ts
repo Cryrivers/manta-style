@@ -54,15 +54,12 @@ export default class TypeLiteral extends Type {
     const typeLiteral = new TypeLiteral();
 
     for (const property of this.properties) {
-      const chance = property.questionMark ? Math.random() : 1;
-      if (chance > 0.5) {
-        typeLiteral.property(
-          property.name,
-          property.type.deriveLiteral(property.annotations),
-          false,
-          property.annotations,
-        );
-      }
+      typeLiteral.property(
+        property.name,
+        property.type.deriveLiteral(property.annotations),
+        property.questionMark,
+        property.annotations,
+      );
     }
 
     // Enumerate IndexSignatures
@@ -143,7 +140,8 @@ export default class TypeLiteral extends Type {
   public mock() {
     const obj: AnyObject = {};
     for (const property of this.properties) {
-      if (!(property.type instanceof NeverKeyword)) {
+      const chance = property.questionMark ? Math.random() : 1;
+      if (!(property.type instanceof NeverKeyword) && chance > 0.5) {
         obj[property.name] = property.type.mock();
       }
     }

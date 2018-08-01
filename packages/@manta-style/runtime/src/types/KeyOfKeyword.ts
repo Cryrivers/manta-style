@@ -2,6 +2,7 @@ import TypeLiteral from './TypeLiteral';
 import UnionType from './UnionType';
 import Literal from './Literal';
 import { Type } from '../utils/baseType';
+import { resolveReferencedType } from '../utils/referenceTypes';
 
 export default class KeyOfKeyword extends Type {
   private type: Type;
@@ -10,7 +11,8 @@ export default class KeyOfKeyword extends Type {
     this.type = type;
   }
   public getKeys(): string[] {
-    const { type } = this;
+    const { type: maybeReferencedType } = this;
+    const type = resolveReferencedType(maybeReferencedType);
     if (type instanceof TypeLiteral) {
       return type.getKeys();
     } else {
