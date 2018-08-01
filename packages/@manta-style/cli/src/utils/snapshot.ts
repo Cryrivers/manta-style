@@ -8,6 +8,10 @@ type AnyObject = {
 
 type SnapshotStructure = { [key in HTTPMethods]?: AnyObject };
 
+function snapshotKey(url: string, query: string) {
+  return `${url}?${query}`;
+}
+
 export class Snapshot {
   private diskSnapshots: SnapshotStructure = {};
   private stashedSnapshots: SnapshotStructure = {};
@@ -34,7 +38,7 @@ export class Snapshot {
       this.stashedSnapshots = {
         ...this.stashedSnapshots,
         [method]: {
-          [url + '?' + query]: payload,
+          [snapshotKey(url, query)]: payload,
         },
       };
     } else {
@@ -42,14 +46,14 @@ export class Snapshot {
         ...this.stashedSnapshots,
         [method]: {
           ...methodObj,
-          [url + '?' + query]: payload,
+          [snapshotKey(url, query)]: payload,
         },
       };
     }
   }
   public fetchSnapshot(method: HTTPMethods, url: string, query: string) {
     const methodObj = this.diskSnapshots[method];
-    return methodObj && methodObj[url + '?' + query];
+    return methodObj && methodObj[snapshotKey(url, query)];
   }
   public clearSnapshot() {
     this.stashedSnapshots = {};
