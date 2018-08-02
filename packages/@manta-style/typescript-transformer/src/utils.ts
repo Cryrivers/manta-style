@@ -1,7 +1,7 @@
 import * as ts from 'typescript';
 import { MANTASTYLE_RUNTIME_NAME } from './constants';
-import { isOptionalType, isRestType } from './typescript';
-import { QuestionToken } from '@manta-style/consts';
+import { isOptionalTypeNode, isRestTypeNode } from './typescript';
+import { QuestionToken, ReservedTypePrefix } from '@manta-style/consts';
 
 /*
 type X = {
@@ -264,17 +264,32 @@ function createTypeLiteralProperties(
   return statements;
 }
 
-function createUnionType(
-  node: ts.UnionTypeNode,
+function createBatchTypeFunctionAll(
+  node: ts.UnionTypeNode | ts.IntersectionTypeNode,
   typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>,
+  functionName: string,
 ): ts.Expression {
-  return createRuntimeFunctionCall('UnionType', [
+  return createRuntimeFunctionCall(functionName, [
     ts.createArrayLiteral(
       node.types.map((item) =>
         createTypeReferenceOrIdentifier(item, typeParameters),
       ),
     ),
   ]);
+}
+
+function createUnionType(
+  node: ts.UnionTypeNode,
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>,
+): ts.Expression {
+  return createBatchTypeFunctionAll(node, typeParameters, 'UnionType');
+}
+
+function createIntersectionType(
+  node: ts.IntersectionTypeNode,
+  typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>,
+): ts.Expression {
+  return createBatchTypeFunctionAll(node, typeParameters, 'IntersectionType');
 }
 
 function createLiteralType(node: ts.LiteralTypeNode): ts.Expression {
@@ -410,7 +425,9 @@ function createTypeReference(
       ts.isStringLiteral(queryKey.literal)
     ) {
       return createRuntimeFunctionCall('TypeReference', [
-        ts.createStringLiteral(`@@URLQuery/${queryKey.literal.text}`),
+        ts.createStringLiteral(
+          `${ReservedTypePrefix.URLQuery}${queryKey.literal.text}`,
+        ),
       ]);
     } else {
       throw Error('key in unstable_Query is not a string literal.');
@@ -446,8 +463,14 @@ export function createMantaStyleRuntimeObject(
     return createTypeLiteral(node, typeParameters);
   } else if (ts.isUnionTypeNode(node)) {
     return createUnionType(node, typeParameters);
+  } else if (ts.isIntersectionTypeNode(node)) {
+    return createIntersectionType(node, typeParameters);
   } else if (ts.isLiteralTypeNode(node)) {
     return createLiteralType(node);
+  } else if (ts.isParenthesizedTypeNode(node)) {
+    return createRuntimeFunctionCall('ParenthesizedType', [
+      createMantaStyleRuntimeObject(node.type, typeParameters),
+    ]);
   } else if (ts.isArrayTypeNode(node)) {
     return createArrayType(node, typeParameters);
   } else if (ts.isTupleTypeNode(node)) {
@@ -458,11 +481,11 @@ export function createMantaStyleRuntimeObject(
         ),
       ),
     ]);
-  } else if (isOptionalType(node)) {
+  } else if (isOptionalTypeNode(node)) {
     return createRuntimeFunctionCall('OptionalType', [
       createMantaStyleRuntimeObject(node.type, typeParameters),
     ]);
-  } else if (isRestType(node) && ts.isArrayTypeNode(node.type)) {
+  } else if (isRestTypeNode(node) && ts.isArrayTypeNode(node.type)) {
     return createRuntimeFunctionCall('RestType', [
       createMantaStyleRuntimeObject(node.type.elementType, typeParameters),
     ]);

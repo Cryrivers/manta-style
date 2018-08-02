@@ -10,6 +10,7 @@ import {
 } from '../utils/baseType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import NeverKeyword from './NeverKeyword';
+import { intersection } from '../utils/intersection';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -146,5 +147,43 @@ export default class TypeLiteral extends Type {
       }
     }
     return obj;
+  }
+  public compose(type: TypeLiteral): TypeLiteral {
+    const composedTypeLiteral = new TypeLiteral();
+    const SProperties = this.properties;
+    const TProperties = type.properties;
+    for (const propS of SProperties) {
+      const propT = TProperties.find((item) => item.name === propS.name);
+      if (propT) {
+        composedTypeLiteral.property(
+          propS.name,
+          intersection(propS.type, propT.type),
+          [propS.questionMark, propT.questionMark].every(Boolean)
+            ? true
+            : false,
+          [...propS.annotations, ...propT.annotations],
+        );
+      } else {
+        composedTypeLiteral.property(
+          propS.name,
+          propS.type,
+          propS.questionMark,
+          propS.annotations,
+        );
+      }
+    }
+    for (const propT of TProperties) {
+      const propS = SProperties.find((item) => item.name === propT.name);
+      if (!propS) {
+        composedTypeLiteral.property(
+          propT.name,
+          propT.type,
+          propT.questionMark,
+          propT.annotations,
+        );
+      }
+    }
+    // TODO: merge computed properties
+    return composedTypeLiteral;
   }
 }

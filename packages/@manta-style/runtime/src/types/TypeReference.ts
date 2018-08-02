@@ -1,6 +1,7 @@
 import MantaStyle from '../index';
 import { Type } from '../utils/baseType';
 import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
+import { ReservedTypePrefix } from '@manta-style/consts';
 
 export default class TypeReference extends Type {
   private referenceName: string;
@@ -18,7 +19,10 @@ export default class TypeReference extends Type {
     return this.getActualType().deriveLiteral();
   }
   public getActualType() {
-    if (!this.referencedType || this.referenceName.startsWith('@@URLQuery/')) {
+    if (
+      !this.referencedType ||
+      this.referenceName.startsWith(ReservedTypePrefix.URLQuery)
+    ) {
       this.referencedType = MantaStyle.referenceType(this.referenceName);
       this.referencedType.argumentTypes(this.deferredArgumentedTypes);
     } else {
