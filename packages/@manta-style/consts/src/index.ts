@@ -3,3 +3,7 @@ export const enum QuestionToken {
   QuestionToken,
   MinusToken,
 }
+
+export const enum ReservedTypePrefix {
+  URLQuery = '@@URLQuery/',
+}

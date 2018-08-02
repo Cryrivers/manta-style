@@ -20,8 +20,9 @@ import OptionalType from './types/OptionalType';
 import IndexedAccessType from './types/IndexedAccessType';
 import MappedType from './types/MappedType';
 import { Type, Literals, Annotation } from './utils/baseType';
-
-export const URL_QUERY_TYPE_PREFIX = '@@URLQuery/';
+import { ReservedTypePrefix } from '@manta-style/consts';
+import IntersectionType from './types/IntersectionType';
+import ParenthesizedType from './types/ParenthesizedType';
 
 type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 class MantaStyle {
@@ -37,7 +38,7 @@ class MantaStyle {
   }
   public static referenceType(name: string): TypeAliasDeclaration {
     if (!MantaStyle.typeReferences[name]) {
-      if (name.startsWith(URL_QUERY_TYPE_PREFIX)) {
+      if (name.startsWith(ReservedTypePrefix.URLQuery)) {
         return MantaStyle.TypeAliasDeclaration(
           `Anonymous "Never" Type Alias`,
           () => MantaStyle.NeverKeyword,
@@ -51,7 +52,7 @@ class MantaStyle {
   }
   public static clearQueryTypes() {
     Object.keys(MantaStyle.typeReferences).forEach((key) => {
-      if (key.startsWith(URL_QUERY_TYPE_PREFIX)) {
+      if (key.startsWith(ReservedTypePrefix.URLQuery)) {
         delete MantaStyle.typeReferences[key];
       }
     });
@@ -63,7 +64,7 @@ class MantaStyle {
     } else {
       type = new Literal(value);
     }
-    MantaStyle.registerType(`${URL_QUERY_TYPE_PREFIX}${key}`, () =>
+    MantaStyle.registerType(`${ReservedTypePrefix.URLQuery}${key}`, () =>
       MantaStyle.TypeAliasDeclaration(`"${key}" in query`, () => type, []),
     );
   }
@@ -91,6 +92,12 @@ class MantaStyle {
   }
   public static UnionType(types: Type[]) {
     return new UnionType(types);
+  }
+  public static ParenthesizedType(type: Type) {
+    return new ParenthesizedType(type);
+  }
+  public static IntersectionType(types: Type[]) {
+    return new IntersectionType(types);
   }
   public static Literal(literal: Literals) {
     return new Literal(literal);

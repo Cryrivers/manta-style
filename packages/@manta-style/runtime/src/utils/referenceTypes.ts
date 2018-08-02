@@ -3,6 +3,7 @@ import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
 import { Type } from './baseType';
 import TypeParameter from '../nodes/TypeParameter';
 import KeyOfKeyword from '../types/KeyOfKeyword';
+import ParenthesizedType from '../types/ParenthesizedType';
 
 /**
  * @description
@@ -17,6 +18,7 @@ export function resolveReferencedType(type: Type): Type {
     actualType instanceof TypeReference ||
     actualType instanceof TypeAliasDeclaration ||
     actualType instanceof TypeParameter ||
+    actualType instanceof ParenthesizedType ||
     actualType instanceof KeyOfKeyword
   ) {
     if (actualType instanceof TypeReference) {
@@ -27,6 +29,8 @@ export function resolveReferencedType(type: Type): Type {
       actualType = actualType.getActualType();
     } else if (actualType instanceof KeyOfKeyword) {
       actualType = actualType.deriveLiteral();
+    } else if (actualType instanceof ParenthesizedType) {
+      actualType = actualType.getType();
     } else {
       throw new Error('Something bad happens :(');
     }
