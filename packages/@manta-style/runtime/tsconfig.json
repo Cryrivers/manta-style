@@ -7,5 +7,6 @@
     "sourceMap": true,
     "module": "esnext",
     "outDir": "./lib/esm"
-  }
+  },
+  "exclude": ["node_modules", "__tests__", "__mocks__"]
 }

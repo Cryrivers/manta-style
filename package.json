@@ -2,9 +2,12 @@
   "name": "manta-style",
   "private": true,
   "scripts": {
-    "format": "prettier --parser typescript './packages/**/*.ts' --write"
+    "format": "prettier --parser typescript './packages/**/*.ts' --write",
+    "bootstrap": "lerna bootstrap",
+    "test": "lerna exec \"yarn test --coverage\" && codecov -t $CODECOV_TOKEN"
   },
   "devDependencies": {
+    "codecov": "^3.0.4",
     "lerna": "^3.0.0-beta.21",
     "prettier": "^1.13.7"
   },

@@ -507,6 +507,8 @@ export function createMantaStyleRuntimeObject(
     return createRuntimePropertyRef('NumberKeyword');
   } else if (node.kind === ts.SyntaxKind.BooleanKeyword) {
     return createRuntimePropertyRef('BooleanKeyword');
+  } else if (node.kind === ts.SyntaxKind.ObjectKeyword) {
+    return createRuntimePropertyRef('ObjectKeyword');
   } else if (node.kind === ts.SyntaxKind.StringKeyword) {
     return createRuntimePropertyRef('StringKeyword');
   } else if (node.kind === ts.SyntaxKind.NeverKeyword) {

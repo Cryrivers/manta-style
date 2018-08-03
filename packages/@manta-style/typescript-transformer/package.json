@@ -19,16 +19,37 @@
     "access": "public"
   },
   "scripts": {
+    "test": "jest",
     "build": "tsc -p tsconfig.json && webpack"
   },
   "devDependencies": {
+    "@babel/core": "^7.0.0-beta.55",
     "@manta-style/consts": "^0.0.0",
+    "@types/jest": "^23.3.1",
+    "jest": "^23.4.2",
     "source-map-loader": "^0.2.3",
+    "ts-jest": "^23.1.0",
     "typescript": "3.0.1",
     "webpack": "^4.16.3",
     "webpack-cli": "^3.1.0"
   },
   "peerDependencies": {
     "typescript": "*"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testURL": "http://localhost",
+    "collectCoverageFrom": [
+      "src/**"
+    ]
   }
 }

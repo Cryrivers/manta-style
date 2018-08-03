@@ -23,6 +23,7 @@ import { Type, Literals, Annotation } from './utils/baseType';
 import { ReservedTypePrefix } from '@manta-style/consts';
 import IntersectionType from './types/IntersectionType';
 import ParenthesizedType from './types/ParenthesizedType';
+import ObjectKeyword from './types/ObjectKeyword';
 
 type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 class MantaStyle {
@@ -132,6 +133,7 @@ class MantaStyle {
   public static NullKeyword = new NullKeyword();
   public static UndefinedKeyword = new UndefinedKeyword();
   public static AnyKeyword = new AnyKeyword();
+  public static ObjectKeyword = new ObjectKeyword();
   public static KeyOfKeyword(type: Type) {
     return new KeyOfKeyword(type);
   }

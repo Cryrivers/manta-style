@@ -3,7 +3,6 @@ import { createTypeAliasDeclaration } from './utils';
 import {
   MANTASTYLE_RUNTIME_NAME,
   MANTASTYLE_PACKAGE_NAME,
-  HELPERS,
   HELPER_PACKAGE_NAME,
 } from './constants';
 
@@ -54,17 +53,7 @@ export function createTransformer(importHelpers: boolean) {
               ts.createImportDeclaration(
                 [],
                 [],
-                ts.createImportClause(
-                  undefined,
-                  ts.createNamedImports(
-                    HELPERS.map((item) =>
-                      ts.createImportSpecifier(
-                        undefined,
-                        ts.createIdentifier(item),
-                      ),
-                    ),
-                  ),
-                ),
+                undefined,
                 ts.createLiteral(HELPER_PACKAGE_NAME),
               ),
             ]

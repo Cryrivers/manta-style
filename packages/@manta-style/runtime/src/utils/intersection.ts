@@ -3,10 +3,15 @@ import { isAssignable } from './assignable';
 import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
 import MantaStyle from '..';
+import { normalizeUnion } from '../utils/union';
+import NeverKeyword from '../types/NeverKeyword';
 
 export function intersection(S: Type, T: Type): Type {
   if (S instanceof UnionType) {
-    return new UnionType(S.getTypes().map((type) => intersection(type, T)));
+    const unionType = new UnionType(
+      S.getTypes().map((type) => intersection(type, T)),
+    );
+    return normalizeUnion(unionType);
   } else {
     const ST = isAssignable(S, T);
     const TS = isAssignable(T, S);
