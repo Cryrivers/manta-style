@@ -2,6 +2,7 @@ import { Type, Annotation } from '../utils/baseType';
 import UnionType from './UnionType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { isAssignable } from '../utils/assignable';
+import { normalizeUnion } from '../utils/union';
 
 export default class ConditionalType extends Type {
   private checkType: Type;
@@ -38,17 +39,19 @@ export default class ConditionalType extends Type {
     const trueType = resolveReferencedType(maybeReferencedTrueType);
     const falseType = resolveReferencedType(maybeReferencedFalseType);
     if (checkType instanceof UnionType) {
-      const resolvedType = new UnionType(
-        checkType
-          .getTypes()
-          .map((type) =>
-            resolveConditionalType(
-              type,
-              extendsType,
-              checkType === trueType ? type : trueType,
-              checkType === falseType ? type : falseType,
+      const resolvedType = normalizeUnion(
+        new UnionType(
+          checkType
+            .getTypes()
+            .map((type) =>
+              resolveConditionalType(
+                type,
+                extendsType,
+                checkType === trueType ? type : trueType,
+                checkType === falseType ? type : falseType,
+              ),
             ),
-          ),
+        ),
       );
       return resolvedType.deriveLiteral();
     } else {

@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Keywords AnyKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.AnyKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Keywords BooleanKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.BooleanKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Keywords NeverKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.NeverKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Keywords NullKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.NullKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Keywords NumberKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.NumberKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Keywords ObjectKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.ObjectKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Keywords StringKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.StringKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Keywords UndefinedKeyword 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.UndefinedKeyword;
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;

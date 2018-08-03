@@ -20,6 +20,7 @@
     "typescript": "*"
   },
   "scripts": {
+    "test": "echo 'No test yet'",
     "build": "tsc -p tsconfig.json"
   },
   "devDependencies": {

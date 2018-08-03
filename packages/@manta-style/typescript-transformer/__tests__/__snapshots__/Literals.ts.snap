@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Literals Array of literals 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.TupleType([MantaStyle.Literal(1), MantaStyle.Literal(2), MantaStyle.Literal(3), MantaStyle.Literal(\\"hello\\"), MantaStyle.Literal(\\"world\\")]);
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Literals Booleans 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.Literal(true);
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Literals Booleans 2`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.Literal(false);
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Literals Numbers 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.Literal(1);
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
+
+exports[`Literals Strings 1`] = `
+"import MantaStyle from \\"@manta-style/runtime\\";
+import \\"@manta-style/typescript-helpers\\";
+const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+    const type = MantaStyle.Literal(\\"test\\");
+    return type;
+}, []); };
+MantaStyle.registerType(\\"Test\\", Test)
+"
+`;
