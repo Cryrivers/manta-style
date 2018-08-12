@@ -37,3 +37,9 @@ export function getNumberFromAnnotationKey({
     }
   }
 }
+
+export function inheritAnnotations(parent: Annotation[], child: Annotation[]) {
+  const childKeys = child.map((item) => item.key);
+  const filteredParent = parent.filter((item) => !childKeys.includes(item.key));
+  return [...filteredParent, ...child];
+}

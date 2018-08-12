@@ -29,10 +29,8 @@ export function resolveReferencedType(type: Type): Type {
       actualType = actualType.getActualType();
     } else if (actualType instanceof KeyOfKeyword) {
       actualType = actualType.deriveLiteral();
-    } else if (actualType instanceof ParenthesizedType) {
-      actualType = actualType.getType();
     } else {
-      throw new Error('Something bad happens :(');
+      actualType = actualType.getType();
     }
   }
   return actualType;

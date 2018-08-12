@@ -1,7 +1,7 @@
 import { Type } from './baseType';
 
 export class ErrorType extends Type {
-  private message: string;
+  private readonly message: string;
   constructor(errorMessage: string) {
     super();
     this.message = errorMessage;

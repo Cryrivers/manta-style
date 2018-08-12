@@ -6,7 +6,7 @@ export default class OptionalType extends Type {
     super();
     this.type = type;
   }
-  public deriveLiteral(annotations?: Annotation[]) {
+  public deriveLiteral(annotations: Annotation[]) {
     return this.type.deriveLiteral(annotations);
   }
 }

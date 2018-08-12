@@ -18,8 +18,8 @@ describe('ConditionalType', () => {
       literalTrue,
       literalFalse,
     );
-    const expectedTypeNumber = conditionNumber.deriveLiteral();
-    const expectedTypeString = conditionString.deriveLiteral();
+    const expectedTypeNumber = conditionNumber.deriveLiteral([]);
+    const expectedTypeString = conditionString.deriveLiteral([]);
     expect(expectedTypeNumber).toBe(literalTrue);
     expect(expectedTypeString).toBe(literalFalse);
   });

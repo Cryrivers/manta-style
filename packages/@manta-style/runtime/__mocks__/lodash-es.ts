@@ -17,3 +17,7 @@ export function min(values: number[]) {
     Math.min(prevValue, currentValue),
   );
 }
+
+export function sample<T>(values: T[]) {
+  return values[0];
+}

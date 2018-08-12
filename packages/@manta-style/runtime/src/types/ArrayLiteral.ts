@@ -1,7 +1,7 @@
 import { Type } from '../utils/baseType';
 
 export default class ArrayLiteral extends Type {
-  private elements: Type[];
+  private readonly elements: Type[];
   constructor(elements: Type[]) {
     super();
     this.elements = elements;

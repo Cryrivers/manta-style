@@ -2,7 +2,7 @@ import UnionType from '../types/UnionType';
 import { Type } from './baseType';
 import MantaStyle from '..';
 import NeverKeyword from '../types/NeverKeyword';
-import { resolveReferencedType } from '../utils/referenceTypes';
+import { resolveReferencedType } from './referenceTypes';
 
 export function normalizeUnion(unionType: UnionType): Type {
   // Filter out all 'never' keyword, since X | never = X

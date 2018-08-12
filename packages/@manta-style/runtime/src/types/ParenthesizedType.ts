@@ -1,7 +1,7 @@
 import { Type, Annotation } from '../utils/baseType';
 
 export default class ParenthesizedType extends Type {
-  private type: Type;
+  private readonly type: Type;
   constructor(type: Type) {
     super();
     this.type = type;
@@ -9,7 +9,7 @@ export default class ParenthesizedType extends Type {
   public getType() {
     return this.type;
   }
-  public deriveLiteral(annotations?: Annotation[]) {
+  public deriveLiteral(annotations: Annotation[]) {
     return this.type.deriveLiteral(annotations);
   }
 }

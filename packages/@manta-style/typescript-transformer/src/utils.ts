@@ -221,7 +221,7 @@ function createTypeLiteralProperties(
     const jsdocArray = ts.getJSDocTags(member);
     if (ts.isPropertySignature(member) && member.type) {
       statements.push(
-        ts.createStatement(
+        ts.createExpressionStatement(
           createRuntimeFunctionCall(
             'property',
             [
@@ -239,7 +239,7 @@ function createTypeLiteralProperties(
         const parameter = member.parameters[0];
         if (parameter.type) {
           statements.push(
-            ts.createStatement(
+            ts.createExpressionStatement(
               createRuntimeFunctionCall(
                 'computedProperty',
                 [
@@ -341,7 +341,7 @@ function createMappedType(
               referenceTypeParameters,
               'mappedType',
             ),
-            ts.createStatement(
+            ts.createExpressionStatement(
               createRuntimeFunctionCall(
                 'setQuestionToken',
                 [
@@ -358,7 +358,7 @@ function createMappedType(
                 'mappedType',
               ),
             ),
-            ts.createStatement(
+            ts.createExpressionStatement(
               createRuntimeFunctionCall(
                 'setConstraint',
                 [

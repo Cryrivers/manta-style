@@ -11,6 +11,7 @@ import {
 import { resolveReferencedType } from '../utils/referenceTypes';
 import NeverKeyword from './NeverKeyword';
 import { intersection } from '../utils/intersection';
+import { inheritAnnotations } from '../utils/annotation';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -51,13 +52,15 @@ export default class TypeLiteral extends Type {
       annotations,
     });
   }
-  public deriveLiteral() {
+  public deriveLiteral(parentAnnotations: Annotation[]) {
     const typeLiteral = new TypeLiteral();
 
     for (const property of this.properties) {
       typeLiteral.property(
         property.name,
-        property.type.deriveLiteral(property.annotations),
+        property.type.deriveLiteral(
+          inheritAnnotations(parentAnnotations, property.annotations),
+        ),
         property.questionMark,
         property.annotations,
       );
@@ -116,7 +119,7 @@ export default class TypeLiteral extends Type {
               ? actualType.getKeys()
               : actualType
                   .getTypes()
-                  .map((type) => type.deriveLiteral().mock());
+                  .map((type) => type.deriveLiteral([]).mock());
           for (const key of keys) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
             if (chance > 0.5) {
@@ -158,9 +161,7 @@ export default class TypeLiteral extends Type {
         composedTypeLiteral.property(
           propS.name,
           intersection(propS.type, propT.type),
-          [propS.questionMark, propT.questionMark].every(Boolean)
-            ? true
-            : false,
+          [propS.questionMark, propT.questionMark].every(Boolean),
           [...propS.annotations, ...propT.annotations],
         );
       } else {

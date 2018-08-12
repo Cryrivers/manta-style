@@ -95,7 +95,7 @@ function buildEndpoints(method: HTTPMethods) {
             MantaStyle.createTypeByQuery(key, query[key]);
           });
         }
-        const literalType = endpoint.type.deriveLiteral();
+        const literalType = endpoint.type.deriveLiteral([]);
         const mockData = literalType.mock();
         if (isSnapshotMode) {
           const snapshotData = snapshot.fetchSnapshot(

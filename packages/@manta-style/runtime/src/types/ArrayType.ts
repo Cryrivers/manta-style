@@ -8,7 +8,7 @@ export default class ArrayType extends Type {
     super();
     this.elementType = elementType;
   }
-  public deriveLiteral(annotations?: Annotation[]) {
+  public deriveLiteral(annotations: Annotation[]) {
     const array: Type[] = [];
     const lengthFromJSDoc = getNumberFromAnnotationKey({
       key: 'length',

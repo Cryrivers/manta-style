@@ -3,8 +3,7 @@ import { isAssignable } from './assignable';
 import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
 import MantaStyle from '..';
-import { normalizeUnion } from '../utils/union';
-import NeverKeyword from '../types/NeverKeyword';
+import { normalizeUnion } from './union';
 
 export function intersection(S: Type, T: Type): Type {
   if (S instanceof UnionType) {
