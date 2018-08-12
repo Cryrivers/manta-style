@@ -43,7 +43,7 @@ describe('Intersection Test', () => {
       currentType.property('b', MS.NumberKeyword, false, []);
     });
     const objC = intersection(objA, objB);
-    const mockData = objC.deriveLiteral().mock();
+    const mockData = objC.deriveLiteral([]).mock();
     expect(Object.keys(mockData)).toEqual(['a', 'b']);
   });
 });

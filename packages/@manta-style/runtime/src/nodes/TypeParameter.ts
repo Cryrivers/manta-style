@@ -1,16 +1,16 @@
-import { Type } from '../utils/baseType';
+import { Annotation, Type } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
 import { isAssignable } from '../utils/assignable';
 
 export default class TypeParameter extends Type {
-  private name: string;
+  private readonly name: string;
   private actualType?: Type;
-  private contraintType?: Type;
-  private defaultType: Type;
+  private readonly constraintType?: Type;
+  private readonly defaultType: Type;
   constructor(name: string, constraintType?: Type, defaultType?: Type) {
     super();
     this.name = name;
-    this.contraintType = constraintType;
+    this.constraintType = constraintType;
     this.defaultType =
       defaultType ||
       new ErrorType(
@@ -21,7 +21,7 @@ export default class TypeParameter extends Type {
     return this.name;
   }
   public setActualType(type: Type) {
-    if (this.contraintType && !isAssignable(type, this.contraintType)) {
+    if (this.constraintType && !isAssignable(type, this.constraintType)) {
       throw Error(
         'Constraint is not satisfied. Please check the error message from TypeScript.',
       );
@@ -31,7 +31,7 @@ export default class TypeParameter extends Type {
   public getActualType() {
     return this.actualType || this.defaultType;
   }
-  public deriveLiteral() {
-    return this.getActualType().deriveLiteral();
+  public deriveLiteral(parentAnnotations: Annotation[]) {
+    return this.getActualType().deriveLiteral(parentAnnotations);
   }
 }

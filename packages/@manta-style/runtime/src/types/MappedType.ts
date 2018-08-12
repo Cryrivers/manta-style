@@ -1,7 +1,7 @@
 import { QuestionToken } from '@manta-style/consts';
 import TypeParameter from '../nodes/TypeParameter';
 import { ErrorType } from '../utils/pseudoTypes';
-import { Type } from '../utils/baseType';
+import { Annotation, Type } from '../utils/baseType';
 import Literal from './Literal';
 import TypeLiteral from './TypeLiteral';
 import { resolveReferencedType } from '../utils/referenceTypes';
@@ -25,7 +25,7 @@ export default class MappedType extends Type {
   private type: Type = ErrType;
   private constraint: Type = ErrType;
   private questionToken: QuestionToken = QuestionToken.None;
-  public deriveLiteral() {
+  public deriveLiteral(parentAnnotations: Annotation[]) {
     /**
      * type X = {
      *  [typeParameter in constraint]: type
@@ -41,13 +41,13 @@ export default class MappedType extends Type {
     ) {
       const unionKeyTypes =
         constraint instanceof UnionType
-          ? constraint.derivePreservedUnionLiteral().getTypes()
+          ? constraint.derivePreservedUnionLiteral(parentAnnotations).getTypes()
           : [constraint];
 
       for (const keyType of unionKeyTypes) {
         let finalTypeForThisProperty: Type = ErrType;
         let originalQuestionMark = false;
-        let literalKeyType = keyType.deriveLiteral();
+        let literalKeyType = keyType.deriveLiteral(parentAnnotations);
         typeParameter.setActualType(literalKeyType);
         if (type instanceof IndexedAccessType) {
           const property = type.getProperty();
@@ -67,7 +67,7 @@ export default class MappedType extends Type {
           [],
         );
       }
-      return newTypeLiteral.deriveLiteral();
+      return newTypeLiteral.deriveLiteral(parentAnnotations);
     } else {
       throw Error(
         'Constraint other than UnionType and Literal in MappedType is not supported yet',

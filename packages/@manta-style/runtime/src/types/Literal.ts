@@ -1,7 +1,7 @@
 import { Literals, Type } from '../utils/baseType';
 
 export default class Literal<T extends Literals> extends Type {
-  private literal: T;
+  private readonly literal: T;
   constructor(literal: T) {
     super();
     this.literal = literal;

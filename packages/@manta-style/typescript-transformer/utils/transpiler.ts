@@ -1,6 +1,5 @@
 import * as ts from 'typescript';
 import { createTransformer } from '../src';
-import * as vm from 'vm';
 
 const transformer = createTransformer(true);
 export function getTranspiledString(source: string): string {

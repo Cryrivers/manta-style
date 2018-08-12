@@ -1,17 +1,17 @@
 import TypeParameter from './TypeParameter';
 import { Type, Annotation } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
-import { findAnnotation } from '../utils/annotation';
+import { findAnnotation, inheritAnnotations } from '../utils/annotation';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';
 
 export default class TypeAliasDeclaration extends Type {
-  private name: string;
+  private readonly name: string;
   private typeParameters: TypeParameter[] = [];
   private type: Type = new ErrorType(
     `TypeAliasDeclaration "${this.name}" hasn't been initialized.`,
   );
-  private annotations: Annotation[];
+  private readonly annotations: Annotation[];
   constructor(name: string, annotations: Annotation[]) {
     super();
     this.name = name;
@@ -28,10 +28,12 @@ export default class TypeAliasDeclaration extends Type {
       const type = resolveReferencedType(types[i]);
       if (type instanceof UnionType && preserveUnionType) {
         this.typeParameters[i].setActualType(
-          type.derivePreservedUnionLiteral(),
+          type.derivePreservedUnionLiteral(this.annotations),
         );
       } else {
-        this.typeParameters[i].setActualType(type.deriveLiteral());
+        this.typeParameters[i].setActualType(
+          type.deriveLiteral(this.annotations),
+        );
       }
     }
     return this;
@@ -42,7 +44,11 @@ export default class TypeAliasDeclaration extends Type {
   public getType() {
     return this.type;
   }
-  public deriveLiteral() {
-    return this.type.deriveLiteral();
+  public deriveLiteral(parentAnnotations: Annotation[]) {
+    const combinedAnnotations = inheritAnnotations(
+      parentAnnotations,
+      this.annotations,
+    );
+    return this.type.deriveLiteral(combinedAnnotations);
   }
 }
