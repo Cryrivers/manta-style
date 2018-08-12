@@ -8,5 +8,5 @@
     "module": "esnext",
     "outDir": "./lib/esm"
   },
-  "exclude": ["node_modules", "__tests__", "__mocks__"]
+  "exclude": ["node_modules", "__tests__", "__mocks__", "./lib/esm"]
 }

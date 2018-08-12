@@ -7,5 +7,5 @@
     "sourceMap": true,
     "outDir": "./lib/esm"
   },
-  "exclude": ["node_modules", "__tests__", "utils"]
+  "exclude": ["node_modules", "__tests__", "utils", "lib/esm"]
 }
