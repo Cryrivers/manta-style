@@ -6,5 +6,5 @@
     "module": "commonjs",
     "resolveJsonModule": true
   },
-  "exclude": ["./typings"]
+  "exclude": ["./typings", "./lib"]
 }
