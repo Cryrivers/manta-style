@@ -39,7 +39,7 @@ export default function build(
       console.log('[BABEL] Processing file: ' + file);
     }
     const result = babelCore.transformFileSync(file, {
-      plugins: ['transform-es2015-modules-commonjs'],
+      plugins: [require('babel-plugin-transform-es2015-modules-commonjs')],
     });
     fs.writeFileSync(file, result.code);
   }
