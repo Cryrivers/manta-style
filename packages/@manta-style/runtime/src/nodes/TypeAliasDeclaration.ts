@@ -7,6 +7,7 @@ import UnionType from '../types/UnionType';
 
 export default class TypeAliasDeclaration extends Type {
   private readonly name: string;
+  private typeParameterTypes: Type[] = [];
   private typeParameters: TypeParameter[] = [];
   private type: Type = new ErrorType(
     `TypeAliasDeclaration "${this.name}" hasn't been initialized.`,
@@ -23,19 +24,7 @@ export default class TypeAliasDeclaration extends Type {
     return newTypeParam;
   }
   public argumentTypes(types: Type[]) {
-    const preserveUnionType = findAnnotation('preserveUnion', this.annotations);
-    for (let i = 0; i < types.length; i++) {
-      const type = resolveReferencedType(types[i]);
-      if (type instanceof UnionType && preserveUnionType) {
-        this.typeParameters[i].setActualType(
-          type.derivePreservedUnionLiteral(this.annotations),
-        );
-      } else {
-        this.typeParameters[i].setActualType(
-          type.deriveLiteral(this.annotations),
-        );
-      }
-    }
+    this.typeParameterTypes = types;
     return this;
   }
   public setType(type: Type) {
@@ -44,11 +33,36 @@ export default class TypeAliasDeclaration extends Type {
   public getType() {
     return this.type;
   }
+  public getAnnotations() {
+    return this.annotations;
+  }
   public deriveLiteral(parentAnnotations: Annotation[]) {
     const combinedAnnotations = inheritAnnotations(
       parentAnnotations,
       this.annotations,
     );
+    // Set actual type of type parameters
+    // @preserveUnion is a special decorator which is not inheritable
+    // thus we only find it in `this.annotations`
+    const preserveUnionType = findAnnotation('preserveUnion', this.annotations);
+    for (let i = 0; i < this.typeParameterTypes.length; i++) {
+      const { type, annotations } = resolveReferencedType(
+        this.typeParameterTypes[i],
+      );
+      const mergedAnnotations = inheritAnnotations(
+        combinedAnnotations,
+        annotations,
+      );
+      if (type instanceof UnionType && preserveUnionType) {
+        this.typeParameters[i].setActualType(
+          type.derivePreservedUnionLiteral(mergedAnnotations),
+        );
+      } else {
+        this.typeParameters[i].setActualType(
+          type.deriveLiteral(mergedAnnotations),
+        );
+      }
+    }
     return this.type.deriveLiteral(combinedAnnotations);
   }
 }

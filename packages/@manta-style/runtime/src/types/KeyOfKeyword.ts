@@ -12,7 +12,7 @@ export default class KeyOfKeyword extends Type {
   }
   public getKeys(): string[] {
     const { type: maybeReferencedType } = this;
-    const type = resolveReferencedType(maybeReferencedType);
+    const { type }: { type: Type } = resolveReferencedType(maybeReferencedType);
     if (type instanceof TypeLiteral) {
       return type.getKeys();
     } else {

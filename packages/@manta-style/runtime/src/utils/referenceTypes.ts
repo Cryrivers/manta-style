@@ -1,9 +1,10 @@
 import TypeReference from '../types/TypeReference';
 import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
-import { Type } from './baseType';
+import { Type, Annotation } from './baseType';
 import TypeParameter from '../nodes/TypeParameter';
 import KeyOfKeyword from '../types/KeyOfKeyword';
 import ParenthesizedType from '../types/ParenthesizedType';
+import { inheritAnnotations } from '../utils/annotation';
 
 /**
  * @description
@@ -12,8 +13,11 @@ import ParenthesizedType from '../types/ParenthesizedType';
  * in `deriveLiteral` methods.
  * @param type Type to be resolved
  */
-export function resolveReferencedType(type: Type): Type {
+export function resolveReferencedType(
+  type: Type,
+): { type: Type; annotations: Annotation[] } {
   let actualType = type;
+  let annotations: Annotation[] = [];
   while (
     actualType instanceof TypeReference ||
     actualType instanceof TypeAliasDeclaration ||
@@ -24,6 +28,14 @@ export function resolveReferencedType(type: Type): Type {
     if (actualType instanceof TypeReference) {
       actualType = actualType.getActualType();
     } else if (actualType instanceof TypeAliasDeclaration) {
+      // Make sure type parameters has been initialized
+      // as we moved the initialization from `argumentTypes`
+      // to `deriveLiteral`.
+      actualType.deriveLiteral(annotations);
+      annotations = inheritAnnotations(
+        annotations,
+        actualType.getAnnotations(),
+      );
       actualType = actualType.getType();
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();
@@ -33,5 +45,5 @@ export function resolveReferencedType(type: Type): Type {
       actualType = actualType.getType();
     }
   }
-  return actualType;
+  return { type: actualType, annotations };
 }

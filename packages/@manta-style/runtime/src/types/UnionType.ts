@@ -28,6 +28,7 @@ export default class UnionType extends Type {
   public derivePreservedUnionLiteral(parentAnnotations: Annotation[]) {
     const derivedTypes = this.types
       .map(resolveReferencedType)
+      .map((item) => item.type)
       .filter((type) => !(type instanceof NeverKeyword))
       .map((type) => type.deriveLiteral(parentAnnotations));
     const chosenType = sample(derivedTypes);

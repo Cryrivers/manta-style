@@ -10,8 +10,8 @@ import TypeLiteral from '../types/TypeLiteral';
 import IntersectionType from '../types/IntersectionType';
 
 export function isAssignable(typeS: Type, typeT: Type): boolean {
-  const S = resolveReferencedType(typeS);
-  const T = resolveReferencedType(typeT);
+  const { type: S } = resolveReferencedType(typeS);
+  const { type: T } = resolveReferencedType(typeT);
 
   if (Object.getPrototypeOf(S) === Object.getPrototypeOf(T)) {
     // - S and T are identical types.

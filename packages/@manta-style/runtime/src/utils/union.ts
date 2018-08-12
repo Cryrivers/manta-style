@@ -9,6 +9,7 @@ export function normalizeUnion(unionType: UnionType): Type {
   const types = unionType
     .getTypes()
     .map(resolveReferencedType)
+    .map((item) => item.type)
     .filter((type) => !(type instanceof NeverKeyword));
   const { length } = types;
   if (length === 0) {
