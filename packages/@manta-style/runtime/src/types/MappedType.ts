@@ -32,8 +32,8 @@ export default class MappedType extends Type {
      * }
      */
     const { typeParameter } = this;
-    const constraint = resolveReferencedType(this.constraint);
-    const type = resolveReferencedType(this.type);
+    const { type: constraint } = resolveReferencedType(this.constraint);
+    const { type } = resolveReferencedType(this.type);
     const newTypeLiteral = new TypeLiteral();
     if (
       (constraint instanceof UnionType || constraint instanceof Literal) &&

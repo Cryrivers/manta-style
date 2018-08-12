@@ -35,9 +35,9 @@ export default class ConditionalType extends Type {
       trueType: maybeReferencedTrueType,
       falseType: maybeReferencedFalseType,
     } = this;
-    const checkType = resolveReferencedType(maybeReferencedCheckType);
-    const trueType = resolveReferencedType(maybeReferencedTrueType);
-    const falseType = resolveReferencedType(maybeReferencedFalseType);
+    const { type: checkType } = resolveReferencedType(maybeReferencedCheckType);
+    const { type: trueType } = resolveReferencedType(maybeReferencedTrueType);
+    const { type: falseType } = resolveReferencedType(maybeReferencedFalseType);
     if (checkType instanceof UnionType) {
       const resolvedType = normalizeUnion(
         new UnionType(

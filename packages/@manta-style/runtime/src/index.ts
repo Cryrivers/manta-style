@@ -30,6 +30,9 @@ class MantaStyle {
   private static typeReferences: {
     [key: string]: TypeAliasDeclarationFactory;
   } = {};
+  public static clearType() {
+    MantaStyle.typeReferences = {};
+  }
   public static registerType(name: string, type: TypeAliasDeclarationFactory) {
     if (MantaStyle.typeReferences[name]) {
       throw new Error(`Type "${name}" has already been registered.`);

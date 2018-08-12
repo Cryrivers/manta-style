@@ -11,6 +11,7 @@ export default class IntersectionType extends Type {
   public deriveLiteral(parentAnnotations: Annotation[]) {
     const reducedType = this.types
       .map(resolveReferencedType)
+      .map((item) => item.type)
       .reduce((previousType, currentType) =>
         intersection(previousType, currentType),
       );
