@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/runtime",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "Manta Style Runtime",
   "main": "./lib/umd/manta-style.js",
   "module": "./lib/esm/index.js",
@@ -23,7 +23,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@manta-style/consts": "^0.0.0",
+    "@manta-style/consts": "^0.1.0",
     "@types/faker": "^4.1.2",
     "@types/jest": "^23.3.1",
     "@types/lodash-es": "^4.17.1",

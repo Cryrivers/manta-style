@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/consts",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Manta Style Common Constants for TypeScript",
   "main": "./src/index.ts",
   "author": {
