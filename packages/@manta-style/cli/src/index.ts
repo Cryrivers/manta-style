@@ -11,6 +11,8 @@ import chalk from 'chalk';
 import * as chokidar from 'chokidar';
 import * as qs from 'query-string';
 import MantaStyle from '@manta-style/runtime';
+import clear = require('clear');
+import { multiSelect } from './inquirer-util';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -51,10 +53,10 @@ if (generateSnapshot && useSnapshot) {
 }
 
 const app = express();
-const table = new Table({
-  colors: false,
-  head: ['Method', 'Endpoint'],
-});
+const endpointTable: { method: string; endpoint: string }[] = [];
+const endpointMockTable: {
+  [method: string]: { [endpoint: string]: boolean };
+} = {};
 const snapshotFilePath = path.join(
   path.dirname(configFile),
   'ms.snapshot.json',
@@ -81,14 +83,29 @@ function buildEndpoints(method: HTTPMethods) {
     const endpoints = methodTypeDef()
       .getType()
       ._getProperties();
+    const endpointMap: { [key: string]: any } = {};
+
     for (const endpoint of endpoints) {
-      table.push([
-        method.toUpperCase(),
-        `http://localhost:${port || 3000}${endpoint.name}`,
-      ]);
-      app[method](endpoint.name, (req, res) => {
-        const { query } = req;
-        const queryString = qs.stringify(query);
+      endpointTable.push({
+        method,
+        endpoint: endpoint.name,
+      });
+      (endpointMockTable[method] = endpointMockTable[method] || {})[
+        endpoint.name
+      ] = true;
+      endpointMap[endpoint.name] = endpoint;
+    }
+
+    app.use((req, res, next) => {
+      const { url, query, method: requestMethod } = req;
+      const queryString = qs.stringify(query);
+
+      const endpoint = endpointMap[trimEndingSlash(url)];
+      if (
+        requestMethod === method.toUpperCase() &&
+        endpoint &&
+        endpointMockTable[method][endpoint.name]
+      ) {
         MantaStyle.clearQueryTypes();
         if (typeof query === 'object') {
           Object.keys(query).forEach((key) => {
@@ -110,8 +127,10 @@ function buildEndpoints(method: HTTPMethods) {
         }
         snapshot.updateSnapshot(method, endpoint.name, queryString, mockData);
         res.send(mockData);
-      });
-    }
+        return;
+      }
+      next();
+    });
   }
 }
 
@@ -120,9 +139,28 @@ function buildEndpoints(method: HTTPMethods) {
 );
 
 app.listen(port || 3000);
+clear();
+printMessage();
+toggleSnapshotMode(true);
 
-console.log(`Manta Style launched at http://localhost:${port || 3000}`);
-console.log(table.toString());
+function printMessage() {
+  console.log(`Manta Style launched at http://localhost:${port || 3000}`);
+  const table = new Table({
+    colors: false,
+    head: ['Method', 'Endpoint', 'isMocked'],
+  });
+  for (const row of endpointTable) {
+    table.push([
+      row.method.toUpperCase(),
+      `http://localhost:${port || 3000}${row.endpoint}`,
+      endpointMockTable[row.method][row.endpoint]
+        ? chalk.green('Y')
+        : chalk.red('N'),
+    ]);
+  }
+  console.log(table.toString());
+  console.log(`Press ${chalk.bold('O')} to configure selective mocking`);
+}
 
 function toggleSnapshotMode(showMessageOnly?: boolean) {
   if (!showMessageOnly) {
@@ -141,7 +179,30 @@ function toggleSnapshotMode(showMessageOnly?: boolean) {
   );
 }
 
-toggleSnapshotMode(true);
+async function selectiveMock() {
+  clear();
+  const selection = await multiSelect(
+    'Select endpoint to mock.',
+    endpointTable.map((endpoint) => ({
+      name: `${endpoint.method.toUpperCase()} ${endpoint.endpoint}`,
+      value: endpoint,
+    })),
+    endpointTable.filter(
+      (endpoint) => endpointMockTable[endpoint.method][endpoint.endpoint],
+    ),
+  );
+  for (const endpoint of endpointTable) {
+    endpointMockTable[endpoint.method][endpoint.endpoint] =
+      selection.indexOf(endpoint) > -1;
+  }
+  clear();
+  printMessage();
+  console.log('');
+  toggleSnapshotMode(true);
+
+  stdin.setRawMode && stdin.setRawMode(true);
+  stdin.resume();
+}
 
 const { stdin } = process;
 
@@ -166,9 +227,22 @@ stdin.on('data', function(key: Buffer) {
         snapshot.clearSnapshot();
         toggleSnapshotMode();
       }
+      break;
+    }
+    case 'o':
+    case 'O': {
+      selectiveMock();
+      break;
     }
   }
 });
 
 stdin.setRawMode && stdin.setRawMode(true);
 stdin.resume();
+
+function trimEndingSlash(url: string) {
+  if (url.endsWith('/')) {
+    return url.substring(0, url.length - 1);
+  }
+  return url;
+}
