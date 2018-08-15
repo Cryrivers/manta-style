@@ -10,6 +10,7 @@ import * as logUpdate from 'log-update';
 import chalk from 'chalk';
 import * as chokidar from 'chokidar';
 import * as qs from 'query-string';
+import axios from 'axios';
 import MantaStyle, {
   TypeAliasDeclarationFactory,
   TypeLiteral,
@@ -57,7 +58,11 @@ if (generateSnapshot && useSnapshot) {
 }
 
 const app = express();
-const endpointTable: { method: string; endpoint: string }[] = [];
+const endpointTable: {
+  method: string;
+  endpoint: string;
+  proxy: string | null;
+}[] = [];
 const endpointMockTable: {
   [method: string]: { [endpoint: string]: boolean };
 } = {};
@@ -93,9 +98,13 @@ function buildEndpoints(method: HTTPMethods) {
     const endpointMap: { [key: string]: Property } = {};
 
     for (const endpoint of endpoints) {
+      const proxyAnnotation = endpoint.annotations.find(
+        (item) => item.key === 'proxy',
+      );
       endpointTable.push({
         method,
         endpoint: endpoint.name,
+        proxy: proxyAnnotation ? proxyAnnotation.value : null,
       });
       (endpointMockTable[method] = endpointMockTable[method] || {})[
         endpoint.name
@@ -108,11 +117,12 @@ function buildEndpoints(method: HTTPMethods) {
       const queryString = qs.stringify(query);
 
       const endpoint = endpointMap[trimEndingSlash(url)];
-      if (
-        requestMethod === method.toUpperCase() &&
+      const endpointInfo =
         endpoint &&
-        endpointMockTable[method][endpoint.name]
-      ) {
+        endpointTable.find(
+          (item) => item.method === method && item.endpoint === endpoint.name,
+        );
+      if (endpointInfo && endpointMockTable[method][endpoint.name]) {
         MantaStyle.clearQueryTypes();
         if (typeof query === 'object') {
           Object.keys(query).forEach((key) => {
@@ -134,6 +144,21 @@ function buildEndpoints(method: HTTPMethods) {
         }
         snapshot.updateSnapshot(method, endpoint.name, queryString, mockData);
         res.send(mockData);
+        return;
+      } else if (
+        endpointInfo &&
+        !endpointMockTable[method][endpoint.name] &&
+        endpointInfo.proxy
+      ) {
+        axios
+          .request({
+            method,
+            url: endpoint.name,
+            baseURL: endpointInfo.proxy,
+            params: req.query,
+          })
+          .then((result) => res.send(result))
+          .catch((result) => res.send(result));
         return;
       }
       next();
@@ -162,7 +187,9 @@ function printMessage() {
       `http://localhost:${port || 3000}${row.endpoint}`,
       endpointMockTable[row.method][row.endpoint]
         ? chalk.green('Y')
-        : chalk.red('N'),
+        : row.proxy
+          ? chalk.yellow(`~> ${row.proxy}`)
+          : chalk.red('N'),
     ]);
   }
   console.log(table.toString());
