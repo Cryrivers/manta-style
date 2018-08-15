@@ -19,13 +19,15 @@ import RestType from './types/RestType';
 import OptionalType from './types/OptionalType';
 import IndexedAccessType from './types/IndexedAccessType';
 import MappedType from './types/MappedType';
-import { Type, Literals, Annotation } from './utils/baseType';
+import { Type, Literals, Annotation, Property } from './utils/baseType';
 import { ReservedTypePrefix } from '@manta-style/consts';
 import IntersectionType from './types/IntersectionType';
 import ParenthesizedType from './types/ParenthesizedType';
 import ObjectKeyword from './types/ObjectKeyword';
 
-type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
+export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
+export type TypeLiteral = TypeLiteral;
+export type Property = Property;
 class MantaStyle {
   private static typeReferences: {
     [key: string]: TypeAliasDeclarationFactory;
