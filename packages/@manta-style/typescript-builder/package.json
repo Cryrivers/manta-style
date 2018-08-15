@@ -21,7 +21,8 @@
   },
   "scripts": {
     "test": "echo 'No test yet'",
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc --watch -p tsconfig.json"
   },
   "devDependencies": {
     "@types/babel-core": "^6.25.5",
