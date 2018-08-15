@@ -5,6 +5,7 @@
     "format": "prettier --parser typescript './packages/**/*.ts' --write",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "watch": "lerna run --parallel watch",
     "test": "lerna exec \"yarn test --coverage\" && codecov -t $CODECOV_TOKEN"
   },
   "devDependencies": {
