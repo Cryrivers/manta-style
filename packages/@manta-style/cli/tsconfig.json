@@ -4,7 +4,11 @@
     "outDir": "./lib",
     "removeComments": false,
     "module": "commonjs",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "clear": ["./src/type-def/clear.d.ts"]
+    }
   },
   "exclude": ["./typings", "./lib"]
 }

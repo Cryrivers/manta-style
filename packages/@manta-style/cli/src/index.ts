@@ -10,7 +10,11 @@ import * as logUpdate from 'log-update';
 import chalk from 'chalk';
 import * as chokidar from 'chokidar';
 import * as qs from 'query-string';
-import MantaStyle from '@manta-style/runtime';
+import MantaStyle, {
+  TypeAliasDeclarationFactory,
+  TypeLiteral,
+  Property,
+} from '@manta-style/runtime';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 
@@ -71,7 +75,12 @@ const compiledFilePath = builder.build(
 
 let isSnapshotMode = Boolean(useSnapshot);
 const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
-const compileConfig = require(compiledFilePath || '');
+
+type MantaStyleConfig = {
+  [key: string]: TypeAliasDeclarationFactory | undefined;
+};
+
+const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
 
 snapshotWatcher.on('change', () => {
   snapshot.reloadFromFile(snapshotFilePath);
@@ -80,10 +89,8 @@ snapshotWatcher.on('change', () => {
 function buildEndpoints(method: HTTPMethods) {
   const methodTypeDef = compileConfig[method.toUpperCase()];
   if (methodTypeDef) {
-    const endpoints = methodTypeDef()
-      .getType()
-      ._getProperties();
-    const endpointMap: { [key: string]: any } = {};
+    const endpoints = (methodTypeDef().getType() as TypeLiteral)._getProperties();
+    const endpointMap: { [key: string]: Property } = {};
 
     for (const endpoint of endpoints) {
       endpointTable.push({
