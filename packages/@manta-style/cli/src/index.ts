@@ -28,6 +28,7 @@ program
     'the TypeScript config file to generate entry points',
   )
   .option('-p --port <i> [3000]', 'To use a port different than 3000')
+  .option('--proxyUrl <url>', 'To enable proxy for disabled endpoints')
   .option(
     '--generateSnapshot <file>',
     'To generate a API mock data snapshot (Not yet implemented.)',
@@ -42,6 +43,7 @@ const {
   generateSnapshot,
   useSnapshot,
   verbose = false,
+  proxyUrl,
 } = program;
 
 if (!configFile) {
@@ -104,7 +106,11 @@ function buildEndpoints(method: HTTPMethods) {
       endpointTable.push({
         method,
         endpoint: endpoint.name,
-        proxy: proxyAnnotation ? proxyAnnotation.value : null,
+        proxy: proxyAnnotation
+          ? proxyAnnotation.value
+          : proxyUrl
+            ? proxyUrl
+            : null,
       });
       (endpointMockTable[method] = endpointMockTable[method] || {})[
         endpoint.name
@@ -157,8 +163,36 @@ function buildEndpoints(method: HTTPMethods) {
             baseURL: endpointInfo.proxy,
             params: req.query,
           })
-          .then((result) => res.send(result))
-          .catch((result) => res.send(result));
+          .then((result) => {
+            snapshot.updateSnapshot(
+              method,
+              endpoint.name,
+              queryString,
+              result.data,
+            );
+            res.send(result.data);
+          })
+          .catch((result: Error) => {
+            res.status(502).send(`
+              <html>
+                <head>
+                  <style>
+                    * {
+                      font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <h2>Manta Style Proxy Error</h2>
+                  <p>Unable to connect to <strong>${endpoint.name}</strong></p>
+                  <p>Reason:</p>
+                  <blockquote>
+                    <p>${result.message}</p>
+                  </blockquote>
+                </body>
+              </html>
+            `);
+          });
         return;
       }
       next();
@@ -179,7 +213,7 @@ function printMessage() {
   console.log(`Manta Style launched at http://localhost:${port || 3000}`);
   const table = new Table({
     colors: false,
-    head: ['Method', 'Endpoint', 'isMocked'],
+    head: ['Method', 'Endpoint', 'Mocked', 'Proxy'],
   });
   for (const row of endpointTable) {
     table.push([
@@ -188,8 +222,9 @@ function printMessage() {
       endpointMockTable[row.method][row.endpoint]
         ? chalk.green('Y')
         : row.proxy
-          ? chalk.yellow(`~> ${row.proxy}`)
+          ? chalk.yellow('~>')
           : chalk.red('N'),
+      row.proxy ? row.proxy + row.endpoint : '',
     ]);
   }
   console.log(table.toString());
