@@ -69,7 +69,7 @@ yarn run build
 ## Special Thanks
 
 - [Zhongliang Wang](https://github.com/Cryrivers) for original idea, architecture design, initial implementation of runtime and transformers.
-- [Li Hau Tan](https://github.com/tanhauhau) for the design and implementation of selective mocking, and experiments of future crazy idea
+- [Tan Li Hau](https://github.com/tanhauhau) for the design and implementation of selective mocking, and experiments of future crazy idea
 
 ## License
 
