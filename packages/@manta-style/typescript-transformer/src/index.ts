@@ -3,6 +3,7 @@ import { createTypeAliasDeclaration } from './utils';
 import {
   MANTASTYLE_RUNTIME_NAME,
   MANTASTYLE_PACKAGE_NAME,
+  MANTASTYLE_HELPER_NAME,
   HELPER_PACKAGE_NAME,
 } from './constants';
 
@@ -38,7 +39,11 @@ export function createTransformer(importHelpers: boolean) {
       return ts.visitEachChild(node, MantaStyleRuntimeTypeVisitor, context);
     };
     return (sourceFile) => {
-      const preappendedSource = ts.updateSourceFileNode(sourceFile, [
+      const transformedNode = ts.visitNode(
+        sourceFile,
+        MantaStyleRuntimeTypeVisitor,
+      );
+      return ts.updateSourceFileNode(transformedNode, [
         ts.createImportDeclaration(
           [],
           [],
@@ -53,18 +58,18 @@ export function createTransformer(importHelpers: boolean) {
               ts.createImportDeclaration(
                 [],
                 [],
-                undefined,
+                ts.createImportClause(
+                  undefined,
+                  ts.createNamespaceImport(
+                    ts.createIdentifier(MANTASTYLE_HELPER_NAME),
+                  ),
+                ),
                 ts.createLiteral(HELPER_PACKAGE_NAME),
               ),
             ]
           : []),
-        ...sourceFile.statements,
+        ...transformedNode.statements,
       ]);
-      const visitedNode = ts.visitNode(
-        preappendedSource,
-        MantaStyleRuntimeTypeVisitor,
-      );
-      return visitedNode;
     };
   };
   return transformer;

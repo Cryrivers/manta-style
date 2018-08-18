@@ -80,8 +80,8 @@ class MantaStyle {
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
     annotations: Annotation[],
   ) {
-    const newType = new TypeAliasDeclaration(typeName, annotations);
-    newType.setType(typeCallback(newType));
+    const newType = new LazyTypeAliasDeclaration(typeName, annotations);
+    newType.setInitialize(typeCallback);
     return newType;
   }
   public static TypeLiteral(typeCallback: (currentType: TypeLiteral) => void) {
@@ -142,9 +142,6 @@ class MantaStyle {
   public static ObjectKeyword = new ObjectKeyword();
   public static KeyOfKeyword(type: Type) {
     return new KeyOfKeyword(type);
-  }
-  public static LazyTypeAliasDeclaration(name: string) {
-    return new LazyTypeAliasDeclaration(name);
   }
 }
 

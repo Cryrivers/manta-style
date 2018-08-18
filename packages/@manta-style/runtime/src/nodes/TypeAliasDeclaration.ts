@@ -6,13 +6,14 @@ import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';
 
 export default class TypeAliasDeclaration extends Type {
-  private readonly name: string;
+  protected readonly name: string;
+  protected readonly annotations: Annotation[];
+
   private typeParameterTypes: Type[] = [];
   private typeParameters: TypeParameter[] = [];
-  private type: Type = new ErrorType(
+  protected type: Type = new ErrorType(
     `TypeAliasDeclaration "${this.name}" hasn't been initialized.`,
   );
-  private readonly annotations: Annotation[];
   constructor(name: string, annotations: Annotation[]) {
     super();
     this.name = name;
@@ -23,7 +24,7 @@ export default class TypeAliasDeclaration extends Type {
     this.typeParameters.push(newTypeParam);
     return newTypeParam;
   }
-  public argumentTypes(types: Type[]) {
+  public argumentTypes(types: Type[]): TypeAliasDeclaration {
     this.typeParameterTypes = types;
     return this;
   }
