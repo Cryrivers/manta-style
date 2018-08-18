@@ -11,6 +11,7 @@ import NeverKeyword from './types/NeverKeyword';
 import StringKeyword from './types/StringKeyword';
 import TypeReference from './types/TypeReference';
 import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
+import LazyTypeAliasDeclaration from './nodes/LazyTypeAliasDeclaration';
 import ConditionalType from './types/ConditionalType';
 import KeyOfKeyword from './types/KeyOfKeyword';
 import ArrayLiteral from './types/ArrayLiteral';
@@ -79,8 +80,8 @@ class MantaStyle {
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
     annotations: Annotation[],
   ) {
-    const newType = new TypeAliasDeclaration(typeName, annotations);
-    newType.setType(typeCallback(newType));
+    const newType = new LazyTypeAliasDeclaration(typeName, annotations);
+    newType.setInitialize(typeCallback);
     return newType;
   }
   public static TypeLiteral(typeCallback: (currentType: TypeLiteral) => void) {
