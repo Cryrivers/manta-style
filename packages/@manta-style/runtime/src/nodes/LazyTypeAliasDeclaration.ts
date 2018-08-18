@@ -1,44 +1,50 @@
 import TypeAliasDeclaration from './TypeAliasDeclaration';
 import { Type, Annotation } from '../utils/baseType';
 
-export default class LazyTypeAliasDeclaration extends Type {
-  private initializeFn?: () => TypeAliasDeclaration;
-  private typeAliasDeclarationInstance?: TypeAliasDeclaration;
-  private name: string;
-  constructor(name: string) {
-    super();
-    this.name = name;
+export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
+  private initializer: (currentType: TypeAliasDeclaration) => Type = () =>
+    this.type;
+  private initialized: boolean;
+
+  constructor(name: string, annotations: Annotation[]) {
+    super(name, annotations);
+    this.initialized = false;
   }
-  public setInitialize(initializeFn: () => TypeAliasDeclaration) {
-    this.initializeFn = initializeFn;
+
+  public setInitialize(
+    initializer: (currentType: TypeAliasDeclaration) => Type,
+  ) {
+    this.initializer = initializer;
   }
-  public initialize(): TypeAliasDeclaration {
-    if (!this.initializeFn) {
-      throw new Error(`${this.name} no initialize fn`);
-    } else if (this.typeAliasDeclarationInstance) {
-      return this.typeAliasDeclarationInstance;
+
+  public initialize() {
+    if (!this.initialized) {
+      this.setType(this.initializer(this));
+      this.initialized = true;
     }
-    return (this.typeAliasDeclarationInstance = this.initializeFn());
-  }
-
-  public deriveLiteral(parentAnnotations: Annotation[]): Type {
-    return this.initialize().deriveLiteral(parentAnnotations);
-  }
-
-  public mock(): any {
-    return this.initialize().mock();
-  }
-
-  public argumentTypes(types: Type[]) {
-    this.initialize().argumentTypes(types);
-    return this;
   }
 
   public getType() {
-    return this.initialize().getType();
+    this.initialize();
+    return super.getType();
   }
 
   public getAnnotations() {
-    return this.initialize().getAnnotations();
+    this.initialize();
+    return super.getAnnotations();
+  }
+
+  public deriveLiteral(parentAnnotations: Annotation[]): Type {
+    this.initialize();
+    return super.deriveLiteral(parentAnnotations);
+  }
+
+  public argumentTypes(types: Type[]) {
+    // need to create a different instance of TypeAliasDeclaration
+    // for each call of argumentTypes(...);
+    const typeAliasImplementation = new TypeAliasDeclaration(this.name, this.annotations);
+    typeAliasImplementation.setType(this.initializer(typeAliasImplementation));
+    typeAliasImplementation.argumentTypes(types);
+    return typeAliasImplementation;
   }
 }
