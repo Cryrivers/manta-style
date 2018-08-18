@@ -5,7 +5,6 @@ import TypeParameter from '../nodes/TypeParameter';
 import KeyOfKeyword from '../types/KeyOfKeyword';
 import ParenthesizedType from '../types/ParenthesizedType';
 import { inheritAnnotations } from '../utils/annotation';
-import LazyTypeAliasDeclaration from '../nodes/LazyTypeAliasDeclaration';
 
 /**
  * @description
@@ -24,14 +23,14 @@ export function resolveReferencedType(
     actualType instanceof TypeAliasDeclaration ||
     actualType instanceof TypeParameter ||
     actualType instanceof ParenthesizedType ||
-    actualType instanceof KeyOfKeyword ||
-    actualType instanceof LazyTypeAliasDeclaration
+    actualType instanceof KeyOfKeyword
   ) {
-    if (actualType instanceof LazyTypeAliasDeclaration) {
-      actualType = actualType.initialize();
-    } else if (actualType instanceof TypeReference) {
+    if (actualType instanceof TypeReference) {
       actualType = actualType.getActualType();
     } else if (actualType instanceof TypeAliasDeclaration) {
+      // Make sure type parameters has been initialized
+      // as we moved the initialization from `argumentTypes`
+      // to `deriveLiteral`.
       actualType.deriveLiteral(annotations);
       annotations = inheritAnnotations(
         annotations,
