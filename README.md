@@ -4,7 +4,7 @@
 Manta Style generates API mock endpoints from TypeScript type definitions automatically. 
 
 - [Installation](#installation)
-- [Usage (TypeScript)](#usage-typescript)
+- [Usage](#usage)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
@@ -22,11 +22,11 @@ npm install --save-dev @manta-style/cli
 
 You could also install it globally.
 
-## Usage (TypeScript)
+## Usage
 
 ### Create mock api `config.ts`
 
-You could use following config for test purpose. For more information about syntax, please check out [Syntax](./documentation/syntax-typescript.md).
+You could use following config for test purpose. For more information about syntax, please check out [Syntax](./documentation/syntax.md).
 
 ```ts
 interface User {
