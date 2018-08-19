@@ -89,21 +89,22 @@ Manta Style launches a mock server at port 3000 by default. The above-stated exa
 
 ```
 Manta Style launched at http://localhost:3000
-┌────────┬────────────────────────────┐
-│ Method │ Endpoint                   │
-├────────┼────────────────────────────┤
-│ GET    │ http://localhost:3000/user │
-└────────┴────────────────────────────┘
+┌────────┬────────────────────────────┬────────┬───────┐
+│ Method │ Endpoint                   │ Mocked │ Proxy │
+├────────┼────────────────────────────┼────────┼───────┤
+│ GET    │ http://localhost:3000/user │ Y      │       │
+└────────┴────────────────────────────┴────────┴───────┘
+Press O to configure selective mocking
 [FAKER MODE] Press S to take an instant snapshot
 ```
 
 ### Access endpoints in your browser
 
-To view the mock data of the example above-stated. Just launch a browser (or `curl`, `wget`) and access `http://localhost:3000/user`. Manta Style understands your type definition and generates mock data that respects type `WithResponse<User>`.
+To view the mock data of the example above-stated, just launch a browser (or `curl`, `wget`) and access `http://localhost:3000/user`. Manta Style understands your type definition and generates mock data that respects it.
 
-As `WithResponse<User> = WithResponseSuccess<User> | WithResponseFailure`, Manta Style would randomly choose one of the types in the union type. Therefore, it could randomly generate mock data for all cases:
+As `WithResponse<User> = WithResponseSuccess<User> | WithResponseFailure`, Manta Style would randomly choose one of the types in the union type. Therefore, it could randomly generate mock data for any of following cases:
 
-- Success (`WithResponseSuccess<User>`)
+1. `WithResponseSuccess<User>`:
 
 ```json
 {
@@ -119,16 +120,18 @@ As `WithResponse<User> = WithResponseSuccess<User> | WithResponseFailure`, Manta
 }
 ```
 
-- Failure (`WithResponseFailure`)
+2. `WithResponseFailure`:
 
 ```json
 { "status": "error", "message": "Bad Request" }
 ```
 
-String types support `@example` JSDoc annotations to specify mock strings. Multiple `@example` would be randomly-chosen. As `fake.js` built in, [mustache syntax](https://github.com/marak/Faker.js/#fakerfake) in `faker.js` could be used to generate more realistic fake data like names, address, etc.
+Press <kbd>S</kbd> to enable snapshot mode for a constant output.
+
+Press <kbd>O</kbd> to interactively disable or proxy a mocked endpoint.
 
 ## Usage
-```bash
+```
 $ ms --help
 
   Usage: ms [options]
