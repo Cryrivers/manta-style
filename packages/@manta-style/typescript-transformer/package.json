@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/typescript-transformer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The TypeScript transformer for Manta Style",
   "main": "./lib/cjs/typescript-transformer.js",
   "module": "./lib/esm/index.js",
