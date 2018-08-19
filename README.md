@@ -24,9 +24,9 @@ You could also install it globally.
 
 ## Usage
 
-### Create mock api `config.ts`
+### Create mock API configuration
 
-You could use following config for test purpose. For more information about syntax, please check out [Syntax](./documentation/syntax.md).
+You could use following configuration for test purpose. For more information about syntax, please check out [Syntax](./documentation/syntax.md).
 
 ```ts
 interface User {
