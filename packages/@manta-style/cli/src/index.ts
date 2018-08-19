@@ -60,70 +60,90 @@ if (generateSnapshot && useSnapshot) {
 }
 
 const app = express();
-const endpointTable: {
-  method: string;
-  endpoint: string;
-  proxy: string | null;
-}[] = [];
-const endpointMockTable: {
-  [method: string]: { [endpoint: string]: boolean };
-} = {};
+
+
 const snapshotFilePath = path.join(
   path.dirname(configFile),
   'ms.snapshot.json',
 );
 const tmpDir = findRoot(process.cwd()) + '/.mantastyle-tmp';
 const snapshotWatcher = chokidar.watch(snapshotFilePath);
-const compiledFilePath = builder.build(
-  path.resolve(configFile),
-  tmpDir,
-  verbose,
-);
-
 let isSnapshotMode = Boolean(useSnapshot);
 const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
+snapshotWatcher.on('change', () => {
+  snapshot.reloadFromFile(snapshotFilePath);
+});
 
 type MantaStyleConfig = {
   [key: string]: ReturnType<TypeAliasDeclarationFactory> | undefined;
 };
 
-const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
+const METHODS:HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
 
-snapshotWatcher.on('change', () => {
-  snapshot.reloadFromFile(snapshotFilePath);
+let endpointTable: {
+  method: string;
+  endpoint: string;
+  proxy: string | null;
+}[] = [];
+let endpointMockTable: {
+  [method: string]: { [endpoint: string]: boolean };
+} = {};
+let endpointMap: {
+  [method: string]: { [key: string]: Property },
+} = {};
+
+function updateEndpointConfig() {
+  const compiledFilePath = builder.build(
+    path.resolve(configFile),
+    tmpDir,
+    verbose,
+  ) || '';
+  delete require.cache[compiledFilePath];
+  const compileConfig: MantaStyleConfig = require(compiledFilePath);
+  endpointTable.length = 0;
+  METHODS.forEach(method => {
+    const methodTypeDef = compileConfig[method.toUpperCase()];
+    if (methodTypeDef) {
+      const endpoints = (methodTypeDef.getType() as TypeLiteral)._getProperties();
+      endpointMap[method] = {};
+      endpointMockTable[method] = {};
+      for (const endpoint of endpoints) {
+        const proxyAnnotation = endpoint.annotations.find(
+          (item) => item.key === 'proxy',
+        );
+        endpointTable.push({
+          method,
+          endpoint: endpoint.name,
+          proxy: proxyAnnotation
+            ? proxyAnnotation.value
+            : proxyUrl
+              ? proxyUrl
+              : null,
+        });
+        endpointMockTable[method][
+          endpoint.name
+        ] = true;
+        endpointMap[method][trimEndingSlash(endpoint.name)] = endpoint;
+      }
+    }
+  });
+}
+updateEndpointConfig();
+chokidar.watch(path.resolve(configFile)).on('change', () => {
+  updateEndpointConfig();
+  clear();
+  console.log(chalk.green('\nEndpoint config updated!\n'));
+  printMessage();
 });
 
 function buildEndpoints(method: HTTPMethods) {
-  const methodTypeDef = compileConfig[method.toUpperCase()];
-  if (methodTypeDef) {
-    const endpoints = (methodTypeDef.getType() as TypeLiteral)._getProperties();
-    const endpointMap: { [key: string]: Property } = {};
-
-    for (const endpoint of endpoints) {
-      const proxyAnnotation = endpoint.annotations.find(
-        (item) => item.key === 'proxy',
-      );
-      endpointTable.push({
-        method,
-        endpoint: endpoint.name,
-        proxy: proxyAnnotation
-          ? proxyAnnotation.value
-          : proxyUrl
-            ? proxyUrl
-            : null,
-      });
-      (endpointMockTable[method] = endpointMockTable[method] || {})[
-        endpoint.name
-      ] = true;
-      endpointMap[trimEndingSlash(endpoint.name)] = endpoint;
-    }
-
     app.use((req, res, next) => {
       const { path, query } = req;
       // Put Query Info to context object
       MantaStyle.context = { query };
       const queryString = qs.stringify(query);
-      const endpoint = endpointMap[trimEndingSlash(path)];
+      const thisMethodEndpointMap = endpointMap[method] || {};
+      const endpoint = thisMethodEndpointMap[trimEndingSlash(path)];
       const endpointInfo =
         endpoint &&
         endpointTable.find(
@@ -163,39 +183,37 @@ function buildEndpoints(method: HTTPMethods) {
               method,
               endpoint.name,
               queryString,
-              result.data,
-            );
-            res.send(result.data);
-          })
-          .catch((result: Error) => {
-            res.status(502).send(`
-              <html>
-                <head>
-                  <style>
-                    * {
-                      font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-                    }
-                  </style>
-                </head>
-                <body>
-                  <h2>Manta Style Proxy Error</h2>
-                  <p>Unable to connect to <strong>${endpoint.name}</strong></p>
-                  <p>Reason:</p>
-                  <blockquote>
-                    <p>${result.message}</p>
-                  </blockquote>
-                </body>
-              </html>
-            `);
-          });
-        return;
-      }
-      next();
-    });
-  }
+            result.data,
+          );
+          res.send(result.data);
+        })
+        .catch((result: Error) => {
+          res.status(502).send(`
+            <html>
+              <head>
+                <style>
+                  * {
+                    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+                  }
+                </style>
+              </head>
+              <body>
+                <h2>Manta Style Proxy Error</h2>
+                <p>Unable to connect to <strong>${endpoint.name}</strong></p>
+                <p>Reason:</p>
+                <blockquote>
+                  <p>${result.message}</p>
+                </blockquote>
+              </body>
+            </html>
+          `);
+        });
+      return;
+    }
+    next();
+  });
 }
-
-(['get', 'post', 'put', 'delete', 'patch'] as HTTPMethods[]).forEach(
+METHODS.forEach(
   buildEndpoints,
 );
 
