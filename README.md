@@ -5,7 +5,7 @@
 <table>
 <tr>
 <td>
-  Manta Style generates API mock endpoints from TypeScript type definitions _automatically_. 
+  Manta Style generates API mock endpoints from TypeScript type definitions automatically. 
 </td>
 </tr>
 </table>
