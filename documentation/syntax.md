@@ -18,6 +18,9 @@ WIP
 ## Unsupported Syntax
 - `extends` keyword in `interface` declaration will be ignored.
 - Union (`A | B`) and intersection(`A & B`) on index signatures are not supported.
+- Function types
+- `infer` keyword
+- `ReturnType<T>` and `InstanceType<T>` are not supported due to `infer` keyword and function types.
 
 ## JSDoc Annotations
 
