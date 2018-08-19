@@ -2,14 +2,9 @@
 
 > 🚀 Futuristic API Mock Server for Frontend
 
-<table>
-<tr>
-<td>
-  Manta Style generates API mock endpoints from TypeScript type definitions automatically. 
-</td>
-</tr>
-</table>
+[Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates API mock endpoints from TypeScript type definitions automatically.
 
+Contents
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
