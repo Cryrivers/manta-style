@@ -1,9 +1,17 @@
 # Manta Style ![CircleCI](https://img.shields.io/circleci/project/github/Cryrivers/manta-style.svg?style=flat-square) ![Codecov](https://img.shields.io/codecov/c/github/Cryrivers/manta-style.svg?style=flat-square) ![GitHub](https://img.shields.io/github/license/Cryrivers/manta-style.svg?style=flat-square)
+
 > 🚀 Futuristic API Mock Server for Frontend
 
-Manta Style generates API mock endpoints from TypeScript type definitions automatically. 
+<table>
+<tr>
+<td>
+  Manta Style generates API mock endpoints from TypeScript type definitions _automatically_. 
+</td>
+</tr>
+</table>
 
 - [Installation](#installation)
+- [Quick Start](#quick-start)
 - [Usage](#usage)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
@@ -11,18 +19,21 @@ Manta Style generates API mock endpoints from TypeScript type definitions automa
 
 ## Installation
 
-- Yarn
+### Yarn
+
 ```sh
 yarn add -D @manta-style/cli
 ```
-- npm
+
+### npm
+
 ```sh
 npm install --save-dev @manta-style/cli
 ```
 
-You could also install it globally.
+You could also install it globally, which adds a command line tool `ms` to your system.
 
-## Usage
+## Quick Start
 
 ### Create mock API configuration
 
@@ -54,17 +65,17 @@ interface User {
 }
 
 type WithResponseSuccess<T> = {
-  status: 'ok',
-  data: T
-}
+  status: 'ok';
+  data: T;
+};
 
 type WithResponseFailure = {
-  status: 'error',
+  status: 'error';
   /**
    * @example Bad Request
    */
-  message: string
-}
+  message: string;
+};
 
 type WithResponse<T> = WithResponseSuccess<T> | WithResponseFailure;
 
@@ -74,11 +85,13 @@ export type GET = {
 ```
 
 ### Launch Manta Style
+
 ```sh
 ms -c ./config.ts
 ```
 
 Manta Style launches a mock server at port 3000 by default. The above-stated example would generate following output in the terminal:
+
 ```
 Manta Style launched at http://localhost:3000
 ┌────────┬────────────────────────────┐
@@ -90,11 +103,13 @@ Manta Style launched at http://localhost:3000
 ```
 
 ### Access endpoints in your browser
+
 To view the mock data of the example above-stated. Just launch a browser (or `curl`, `wget`) and access `http://localhost:3000/user`. Manta Style understands your type definition and generates mock data that respects type `WithResponse<User>`.
 
 As `WithResponse<User> = WithResponseSuccess<User> | WithResponseFailure`, Manta Style would randomly choose one of the types in the union type. Therefore, it could randomly generate mock data for all cases:
 
 - Success (`WithResponseSuccess<User>`)
+
 ```json
 {
   "status": "ok",
@@ -110,11 +125,30 @@ As `WithResponse<User> = WithResponseSuccess<User> | WithResponseFailure`, Manta
 ```
 
 - Failure (`WithResponseFailure`)
+
 ```json
 { "status": "error", "message": "Bad Request" }
 ```
 
 String types support `@example` JSDoc annotations to specify mock strings. Multiple `@example` would be randomly-chosen. As `fake.js` built in, [mustache syntax](https://github.com/marak/Faker.js/#fakerfake) in `faker.js` could be used to generate more realistic fake data like names, address, etc.
+
+## Usage
+```bash
+$ ms --help
+
+  Usage: ms [options]
+
+  Options:
+
+    -V, --version              output the version number
+    -c --configFile <file>     the TypeScript config file to generate entry points
+    -p --port <i> [3000]       To use a port different than 3000
+    --proxyUrl <url>           To enable proxy for disabled endpoints
+    --generateSnapshot <file>  To generate a API mock data snapshot (Not yet implemented.)
+    --useSnapshot <file>       To launch a server with data snapshot
+    -v --verbose               show debug information
+    -h, --help                 output usage information
+```
 
 ## Contributing
 
