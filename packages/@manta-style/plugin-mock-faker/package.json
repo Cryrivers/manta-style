@@ -1,0 +1,28 @@
+{
+  "name": "@manta-style/plugin-mock-faker",
+  "version": "0.1.0",
+  "description": "Manta Style Mock Plugin - Faker",
+  "main": "./index.js",
+  "scripts": {
+    "build": "tsc -p ./tsconfig.json"
+  },
+  "author": {
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/manta-style"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@manta-style/plugin-helper": "0.1.0",
+    "faker": "^4.1.0",
+    "lodash-es": "^4.17.10"
+  },
+  "devDependencies": {
+    "@types/faker": "^4.1.3",
+    "@types/lodash-es": "^4.17.1"
+  }
+}

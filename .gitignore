@@ -3,3 +3,4 @@ lerna-debug.log
 lib/
 .mantastyle-tmp/
 coverage/
+yarn-error.log

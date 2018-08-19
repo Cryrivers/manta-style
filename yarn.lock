@@ -725,6 +725,10 @@
   version "4.1.3"
   resolved "https://registry.yarnpkg.com/@types/faker/-/faker-4.1.3.tgz#544398268b37248300dc428316daa6a7521bbd19"
 
+"@types/faker@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@types/faker/-/faker-4.1.3.tgz#544398268b37248300dc428316daa6a7521bbd19"
+
 "@types/find-root@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@types/find-root/-/find-root-1.1.1.tgz#1cc5a8008aa3273f870f2ae17bb3461a1632d4b8"
@@ -778,6 +782,10 @@
   version "10.7.1"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.7.1.tgz#b704d7c259aa40ee052eec678758a68d07132a2e"
 
+"@types/normalize-package-data@*":
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
+
 "@types/query-string@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@types/query-string/-/query-string-6.1.0.tgz#5f721f9503bdf517d474c66cf4423da5dd2d5698"
@@ -785,6 +793,16 @@
 "@types/range-parser@*":
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/@types/range-parser/-/range-parser-1.2.2.tgz#fa8e1ad1d474688a757140c91de6dace6f4abc8d"
+
+"@types/read-pkg-up@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@types/read-pkg-up/-/read-pkg-up-3.0.1.tgz#05911057c3be1aade38bfecbb9a8554dbd0582be"
+  dependencies:
+    "@types/normalize-package-data" "*"
+
+"@types/resolve-from@^0.0.18":
+  version "0.0.18"
+  resolved "https://registry.yarnpkg.com/@types/resolve-from/-/resolve-from-0.0.18.tgz#a8ccb7ce3fb1db75c95eb7dea7ed51b8d060385d"
 
 "@types/rx-core-binding@*":
   version "4.0.4"
@@ -5527,6 +5545,13 @@ read-pkg-up@^3.0.0:
   resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-3.0.0.tgz#3ed496685dba0f8fe118d0691dc51f4a1ff96f07"
   dependencies:
     find-up "^2.0.0"
+    read-pkg "^3.0.0"
+
+read-pkg-up@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/read-pkg-up/-/read-pkg-up-4.0.0.tgz#1b221c6088ba7799601c808f91161c66e58f8978"
+  dependencies:
+    find-up "^3.0.0"
     read-pkg "^3.0.0"
 
 read-pkg@^1.0.0, read-pkg@^1.1.0:
