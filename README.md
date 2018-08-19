@@ -6,10 +6,16 @@
 
 # Quick Start
 
-1. Install `manta-style`
+1. Install `manta-style` 
+```sh
+#npm install -g @manta-style/cli
+yarn global add @manta-style/cli
+```
+or locally
 
 ```sh
-yarn add --dev manta-style
+#npm install --save-dev @manta-style/cli
+yarn add -D @manta-style/cli
 ```
 
 2. Create mock api `config.ts`
@@ -54,6 +60,10 @@ export type GET = {
 
 ```sh
 ms -c ./config.ts
+# from local packge:
+# yarn ms -c ./config.ts
+# or
+# ./node_modules/.bin/ms -c ./config.ts
 ```
 
 # Contributing
