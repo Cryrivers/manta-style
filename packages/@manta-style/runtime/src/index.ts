@@ -29,26 +29,6 @@ export type TypeLiteral = TypeLiteral;
 export type Property = Property;
 class MantaStyle {
   public static context: { [key: string]: unknown } = {};
-  private static typeReferences: {
-    [key: string]: TypeAliasDeclarationFactory;
-  } = {};
-  public static clearType() {
-    MantaStyle.typeReferences = {};
-  }
-  public static registerType(name: string, type: TypeAliasDeclarationFactory) {
-    if (MantaStyle.typeReferences[name]) {
-      throw new Error(`Type "${name}" has already been registered.`);
-    } else {
-      MantaStyle.typeReferences[name] = type;
-    }
-  }
-  public static referenceType(name: string): TypeAliasDeclaration {
-    if (!MantaStyle.typeReferences[name]) {
-      throw new Error(`Type "${name}" hasn't been registered yet.`);
-    } else {
-      return MantaStyle.typeReferences[name]();
-    }
-  }
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
