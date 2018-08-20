@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/runtime",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Manta Style Runtime",
   "main": "./lib/umd/manta-style.js",
   "module": "./lib/esm/index.js",
