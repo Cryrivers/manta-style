@@ -42,29 +42,24 @@ describe('Annotation Test', () => {
      * type ArrayType = SingleType[];
      * type TestObject = GenericType<ArrayType>;
      */
-    const GenericType = () =>
-      MS.TypeAliasDeclaration(
-        'GenericType',
-        (type) => type.TypeParameter('T'),
-        [],
-      );
-    const SingleType = () =>
-      MS.TypeAliasDeclaration('SingleType', () => MS.NumberKeyword, []);
-    const ArrayType = () =>
-      MS.TypeAliasDeclaration(
-        'ArrayType',
-        () => MS.ArrayType(MS.TypeReference('SingleType')),
-        [{ key: 'length', value: '20' }],
-      );
-    MS.registerType('GenericType', GenericType);
-    MS.registerType('SingleType', SingleType);
-    MS.registerType('ArrayType', ArrayType);
+    const GenericType = MS.TypeAliasDeclaration(
+      'GenericType',
+      (type) => type.TypeParameter('T'),
+      [],
+    );
+    const SingleType = MS.TypeAliasDeclaration(
+      'SingleType',
+      () => MS.NumberKeyword,
+      [],
+    );
+    const ArrayType = MS.TypeAliasDeclaration(
+      'ArrayType',
+      () => MS.ArrayType(SingleType),
+      [{ key: 'length', value: '20' }],
+    );
     const TestObject = MS.TypeAliasDeclaration(
       'TestObject',
-      () =>
-        MS.TypeReference('GenericType').argumentTypes([
-          MS.TypeReference('ArrayType'),
-        ]),
+      () => GenericType.argumentTypes([ArrayType]),
       [],
     );
     const result = TestObject.deriveLiteral([]).mock();
@@ -78,29 +73,24 @@ describe('Annotation Test', () => {
      * // @length 20
      * type TestObject = GenericType<ArrayType>;
      */
-    const GenericType = () =>
-      MS.TypeAliasDeclaration(
-        'GenericType',
-        (type) => type.TypeParameter('T'),
-        [],
-      );
-    const SingleType = () =>
-      MS.TypeAliasDeclaration('SingleType', () => MS.NumberKeyword, []);
-    const ArrayType = () =>
-      MS.TypeAliasDeclaration(
-        'ArrayType',
-        () => MS.ArrayType(MS.TypeReference('SingleType')),
-        [],
-      );
-    MS.registerType('GenericType', GenericType);
-    MS.registerType('SingleType', SingleType);
-    MS.registerType('ArrayType', ArrayType);
+    const GenericType = MS.TypeAliasDeclaration(
+      'GenericType',
+      (type) => type.TypeParameter('T'),
+      [],
+    );
+    const SingleType = MS.TypeAliasDeclaration(
+      'SingleType',
+      () => MS.NumberKeyword,
+      [],
+    );
+    const ArrayType = MS.TypeAliasDeclaration(
+      'ArrayType',
+      () => MS.ArrayType(SingleType),
+      [],
+    );
     const TestObject = MS.TypeAliasDeclaration(
       'TestObject',
-      () =>
-        MS.TypeReference('GenericType').argumentTypes([
-          MS.TypeReference('ArrayType'),
-        ]),
+      () => GenericType.argumentTypes([ArrayType]),
       [{ key: 'length', value: '20' }],
     );
     const result = TestObject.deriveLiteral([]).mock();

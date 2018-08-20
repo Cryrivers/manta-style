@@ -9,7 +9,6 @@ import UnionType from './types/UnionType';
 import AnyKeyword from './types/AnyKeyword';
 import NeverKeyword from './types/NeverKeyword';
 import StringKeyword from './types/StringKeyword';
-import TypeReference from './types/TypeReference';
 import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
 import LazyTypeAliasDeclaration from './nodes/LazyTypeAliasDeclaration';
 import ConditionalType from './types/ConditionalType';
@@ -120,9 +119,6 @@ class MantaStyle {
   }
   public static OptionalType(type: Type) {
     return new OptionalType(type);
-  }
-  public static TypeReference(referenceName: string) {
-    return new TypeReference(referenceName);
   }
   public static ConditionalType(
     checkType: Type,

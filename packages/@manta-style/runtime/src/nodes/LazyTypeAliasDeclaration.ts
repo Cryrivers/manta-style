@@ -42,7 +42,10 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
   public argumentTypes(types: Type[]) {
     // need to create a different instance of TypeAliasDeclaration
     // for each call of argumentTypes(...);
-    const typeAliasImplementation = new TypeAliasDeclaration(this.name, this.annotations);
+    const typeAliasImplementation = new TypeAliasDeclaration(
+      this.name,
+      this.annotations,
+    );
     typeAliasImplementation.setType(this.initializer(typeAliasImplementation));
     typeAliasImplementation.argumentTypes(types);
     return typeAliasImplementation;

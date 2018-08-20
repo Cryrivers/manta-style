@@ -1,4 +1,3 @@
-import TypeReference from '../types/TypeReference';
 import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
 import { Type, Annotation } from './baseType';
 import TypeParameter from '../nodes/TypeParameter';
@@ -8,7 +7,7 @@ import { inheritAnnotations } from '../utils/annotation';
 
 /**
  * @description
- * Get the actual type a TypeReference, TypeAliasDeclaration
+ * Get the actual type a TypeAliasDeclaration
  * or TypeParameter (generic type) refers to. It can only be used
  * in `deriveLiteral` methods.
  * @param type Type to be resolved
@@ -19,15 +18,12 @@ export function resolveReferencedType(
   let actualType = type;
   let annotations: Annotation[] = [];
   while (
-    actualType instanceof TypeReference ||
     actualType instanceof TypeAliasDeclaration ||
     actualType instanceof TypeParameter ||
     actualType instanceof ParenthesizedType ||
     actualType instanceof KeyOfKeyword
   ) {
-    if (actualType instanceof TypeReference) {
-      actualType = actualType.getActualType();
-    } else if (actualType instanceof TypeAliasDeclaration) {
+    if (actualType instanceof TypeAliasDeclaration) {
       // Make sure type parameters has been initialized
       // as we moved the initialization from `argumentTypes`
       // to `deriveLiteral`.
