@@ -25,6 +25,9 @@ jobs:
           - v1-dependencies-{{ checksum "yarn.lock" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+      
+      - run: sudo yarn global add greenkeeper-lockfile@2
+      - run: greenkeeper-lockfile-update
 
       - run: yarn install
       - run: yarn bootstrap
@@ -36,3 +39,4 @@ jobs:
         
       # run tests!
       - run: yarn test
+      - run: greenkeeper-lockfile-upload
