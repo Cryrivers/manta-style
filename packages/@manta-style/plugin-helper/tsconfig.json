@@ -5,7 +5,7 @@
     "strict": true,
     "declaration": true,
     "sourceMap": true,
-    "module": "esnext",
+    "module": "commonjs",
     "outDir": "./lib"
   },
   "exclude": ["node_modules", "__tests__", "__mocks__", "./lib"]
