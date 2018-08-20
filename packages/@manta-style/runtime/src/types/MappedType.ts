@@ -1,7 +1,6 @@
-import { QuestionToken } from '@manta-style/consts';
 import TypeParameter from '../nodes/TypeParameter';
 import { ErrorType } from '../utils/pseudoTypes';
-import { Annotation, Type } from '../utils/baseType';
+import { Annotation, Type, QuestionToken } from '../utils/baseType';
 import Literal from './Literal';
 import TypeLiteral from './TypeLiteral';
 import { resolveReferencedType } from '../utils/referenceTypes';
