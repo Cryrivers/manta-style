@@ -2,33 +2,29 @@
 
 exports[`Type Reference Reference Type (Generic) 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const A = function () { return MantaStyle.TypeAliasDeclaration(\\"A\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const A = MantaStyle.TypeAliasDeclaration(\\"A\\", typeFactory => {
     const T = typeFactory.TypeParameter(\\"T\\");
     const type = MantaStyle.UnionType([MantaStyle.StringKeyword, T]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"A\\", A)
-const B = function () { return MantaStyle.TypeAliasDeclaration(\\"B\\", typeFactory => {
-    const type = MantaStyle.TypeReference(\\"A\\").argumentTypes([MantaStyle.NumberKeyword]);
+}, []);
+const B = MantaStyle.TypeAliasDeclaration(\\"B\\", typeFactory => {
+    const type = A.argumentTypes([MantaStyle.NumberKeyword]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"B\\", B)
+}, []);
 "
 `;
 
 exports[`Type Reference Reference Type (Non-generic) 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const A = function () { return MantaStyle.TypeAliasDeclaration(\\"A\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const A = MantaStyle.TypeAliasDeclaration(\\"A\\", typeFactory => {
     const type = MantaStyle.StringKeyword;
     return type;
-}, []); };
-MantaStyle.registerType(\\"A\\", A)
-const B = function () { return MantaStyle.TypeAliasDeclaration(\\"B\\", typeFactory => {
-    const type = MantaStyle.TypeReference(\\"A\\");
+}, []);
+const B = MantaStyle.TypeAliasDeclaration(\\"B\\", typeFactory => {
+    const type = A;
     return type;
-}, []); };
-MantaStyle.registerType(\\"B\\", B)
+}, []);
 "
 `;

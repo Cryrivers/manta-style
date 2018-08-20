@@ -2,33 +2,30 @@
 
 exports[`Tuple, Optional and Rest Optional 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.TupleType([MantaStyle.NumberKeyword, MantaStyle.NumberKeyword, MantaStyle.OptionalType(MantaStyle.NumberKeyword)]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Tuple, Optional and Rest Rest 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.TupleType([MantaStyle.NumberKeyword, MantaStyle.NumberKeyword, MantaStyle.RestType(MantaStyle.StringKeyword)]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Tuple, Optional and Rest Tuple 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.TupleType([MantaStyle.NumberKeyword, MantaStyle.NumberKeyword]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;

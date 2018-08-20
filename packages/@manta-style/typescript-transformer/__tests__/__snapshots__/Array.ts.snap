@@ -2,56 +2,51 @@
 
 exports[`Array Array keyword form 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.ArrayType(MantaStyle.StringKeyword);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Array Array keyword form 2`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.ArrayType(MantaStyle.ParenthesizedType(MantaStyle.UnionType([MantaStyle.NumberKeyword, MantaStyle.StringKeyword])));
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Array Array keyword form 3`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const T = typeFactory.TypeParameter(\\"T\\");
     const type = MantaStyle.ArrayType(T);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Array Bracket form 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.ArrayType(MantaStyle.StringKeyword);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Array Bracket form 2`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.ArrayType(MantaStyle.ParenthesizedType(MantaStyle.UnionType([MantaStyle.NumberKeyword, MantaStyle.StringKeyword])));
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
