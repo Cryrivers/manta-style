@@ -2,108 +2,99 @@
 
 exports[`Operators Intersection and Union composed with brackets 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const T = typeFactory.TypeParameter(\\"T\\");
     const S = typeFactory.TypeParameter(\\"S\\");
     const type = MantaStyle.IntersectionType([MantaStyle.NumberKeyword, MantaStyle.ParenthesizedType(MantaStyle.UnionType([MantaStyle.Literal(1), T, S]))]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Operators Intersections 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.IntersectionType([MantaStyle.NumberKeyword, MantaStyle.AnyKeyword]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Operators Intersections 2`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const T = typeFactory.TypeParameter(\\"T\\");
     const S = typeFactory.TypeParameter(\\"S\\");
     const type = MantaStyle.IntersectionType([T, S, MantaStyle.NumberKeyword]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Operators KeyOf 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Keys = function () { return MantaStyle.TypeAliasDeclaration(\\"Keys\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Keys = MantaStyle.TypeAliasDeclaration(\\"Keys\\", typeFactory => {
     const type = MantaStyle.KeyOfKeyword(MantaStyle.TypeLiteral(typeLiteral => {
         typeLiteral.property(\\"a\\", MantaStyle.NumberKeyword, false, []);
         typeLiteral.property(\\"b\\", MantaStyle.StringKeyword, false, []);
         typeLiteral.property(\\"c\\", MantaStyle.BooleanKeyword, false, []);
     }));
     return type;
-}, []); };
-MantaStyle.registerType(\\"Keys\\", Keys)
+}, []);
 "
 `;
 
 exports[`Operators KeyOf 2`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Obj = function () { return MantaStyle.TypeAliasDeclaration(\\"Obj\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Obj = MantaStyle.TypeAliasDeclaration(\\"Obj\\", typeFactory => {
     const type = MantaStyle.TypeLiteral(typeLiteral => {
         typeLiteral.property(\\"a\\", MantaStyle.NumberKeyword, false, []);
         typeLiteral.property(\\"b\\", MantaStyle.StringKeyword, false, []);
         typeLiteral.property(\\"c\\", MantaStyle.BooleanKeyword, false, []);
     });
     return type;
-}, []); };
-MantaStyle.registerType(\\"Obj\\", Obj)
-const Keys = function () { return MantaStyle.TypeAliasDeclaration(\\"Keys\\", typeFactory => {
-    const type = MantaStyle.KeyOfKeyword(MantaStyle.TypeReference(\\"Obj\\"));
+}, []);
+const Keys = MantaStyle.TypeAliasDeclaration(\\"Keys\\", typeFactory => {
+    const type = MantaStyle.KeyOfKeyword(Obj);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Keys\\", Keys)
+}, []);
 "
 `;
 
 exports[`Operators KeyOf 3`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Keys = function () { return MantaStyle.TypeAliasDeclaration(\\"Keys\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Keys = MantaStyle.TypeAliasDeclaration(\\"Keys\\", typeFactory => {
     const T = typeFactory.TypeParameter(\\"T\\", MantaStyle.ObjectKeyword);
     const type = MantaStyle.KeyOfKeyword(T);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Keys\\", Keys)
+}, []);
 "
 `;
 
 exports[`Operators Unions 1`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const type = MantaStyle.UnionType([MantaStyle.Literal(1), MantaStyle.Literal(2)]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
 
 exports[`Operators Unions 2`] = `
 "import MantaStyle from \\"@manta-style/runtime\\";
-import \\"@manta-style/typescript-helpers\\";
-const Test = function () { return MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
+import * as MantaStyleHelper from \\"@manta-style/typescript-helpers\\";
+const Test = MantaStyle.TypeAliasDeclaration(\\"Test\\", typeFactory => {
     const T = typeFactory.TypeParameter(\\"T\\");
     const S = typeFactory.TypeParameter(\\"S\\");
     const type = MantaStyle.UnionType([T, S, MantaStyle.Literal(1), MantaStyle.Literal(2)]);
     return type;
-}, []); };
-MantaStyle.registerType(\\"Test\\", Test)
+}, []);
 "
 `;
