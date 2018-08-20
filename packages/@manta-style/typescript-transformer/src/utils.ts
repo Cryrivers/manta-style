@@ -5,7 +5,12 @@ import {
   MANTASTYLE_HELPER_TYPES,
 } from './constants';
 import { isOptionalTypeNode, isRestTypeNode } from './typescript';
-import { QuestionToken, ReservedTypePrefix } from '@manta-style/consts';
+
+const enum QuestionToken {
+  None,
+  QuestionToken,
+  MinusToken,
+}
 
 /*
 type X = {
@@ -406,22 +411,6 @@ function createTypeReference(
   typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>,
 ): ts.Expression {
   const typeName = node.typeName.getText();
-  // Magic type to convert query string to types
-  if (typeName === 'unstable_Query' && node.typeArguments) {
-    const queryKey = node.typeArguments[0];
-    if (
-      ts.isLiteralTypeNode(queryKey) &&
-      ts.isStringLiteral(queryKey.literal)
-    ) {
-      return createRuntimeFunctionCall('TypeReference', [
-        ts.createStringLiteral(
-          `${ReservedTypePrefix.URLQuery}${queryKey.literal.text}`,
-        ),
-      ]);
-    } else {
-      throw Error('key in unstable_Query is not a string literal.');
-    }
-  }
 
   let typeReferenceNode;
   if (MANTASTYLE_HELPER_TYPES.indexOf(typeName) > -1) {

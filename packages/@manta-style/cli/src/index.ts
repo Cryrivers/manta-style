@@ -115,26 +115,21 @@ function buildEndpoints(method: HTTPMethods) {
       (endpointMockTable[method] = endpointMockTable[method] || {})[
         endpoint.name
       ] = true;
-      endpointMap[endpoint.name] = endpoint;
+      endpointMap[trimEndingSlash(endpoint.name)] = endpoint;
     }
 
     app.use((req, res, next) => {
-      const { url, query, method: requestMethod } = req;
+      const { path, query } = req;
+      // Put Query Info to context object
+      MantaStyle.context = { query };
       const queryString = qs.stringify(query);
-
-      const endpoint = endpointMap[trimEndingSlash(url)];
+      const endpoint = endpointMap[trimEndingSlash(path)];
       const endpointInfo =
         endpoint &&
         endpointTable.find(
           (item) => item.method === method && item.endpoint === endpoint.name,
         );
       if (endpointInfo && endpointMockTable[method][endpoint.name]) {
-        MantaStyle.clearQueryTypes();
-        if (typeof query === 'object') {
-          Object.keys(query).forEach((key) => {
-            MantaStyle.createTypeByQuery(key, query[key]);
-          });
-        }
         const literalType = endpoint.type.deriveLiteral([]);
         const mockData = literalType.mock();
         if (isSnapshotMode) {

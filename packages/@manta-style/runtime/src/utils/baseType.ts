@@ -10,6 +10,12 @@ export abstract class Type {
   }
 }
 
+export const enum QuestionToken {
+  None,
+  QuestionToken,
+  MinusToken,
+}
+
 export type Property = {
   name: string;
   type: Type;

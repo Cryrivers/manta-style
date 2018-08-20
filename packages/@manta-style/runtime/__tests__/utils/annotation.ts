@@ -3,9 +3,6 @@ import { inheritAnnotations } from '../../src/utils/annotation';
 import MS from '../../src';
 
 describe('Annotation Test', () => {
-  afterEach(() => {
-    MS.clearType();
-  });
   test('Inherit Annotations', () => {
     const parent: Annotation[] = [
       { key: 'length', value: '0' },

@@ -13,67 +13,22 @@ import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
 import LazyTypeAliasDeclaration from './nodes/LazyTypeAliasDeclaration';
 import ConditionalType from './types/ConditionalType';
 import KeyOfKeyword from './types/KeyOfKeyword';
-import ArrayLiteral from './types/ArrayLiteral';
 import TupleType from './types/TupleType';
 import RestType from './types/RestType';
 import OptionalType from './types/OptionalType';
 import IndexedAccessType from './types/IndexedAccessType';
 import MappedType from './types/MappedType';
 import { Type, Literals, Annotation, Property } from './utils/baseType';
-import { ReservedTypePrefix } from '@manta-style/consts';
 import IntersectionType from './types/IntersectionType';
 import ParenthesizedType from './types/ParenthesizedType';
 import ObjectKeyword from './types/ObjectKeyword';
+import ArrayLiteral from './types/ArrayLiteral';
 
 export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 export type TypeLiteral = TypeLiteral;
 export type Property = Property;
 class MantaStyle {
-  private static typeReferences: {
-    [key: string]: TypeAliasDeclarationFactory;
-  } = {};
-  public static clearType() {
-    MantaStyle.typeReferences = {};
-  }
-  public static registerType(name: string, type: TypeAliasDeclarationFactory) {
-    if (MantaStyle.typeReferences[name]) {
-      throw new Error(`Type "${name}" has already been registered.`);
-    } else {
-      MantaStyle.typeReferences[name] = type;
-    }
-  }
-  public static referenceType(name: string): TypeAliasDeclaration {
-    if (!MantaStyle.typeReferences[name]) {
-      if (name.startsWith(ReservedTypePrefix.URLQuery)) {
-        return MantaStyle.TypeAliasDeclaration(
-          `Anonymous "Never" Type Alias`,
-          () => MantaStyle.NeverKeyword,
-          [],
-        );
-      }
-      throw new Error(`Type "${name}" hasn't been registered yet.`);
-    } else {
-      return MantaStyle.typeReferences[name]();
-    }
-  }
-  public static clearQueryTypes() {
-    Object.keys(MantaStyle.typeReferences).forEach((key) => {
-      if (key.startsWith(ReservedTypePrefix.URLQuery)) {
-        delete MantaStyle.typeReferences[key];
-      }
-    });
-  }
-  public static createTypeByQuery(key: string, value: string | string[]) {
-    let type: Type;
-    if (Array.isArray(value)) {
-      type = new ArrayLiteral(value.map((item) => new Literal(item)));
-    } else {
-      type = new Literal(value);
-    }
-    MantaStyle.registerType(`${ReservedTypePrefix.URLQuery}${key}`, () =>
-      MantaStyle.TypeAliasDeclaration(`"${key}" in query`, () => type, []),
-    );
-  }
+  public static context: { [key: string]: unknown } = {};
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
@@ -111,6 +66,9 @@ class MantaStyle {
   public static ArrayType(elementType: Type) {
     return new ArrayType(elementType);
   }
+  public static ArrayLiteral(elements: Type[]) {
+    return new ArrayLiteral(elements);
+  }
   public static TupleType(elementTypes: Type[]) {
     return new TupleType(elementTypes);
   }
@@ -142,3 +100,6 @@ class MantaStyle {
 }
 
 export default MantaStyle;
+export { Type } from './utils/baseType';
+export const LiteralType = Literal;
+export { resolveReferencedType } from './utils/referenceTypes';

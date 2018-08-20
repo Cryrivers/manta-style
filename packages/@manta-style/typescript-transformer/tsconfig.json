@@ -4,8 +4,8 @@
     "target": "es5",
     "module": "esnext",
     "declaration": true,
-    "sourceMap": true,
-    "outDir": "./lib/esm"
+    "declarationDir": "./lib/typings",
+    "sourceMap": true
   },
-  "exclude": ["node_modules", "__tests__", "utils", "lib/esm"]
+  "exclude": ["node_modules", "__tests__", "utils", "lib"]
 }
