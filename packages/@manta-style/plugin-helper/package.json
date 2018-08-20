@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "echo 'No test yet'",
-    "build": "tsc -p ./tsconfig.json"
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -19,5 +19,8 @@
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "devDependencies": {
+    "awesome-typescript-loader": "^5.2.0"
   }
 }

@@ -38,6 +38,7 @@
     "@manta-style/runtime": "^0.1.1",
     "@manta-style/typescript-builder": "^0.1.1",
     "@manta-style/typescript-helpers": "^0.1.1",
+    "@manta-style/plugin-system": "0.1.0",
     "axios": "^0.18.0",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",

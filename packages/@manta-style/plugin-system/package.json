@@ -10,7 +10,7 @@
   },
   "scripts": {
     "test": "echo 'No test yet'",
-    "build": "echo 'no need to build'"
+    "build": "tsc -p tsconfig.json"
   },
   "repository": {
     "type": "git",

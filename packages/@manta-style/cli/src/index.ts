@@ -18,6 +18,7 @@ import MantaStyle, {
 } from '@manta-style/runtime';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
+import PluginSystem from '@manta-style/plugin-system';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -59,56 +60,57 @@ if (generateSnapshot && useSnapshot) {
   process.exit(1);
 }
 
-const app = express();
+import * as babelCore from 'babel-core';
+import * as fs from 'fs';
 
+(async function() {
+  const pluginSystem = await PluginSystem.discover(process.cwd());
 
-const snapshotFilePath = path.join(
-  path.dirname(configFile),
-  'ms.snapshot.json',
-);
-const tmpDir = findRoot(process.cwd()) + '/.mantastyle-tmp';
-const snapshotWatcher = chokidar.watch(snapshotFilePath);
-let isSnapshotMode = Boolean(useSnapshot);
-const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
-snapshotWatcher.on('change', () => {
-  snapshot.reloadFromFile(snapshotFilePath);
-});
+  const app = express();
+  const endpointTable: {
+    method: string;
+    endpoint: string;
+    proxy: string | null;
+  }[] = [];
+  const endpointMockTable: {
+    [method: string]: { [endpoint: string]: boolean };
+  } = {};
+  const snapshotFilePath = path.join(
+    path.dirname(configFile),
+    'ms.snapshot.json',
+  );
 
-type MantaStyleConfig = {
-  [key: string]: ReturnType<TypeAliasDeclarationFactory> | undefined;
-};
-
-const METHODS:HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
-
-let endpointTable: {
-  method: string;
-  endpoint: string;
-  proxy: string | null;
-}[] = [];
-let endpointMockTable: {
-  [method: string]: { [endpoint: string]: boolean };
-} = {};
-let endpointMap: {
-  [method: string]: { [key: string]: Property },
-} = {};
-
-function updateEndpointConfig() {
+  const tmpDir = findRoot(process.cwd()) + '/.mantastyle-tmp';
+  const snapshotWatcher = chokidar.watch(snapshotFilePath);
   const compiledFilePath = builder.build(
     path.resolve(configFile),
     tmpDir,
     verbose,
-  ) || '';
-  delete require.cache[compiledFilePath];
-  const compileConfig: MantaStyleConfig = require(compiledFilePath);
-  endpointTable.length = 0;
-  METHODS.forEach(method => {
+  );
+
+  let isSnapshotMode = Boolean(useSnapshot);
+  const snapshot = useSnapshot
+    ? Snapshot.fromDisk(useSnapshot)
+    : new Snapshot();
+
+  type MantaStyleConfig = {
+    [key: string]: ReturnType<TypeAliasDeclarationFactory> | undefined;
+  };
+
+  const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
+
+  snapshotWatcher.on('change', () => {
+    snapshot.reloadFromFile(snapshotFilePath);
+  });
+
+  function buildEndpoints(method: HTTPMethods) {
     const methodTypeDef = compileConfig[method.toUpperCase()];
     if (methodTypeDef) {
       const endpoints = (methodTypeDef.getType() as TypeLiteral)._getProperties();
-      endpointMap[method] = {};
-      endpointMockTable[method] = {};
+      const endpointMap: { [key: string]: Property } = {};
       for (const endpoint of endpoints) {
         const proxyAnnotation = endpoint.annotations.find(
+          // @ts-ignore
           (item) => item.key === 'proxy',
         );
         endpointTable.push({
@@ -120,211 +122,202 @@ function updateEndpointConfig() {
               ? proxyUrl
               : null,
         });
-        endpointMockTable[method][
+        (endpointMockTable[method] = endpointMockTable[method] || {})[
           endpoint.name
         ] = true;
-        endpointMap[method][trimEndingSlash(endpoint.name)] = endpoint;
+        endpointMap[trimEndingSlash(endpoint.name)] = endpoint;
       }
-    }
-  });
-}
-updateEndpointConfig();
-chokidar.watch(path.resolve(configFile)).on('change', () => {
-  updateEndpointConfig();
-  clear();
-  console.log(chalk.green('\nEndpoint config updated!\n'));
-  printMessage();
-});
 
-function buildEndpoints(method: HTTPMethods) {
-    app.use((req, res, next) => {
-      const { path, query } = req;
-      // Put Query Info to context object
-      MantaStyle.context = { query };
-      const queryString = qs.stringify(query);
-      const thisMethodEndpointMap = endpointMap[method] || {};
-      const endpoint = thisMethodEndpointMap[trimEndingSlash(path)];
-      const endpointInfo =
-        endpoint &&
-        endpointTable.find(
-          (item) => item.method === method && item.endpoint === endpoint.name,
-        );
-      if (endpointInfo && endpointMockTable[method][endpoint.name]) {
-        const literalType = endpoint.type.deriveLiteral([]);
-        const mockData = literalType.mock();
-        if (isSnapshotMode) {
-          const snapshotData = snapshot.fetchSnapshot(
-            method,
-            endpoint.name,
-            queryString,
+      app.use((req, res, next) => {
+        const { path, query } = req;
+        // Put Query Info to context object
+        MantaStyle.context = { query, plugins: pluginSystem };
+        const queryString = qs.stringify(query);
+        const endpoint = endpointMap[trimEndingSlash(path)];
+        const endpointInfo =
+          endpoint &&
+          endpointTable.find(
+            (item) => item.method === method && item.endpoint === endpoint.name,
           );
-          if (snapshotData) {
-            res.send(snapshotData);
-            return;
-          }
-        }
-        snapshot.updateSnapshot(method, endpoint.name, queryString, mockData);
-        res.send(mockData);
-        return;
-      } else if (
-        endpointInfo &&
-        !endpointMockTable[method][endpoint.name] &&
-        endpointInfo.proxy
-      ) {
-        axios
-          .request({
-            method,
-            url: endpoint.name,
-            baseURL: endpointInfo.proxy,
-            params: req.query,
-          })
-          .then((result) => {
-            snapshot.updateSnapshot(
+        if (endpointInfo && endpointMockTable[method][endpoint.name]) {
+          const literalType = endpoint.type.deriveLiteral([]);
+          const mockData = literalType.mock();
+          if (isSnapshotMode) {
+            const snapshotData = snapshot.fetchSnapshot(
               method,
               endpoint.name,
               queryString,
-            result.data,
-          );
-          res.send(result.data);
-        })
-        .catch((result: Error) => {
-          res.status(502).send(`
-            <html>
-              <head>
-                <style>
-                  * {
-                    font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-                  }
-                </style>
-              </head>
-              <body>
-                <h2>Manta Style Proxy Error</h2>
-                <p>Unable to connect to <strong>${endpoint.name}</strong></p>
-                <p>Reason:</p>
-                <blockquote>
-                  <p>${result.message}</p>
-                </blockquote>
-              </body>
-            </html>
-          `);
-        });
-      return;
+            );
+            if (snapshotData) {
+              res.send(snapshotData);
+              return;
+            }
+          }
+          snapshot.updateSnapshot(method, endpoint.name, queryString, mockData);
+          res.send(mockData);
+          return;
+        } else if (
+          endpointInfo &&
+          !endpointMockTable[method][endpoint.name] &&
+          endpointInfo.proxy
+        ) {
+          axios
+            .request({
+              method,
+              url: endpoint.name,
+              baseURL: endpointInfo.proxy,
+              params: req.query,
+            })
+            .then((result) => {
+              snapshot.updateSnapshot(
+                method,
+                endpoint.name,
+                queryString,
+                result.data,
+              );
+              res.send(result.data);
+            })
+            .catch((result: Error) => {
+              res.status(502).send(`
+              <html>
+                <head>
+                  <style>
+                    * {
+                      font-family: -apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+                    }
+                  </style>
+                </head>
+                <body>
+                  <h2>Manta Style Proxy Error</h2>
+                  <p>Unable to connect to <strong>${endpoint.name}</strong></p>
+                  <p>Reason:</p>
+                  <blockquote>
+                    <p>${result.message}</p>
+                  </blockquote>
+                </body>
+              </html>
+            `);
+            });
+          return;
+        }
+        next();
+      });
     }
-    next();
-  });
-}
-METHODS.forEach(
-  buildEndpoints,
-);
-
-app.listen(port || 3000);
-clear();
-printMessage();
-toggleSnapshotMode(true);
-
-function printMessage() {
-  console.log(`Manta Style launched at http://localhost:${port || 3000}`);
-  const table = new Table({
-    colors: false,
-    head: ['Method', 'Endpoint', 'Mocked', 'Proxy'],
-  });
-  for (const row of endpointTable) {
-    table.push([
-      row.method.toUpperCase(),
-      `http://localhost:${port || 3000}${row.endpoint}`,
-      endpointMockTable[row.method][row.endpoint]
-        ? chalk.green('Y')
-        : row.proxy
-          ? chalk.yellow('~>')
-          : chalk.red('N'),
-      row.proxy ? row.proxy + row.endpoint : '',
-    ]);
   }
-  console.log(table.toString());
-  console.log(`Press ${chalk.bold('O')} to configure selective mocking`);
-}
 
-function toggleSnapshotMode(showMessageOnly?: boolean) {
-  if (!showMessageOnly) {
-    isSnapshotMode = !isSnapshotMode;
-  }
-  logUpdate(
-    isSnapshotMode
-      ? `${chalk.yellow('[SNAPSHOT MODE]')} Press ${chalk.bold(
-          'S',
-        )} to take a snapshot for other APIs. Press ${chalk.bold(
-          'X',
-        )} to disable Snapshot Mode`
-      : `${chalk.yellow('[FAKER MODE]')} Press ${chalk.bold(
-          'S',
-        )} to take an instant snapshot`,
+  (['get', 'post', 'put', 'delete', 'patch'] as HTTPMethods[]).forEach(
+    buildEndpoints,
   );
-}
 
-async function selectiveMock() {
-  clear();
-  const selection = await multiSelect(
-    'Select endpoint to mock.',
-    endpointTable.map((endpoint) => ({
-      name: `${endpoint.method.toUpperCase()} ${endpoint.endpoint}`,
-      value: endpoint,
-    })),
-    endpointTable.filter(
-      (endpoint) => endpointMockTable[endpoint.method][endpoint.endpoint],
-    ),
-  );
-  for (const endpoint of endpointTable) {
-    endpointMockTable[endpoint.method][endpoint.endpoint] =
-      selection.indexOf(endpoint) > -1;
-  }
+  app.listen(port || 3000);
   clear();
   printMessage();
-  console.log('');
   toggleSnapshotMode(true);
+
+  function printMessage() {
+    console.log(`Manta Style launched at http://localhost:${port || 3000}`);
+    const table = new Table({
+      colors: false,
+      head: ['Method', 'Endpoint', 'Mocked', 'Proxy'],
+    });
+    for (const row of endpointTable) {
+      table.push([
+        row.method.toUpperCase(),
+        `http://localhost:${port || 3000}${row.endpoint}`,
+        endpointMockTable[row.method][row.endpoint]
+          ? chalk.green('Y')
+          : row.proxy
+            ? chalk.yellow('~>')
+            : chalk.red('N'),
+        row.proxy ? row.proxy + row.endpoint : '',
+      ]);
+    }
+    console.log(table.toString());
+    console.log(`Press ${chalk.bold('O')} to configure selective mocking`);
+  }
+
+  function toggleSnapshotMode(showMessageOnly?: boolean) {
+    if (!showMessageOnly) {
+      isSnapshotMode = !isSnapshotMode;
+    }
+    logUpdate(
+      isSnapshotMode
+        ? `${chalk.yellow('[SNAPSHOT MODE]')} Press ${chalk.bold(
+            'S',
+          )} to take a snapshot for other APIs. Press ${chalk.bold(
+            'X',
+          )} to disable Snapshot Mode`
+        : `${chalk.yellow('[FAKER MODE]')} Press ${chalk.bold(
+            'S',
+          )} to take an instant snapshot`,
+    );
+  }
+
+  async function selectiveMock() {
+    clear();
+    const selection = await multiSelect(
+      'Select endpoint to mock.',
+      endpointTable.map((endpoint) => ({
+        name: `${endpoint.method.toUpperCase()} ${endpoint.endpoint}`,
+        value: endpoint,
+      })),
+      endpointTable.filter(
+        (endpoint) => endpointMockTable[endpoint.method][endpoint.endpoint],
+      ),
+    );
+    for (const endpoint of endpointTable) {
+      endpointMockTable[endpoint.method][endpoint.endpoint] =
+        selection.indexOf(endpoint) > -1;
+    }
+    clear();
+    printMessage();
+    console.log('');
+    toggleSnapshotMode(true);
+
+    stdin.setRawMode && stdin.setRawMode(true);
+    stdin.resume();
+  }
+
+  const { stdin } = process;
+
+  stdin.on('data', function(key: Buffer) {
+    const keyCode = key.toString();
+    switch (keyCode) {
+      case '\u0003': {
+        process.exit();
+        break;
+      }
+      case 's':
+      case 'S': {
+        if (!isSnapshotMode) {
+          toggleSnapshotMode();
+        }
+        snapshot.writeToDisk(snapshotFilePath);
+        break;
+      }
+      case 'x':
+      case 'X': {
+        if (isSnapshotMode) {
+          snapshot.clearSnapshot();
+          toggleSnapshotMode();
+        }
+        break;
+      }
+      case 'o':
+      case 'O': {
+        selectiveMock();
+        break;
+      }
+    }
+  });
 
   stdin.setRawMode && stdin.setRawMode(true);
   stdin.resume();
-}
 
-const { stdin } = process;
-
-stdin.on('data', function(key: Buffer) {
-  const keyCode = key.toString();
-  switch (keyCode) {
-    case '\u0003': {
-      process.exit();
-      break;
+  function trimEndingSlash(url: string) {
+    if (url.endsWith('/')) {
+      return url.substring(0, url.length - 1);
     }
-    case 's':
-    case 'S': {
-      if (!isSnapshotMode) {
-        toggleSnapshotMode();
-      }
-      snapshot.writeToDisk(snapshotFilePath);
-      break;
-    }
-    case 'x':
-    case 'X': {
-      if (isSnapshotMode) {
-        snapshot.clearSnapshot();
-        toggleSnapshotMode();
-      }
-      break;
-    }
-    case 'o':
-    case 'O': {
-      selectiveMock();
-      break;
-    }
+    return url;
   }
-});
-
-stdin.setRawMode && stdin.setRawMode(true);
-stdin.resume();
-
-function trimEndingSlash(url: string) {
-  if (url.endsWith('/')) {
-    return url.substring(0, url.length - 1);
-  }
-  return url;
-}
+})();

@@ -36,7 +36,8 @@
   },
   "dependencies": {
     "faker": "^4.1.0",
-    "lodash-es": "^4.17.10"
+    "lodash-es": "^4.17.10",
+    "@manta-style/plugin-system": "0.1.0"
   },
   "jest": {
     "transform": {
