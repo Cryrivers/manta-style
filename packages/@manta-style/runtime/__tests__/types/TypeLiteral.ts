@@ -1,9 +1,6 @@
 import MS from '../../src';
 
 describe('TypeLiteral Test', () => {
-  afterEach(() => {
-    MS.clearType();
-  });
   test('TypeLiteral can mock', () => {
     const GenericTypeLiteral = MS.TypeAliasDeclaration(
       'GenericTypeLiteral',
