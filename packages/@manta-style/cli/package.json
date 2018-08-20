@@ -29,7 +29,7 @@
     "@types/cli-table": "^0.3.0",
     "@types/express": "^4.16.0",
     "@types/find-root": "^1.1.1",
-    "@types/inquirer": "^0.0.42",
+    "@types/inquirer": "^0.0.43",
     "@types/log-update": "^2.0.0",
     "@types/query-string": "^6.1.0",
     "typescript": "^3.0.1"
