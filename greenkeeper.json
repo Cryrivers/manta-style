@@ -1,0 +1,15 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "packages/@manta-style/cli/package.json",
+        "packages/@manta-style/consts/package.json",
+        "packages/@manta-style/runtime/package.json",
+        "packages/@manta-style/typescript-builder/package.json",
+        "packages/@manta-style/typescript-helpers/package.json",
+        "packages/@manta-style/typescript-transformer/package.json"
+      ]
+    }
+  }
+}
