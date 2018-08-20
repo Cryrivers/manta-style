@@ -1,5 +1,7 @@
 # Manta Style ![CircleCI](https://img.shields.io/circleci/project/github/Cryrivers/manta-style.svg?style=flat-square) ![Codecov](https://img.shields.io/codecov/c/github/Cryrivers/manta-style.svg?style=flat-square) ![GitHub](https://img.shields.io/github/license/Cryrivers/manta-style.svg?style=flat-square)
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Cryrivers/manta-style.svg)](https://greenkeeper.io/)
+
 > 🚀 Futuristic API Mock Server for Frontend
 
 [Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates API mock endpoints from TypeScript type definitions automatically.
