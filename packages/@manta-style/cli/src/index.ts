@@ -84,7 +84,7 @@ let isSnapshotMode = Boolean(useSnapshot);
 const snapshot = useSnapshot ? Snapshot.fromDisk(useSnapshot) : new Snapshot();
 
 type MantaStyleConfig = {
-  [key: string]: TypeAliasDeclarationFactory | undefined;
+  [key: string]: ReturnType<TypeAliasDeclarationFactory> | undefined;
 };
 
 const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
@@ -96,7 +96,7 @@ snapshotWatcher.on('change', () => {
 function buildEndpoints(method: HTTPMethods) {
   const methodTypeDef = compileConfig[method.toUpperCase()];
   if (methodTypeDef) {
-    const endpoints = (methodTypeDef().getType() as TypeLiteral)._getProperties();
+    const endpoints = (methodTypeDef.getType() as TypeLiteral)._getProperties();
     const endpointMap: { [key: string]: Property } = {};
 
     for (const endpoint of endpoints) {
