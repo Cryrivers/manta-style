@@ -1,9 +1,5 @@
 import * as ts from 'typescript';
-import {
-  MANTASTYLE_RUNTIME_NAME,
-  MANTASTYLE_HELPER_NAME,
-  MANTASTYLE_HELPER_TYPES,
-} from './constants';
+import { MANTASTYLE_RUNTIME_NAME } from './constants';
 import { isOptionalTypeNode, isRestTypeNode } from './typescript';
 import { QuestionToken, ReservedTypePrefix } from '@manta-style/consts';
 
@@ -42,48 +38,63 @@ export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
   const name = node.name.getText();
   const typeParameters = node.typeParameters || ts.createNodeArray();
   const jsdocTags = ts.getJSDocTags(node);
-
   const varCreation = createConstVariableStatement(
     name,
-    createRuntimeFunctionCall('TypeAliasDeclaration', [
-      ts.createStringLiteral(name),
-      ts.createArrowFunction(
-        undefined,
-        undefined,
-        [
-          ts.createParameter(
-            undefined,
-            undefined,
-            undefined,
-            'typeFactory',
-            undefined,
-            undefined,
-            undefined,
-          ),
-        ],
-        undefined,
-        undefined,
-        ts.createBlock(
-          [
-            ...createTypeParameters(
-              typeParameters,
-              typeParameters,
-              'typeFactory',
+    ts.createFunctionExpression(
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      [],
+      undefined,
+      ts.createBlock([
+        ts.createReturn(
+          createRuntimeFunctionCall('TypeAliasDeclaration', [
+            ts.createStringLiteral(name),
+            ts.createArrowFunction(
+              undefined,
+              undefined,
+              [
+                ts.createParameter(
+                  undefined,
+                  undefined,
+                  undefined,
+                  'typeFactory',
+                  undefined,
+                  undefined,
+                  undefined,
+                ),
+              ],
+              undefined,
+              undefined,
+              ts.createBlock(
+                [
+                  ...createTypeParameters(
+                    typeParameters,
+                    typeParameters,
+                    'typeFactory',
+                  ),
+                  createConstVariableStatement(
+                    'type',
+                    createMantaStyleRuntimeObject(node.type, typeParameters),
+                  ),
+                  ts.createReturn(ts.createIdentifier('type')),
+                ],
+                true,
+              ),
             ),
-            createConstVariableStatement(
-              'type',
-              createMantaStyleRuntimeObject(node.type, typeParameters),
-            ),
-            ts.createReturn(ts.createIdentifier('type')),
-          ],
-          true,
+            generateJSDocParam(jsdocTags),
+          ]),
         ),
-      ),
-      generateJSDocParam(jsdocTags),
-    ]),
+      ]),
+    ),
   );
+  const registerToRuntime = createRuntimeFunctionCall('registerType', [
+    ts.createStringLiteral(name),
+    ts.createIdentifier(name),
+  ]);
   varCreation.modifiers = node.modifiers;
-  return varCreation;
+  return [varCreation, registerToRuntime];
 }
 
 export function createRuntimeFunctionCall(
@@ -422,17 +433,11 @@ function createTypeReference(
       throw Error('key in unstable_Query is not a string literal.');
     }
   }
-
-  let typeReferenceNode;
-  if (MANTASTYLE_HELPER_TYPES.indexOf(typeName) > -1) {
-    typeReferenceNode = ts.createPropertyAccess(
-      ts.createIdentifier(MANTASTYLE_HELPER_NAME),
-      ts.createIdentifier(typeName),
-    );
-  } else {
-    typeReferenceNode = ts.createIdentifier(typeName);
-  }
-
+  const typeReferenceNode = isGenericTypeReference(typeName, typeParameters)
+    ? ts.createIdentifier(typeName)
+    : createRuntimeFunctionCall('TypeReference', [
+        ts.createStringLiteral(typeName),
+      ]);
   if (node.typeArguments) {
     return ts.createCall(
       ts.createPropertyAccess(typeReferenceNode, 'argumentTypes'),
