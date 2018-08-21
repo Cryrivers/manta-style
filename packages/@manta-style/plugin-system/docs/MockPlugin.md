@@ -35,18 +35,10 @@ type Plugin = {
 - Builder plugin is responsible for compiling the config file into JavaScript that utilizes `@manta-style/runtime`
 - Package name for a mock plugin should be `@manta-style/plugin-builder-*`
 - Current language support
+
   1. TypeScript (`@manta-style/plugin-builder-typescript`)
   2. Flowtype (WIP, `@manta-style/plugin-builder-flow`)
   3. GraphQL (Under consideration, `@manta-style/plugin-builder-graphql`)
-
-# CLI Plugin
-
-- CLI Plugin is responsible for adding interfaces to the command line tool `ms`.
-- Package name for a CLI plugin should be `@manta-style/plugin-cli-*`
-- Current CLI plugin support
-  1. KOA REST Server (`@manta-style/plugin-cli-koa-rest`)
-  2. Boilerplate Code Generator (Under consideration, `@manta-style/plugin-cli-boilerplate-generator`)
-  3. Apollo GraphQL Server (Under consideration, `@manta-style/plugin-cli-apollo-graphql`)
 
 ## Interface
 
@@ -57,6 +49,15 @@ interface BuilderPlugin {
   build(configFilePath): Promise<Result>;
 }
 ```
+
+# CLI Plugin
+
+- CLI Plugin is responsible for adding interfaces to the command line tool `ms`.
+- Package name for a CLI plugin should be `@manta-style/plugin-cli-*`
+- Current CLI plugin support
+  1. KOA REST Server (`@manta-style/plugin-cli-koa-rest`)
+  2. Boilerplate Code Generator (Under consideration, `@manta-style/plugin-cli-boilerplate-generator`)
+  3. Apollo GraphQL Server (Under consideration, `@manta-style/plugin-cli-apollo-graphql`)
 
 ## Plugin Interface (TBD)
 
