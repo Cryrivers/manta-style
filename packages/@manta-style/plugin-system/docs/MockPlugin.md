@@ -19,13 +19,19 @@ type SupportedMockNodeType =
   | 'NumberType'
   | 'BooleanType';
 
+type MockResult<T extends SupportedMockNodeType> = T extends 'ArrayType'
+  ? any[]
+  : T extends 'StringType'
+    ? string
+    : T extends 'NumberType' ? number : T extends 'BooleanType' ? boolean : any;
+
 type Plugin = {
   name: string;
   mock: {
     [key in SupportedMockNodeType]?: (
       type: Type,
       annotations: Annotation[],
-    ) => any
+    ) => MockResult<key> | null
   };
 };
 ```
