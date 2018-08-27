@@ -9,7 +9,7 @@ export default class ArrayLiteral extends Type {
   public getElements() {
     return this.elements;
   }
-  public deriveLiteral() {
+  public async deriveLiteral() {
     return this;
   }
   public mock() {

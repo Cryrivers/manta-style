@@ -11,11 +11,11 @@ export default class QueryType extends Type {
     this.type = type;
   }
   // TODO: Fix typing
-  public deriveLiteral(annotations: any) {
+  public async deriveLiteral(annotations: any) {
     const {
       context: { query },
     } = MantaStyle;
-    const { type } = resolveReferencedType(this.type);
+    const { type } = await resolveReferencedType(this.type);
     if (type instanceof LiteralType && typeof query === 'object') {
       // TODO: Fix typings
       const content = (query as {

@@ -6,7 +6,7 @@ export class ErrorType extends Type {
     super();
     this.message = errorMessage;
   }
-  public deriveLiteral() {
+  public async deriveLiteral() {
     return this;
   }
   public mock() {

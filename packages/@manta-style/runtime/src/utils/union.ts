@@ -4,11 +4,11 @@ import MantaStyle from '..';
 import NeverKeyword from '../types/NeverKeyword';
 import { resolveReferencedType } from './referenceTypes';
 
-export function normalizeUnion(unionType: UnionType): Type {
+export async function normalizeUnion(unionType: UnionType): Promise<Type> {
   // Filter out all 'never' keyword, since X | never = X
-  const types = unionType
-    .getTypes()
-    .map(resolveReferencedType)
+  const types = (await Promise.all(
+    unionType.getTypes().map(resolveReferencedType),
+  ))
     .map((item) => item.type)
     .filter((type) => !(type instanceof NeverKeyword));
   const { length } = types;

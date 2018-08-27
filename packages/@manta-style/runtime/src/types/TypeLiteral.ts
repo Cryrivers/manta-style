@@ -52,13 +52,13 @@ export default class TypeLiteral extends Type {
       annotations,
     });
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[]) {
     const typeLiteral = new TypeLiteral();
 
     for (const property of this.properties) {
       typeLiteral.property(
         property.name,
-        property.type.deriveLiteral(
+        await property.type.deriveLiteral(
           inheritAnnotations(parentAnnotations, property.annotations),
         ),
         property.questionMark,
@@ -81,7 +81,9 @@ export default class TypeLiteral extends Type {
         if (jsDocForKeys.length > 0) {
           for (let i = 0; i < jsDocForKeys.length; i++) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
-            const literal = computedProperty.type.deriveLiteral(jsDocForValues);
+            const literal = await computedProperty.type.deriveLiteral(
+              jsDocForValues,
+            );
             // TODO: Remove the assumption of string index signature.
             // support number in future
             if (chance > 0.5) {
@@ -96,7 +98,7 @@ export default class TypeLiteral extends Type {
         } else {
           typeLiteral.property(
             'This is a key. Customize it with JSDoc tag @key',
-            computedProperty.type.deriveLiteral(jsDocForValues),
+            await computedProperty.type.deriveLiteral(jsDocForValues),
             false,
             jsDocForValues,
           );
@@ -116,16 +118,16 @@ export default class TypeLiteral extends Type {
         ) {
           const keys =
             actualType instanceof KeyOfKeyword
-              ? actualType.getKeys()
-              : actualType
-                  .getTypes()
-                  .map((type) => type.deriveLiteral([]).mock());
+              ? await actualType.getKeys()
+              : (await Promise.all(
+                  actualType.getTypes().map((type) => type.deriveLiteral([])),
+                )).map((type) => type.mock());
           for (const key of keys) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
             if (chance > 0.5) {
               subTypeLiteral.property(
                 key,
-                computedProperty.type.deriveLiteral(
+                await computedProperty.type.deriveLiteral(
                   computedProperty.annotations,
                 ),
                 false,
@@ -151,7 +153,7 @@ export default class TypeLiteral extends Type {
     }
     return obj;
   }
-  public compose(type: TypeLiteral): TypeLiteral {
+  public async compose(type: TypeLiteral): Promise<TypeLiteral> {
     const composedTypeLiteral = new TypeLiteral();
     const SProperties = this.properties;
     const TProperties = type.properties;
@@ -160,7 +162,7 @@ export default class TypeLiteral extends Type {
       if (propT) {
         composedTypeLiteral.property(
           propS.name,
-          intersection(propS.type, propT.type),
+          await intersection(propS.type, propT.type),
           [propS.questionMark, propT.questionMark].every(Boolean),
           [...propS.annotations, ...propT.annotations],
         );

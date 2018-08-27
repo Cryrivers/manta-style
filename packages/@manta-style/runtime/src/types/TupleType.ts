@@ -9,20 +9,20 @@ export default class TupleType extends Type {
     super();
     this.elementTypes = elementTypes;
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[]) {
     const arrayLiteral: Type[] = [];
-    this.elementTypes.forEach((type) => {
+    for (const type of this.elementTypes) {
       const chance = type instanceof OptionalType ? Math.random() : 1;
       if (chance > 0.5) {
         if (type instanceof RestType) {
           arrayLiteral.push(
-            ...type.deriveLiteral(parentAnnotations).getElements(),
+            ...(await type.deriveLiteral(parentAnnotations)).getElements(),
           );
         } else {
-          arrayLiteral.push(type.deriveLiteral(parentAnnotations));
+          arrayLiteral.push(await type.deriveLiteral(parentAnnotations));
         }
       }
-    });
+    }
     return new ArrayLiteral(arrayLiteral);
   }
 }

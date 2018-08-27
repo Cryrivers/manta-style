@@ -8,13 +8,14 @@ export default class IntersectionType extends Type {
     super();
     this.types = types;
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
-    const reducedType = this.types
-      .map(resolveReferencedType)
-      .map((item) => item.type)
-      .reduce((previousType, currentType) =>
-        intersection(previousType, currentType),
-      );
+  public async deriveLiteral(parentAnnotations: Annotation[]) {
+    const resolvedTypes = (await Promise.all(
+      this.types.map(resolveReferencedType),
+    )).map((item) => item.type);
+    let reducedType = resolvedTypes[0];
+    for(const type of resolvedTypes) {
+      reducedType = await intersection(reducedType, type);
+    }
     return reducedType.deriveLiteral(parentAnnotations);
   }
   public getTypes() {

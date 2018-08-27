@@ -12,9 +12,9 @@ import { inheritAnnotations } from '../utils/annotation';
  * in `deriveLiteral` methods.
  * @param type Type to be resolved
  */
-export function resolveReferencedType(
+export async function resolveReferencedType(
   type: Type,
-): { type: Type; annotations: Annotation[] } {
+): Promise<{ type: Type; annotations: Annotation[] }> {
   let actualType = type;
   let annotations: Annotation[] = [];
   while (
@@ -36,7 +36,7 @@ export function resolveReferencedType(
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();
     } else if (actualType instanceof KeyOfKeyword) {
-      actualType = actualType.deriveLiteral();
+      actualType = await actualType.deriveLiteral();
     } else {
       actualType = actualType.getType();
     }

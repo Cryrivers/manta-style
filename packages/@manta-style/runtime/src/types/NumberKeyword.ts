@@ -2,10 +2,13 @@ import { Type, Annotation } from '../utils/baseType';
 import Literal from './Literal';
 import MantaStyle from '..';
 
-function getNumberLiteral(annotations: Annotation[], self: NumberKeyword) {
+async function getNumberLiteral(
+  annotations: Annotation[],
+  self: NumberKeyword,
+) {
   const { plugins } = MantaStyle.context;
   // @ts-ignore
-  const pluginValue = plugins.getMockValueFromPlugin(
+  const pluginValue = await plugins.getMockValueFromPlugin(
     'NumberType',
     self,
     annotations,
@@ -17,7 +20,7 @@ function getNumberLiteral(annotations: Annotation[], self: NumberKeyword) {
 }
 
 export default class NumberKeyword extends Type {
-  public deriveLiteral(annotations: Annotation[]) {
-    return new Literal(getNumberLiteral(annotations, this));
+  public async deriveLiteral(annotations: Annotation[]) {
+    return new Literal(await getNumberLiteral(annotations, this));
   }
 }

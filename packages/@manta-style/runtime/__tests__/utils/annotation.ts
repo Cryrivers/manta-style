@@ -19,7 +19,7 @@ describe('Annotation Test', () => {
       { key: 'length', value: '1' },
     ]);
   });
-  test('Array can inherit @length from TypeAliasDeclaration', () => {
+  test('Array can inherit @length from TypeAliasDeclaration', async () => {
     const type = MS.TypeAliasDeclaration(
       'Test',
       () => {
@@ -27,11 +27,11 @@ describe('Annotation Test', () => {
       },
       [{ key: 'length', value: '100' }, { key: 'example', value: 'yes' }],
     );
-    const result = type.deriveLiteral([]).mock();
+    const result = (await type.deriveLiteral([])).mock();
     expect(result).toHaveLength(100);
     expect(result).toEqual(Array.from(new Array(100), () => 'yes'));
   });
-  test('resolveReferencedType could correctly inherit annotations #1', () => {
+  test('resolveReferencedType could correctly inherit annotations #1', async () => {
     /*
      * type GenericType<T> = T;
      * type SingleType = number;
@@ -59,10 +59,10 @@ describe('Annotation Test', () => {
       () => GenericType.argumentTypes([ArrayType]),
       [],
     );
-    const result = TestObject.deriveLiteral([]).mock();
+    const result = (await TestObject.deriveLiteral([])).mock();
     expect(result).toHaveLength(20);
   });
-  test('resolveReferencedType could correctly inherit annotations #2', () => {
+  test('resolveReferencedType could correctly inherit annotations #2', async () => {
     /*
      * type GenericType<T> = T;
      * type SingleType = number;
@@ -90,7 +90,7 @@ describe('Annotation Test', () => {
       () => GenericType.argumentTypes([ArrayType]),
       [{ key: 'length', value: '20' }],
     );
-    const result = TestObject.deriveLiteral([]).mock();
+    const result = (await TestObject.deriveLiteral([])).mock();
     expect(result).toHaveLength(20);
   });
 });

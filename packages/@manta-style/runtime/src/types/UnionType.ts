@@ -11,12 +11,12 @@ export default class UnionType extends Type {
     this.types = types;
     this.chosenType = chosenType;
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[]) {
     const { chosenType } = this;
     if (chosenType) {
       return chosenType;
     } else {
-      const { chosenType } = this.derivePreservedUnionLiteral(
+      const { chosenType } = await this.derivePreservedUnionLiteral(
         parentAnnotations,
       );
       if (chosenType) {
@@ -25,12 +25,17 @@ export default class UnionType extends Type {
       throw Error('Something bad happens :(');
     }
   }
-  public derivePreservedUnionLiteral(parentAnnotations: Annotation[]) {
-    const derivedTypes = this.types
-      .map(resolveReferencedType)
-      .map((item) => item.type)
-      .filter((type) => !(type instanceof NeverKeyword))
-      .map((type) => type.deriveLiteral(parentAnnotations));
+  public async derivePreservedUnionLiteral(parentAnnotations: Annotation[]) {
+    const resolvedTypes = await Promise.all(
+      this.types.map(resolveReferencedType),
+    );
+
+    const derivedTypes = await Promise.all(
+      resolvedTypes
+        .map((item) => item.type)
+        .filter((type) => !(type instanceof NeverKeyword))
+        .map((type) => type.deriveLiteral(parentAnnotations)),
+    );
     const chosenType = sample(derivedTypes);
     return new UnionType(derivedTypes, chosenType);
   }

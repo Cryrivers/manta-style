@@ -37,7 +37,7 @@ export default class TypeAliasDeclaration extends Type {
   public getAnnotations() {
     return this.annotations;
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[]) {
     const combinedAnnotations = inheritAnnotations(
       parentAnnotations,
       this.annotations,
@@ -47,7 +47,7 @@ export default class TypeAliasDeclaration extends Type {
     // thus we only find it in `this.annotations`
     const preserveUnionType = findAnnotation('preserveUnion', this.annotations);
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
-      const { type, annotations } = resolveReferencedType(
+      const { type, annotations } = await resolveReferencedType(
         this.typeParameterTypes[i],
       );
       const mergedAnnotations = inheritAnnotations(
@@ -56,11 +56,11 @@ export default class TypeAliasDeclaration extends Type {
       );
       if (type instanceof UnionType && preserveUnionType) {
         this.typeParameters[i].setActualType(
-          type.derivePreservedUnionLiteral(mergedAnnotations),
+          await type.derivePreservedUnionLiteral(mergedAnnotations),
         );
       } else {
         this.typeParameters[i].setActualType(
-          type.deriveLiteral(mergedAnnotations),
+          await type.deriveLiteral(mergedAnnotations),
         );
       }
     }
