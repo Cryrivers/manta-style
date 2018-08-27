@@ -5,15 +5,15 @@ import TypeLiteral from '../types/TypeLiteral';
 import MantaStyle from '..';
 import { normalizeUnion } from './union';
 
-export function intersection(S: Type, T: Type): Type {
+export async function intersection(S: Type, T: Type): Promise<Type> {
   if (S instanceof UnionType) {
     const unionType = new UnionType(
-      S.getTypes().map((type) => intersection(type, T)),
+      await Promise.all(S.getTypes().map((type) => intersection(type, T))),
     );
     return normalizeUnion(unionType);
   } else {
-    const ST = isAssignable(S, T);
-    const TS = isAssignable(T, S);
+    const ST = await isAssignable(S, T);
+    const TS = await isAssignable(T, S);
     if (!ST && !TS) {
       return MantaStyle.NeverKeyword;
     } else if (ST && TS) {

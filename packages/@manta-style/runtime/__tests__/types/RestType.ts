@@ -1,13 +1,13 @@
 import MS from '../../src';
 
 describe('RestType', () => {
-  test('mock', () => {
+  test('mock', async () => {
     const tuple = MS.TupleType([
       MS.Literal(1),
       MS.Literal(2),
       MS.RestType(MS.StringKeyword),
     ]);
-    const result = tuple.deriveLiteral([]).mock();
+    const result = (await tuple.deriveLiteral([])).mock();
     const [, , ...strings] = result;
     expect(result.length).toBeGreaterThan(2);
     expect(result[0]).toBe(1);

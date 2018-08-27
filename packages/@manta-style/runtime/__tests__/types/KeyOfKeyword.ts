@@ -1,7 +1,7 @@
 import MS from '../../src';
 
 describe('KeyOfKeyword', () => {
-  test('Basic properties', () => {
+  test('Basic properties', async () => {
     const obj = MS.TypeLiteral((currentType) => {
       currentType.property('a', MS.NumberKeyword, false, []);
       currentType.property('b', MS.NumberKeyword, false, []);
@@ -9,7 +9,7 @@ describe('KeyOfKeyword', () => {
       currentType.property('d', MS.NumberKeyword, false, []);
     });
     const keyOfObj = MS.KeyOfKeyword(obj);
-    const abcdUnion = keyOfObj.deriveLiteral();
+    const abcdUnion = await keyOfObj.deriveLiteral();
     expect(abcdUnion.getTypes().map((item) => item.mock())).toEqual([
       'a',
       'b',

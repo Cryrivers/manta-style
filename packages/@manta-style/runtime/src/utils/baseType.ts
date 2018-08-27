@@ -4,7 +4,7 @@ export type Annotation = {
 };
 
 export abstract class Type {
-  abstract deriveLiteral(parentAnnotations: Annotation[]): Type;
+  abstract deriveLiteral(parentAnnotations: Annotation[]): Promise<Type>;
   public mock(): any {
     throw new Error('Literal types should be derived before mock.');
   }

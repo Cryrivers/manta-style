@@ -13,25 +13,25 @@ export default class IndexedAccessType extends Type {
     this.objectType = objectType;
     this.indexType = indexType;
   }
-  public getProperty() {
-    const { type: objType } = resolveReferencedType(this.objectType);
-    const { type: indexType } = resolveReferencedType(this.indexType);
-    const indexName = indexType.deriveLiteral([]).mock();
+  public async getProperty() {
+    const { type: objType } = await resolveReferencedType(this.objectType);
+    const { type: indexType } = await resolveReferencedType(this.indexType);
+    const indexName = (await indexType.deriveLiteral([])).mock();
     if (objType instanceof TypeLiteral) {
       return objType
         ._getProperties()
         .find((property) => property.name === indexName);
     }
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[]) {
     const {
       objectType: maybeReferencedObjectType,
       indexType: maybeReferencedIndexType,
     } = this;
-    const objectType = resolveReferencedType(
+    const objectType = await (await resolveReferencedType(
       maybeReferencedObjectType,
-    ).type.deriveLiteral(parentAnnotations);
-    const indexType = resolveReferencedType(maybeReferencedIndexType);
+    )).type.deriveLiteral(parentAnnotations);
+    const indexType = await resolveReferencedType(maybeReferencedIndexType);
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
         // property index access

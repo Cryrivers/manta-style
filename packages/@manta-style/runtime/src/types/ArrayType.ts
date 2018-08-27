@@ -8,7 +8,7 @@ export default class ArrayType extends Type {
     super();
     this.elementType = elementType;
   }
-  public deriveLiteral(annotations: Annotation[]) {
+  public async deriveLiteral(annotations: Annotation[]) {
     const array: Type[] = [];
     const lengthFromJSDoc = getNumberFromAnnotationKey({
       key: 'length',
@@ -21,7 +21,7 @@ export default class ArrayType extends Type {
         : Math.floor(Math.random() * 5) + 1;
 
     for (let i = 0; i < length; i++) {
-      array.push(this.elementType.deriveLiteral(annotations));
+      array.push(await this.elementType.deriveLiteral(annotations));
     }
     return new ArrayLiteral(array);
   }

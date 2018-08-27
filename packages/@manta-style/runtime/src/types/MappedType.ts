@@ -24,15 +24,15 @@ export default class MappedType extends Type {
   private type: Type = ErrType;
   private constraint: Type = ErrType;
   private questionToken: QuestionToken = QuestionToken.None;
-  public deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[]) {
     /**
      * type X = {
      *  [typeParameter in constraint]: type
      * }
      */
     const { typeParameter } = this;
-    const { type: constraint } = resolveReferencedType(this.constraint);
-    const { type } = resolveReferencedType(this.type);
+    const { type: constraint } = await resolveReferencedType(this.constraint);
+    const { type } = await resolveReferencedType(this.type);
     const newTypeLiteral = new TypeLiteral();
     if (
       (constraint instanceof UnionType || constraint instanceof Literal) &&
@@ -40,16 +40,16 @@ export default class MappedType extends Type {
     ) {
       const unionKeyTypes =
         constraint instanceof UnionType
-          ? constraint.derivePreservedUnionLiteral(parentAnnotations).getTypes()
+          ? (await constraint.derivePreservedUnionLiteral(parentAnnotations)).getTypes()
           : [constraint];
 
       for (const keyType of unionKeyTypes) {
         let finalTypeForThisProperty: Type = ErrType;
         let originalQuestionMark = false;
-        let literalKeyType = keyType.deriveLiteral(parentAnnotations);
+        let literalKeyType = await keyType.deriveLiteral(parentAnnotations);
         typeParameter.setActualType(literalKeyType);
         if (type instanceof IndexedAccessType) {
-          const property = type.getProperty();
+          const property = await type.getProperty();
           if (property) {
             originalQuestionMark = property.questionMark;
             finalTypeForThisProperty = property.type;

@@ -1,7 +1,7 @@
 import MS from '../../src';
 
 describe('TypeLiteral Test', () => {
-  test('TypeLiteral can mock', () => {
+  test('TypeLiteral can mock', async () => {
     const GenericTypeLiteral = MS.TypeAliasDeclaration(
       'GenericTypeLiteral',
       (type) => {
@@ -13,7 +13,7 @@ describe('TypeLiteral Test', () => {
       [],
     );
     const TestObject = GenericTypeLiteral.argumentTypes([MS.NumberKeyword]);
-    const result = TestObject.deriveLiteral([]).mock();
+    const result = (await TestObject.deriveLiteral([])).mock();
     expect(typeof result.test === 'number').toBe(true);
   });
 });

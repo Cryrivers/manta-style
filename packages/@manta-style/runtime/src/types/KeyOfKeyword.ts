@@ -10,16 +10,19 @@ export default class KeyOfKeyword extends Type {
     super();
     this.type = type;
   }
-  public getKeys(): string[] {
+  public async getKeys(): Promise<string[]> {
     const { type: maybeReferencedType } = this;
-    const { type }: { type: Type } = resolveReferencedType(maybeReferencedType);
+    const { type }: { type: Type } = await resolveReferencedType(
+      maybeReferencedType,
+    );
     if (type instanceof TypeLiteral) {
       return type.getKeys();
     } else {
       throw new Error('Unsupported Type in "keyof" keyword');
     }
   }
-  public deriveLiteral() {
-    return new UnionType(this.getKeys().map((key) => new Literal(key)));
+  public async deriveLiteral() {
+    const keys = await this.getKeys();
+    return new UnionType(keys.map((key) => new Literal(key)));
   }
 }

@@ -34,7 +34,7 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
     return super.getAnnotations();
   }
 
-  public deriveLiteral(parentAnnotations: Annotation[]): Type {
+  public async deriveLiteral(parentAnnotations: Annotation[]): Promise<Type> {
     this.initialize();
     return super.deriveLiteral(parentAnnotations);
   }

@@ -5,10 +5,13 @@ import MantaStyle from '..';
 const DEFAULT_STATIC_STRING =
   'This is a string message. Customize it with JSDoc tag @example';
 
-function getStringLiteral(annotations: Annotation[], self: StringKeyword) {
+async function getStringLiteral(
+  annotations: Annotation[],
+  self: StringKeyword,
+) {
   const { plugins } = MantaStyle.context;
   // @ts-ignore
-  const pluginValue = plugins.getMockValueFromPlugin(
+  const pluginValue = await plugins.getMockValueFromPlugin(
     'StringType',
     self,
     annotations,
@@ -20,7 +23,7 @@ function getStringLiteral(annotations: Annotation[], self: StringKeyword) {
 }
 
 export default class StringKeyword extends Type {
-  public deriveLiteral(annotations: Annotation[]) {
-    return new Literal(getStringLiteral(annotations, this));
+  public async deriveLiteral(annotations: Annotation[]) {
+    return new Literal(await getStringLiteral(annotations, this));
   }
 }

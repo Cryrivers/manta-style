@@ -21,7 +21,7 @@ export default class ConditionalType extends Type {
     this.trueType = trueType;
     this.falseType = falseType;
   }
-  public deriveLiteral(annotations: Annotation[]) {
+  public async deriveLiteral(annotations: Annotation[]) {
     /*
       From: http://koerbitz.me/posts/a-look-at-typescripts-conditional-types.html
       The Distributive Rule of Conditional and Union Types
@@ -35,27 +35,35 @@ export default class ConditionalType extends Type {
       trueType: maybeReferencedTrueType,
       falseType: maybeReferencedFalseType,
     } = this;
-    const { type: checkType } = resolveReferencedType(maybeReferencedCheckType);
-    const { type: trueType } = resolveReferencedType(maybeReferencedTrueType);
-    const { type: falseType } = resolveReferencedType(maybeReferencedFalseType);
+    const { type: checkType } = await resolveReferencedType(
+      maybeReferencedCheckType,
+    );
+    const { type: trueType } = await resolveReferencedType(
+      maybeReferencedTrueType,
+    );
+    const { type: falseType } = await resolveReferencedType(
+      maybeReferencedFalseType,
+    );
     if (checkType instanceof UnionType) {
-      const resolvedType = normalizeUnion(
+      const resolvedType = await normalizeUnion(
         new UnionType(
-          checkType
-            .getTypes()
-            .map((type) =>
-              resolveConditionalType(
-                type,
-                extendsType,
-                checkType === trueType ? type : trueType,
-                checkType === falseType ? type : falseType,
+          await Promise.all(
+            checkType
+              .getTypes()
+              .map((type) =>
+                resolveConditionalType(
+                  type,
+                  extendsType,
+                  checkType === trueType ? type : trueType,
+                  checkType === falseType ? type : falseType,
+                ),
               ),
-            ),
+          ),
         ),
       );
       return resolvedType.deriveLiteral(annotations);
     } else {
-      const resolvedType = resolveConditionalType(
+      const resolvedType = await resolveConditionalType(
         checkType,
         extendsType,
         trueType,
@@ -66,11 +74,11 @@ export default class ConditionalType extends Type {
   }
 }
 
-function resolveConditionalType(
+async function resolveConditionalType(
   checkType: Type,
   extendsType: Type,
   trueType: Type,
   falseType: Type,
-): Type {
-  return isAssignable(checkType, extendsType) ? trueType : falseType;
+): Promise<Type> {
+  return (await isAssignable(checkType, extendsType)) ? trueType : falseType;
 }
