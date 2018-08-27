@@ -34,7 +34,10 @@ export type MantaStyleContext = {
 };
 
 class MantaStyle {
-  public static context: MantaStyleContext;
+  public static context: MantaStyleContext = {
+    query: {},
+    plugins: new PluginSystem([])
+  };
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,

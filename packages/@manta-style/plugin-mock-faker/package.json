@@ -4,7 +4,8 @@
   "description": "Manta Style Mock Plugin - Faker",
   "main": "./lib/index.js",
   "scripts": {
-    "build": "tsc -p ./tsconfig.json"
+    "build": "tsc -p ./tsconfig.json",
+    "test": "echo 'No test yet'"
   },
   "author": {
     "name": "Tan Li Hau",
