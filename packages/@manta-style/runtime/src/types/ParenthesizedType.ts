@@ -9,7 +9,10 @@ export default class ParenthesizedType extends Type {
   public getType() {
     return this.type;
   }
-  public async deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+  public async deriveLiteral(
+    annotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
     return this.type.deriveLiteral(annotations, context);
   }
 }

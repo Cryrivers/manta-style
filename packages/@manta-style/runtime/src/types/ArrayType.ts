@@ -8,7 +8,10 @@ export default class ArrayType extends Type {
     super();
     this.elementType = elementType;
   }
-  public async deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+  public async deriveLiteral(
+    annotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
     const array: Type[] = [];
     const lengthFromJSDoc = getNumberFromAnnotationKey({
       key: 'length',
