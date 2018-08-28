@@ -38,18 +38,15 @@ export default class ConditionalType extends Type {
       trueType: maybeReferencedTrueType,
       falseType: maybeReferencedFalseType,
     } = this;
-    const { type: checkType } = await resolveReferencedType(
-      maybeReferencedCheckType,
-      context,
-    );
-    const { type: trueType } = await resolveReferencedType(
-      maybeReferencedTrueType,
-      context,
-    );
-    const { type: falseType } = await resolveReferencedType(
-      maybeReferencedFalseType,
-      context,
-    );
+    const [
+      { type: checkType },
+      { type: trueType },
+      { type: falseType },
+    ] = await Promise.all([
+      resolveReferencedType(maybeReferencedCheckType, context),
+      resolveReferencedType(maybeReferencedTrueType, context),
+      resolveReferencedType(maybeReferencedFalseType, context),
+    ]);
     if (checkType instanceof UnionType) {
       const resolvedType = await normalizeUnion(
         new UnionType(

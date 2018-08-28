@@ -5,10 +5,16 @@ import TypeLiteral from '../types/TypeLiteral';
 import MantaStyle from '..';
 import { normalizeUnion } from './union';
 
-export async function intersection(S: Type, T: Type, context: MantaStyleContext): Promise<Type> {
+export async function intersection(
+  S: Type,
+  T: Type,
+  context: MantaStyleContext,
+): Promise<Type> {
   if (S instanceof UnionType) {
     const unionType = new UnionType(
-      await Promise.all(S.getTypes().map((type) => intersection(type, T, context))),
+      await Promise.all(
+        S.getTypes().map((type) => intersection(type, T, context)),
+      ),
     );
     return normalizeUnion(unionType, context);
   } else {
@@ -18,7 +24,10 @@ export async function intersection(S: Type, T: Type, context: MantaStyleContext)
       return MantaStyle.NeverKeyword;
     } else if (ST && TS) {
       if (S instanceof TypeLiteral && T instanceof TypeLiteral) {
-        return S.compose(T, context);
+        return S.compose(
+          T,
+          context,
+        );
       } else {
         return S;
       }

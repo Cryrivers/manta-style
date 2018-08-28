@@ -16,7 +16,8 @@ export default class StringKeyword extends Type {
       this,
       annotations,
     );
-    let stringValue = (pluginValue !== null) ? String(pluginValue) : DEFAULT_STATIC_STRING;
+    let stringValue =
+      pluginValue !== null ? String(pluginValue) : DEFAULT_STATIC_STRING;
     return new Literal(stringValue);
   }
 }

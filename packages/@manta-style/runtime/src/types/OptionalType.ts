@@ -6,7 +6,10 @@ export default class OptionalType extends Type {
     super();
     this.type = type;
   }
-  public async deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+  public async deriveLiteral(
+    annotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
     return this.type.deriveLiteral(annotations, context);
   }
 }

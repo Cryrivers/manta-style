@@ -14,8 +14,14 @@ export default class IndexedAccessType extends Type {
     this.indexType = indexType;
   }
   public async getProperty(context: MantaStyleContext) {
-    const { type: objType } = await resolveReferencedType(this.objectType, context);
-    const { type: indexType } = await resolveReferencedType(this.indexType, context);
+    const { type: objType } = await resolveReferencedType(
+      this.objectType,
+      context,
+    );
+    const { type: indexType } = await resolveReferencedType(
+      this.indexType,
+      context,
+    );
     const indexName = (await indexType.deriveLiteral([], context)).mock();
     if (objType instanceof TypeLiteral) {
       return objType
@@ -33,9 +39,12 @@ export default class IndexedAccessType extends Type {
     } = this;
     const objectType = await (await resolveReferencedType(
       maybeReferencedObjectType,
-      context
+      context,
     )).type.deriveLiteral(parentAnnotations, context);
-    const indexType = await resolveReferencedType(maybeReferencedIndexType, context);
+    const { type: indexType } = await resolveReferencedType(
+      maybeReferencedIndexType,
+      context,
+    );
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
         // property index access

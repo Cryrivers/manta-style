@@ -12,10 +12,11 @@ import { MantaStyleContext } from '../typedef';
  * or TypeParameter (generic type) refers to. It can only be used
  * in `deriveLiteral` methods.
  * @param type Type to be resolved
+ * @param context MantaStyle Context Object
  */
 export async function resolveReferencedType(
   type: Type,
-  context: MantaStyleContext
+  context: MantaStyleContext,
 ): Promise<{ type: Type; annotations: Annotation[] }> {
   let actualType = type;
   let annotations: Annotation[] = [];
