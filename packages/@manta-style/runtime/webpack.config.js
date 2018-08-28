@@ -2,6 +2,7 @@ module.exports = {
   mode: 'production',
   entry: __dirname + '/src/index.ts',
   devtool: 'source-map',
+  target: 'node',
   output: {
     path: __dirname + '/lib',
     filename: 'manta-style.js',

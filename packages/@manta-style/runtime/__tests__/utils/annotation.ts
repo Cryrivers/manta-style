@@ -25,11 +25,11 @@ describe('Annotation Test', () => {
       () => {
         return MS.ArrayType(MS.StringKeyword);
       },
-      [{ key: 'length', value: '100' }, { key: 'example', value: 'yes' }],
+      [{ key: 'length', value: '100' }],
     );
     const result = (await type.deriveLiteral([])).mock();
     expect(result).toHaveLength(100);
-    expect(result).toEqual(Array.from(new Array(100), () => 'yes'));
+    expect(result).toEqual(Array.from(new Array(100), () => 'This is a string message. Customize it with JSDoc tag @example'));
   });
   test('resolveReferencedType could correctly inherit annotations #1', async () => {
     /*
