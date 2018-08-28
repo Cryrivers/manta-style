@@ -47,7 +47,7 @@ export default class MappedType extends Type {
         let finalTypeForThisProperty: Type = ErrType;
         let originalQuestionMark = false;
         let literalKeyType = await keyType.deriveLiteral(parentAnnotations, context);
-        typeParameter.setActualType(literalKeyType, context);
+        await typeParameter.setActualType(literalKeyType, context);
         if (type instanceof IndexedAccessType) {
           const property = await type.getProperty(context);
           if (property) {

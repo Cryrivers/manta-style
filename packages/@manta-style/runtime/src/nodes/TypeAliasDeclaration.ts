@@ -59,12 +59,12 @@ export default class TypeAliasDeclaration extends Type {
         annotations,
       );
       if (type instanceof UnionType && preserveUnionType) {
-        this.typeParameters[i].setActualType(
+        await this.typeParameters[i].setActualType(
           await type.derivePreservedUnionLiteral(mergedAnnotations, context),
           context,
         );
       } else {
-        this.typeParameters[i].setActualType(
+        await this.typeParameters[i].setActualType(
           await type.deriveLiteral(mergedAnnotations, context),
           context,
         );

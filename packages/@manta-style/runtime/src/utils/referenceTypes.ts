@@ -29,7 +29,7 @@ export async function resolveReferencedType(
       // Make sure type parameters has been initialized
       // as we moved the initialization from `argumentTypes`
       // to `deriveLiteral`.
-      actualType.deriveLiteral(annotations, context);
+      await actualType.deriveLiteral(annotations, context);
       annotations = inheritAnnotations(
         annotations,
         actualType.getAnnotations(),
