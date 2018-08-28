@@ -15,6 +15,7 @@ export default class StringKeyword extends Type {
       'StringType',
       this,
       annotations,
+      context,
     );
     let stringValue =
       pluginValue !== null ? String(pluginValue) : DEFAULT_STATIC_STRING;

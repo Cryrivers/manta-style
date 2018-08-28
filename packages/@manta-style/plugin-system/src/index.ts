@@ -19,7 +19,11 @@ class PluginSystem {
   constructor(plugins: { name: string; module: string }[]) {
     this.mockPlugin = {};
     for (const plugin of plugins) {
-      if (plugin.name.match(/@manta-style\/plugin-mock-/)) {
+      if (
+        plugin.name.match(
+          /(^@manta-style\/plugin-mock-)|(^manta-style-plugin-mock-)/,
+        )
+      ) {
         const mockPlugin = require(plugin.module);
         const { name, mock } = mockPlugin;
         for (const mockType in mock) {
@@ -32,12 +36,17 @@ class PluginSystem {
     }
   }
 
-  async getMockValueFromPlugin(type: string, node: any, annotation: any) {
+  public async getMockValueFromPlugin(
+    type: string,
+    node: any,
+    annotation: any,
+    context: any,
+  ) {
     const plugins = this.mockPlugin[type];
     if (plugins) {
       for (const plugin of plugins) {
         try {
-          const value = await plugin.mock(node, annotation);
+          const value = await plugin.mock(node, annotation, context);
           if (value !== null) {
             return value;
           }
