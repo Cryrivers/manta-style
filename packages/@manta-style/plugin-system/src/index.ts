@@ -36,17 +36,12 @@ class PluginSystem {
     }
   }
 
-  public async getMockValueFromPlugin(
-    type: string,
-    node: any,
-    annotation: any,
-    context: any,
-  ) {
+  public async getMockValueFromPlugin(type: string, callback: Function) {
     const plugins = this.mockPlugin[type];
     if (plugins) {
       for (const plugin of plugins) {
         try {
-          const value = await plugin.mock(node, annotation, context);
+          const value = await callback(plugin.mock);
           if (value !== null) {
             return value;
           }
