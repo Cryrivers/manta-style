@@ -11,6 +11,10 @@ class PluginSystem {
     return new PluginSystem(await findPlugins(filePath));
   }
 
+  static default() {
+    return new PluginSystem([]);
+  }
+
   mockPlugin: Plugins;
   constructor(plugins: { name: string; module: string }[]) {
     this.mockPlugin = {};
@@ -28,12 +32,12 @@ class PluginSystem {
     }
   }
 
-  getMockValueFromPlugin(type: string, node: any, annotation: any) {
+  async getMockValueFromPlugin(type: string, node: any, annotation: any) {
     const plugins = this.mockPlugin[type];
     if (plugins) {
       for (const plugin of plugins) {
         try {
-          const value = plugin.mock(node, annotation);
+          const value = await plugin.mock(node, annotation);
           if (value !== null) {
             return value;
           }

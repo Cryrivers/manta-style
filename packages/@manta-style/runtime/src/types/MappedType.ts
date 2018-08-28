@@ -1,6 +1,6 @@
 import TypeParameter from '../nodes/TypeParameter';
 import { ErrorType } from '../utils/pseudoTypes';
-import { Annotation, Type, QuestionToken } from '../utils/baseType';
+import { Annotation, Type, QuestionToken, MantaStyleContext } from '../utils/baseType';
 import Literal from './Literal';
 import TypeLiteral from './TypeLiteral';
 import { resolveReferencedType } from '../utils/referenceTypes';
@@ -24,15 +24,15 @@ export default class MappedType extends Type {
   private type: Type = ErrType;
   private constraint: Type = ErrType;
   private questionToken: QuestionToken = QuestionToken.None;
-  public async deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[], context: MantaStyleContext) {
     /**
      * type X = {
      *  [typeParameter in constraint]: type
      * }
      */
     const { typeParameter } = this;
-    const { type: constraint } = await resolveReferencedType(this.constraint);
-    const { type } = await resolveReferencedType(this.type);
+    const { type: constraint } = await resolveReferencedType(this.constraint, context);
+    const { type } = await resolveReferencedType(this.type, context);
     const newTypeLiteral = new TypeLiteral();
     if (
       (constraint instanceof UnionType || constraint instanceof Literal) &&
@@ -40,16 +40,16 @@ export default class MappedType extends Type {
     ) {
       const unionKeyTypes =
         constraint instanceof UnionType
-          ? (await constraint.derivePreservedUnionLiteral(parentAnnotations)).getTypes()
+          ? (await constraint.derivePreservedUnionLiteral(parentAnnotations, context)).getTypes()
           : [constraint];
 
       for (const keyType of unionKeyTypes) {
         let finalTypeForThisProperty: Type = ErrType;
         let originalQuestionMark = false;
-        let literalKeyType = await keyType.deriveLiteral(parentAnnotations);
-        typeParameter.setActualType(literalKeyType);
+        let literalKeyType = await keyType.deriveLiteral(parentAnnotations, context);
+        typeParameter.setActualType(literalKeyType, context);
         if (type instanceof IndexedAccessType) {
-          const property = await type.getProperty();
+          const property = await type.getProperty(context);
           if (property) {
             originalQuestionMark = property.questionMark;
             finalTypeForThisProperty = property.type;
@@ -66,7 +66,7 @@ export default class MappedType extends Type {
           [],
         );
       }
-      return newTypeLiteral.deriveLiteral(parentAnnotations);
+      return newTypeLiteral.deriveLiteral(parentAnnotations, context);
     } else {
       throw Error(
         'Constraint other than UnionType and Literal in MappedType is not supported yet',

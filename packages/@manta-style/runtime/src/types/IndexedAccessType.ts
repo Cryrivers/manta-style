@@ -1,4 +1,4 @@
-import { Annotation, Type } from '../utils/baseType';
+import { Annotation, Type, MantaStyleContext } from '../utils/baseType';
 import Literal from './Literal';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import TypeLiteral from './TypeLiteral';
@@ -13,25 +13,29 @@ export default class IndexedAccessType extends Type {
     this.objectType = objectType;
     this.indexType = indexType;
   }
-  public async getProperty() {
-    const { type: objType } = await resolveReferencedType(this.objectType);
-    const { type: indexType } = await resolveReferencedType(this.indexType);
-    const indexName = (await indexType.deriveLiteral([])).mock();
+  public async getProperty(context: MantaStyleContext) {
+    const { type: objType } = await resolveReferencedType(this.objectType, context);
+    const { type: indexType } = await resolveReferencedType(this.indexType, context);
+    const indexName = (await indexType.deriveLiteral([], context)).mock();
     if (objType instanceof TypeLiteral) {
       return objType
         ._getProperties()
         .find((property) => property.name === indexName);
     }
   }
-  public async deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(
+    parentAnnotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
     const {
       objectType: maybeReferencedObjectType,
       indexType: maybeReferencedIndexType,
     } = this;
     const objectType = await (await resolveReferencedType(
       maybeReferencedObjectType,
-    )).type.deriveLiteral(parentAnnotations);
-    const indexType = await resolveReferencedType(maybeReferencedIndexType);
+      context
+    )).type.deriveLiteral(parentAnnotations, context);
+    const indexType = await resolveReferencedType(maybeReferencedIndexType, context);
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
         // property index access
@@ -53,7 +57,7 @@ export default class IndexedAccessType extends Type {
         return new Literal('Unimplemented');
       }
     } else {
-      return objectType.deriveLiteral(parentAnnotations);
+      return objectType.deriveLiteral(parentAnnotations, context);
     }
   }
 }

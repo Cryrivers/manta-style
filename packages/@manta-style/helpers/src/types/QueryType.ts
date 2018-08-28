@@ -2,6 +2,7 @@ import MantaStyle, {
   Type,
   LiteralType,
   resolveReferencedType,
+  MantaStyleContext,
 } from '@manta-style/runtime';
 
 export default class QueryType extends Type {
@@ -11,11 +12,9 @@ export default class QueryType extends Type {
     this.type = type;
   }
   // TODO: Fix typing
-  public async deriveLiteral(annotations: any) {
-    const {
-      context: { query },
-    } = MantaStyle;
-    const { type } = await resolveReferencedType(this.type);
+  public async deriveLiteral(annotations: any, context: MantaStyleContext) {
+    const { query } = context;
+    const { type } = await resolveReferencedType(this.type, context);
     if (type instanceof LiteralType && typeof query === 'object') {
       // TODO: Fix typings
       const content = (query as {

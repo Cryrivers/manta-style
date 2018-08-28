@@ -8,10 +8,15 @@ import BooleanKeyword from '../types/BooleanKeyword';
 import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
 import IntersectionType from '../types/IntersectionType';
+import { MantaStyleContext } from '../typedef';
 
-export async function isAssignable(typeS: Type, typeT: Type): Promise<boolean> {
-  const { type: S } = await resolveReferencedType(typeS);
-  const { type: T } = await resolveReferencedType(typeT);
+export async function isAssignable(
+  typeS: Type,
+  typeT: Type,
+  context: MantaStyleContext,
+): Promise<boolean> {
+  const { type: S } = await resolveReferencedType(typeS, context);
+  const { type: T } = await resolveReferencedType(typeT, context);
 
   if (Object.getPrototypeOf(S) === Object.getPrototypeOf(T)) {
     // - S and T are identical types.
@@ -46,16 +51,24 @@ export async function isAssignable(typeS: Type, typeT: Type): Promise<boolean> {
     return true;
   } else if (S instanceof UnionType) {
     // - S is a union type and each constituent type of S is assignable to T
-    return everyPromise(S.getTypes().map((type) => isAssignable(type, T)));
+    return everyPromise(
+      S.getTypes().map((type) => isAssignable(type, T, context)),
+    );
   } else if (S instanceof IntersectionType) {
     // - S is an intersection type and at least one constituent type of S is assignable to T.
-    return somePromise(S.getTypes().map((type) => isAssignable(type, T)));
+    return somePromise(
+      S.getTypes().map((type) => isAssignable(type, T, context)),
+    );
   } else if (T instanceof UnionType) {
     // - T is a union type and S is assignable to at least one constituent type of T
-    return somePromise(T.getTypes().map((type) => isAssignable(S, type)));
+    return somePromise(
+      T.getTypes().map((type) => isAssignable(S, type, context)),
+    );
   } else if (T instanceof IntersectionType) {
     // - T is an intersection type and S is assignable to each constituent type of T.
-    return everyPromise(T.getTypes().map((type) => isAssignable(S, type)));
+    return everyPromise(
+      T.getTypes().map((type) => isAssignable(S, type, context)),
+    );
   } else if (S instanceof TypeLiteral && T instanceof TypeLiteral) {
     // - S is an object type, an intersection type, an enum type, or the Number, Boolean, or String
     // primitive type, T is an object type, and for each member M in T, one of the following is true:
@@ -74,7 +87,7 @@ export async function isAssignable(typeS: Type, typeT: Type): Promise<boolean> {
         const N = SProperties.find((property) => property.name === M.name);
         if (
           N &&
-          await isAssignable(N.type, M.type) &&
+          (await isAssignable(N.type, M.type, context)) &&
           !M.questionMark &&
           !N.questionMark
         ) {

@@ -4,6 +4,7 @@ import TypeParameter from '../nodes/TypeParameter';
 import KeyOfKeyword from '../types/KeyOfKeyword';
 import ParenthesizedType from '../types/ParenthesizedType';
 import { inheritAnnotations } from '../utils/annotation';
+import { MantaStyleContext } from '../typedef';
 
 /**
  * @description
@@ -14,6 +15,7 @@ import { inheritAnnotations } from '../utils/annotation';
  */
 export async function resolveReferencedType(
   type: Type,
+  context: MantaStyleContext
 ): Promise<{ type: Type; annotations: Annotation[] }> {
   let actualType = type;
   let annotations: Annotation[] = [];
@@ -27,7 +29,7 @@ export async function resolveReferencedType(
       // Make sure type parameters has been initialized
       // as we moved the initialization from `argumentTypes`
       // to `deriveLiteral`.
-      actualType.deriveLiteral(annotations);
+      actualType.deriveLiteral(annotations, context);
       annotations = inheritAnnotations(
         annotations,
         actualType.getAnnotations(),
@@ -36,7 +38,7 @@ export async function resolveReferencedType(
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();
     } else if (actualType instanceof KeyOfKeyword) {
-      actualType = await actualType.deriveLiteral();
+      actualType = await actualType.deriveLiteral(annotations, context);
     } else {
       actualType = actualType.getType();
     }
