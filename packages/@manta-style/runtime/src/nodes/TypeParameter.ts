@@ -20,8 +20,8 @@ export default class TypeParameter extends Type {
   public getTypeParameterName() {
     return this.name;
   }
-  public setActualType(type: Type, context: MantaStyleContext) {
-    if (this.constraintType && !isAssignable(type, this.constraintType, context)) {
+  public async setActualType(type: Type, context: MantaStyleContext) {
+    if (this.constraintType && !(await isAssignable(type, this.constraintType, context))) {
       throw Error(
         'Constraint is not satisfied. Please check the error message from TypeScript.',
       );

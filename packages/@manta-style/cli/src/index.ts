@@ -11,7 +11,7 @@ import chalk from 'chalk';
 import * as chokidar from 'chokidar';
 import * as qs from 'query-string';
 import axios from 'axios';
-import MantaStyle, {
+import {
   TypeAliasDeclarationFactory,
   TypeLiteral,
   Property,
