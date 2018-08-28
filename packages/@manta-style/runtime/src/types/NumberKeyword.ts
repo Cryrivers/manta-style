@@ -1,21 +1,21 @@
 import { Type, Annotation } from '../utils/baseType';
 import Literal from './Literal';
-import MantaStyle from '..';
+// import MantaStyle from '..';
 
 async function getNumberLiteral(
   annotations: Annotation[],
   self: NumberKeyword,
 ) {
-  const { plugins } = MantaStyle.context;
-  // @ts-ignore
-  const pluginValue = await plugins.getMockValueFromPlugin(
-    'NumberType',
-    self,
-    annotations,
-  );
-  if (pluginValue !== null) {
-    return Number(pluginValue);
-  }
+  // const { plugins } = MantaStyle.context;
+  // // @ts-ignore
+  // const pluginValue = await plugins.getMockValueFromPlugin(
+  //   'NumberType',
+  //   self,
+  //   annotations,
+  // );
+  // if (pluginValue !== null) {
+  //   return Number(pluginValue);
+  // }
   return Math.random() * 100;
 }
 

@@ -30,15 +30,17 @@ class PluginSystem {
 
   getMockValueFromPlugin(type: string, node: any, annotation: any) {
     const plugins = this.mockPlugin[type];
-    for(const plugin of plugins) {
-      try {
-        const value = plugin.mock(node, annotation);
-        if (value !== null) {
-          return value;
+    if (plugins) {
+      for (const plugin of plugins) {
+        try {
+          const value = plugin.mock(node, annotation);
+          if (value !== null) {
+            return value;
+          }
+        } catch (e) {
+          console.error(`@manta-style Error from plugin: ${plugin.name}`);
+          console.error(e);
         }
-      } catch(e) {
-        console.error(`@manta-style Error from plugin: ${plugin.name}`);
-        console.error(e);
       }
     }
     return null;
