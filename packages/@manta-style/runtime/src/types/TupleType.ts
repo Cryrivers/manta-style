@@ -1,4 +1,4 @@
-import { Annotation, Type } from '../utils/baseType';
+import { Annotation, Type, MantaStyleContext } from '../utils/baseType';
 import ArrayLiteral from './ArrayLiteral';
 import OptionalType from './OptionalType';
 import RestType from './RestType';
@@ -9,17 +9,17 @@ export default class TupleType extends Type {
     super();
     this.elementTypes = elementTypes;
   }
-  public async deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(parentAnnotations: Annotation[], context: MantaStyleContext) {
     const arrayLiteral: Type[] = [];
     for (const type of this.elementTypes) {
       const chance = type instanceof OptionalType ? Math.random() : 1;
       if (chance > 0.5) {
         if (type instanceof RestType) {
           arrayLiteral.push(
-            ...(await type.deriveLiteral(parentAnnotations)).getElements(),
+            ...(await type.deriveLiteral(parentAnnotations, context)).getElements(),
           );
         } else {
-          arrayLiteral.push(await type.deriveLiteral(parentAnnotations));
+          arrayLiteral.push(await type.deriveLiteral(parentAnnotations, context));
         }
       }
     }

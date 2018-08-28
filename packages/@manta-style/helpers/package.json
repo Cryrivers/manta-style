@@ -16,7 +16,8 @@
   "license": "MIT",
   "scripts": {
     "test": "echo 'No test yet'",
-    "build": "webpack"
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "publishConfig": {
     "access": "public"

@@ -1,4 +1,4 @@
-import { Annotation, Type } from '../utils/baseType';
+import { Annotation, Type, MantaStyleContext } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
 import { isAssignable } from '../utils/assignable';
 
@@ -20,8 +20,8 @@ export default class TypeParameter extends Type {
   public getTypeParameterName() {
     return this.name;
   }
-  public setActualType(type: Type) {
-    if (this.constraintType && !isAssignable(type, this.constraintType)) {
+  public setActualType(type: Type, context: MantaStyleContext) {
+    if (this.constraintType && !isAssignable(type, this.constraintType, context)) {
       throw Error(
         'Constraint is not satisfied. Please check the error message from TypeScript.',
       );
@@ -31,7 +31,10 @@ export default class TypeParameter extends Type {
   public getActualType() {
     return this.actualType || this.defaultType;
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
-    return this.getActualType().deriveLiteral(parentAnnotations);
+  public deriveLiteral(
+    parentAnnotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
+    return this.getActualType().deriveLiteral(parentAnnotations, context);
   }
 }

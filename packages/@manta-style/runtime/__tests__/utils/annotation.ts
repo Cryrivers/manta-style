@@ -1,8 +1,11 @@
 import { Annotation } from '../../src/utils/baseType';
 import { inheritAnnotations } from '../../src/utils/annotation';
 import MS from '../../src';
+import PluginSystem from '@manta-style/plugin-system';
 
 describe('Annotation Test', () => {
+  const context = { query: {}, plugins: PluginSystem.default() };
+
   test('Inherit Annotations', () => {
     const parent: Annotation[] = [
       { key: 'length', value: '0' },
@@ -27,9 +30,14 @@ describe('Annotation Test', () => {
       },
       [{ key: 'length', value: '100' }],
     );
-    const result = (await type.deriveLiteral([])).mock();
+    const result = (await type.deriveLiteral([], context)).mock();
     expect(result).toHaveLength(100);
-    expect(result).toEqual(Array.from(new Array(100), () => 'This is a string message. Customize it with JSDoc tag @example'));
+    expect(result).toEqual(
+      Array.from(
+        new Array(100),
+        () => 'This is a string message. Customize it with JSDoc tag @example',
+      ),
+    );
   });
   test('resolveReferencedType could correctly inherit annotations #1', async () => {
     /*
@@ -59,7 +67,7 @@ describe('Annotation Test', () => {
       () => GenericType.argumentTypes([ArrayType]),
       [],
     );
-    const result = (await TestObject.deriveLiteral([])).mock();
+    const result = (await TestObject.deriveLiteral([], context)).mock();
     expect(result).toHaveLength(20);
   });
   test('resolveReferencedType could correctly inherit annotations #2', async () => {
@@ -90,7 +98,7 @@ describe('Annotation Test', () => {
       () => GenericType.argumentTypes([ArrayType]),
       [{ key: 'length', value: '20' }],
     );
-    const result = (await TestObject.deriveLiteral([])).mock();
+    const result = (await TestObject.deriveLiteral([], context)).mock();
     expect(result).toHaveLength(20);
   });
 });

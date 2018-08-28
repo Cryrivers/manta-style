@@ -1,5 +1,5 @@
 import TypeParameter from './TypeParameter';
-import { Type, Annotation } from '../utils/baseType';
+import { Type, Annotation, MantaStyleContext } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
 import { findAnnotation, inheritAnnotations } from '../utils/annotation';
 import { resolveReferencedType } from '../utils/referenceTypes';
@@ -37,7 +37,10 @@ export default class TypeAliasDeclaration extends Type {
   public getAnnotations() {
     return this.annotations;
   }
-  public async deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(
+    parentAnnotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
     const combinedAnnotations = inheritAnnotations(
       parentAnnotations,
       this.annotations,
@@ -49,6 +52,7 @@ export default class TypeAliasDeclaration extends Type {
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
       const { type, annotations } = await resolveReferencedType(
         this.typeParameterTypes[i],
+        context,
       );
       const mergedAnnotations = inheritAnnotations(
         combinedAnnotations,
@@ -56,14 +60,16 @@ export default class TypeAliasDeclaration extends Type {
       );
       if (type instanceof UnionType && preserveUnionType) {
         this.typeParameters[i].setActualType(
-          await type.derivePreservedUnionLiteral(mergedAnnotations),
+          await type.derivePreservedUnionLiteral(mergedAnnotations, context),
+          context,
         );
       } else {
         this.typeParameters[i].setActualType(
-          await type.deriveLiteral(mergedAnnotations),
+          await type.deriveLiteral(mergedAnnotations, context),
+          context,
         );
       }
     }
-    return this.type.deriveLiteral(combinedAnnotations);
+    return this.type.deriveLiteral(combinedAnnotations, context);
   }
 }

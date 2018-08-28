@@ -23,21 +23,11 @@ import IntersectionType from './types/IntersectionType';
 import ParenthesizedType from './types/ParenthesizedType';
 import ObjectKeyword from './types/ObjectKeyword';
 import ArrayLiteral from './types/ArrayLiteral';
-import PluginSystem from '@manta-style/plugin-system';
 
 export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 export type TypeLiteral = TypeLiteral;
 export type Property = Property;
-export type MantaStyleContext = {
-  query: { [key: string]: unknown };
-  plugins: PluginSystem;
-};
-
 class MantaStyle {
-  public static context: MantaStyleContext = {
-    query: {},
-    plugins: new PluginSystem([])
-  };
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
@@ -108,7 +98,8 @@ class MantaStyle {
   }
 }
 
+import './typedef';
 export default MantaStyle;
-export { Type } from './utils/baseType';
+export { Type, MantaStyleContext, Annotation } from './utils/baseType';
 export const LiteralType = Literal;
 export { resolveReferencedType } from './utils/referenceTypes';

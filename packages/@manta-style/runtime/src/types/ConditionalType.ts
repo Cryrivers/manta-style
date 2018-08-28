@@ -1,4 +1,4 @@
-import { Type, Annotation } from '../utils/baseType';
+import { Type, Annotation, MantaStyleContext } from '../utils/baseType';
 import UnionType from './UnionType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { isAssignable } from '../utils/assignable';
@@ -21,7 +21,10 @@ export default class ConditionalType extends Type {
     this.trueType = trueType;
     this.falseType = falseType;
   }
-  public async deriveLiteral(annotations: Annotation[]) {
+  public async deriveLiteral(
+    annotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
     /*
       From: http://koerbitz.me/posts/a-look-at-typescripts-conditional-types.html
       The Distributive Rule of Conditional and Union Types
@@ -37,12 +40,15 @@ export default class ConditionalType extends Type {
     } = this;
     const { type: checkType } = await resolveReferencedType(
       maybeReferencedCheckType,
+      context,
     );
     const { type: trueType } = await resolveReferencedType(
       maybeReferencedTrueType,
+      context,
     );
     const { type: falseType } = await resolveReferencedType(
       maybeReferencedFalseType,
+      context,
     );
     if (checkType instanceof UnionType) {
       const resolvedType = await normalizeUnion(
@@ -56,20 +62,23 @@ export default class ConditionalType extends Type {
                   extendsType,
                   checkType === trueType ? type : trueType,
                   checkType === falseType ? type : falseType,
+                  context,
                 ),
               ),
           ),
         ),
+        context,
       );
-      return resolvedType.deriveLiteral(annotations);
+      return resolvedType.deriveLiteral(annotations, context);
     } else {
       const resolvedType = await resolveConditionalType(
         checkType,
         extendsType,
         trueType,
         falseType,
+        context,
       );
-      return resolvedType.deriveLiteral(annotations);
+      return resolvedType.deriveLiteral(annotations, context);
     }
   }
 }
@@ -79,6 +88,9 @@ async function resolveConditionalType(
   extendsType: Type,
   trueType: Type,
   falseType: Type,
+  context: MantaStyleContext,
 ): Promise<Type> {
-  return (await isAssignable(checkType, extendsType)) ? trueType : falseType;
+  return (await isAssignable(checkType, extendsType, context))
+    ? trueType
+    : falseType;
 }

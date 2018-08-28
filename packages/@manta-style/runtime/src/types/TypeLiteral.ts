@@ -7,6 +7,7 @@ import {
   Annotation,
   ComputedPropertyOperator,
   AnyObject,
+  MantaStyleContext,
 } from '../utils/baseType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import NeverKeyword from './NeverKeyword';
@@ -52,7 +53,10 @@ export default class TypeLiteral extends Type {
       annotations,
     });
   }
-  public async deriveLiteral(parentAnnotations: Annotation[]) {
+  public async deriveLiteral(
+    parentAnnotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
     const typeLiteral = new TypeLiteral();
 
     for (const property of this.properties) {
@@ -60,6 +64,7 @@ export default class TypeLiteral extends Type {
         property.name,
         await property.type.deriveLiteral(
           inheritAnnotations(parentAnnotations, property.annotations),
+          context,
         ),
         property.questionMark,
         property.annotations,
@@ -83,6 +88,7 @@ export default class TypeLiteral extends Type {
             const chance = computedProperty.questionMark ? Math.random() : 1;
             const literal = await computedProperty.type.deriveLiteral(
               jsDocForValues,
+              context,
             );
             // TODO: Remove the assumption of string index signature.
             // support number in future
@@ -98,7 +104,7 @@ export default class TypeLiteral extends Type {
         } else {
           typeLiteral.property(
             'This is a key. Customize it with JSDoc tag @key',
-            await computedProperty.type.deriveLiteral(jsDocForValues),
+            await computedProperty.type.deriveLiteral(jsDocForValues, context),
             false,
             jsDocForValues,
           );
@@ -111,16 +117,16 @@ export default class TypeLiteral extends Type {
         const subTypeLiteral = new TypeLiteral();
         // TODO: Correct annotation
         typeLiteral.property(name, subTypeLiteral, false, []);
-        const actualType = resolveReferencedType(keyType);
+        const actualType = resolveReferencedType(keyType, context);
         if (
           actualType instanceof KeyOfKeyword ||
           actualType instanceof UnionType
         ) {
           const keys =
             actualType instanceof KeyOfKeyword
-              ? await actualType.getKeys()
+              ? await actualType.getKeys(context)
               : (await Promise.all(
-                  actualType.getTypes().map((type) => type.deriveLiteral([])),
+                  actualType.getTypes().map((type) => type.deriveLiteral([], context)),
                 )).map((type) => type.mock());
           for (const key of keys) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
@@ -129,6 +135,7 @@ export default class TypeLiteral extends Type {
                 key,
                 await computedProperty.type.deriveLiteral(
                   computedProperty.annotations,
+                  context
                 ),
                 false,
                 computedProperty.annotations,
@@ -153,7 +160,7 @@ export default class TypeLiteral extends Type {
     }
     return obj;
   }
-  public async compose(type: TypeLiteral): Promise<TypeLiteral> {
+  public async compose(type: TypeLiteral, context: MantaStyleContext): Promise<TypeLiteral> {
     const composedTypeLiteral = new TypeLiteral();
     const SProperties = this.properties;
     const TProperties = type.properties;
@@ -162,7 +169,7 @@ export default class TypeLiteral extends Type {
       if (propT) {
         composedTypeLiteral.property(
           propS.name,
-          await intersection(propS.type, propT.type),
+          await intersection(propS.type, propT.type, context),
           [propS.questionMark, propT.questionMark].every(Boolean),
           [...propS.annotations, ...propT.annotations],
         );

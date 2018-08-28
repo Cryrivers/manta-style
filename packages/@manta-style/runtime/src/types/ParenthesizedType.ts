@@ -1,4 +1,4 @@
-import { Type, Annotation } from '../utils/baseType';
+import { Type, Annotation, MantaStyleContext } from '../utils/baseType';
 
 export default class ParenthesizedType extends Type {
   private readonly type: Type;
@@ -9,7 +9,7 @@ export default class ParenthesizedType extends Type {
   public getType() {
     return this.type;
   }
-  public async deriveLiteral(annotations: Annotation[]) {
-    return this.type.deriveLiteral(annotations);
+  public async deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+    return this.type.deriveLiteral(annotations, context);
   }
 }

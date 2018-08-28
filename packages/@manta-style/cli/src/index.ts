@@ -130,8 +130,7 @@ import * as fs from 'fs';
 
       app.use(async (req, res, next) => {
         const { path, query } = req;
-        // Put Query Info to context object
-        MantaStyle.context = { query, plugins: pluginSystem };
+        const context = { query, plugins: pluginSystem };
         const queryString = qs.stringify(query);
         const endpoint = endpointMap[trimEndingSlash(path)];
         const endpointInfo =
@@ -140,7 +139,7 @@ import * as fs from 'fs';
             (item) => item.method === method && item.endpoint === endpoint.name,
           );
         if (endpointInfo && endpointMockTable[method][endpoint.name]) {
-          const literalType = await endpoint.type.deriveLiteral([]);
+          const literalType = await endpoint.type.deriveLiteral([], context);
           const mockData = literalType.mock();
           if (isSnapshotMode) {
             const snapshotData = snapshot.fetchSnapshot(

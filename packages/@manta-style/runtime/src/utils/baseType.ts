@@ -1,10 +1,11 @@
-export type Annotation = {
-  key: string;
-  value: string;
-};
+import { Annotation, MantaStyleContext } from '../typedef';
+export { Annotation, MantaStyleContext };
 
 export abstract class Type {
-  abstract deriveLiteral(parentAnnotations: Annotation[]): Promise<Type>;
+  abstract deriveLiteral(
+    parentAnnotations: Annotation[],
+    context: MantaStyleContext,
+  ): Promise<Type>;
   public mock(): any {
     throw new Error('Literal types should be derived before mock.');
   }
