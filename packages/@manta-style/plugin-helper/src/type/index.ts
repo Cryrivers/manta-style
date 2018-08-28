@@ -1,0 +1,1 @@
+export { MockPlugin } from './mock';

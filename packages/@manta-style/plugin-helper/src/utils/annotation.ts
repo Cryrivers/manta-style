@@ -1,6 +1,6 @@
 import { max, min, round } from 'lodash-es';
 
-type Annotation = {
+export type Annotation = {
   key: string;
   value: string;
 };

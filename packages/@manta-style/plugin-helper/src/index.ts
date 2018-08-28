@@ -3,3 +3,5 @@ export { annotationUtils };
 
 import * as lodashUtils from 'lodash-es';
 export { lodashUtils };
+
+export * from './type';

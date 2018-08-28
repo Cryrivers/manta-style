@@ -4,7 +4,7 @@ import * as faker from 'faker';
 module.exports = {
   name: 'faker',
   mock: {
-    StringType(type: any, annotations: any) {
+    StringType(annotations: any) {
       const jsdocExample = annotationUtils.getAnnotationsByKey(
         'example',
         annotations,

@@ -10,9 +10,7 @@ export default class NumberKeyword extends Type {
 
     const pluginValue = await plugins.getMockValueFromPlugin(
       'NumberType',
-      this,
-      annotations,
-      context,
+      (plugin: any) => plugin(annotations, context),
     );
     const numberValue =
       pluginValue !== null ? Number(pluginValue) : Math.random() * 100;
