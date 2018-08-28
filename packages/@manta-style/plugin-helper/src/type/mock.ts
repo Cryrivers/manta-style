@@ -4,14 +4,14 @@ export type MockPlugin = {
   name: string,
   mock: {
     StringType?: (
-      annotations: Annotation,
+      annotations: Annotation[],
     ) => string | null | Promise<string | null>,
     NumberType?: (
-      annotations: Annotation,
+      annotations: Annotation[],
     ) => number | null | Promise<number | null>,
     BooleanType?: (
-      annotations: Annotation,
+      annotations: Annotation[],
     ) => boolean | null | Promise<boolean | null>,
-    TypeLiteral?: (annotations: Annotation) => any | null | Promise<any | null>,
+    TypeLiteral?: (annotations: Annotation[]) => any | null | Promise<any | null>,
   },
 };
