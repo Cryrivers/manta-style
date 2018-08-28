@@ -12,6 +12,7 @@ export default class NumberKeyword extends Type {
       'NumberType',
       this,
       annotations,
+      context,
     );
     const numberValue =
       pluginValue !== null ? Number(pluginValue) : Math.random() * 100;
