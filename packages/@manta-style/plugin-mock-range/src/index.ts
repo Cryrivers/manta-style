@@ -25,7 +25,7 @@ const fakerPlugin: MockPlugin = {
         return null;
       }
 
-      const [_, min, max] = minMaxMatch;
+      const [, min, max] = minMaxMatch;
       return Math.round(Math.random() * (+max - +min)) + +min;
     },
   },
