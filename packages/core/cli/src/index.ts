@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import * as express from 'express';
 import * as path from 'path';
-import * as builder from '@manta-style/typescript-builder';
 import * as program from 'commander';
 import findRoot = require('find-root');
 import { Snapshot } from './utils/snapshot';
@@ -79,7 +78,7 @@ if (generateSnapshot && useSnapshot) {
 
   const tmpDir = findRoot(process.cwd()) + '/.mantastyle-tmp';
   const snapshotWatcher = chokidar.watch(snapshotFilePath);
-  const compiledFilePath = builder.build(
+  const compiledFilePath = await pluginSystem.buildConfigFile(
     path.resolve(configFile),
     tmpDir,
     verbose,
@@ -316,4 +315,7 @@ if (generateSnapshot && useSnapshot) {
     }
     return url;
   }
-})();
+})().catch((exception) => {
+  console.log(exception);
+  process.exit(1);
+});

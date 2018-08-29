@@ -16,7 +16,7 @@
   "license": "MIT",
   "scripts": {
     "test": "jest",
-    "build": "webpack",
+    "build": "tsc --emitDeclarationOnly && webpack",
     "watch": "webpack --watch"
   },
   "publishConfig": {

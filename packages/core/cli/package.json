@@ -25,6 +25,7 @@
     "watch": "tsc --watch -p tsconfig.json"
   },
   "devDependencies": {
+    "@manta-style/plugin-builder-typescript": "0.1.1",
     "@types/chokidar": "^1.7.5",
     "@types/cli-table": "^0.3.0",
     "@types/express": "^4.16.0",
@@ -39,7 +40,6 @@
   "dependencies": {
     "@manta-style/core": "0.1.0",
     "@manta-style/runtime": "^0.1.1",
-    "@manta-style/typescript-builder": "^0.1.1",
     "@manta-style/typescript-helpers": "^0.1.1",
     "axios": "^0.18.0",
     "chalk": "^2.4.1",

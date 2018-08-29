@@ -1,6 +1,7 @@
 # @manta-style/plugin-mock-example
 
 ## Installation
+
 ```sh
 $ yarn add @manta-style/plugin-mock-example
 ```
@@ -19,7 +20,7 @@ userName: string;
  * @example 10
  * @precision 1
  */
- score: number
+score: number;
 ```
 
-- Will generate data based on example
+- Will generate data based on example, muliple examples will be chosen randomly.
