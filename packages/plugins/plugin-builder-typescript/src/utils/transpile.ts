@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { createTransformer } from '@manta-style/typescript-transformer';
+import { createTransformer } from '../transformer';
 
 export default function transpile(
   sourceCode: string,

@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Type Reference Reference Type (Generic) 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var A = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"A\\", function (typeFactory) {
+    var T = typeFactory.TypeParameter(\\"T\\");
+    var type = runtime_1[\\"default\\"].UnionType([runtime_1[\\"default\\"].StringKeyword, T]);
+    return type;
+}, []);
+var B = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"B\\", function (typeFactory) {
+    var type = A.argumentTypes([runtime_1[\\"default\\"].NumberKeyword]);
+    return type;
+}, []);
+"
+`;
+
+exports[`Type Reference Reference Type (Non-generic) 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var A = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"A\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].StringKeyword;
+    return type;
+}, []);
+var B = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"B\\", function (typeFactory) {
+    var type = A;
+    return type;
+}, []);
+"
+`;

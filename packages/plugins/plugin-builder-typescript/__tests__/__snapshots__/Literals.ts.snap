@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Literals Array of literals 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].TupleType([runtime_1[\\"default\\"].Literal(1), runtime_1[\\"default\\"].Literal(2), runtime_1[\\"default\\"].Literal(3), runtime_1[\\"default\\"].Literal(\\"hello\\"), runtime_1[\\"default\\"].Literal(\\"world\\")]);
+    return type;
+}, []);
+"
+`;
+
+exports[`Literals Booleans 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].Literal(true);
+    return type;
+}, []);
+"
+`;
+
+exports[`Literals Booleans 2`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].Literal(false);
+    return type;
+}, []);
+"
+`;
+
+exports[`Literals Numbers 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].Literal(1);
+    return type;
+}, []);
+"
+`;
+
+exports[`Literals Strings 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].Literal(\\"test\\");
+    return type;
+}, []);
+"
+`;

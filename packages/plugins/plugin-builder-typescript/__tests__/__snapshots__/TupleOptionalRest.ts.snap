@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tuple, Optional and Rest Optional 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].TupleType([runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].OptionalType(runtime_1[\\"default\\"].NumberKeyword)]);
+    return type;
+}, []);
+"
+`;
+
+exports[`Tuple, Optional and Rest Rest 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].TupleType([runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].RestType(runtime_1[\\"default\\"].StringKeyword)]);
+    return type;
+}, []);
+"
+`;
+
+exports[`Tuple, Optional and Rest Tuple 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].TupleType([runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].NumberKeyword]);
+    return type;
+}, []);
+"
+`;

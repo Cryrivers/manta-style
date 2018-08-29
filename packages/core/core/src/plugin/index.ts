@@ -10,6 +10,10 @@ const MOCK_PLUGIN_REGEX = new RegExp(
   PLUGIN_PREFIX.map((prefix) => `(^${prefix}-mock-)`).join('|'),
 );
 
+const BUILDER_PLUGIN_REGEX = new RegExp(
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}-builder-)`).join('|'),
+);
+
 type AnyObject = { [key: string]: any };
 type MockResult<T> = T | null | Promise<T | null>;
 
@@ -25,7 +29,8 @@ export interface MockPlugin {
 export interface BuilderPlugin {
   name: string;
   supportedExtensions: string[];
-  build(configFilePath: string): Promise<string[]>;
+  build(configFilePath: string): Promise<string>;
+  transpile(sourceCode: string): Promise<string>;
 }
 
 export type Plugin = MockPlugin | BuilderPlugin;
@@ -46,6 +51,9 @@ export class PluginSystem {
       | Array<{ name: string; mock: SupportedMockFunction }>
       | undefined;
   } = {};
+  private builderPlugins: {
+    [key: string]: BuilderPlugin | undefined;
+  } = {};
   constructor(plugins: PluginEntry[]) {
     for (const plugin of plugins) {
       if (isMockPlugin(plugin)) {
@@ -60,6 +68,10 @@ export class PluginSystem {
             });
           }
         }
+      } else if (isBuilderPlugin(plugin)) {
+        const {
+          module: { build, supportedExtensions, name },
+        } = plugin;
       }
     }
   }
@@ -87,4 +99,10 @@ export class PluginSystem {
 
 function isMockPlugin(plugin: PluginEntry): plugin is PluginEntry<MockPlugin> {
   return MOCK_PLUGIN_REGEX.test(plugin.name);
+}
+
+function isBuilderPlugin(
+  plugin: PluginEntry,
+): plugin is PluginEntry<BuilderPlugin> {
+  return BUILDER_PLUGIN_REGEX.test(plugin.name);
 }

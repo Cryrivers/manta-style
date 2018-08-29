@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Type Literal Basic properties 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].TypeLiteral(function (typeLiteral) {
+        typeLiteral.property(\\"a\\", runtime_1[\\"default\\"].NumberKeyword, false, []);
+        typeLiteral.property(\\"b\\", runtime_1[\\"default\\"].Literal(1), false, []);
+        typeLiteral.property(\\"c\\", runtime_1[\\"default\\"].StringKeyword, true, []);
+        typeLiteral.property(\\"d\\", runtime_1[\\"default\\"].ArrayType(runtime_1[\\"default\\"].StringKeyword), false, []);
+    });
+    return type;
+}, []);
+"
+`;
