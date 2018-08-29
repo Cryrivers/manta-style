@@ -2,21 +2,26 @@ import { max, min, round } from 'lodash-es';
 
 type AnyObject = { [key: string]: any };
 type MockResult<T> = T | null | Promise<T | null>;
+type MantaStyleContext = any;
 
 export type MockPlugin = {
   name: string;
   mock: {
     StringType?: (
       annotations: Annotation[],
+      context: MantaStyleContext,
     ) => MockResult<string>;
     NumberType?: (
       annotations: Annotation[],
+      context: MantaStyleContext,
     ) => MockResult<number>;
     BooleanType?: (
       annotations: Annotation[],
+      context: MantaStyleContext,
     ) => MockResult<boolean>;
     TypeLiteral?: (
       annotations: Annotation[],
+      context: MantaStyleContext,
     ) => MockResult<AnyObject>;
   };
 };

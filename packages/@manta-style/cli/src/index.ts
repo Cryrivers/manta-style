@@ -18,7 +18,7 @@ import {
 } from '@manta-style/runtime';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
-import PluginSystem from '@manta-style/plugin-system';
+import PluginSystem, { PluginDiscovery } from '@manta-style/plugin-system';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -64,7 +64,7 @@ import * as babelCore from 'babel-core';
 import * as fs from 'fs';
 
 (async function() {
-  const pluginSystem = await PluginSystem.discover(process.cwd());
+  const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
 
   const app = express();
   const endpointTable: {
