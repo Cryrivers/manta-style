@@ -2,17 +2,17 @@ import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
 import ExamplePlugin from '@manta-style/plugin-mock-example';
 
-describe('Test original @example annotation', () => {
-  const context = {
-    query: {},
-    plugins: new PluginSystem([
-      {
-        name: '@manta-style/plugin-mock-example',
-        module: ExamplePlugin,
-      },
-    ]),
-  };
-  test('Array can inherit @length from TypeAliasDeclaration', async () => {
+describe('Plugin Test', () => {
+  test('Test original @example annotation', async () => {
+    const context = {
+      query: {},
+      plugins: new PluginSystem([
+        {
+          name: '@manta-style/plugin-mock-example',
+          module: ExamplePlugin,
+        },
+      ]),
+    };
     const type = MS.TypeAliasDeclaration(
       'Test',
       () => {
