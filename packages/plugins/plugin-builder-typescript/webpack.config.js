@@ -4,8 +4,8 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: __dirname + '/lib',
-    filename: 'typescript-transformer.js',
-    library: 'MantaStyleTypeScriptTransformer',
+    filename: 'typescript-builder.js',
+    library: 'MantaStylePluginBuilderTypeScript',
     libraryTarget: 'umd',
     // See https://github.com/webpack/webpack/issues/6522
     globalObject: "typeof self !== 'undefined' ? self : this",

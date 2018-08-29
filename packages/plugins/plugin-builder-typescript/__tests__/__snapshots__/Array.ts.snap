@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Array Array keyword form 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].ArrayType(runtime_1[\\"default\\"].StringKeyword);
+    return type;
+}, []);
+"
+`;
+
+exports[`Array Array keyword form 2`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].ArrayType(runtime_1[\\"default\\"].ParenthesizedType(runtime_1[\\"default\\"].UnionType([runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].StringKeyword])));
+    return type;
+}, []);
+"
+`;
+
+exports[`Array Array keyword form 3`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var T = typeFactory.TypeParameter(\\"T\\");
+    var type = runtime_1[\\"default\\"].ArrayType(T);
+    return type;
+}, []);
+"
+`;
+
+exports[`Array Bracket form 1`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].ArrayType(runtime_1[\\"default\\"].StringKeyword);
+    return type;
+}, []);
+"
+`;
+
+exports[`Array Bracket form 2`] = `
+"\\"use strict\\";
+exports.__esModule = true;
+var runtime_1 = require(\\"@manta-style/runtime\\");
+var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+    var type = runtime_1[\\"default\\"].ArrayType(runtime_1[\\"default\\"].ParenthesizedType(runtime_1[\\"default\\"].UnionType([runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].StringKeyword])));
+    return type;
+}, []);
+"
+`;

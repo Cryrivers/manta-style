@@ -1,4 +1,4 @@
-import { getTranspiledString } from '../utils/transpiler';
+import getTranspiledString from '../src/utils/transpile';
 
 describe('Type Literal', () => {
   test('Basic properties', () => {
