@@ -29,7 +29,12 @@ export interface MockPlugin {
 export interface BuilderPlugin {
   name: string;
   supportedExtensions: string[];
-  build(configFilePath: string): Promise<string>;
+  build(
+    configFilePath: string,
+    destDir: string,
+    verbose?: boolean,
+    importHelpers?: boolean,
+  ): Promise<string>;
   transpile(sourceCode: string): Promise<string>;
 }
 
@@ -69,9 +74,20 @@ export class PluginSystem {
           }
         }
       } else if (isBuilderPlugin(plugin)) {
-        const {
-          module: { build, supportedExtensions, name },
-        } = plugin;
+        const { module } = plugin;
+        const { supportedExtensions } = module;
+        for (const extension of supportedExtensions) {
+          const currentHandler = this.builderPlugins[extension];
+          if (!currentHandler) {
+            this.builderPlugins[extension] = module;
+          } else {
+            throw new Error(
+              `Builder Plugin Error, both "${plugin.name}" and "${
+                currentHandler.name
+              }" handle file type "${extension}"`,
+            );
+          }
+        }
       }
     }
   }
@@ -94,6 +110,44 @@ export class PluginSystem {
       }
     }
     return null;
+  }
+  public async buildConfigFile(
+    configFilePath: string,
+    destDir: string,
+    verbose?: boolean,
+    importHelpers?: boolean,
+  ): Promise<string> {
+    const extension = extractNormalizedExtension(configFilePath);
+    const handler = this.builderPlugins[extension];
+    if (handler) {
+      return handler.build(configFilePath, destDir, verbose, importHelpers);
+    } else {
+      throw new Error(
+        `Extension "${extension}" is not handled by any builder plugins.`,
+      );
+    }
+  }
+  public async transpileConfigSource(
+    sourceCode: string,
+    extension: string,
+  ): Promise<string> {
+    const handler = this.builderPlugins[extension];
+    if (handler) {
+      return handler.transpile(sourceCode);
+    } else {
+      throw new Error(
+        `Extension "${extension}" is not handled by any builder plugins.`,
+      );
+    }
+  }
+}
+
+function extractNormalizedExtension(filePath: string) {
+  const result = filePath.match(/(?:\.([^.]+))?$/);
+  if (result) {
+    return result[1];
+  } else {
+    return '';
   }
 }
 
