@@ -1,6 +1,6 @@
 import { intersection } from '../../src/utils/intersection';
 import MS from '../../src';
-import PluginSystem from '@manta-style/plugin-system';
+import { PluginSystem } from '@manta-style/core';
 
 describe('Intersection Test', () => {
   const context = { query: {}, plugins: PluginSystem.default() };

@@ -1,6 +1,6 @@
 import * as readPkgUp from 'read-pkg-up';
 import * as resolveFrom from 'resolve-from';
-import PluginSystem, { PLUGIN_REGEX } from './plugins';
+import { PluginSystem, PLUGIN_REGEX } from '@manta-style/core';
 
 export default class PluginDiscovery {
   static async findPlugins(file: string) {

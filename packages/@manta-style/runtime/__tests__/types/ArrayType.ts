@@ -1,6 +1,6 @@
 import MS from '../../src';
 import ArrayLiteral from '../../src/types/ArrayLiteral';
-import PluginSystem from '@manta-style/plugin-system';
+import { PluginSystem } from '@manta-style/core';
 
 // number[]
 const type = MS.ArrayType(MS.NumberKeyword);

@@ -2,10 +2,11 @@ module.exports = {
   mode: 'production',
   entry: __dirname + '/src/index.ts',
   devtool: 'source-map',
+  target: 'node',
   output: {
     path: __dirname + '/lib',
     filename: 'index.js',
-    library: 'MantaPluginHelper',
+    library: 'MantaStylePluginMockExample',
     libraryTarget: 'umd',
     // See https://github.com/webpack/webpack/issues/6522
     globalObject: "typeof self !== 'undefined' ? self : this",

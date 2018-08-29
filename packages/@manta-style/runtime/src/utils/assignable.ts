@@ -8,7 +8,7 @@ import BooleanKeyword from '../types/BooleanKeyword';
 import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
 import IntersectionType from '../types/IntersectionType';
-import { MantaStyleContext } from '../typedef';
+import { MantaStyleContext } from '@manta-style/core';
 
 export async function isAssignable(
   typeS: Type,

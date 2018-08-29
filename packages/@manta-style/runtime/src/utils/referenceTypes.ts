@@ -1,10 +1,13 @@
 import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
-import { Type, Annotation } from './baseType';
+import { Type } from './baseType';
 import TypeParameter from '../nodes/TypeParameter';
 import KeyOfKeyword from '../types/KeyOfKeyword';
 import ParenthesizedType from '../types/ParenthesizedType';
-import { inheritAnnotations } from '../utils/annotation';
-import { MantaStyleContext } from '../typedef';
+import {
+  Annotation,
+  MantaStyleContext,
+  annotationUtils,
+} from '@manta-style/core';
 
 /**
  * @description
@@ -31,7 +34,7 @@ export async function resolveReferencedType(
       // as we moved the initialization from `argumentTypes`
       // to `deriveLiteral`.
       await actualType.deriveLiteral(annotations, context);
-      annotations = inheritAnnotations(
+      annotations = annotationUtils.inheritAnnotations(
         annotations,
         actualType.getAnnotations(),
       );

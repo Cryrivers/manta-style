@@ -1,4 +1,4 @@
-import { annotationUtils, MockPlugin } from '@manta-style/plugin-helper';
+import { annotationUtils, MockPlugin } from '@manta-style/core';
 import { sample } from 'lodash-es';
 import * as faker from 'faker';
 
@@ -30,7 +30,7 @@ const fakerPlugin: MockPlugin = {
         if (sampled) {
           const pathToFake = sampled.split('.');
           let fakeValue = faker;
-          for(const path of pathToFake) {
+          for (const path of pathToFake) {
             // @ts-ignore
             fakeValue = fakeValue && fakeValue[path];
           }

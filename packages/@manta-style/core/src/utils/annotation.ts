@@ -1,16 +1,20 @@
-import { Annotation } from './baseType';
 import { max, min, round } from 'lodash-es';
+
+export type Annotation = {
+  key: string;
+  value: string;
+};
 
 export function findAnnotation(
   key: string,
-  annotations?: Annotation[],
+  annotations: Annotation[],
 ): Annotation | undefined {
   return annotations && annotations.find((item) => item.key === key);
 }
 
 export function getAnnotationsByKey(
   key: string,
-  annotations?: Annotation[],
+  annotations: Annotation[],
 ): string[] {
   return annotations
     ? annotations.filter((item) => item.key === key).map((item) => item.value)
@@ -24,7 +28,7 @@ export function getNumberFromAnnotationKey({
 }: {
   key: string;
   precision: number;
-  annotations?: Annotation[];
+  annotations: Annotation[];
 }): number | undefined {
   const values = getAnnotationsByKey(key, annotations).map((item) =>
     parseFloat(item),

@@ -4,15 +4,17 @@ import {
   Type,
   Property,
   ComputedProperty,
-  Annotation,
   ComputedPropertyOperator,
   AnyObject,
-  MantaStyleContext,
 } from '../utils/baseType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import NeverKeyword from './NeverKeyword';
 import { intersection } from '../utils/intersection';
-import { inheritAnnotations } from '../utils/annotation';
+import {
+  Annotation,
+  MantaStyleContext,
+  annotationUtils,
+} from '@manta-style/core';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -63,7 +65,10 @@ export default class TypeLiteral extends Type {
       typeLiteral.property(
         property.name,
         await property.type.deriveLiteral(
-          inheritAnnotations(parentAnnotations, property.annotations),
+          annotationUtils.inheritAnnotations(
+            parentAnnotations,
+            property.annotations,
+          ),
           context,
         ),
         property.questionMark,

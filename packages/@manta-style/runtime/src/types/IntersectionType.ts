@@ -1,6 +1,7 @@
-import { Annotation, Type, MantaStyleContext } from '../utils/baseType';
+import { Type } from '../utils/baseType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { intersection } from '../utils/intersection';
+import { Annotation, MantaStyleContext } from '@manta-style/core';
 
 export default class IntersectionType extends Type {
   private readonly types: Type[];

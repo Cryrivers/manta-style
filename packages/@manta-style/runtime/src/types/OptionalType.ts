@@ -1,4 +1,5 @@
-import { Type, Annotation, MantaStyleContext } from '../utils/baseType';
+import { Type } from '../utils/baseType';
+import { Annotation, MantaStyleContext } from '@manta-style/core';
 
 export default class OptionalType extends Type {
   private type: Type;
