@@ -2,7 +2,7 @@
 
 ## Installation
 ```sh
-$ yarn add @manta-style/plugin-mock-range
+$ yarn add @manta-style/plugin-mock-iterate
 ```
 
 ## Usage
