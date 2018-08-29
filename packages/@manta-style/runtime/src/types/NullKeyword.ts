@@ -1,4 +1,4 @@
-import { Type } from '../utils/baseType';
+import { Type } from '@manta-style/core';
 
 export default class NullKeyword extends Type {
   public async deriveLiteral() {

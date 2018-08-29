@@ -1,9 +1,8 @@
-import { Type } from '../utils/baseType';
 import UnionType from './UnionType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { isAssignable } from '../utils/assignable';
 import { normalizeUnion } from '../utils/union';
-import { Annotation } from '@manta-style/core';
+import { Annotation, Type } from '@manta-style/core';
 import { MantaStyleContext } from '@manta-style/core';
 
 export default class ConditionalType extends Type {

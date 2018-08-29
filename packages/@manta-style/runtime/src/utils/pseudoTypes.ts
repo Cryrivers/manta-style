@@ -1,4 +1,4 @@
-import { Type } from './baseType';
+import { Type } from '@manta-style/core';
 
 export class ErrorType extends Type {
   private readonly message: string;

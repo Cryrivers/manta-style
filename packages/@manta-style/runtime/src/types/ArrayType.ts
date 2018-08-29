@@ -1,9 +1,9 @@
-import { Type } from '../utils/baseType';
 import ArrayLiteral from './ArrayLiteral';
 import {
   Annotation,
   MantaStyleContext,
   annotationUtils,
+  Type,
 } from '@manta-style/core';
 
 export default class ArrayType extends Type {

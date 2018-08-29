@@ -1,5 +1,4 @@
 import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
-import { Type } from './baseType';
 import TypeParameter from '../nodes/TypeParameter';
 import KeyOfKeyword from '../types/KeyOfKeyword';
 import ParenthesizedType from '../types/ParenthesizedType';
@@ -7,6 +6,7 @@ import {
   Annotation,
   MantaStyleContext,
   annotationUtils,
+  Type,
 } from '@manta-style/core';
 
 /**

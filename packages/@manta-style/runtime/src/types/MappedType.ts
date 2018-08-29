@@ -1,12 +1,12 @@
 import TypeParameter from '../nodes/TypeParameter';
 import { ErrorType } from '../utils/pseudoTypes';
-import { Type, QuestionToken } from '../utils/baseType';
+import { QuestionToken } from '../utils/baseType';
 import Literal from './Literal';
 import TypeLiteral from './TypeLiteral';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from './UnionType';
 import IndexedAccessType from './IndexedAccessType';
-import { Annotation, MantaStyleContext } from '@manta-style/core';
+import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
 
 const ErrType = new ErrorType("MappedType hasn't been initialized");
 

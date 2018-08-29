@@ -1,4 +1,5 @@
-import { Literals, Type } from '../utils/baseType';
+import { Literals } from '../utils/baseType';
+import { Type } from '@manta-style/core';
 
 export default class Literal<T extends Literals> extends Type {
   private readonly literal: T;

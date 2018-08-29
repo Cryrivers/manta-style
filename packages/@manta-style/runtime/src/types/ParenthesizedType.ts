@@ -1,5 +1,4 @@
-import { Type } from '../utils/baseType';
-import { Annotation, MantaStyleContext } from '@manta-style/core';
+import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class ParenthesizedType extends Type {
   private readonly type: Type;
