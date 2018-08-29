@@ -1,16 +1,17 @@
-import { annotationUtils, lodashUtils } from '@manta-style/plugin-helper';
+import { annotationUtils, MockPlugin } from '@manta-style/plugin-helper';
+import { sample } from 'lodash-es';
 import * as faker from 'faker';
 
-module.exports = {
+const fakerPlugin: MockPlugin = {
   name: 'faker',
   mock: {
-    StringType(annotations: any) {
+    StringType(annotations) {
       const jsdocExample = annotationUtils.getAnnotationsByKey(
         'example',
         annotations,
       );
       if (jsdocExample.length > 0) {
-        const sampled = lodashUtils.sample(jsdocExample);
+        const sampled = sample(jsdocExample);
         if (sampled) {
           return faker.fake(sampled);
         }
@@ -19,3 +20,5 @@ module.exports = {
     },
   },
 };
+
+export default fakerPlugin;

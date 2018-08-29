@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Manta Style Plugin Helper",
   "main": "./lib/index.js",
+  "typings": "./lib/typings/index.d.ts",
   "author": {
     "name": "Tan Li Hau",
     "email": "lhtan93@gmail.com",
@@ -21,6 +22,10 @@
     "access": "public"
   },
   "devDependencies": {
+    "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.0"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.10"
   }
 }
