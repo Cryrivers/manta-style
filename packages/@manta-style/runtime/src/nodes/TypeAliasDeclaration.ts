@@ -3,8 +3,8 @@ import {
   Annotation,
   annotationUtils,
   MantaStyleContext,
+  Type,
 } from '@manta-style/core';
-import { Type } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';

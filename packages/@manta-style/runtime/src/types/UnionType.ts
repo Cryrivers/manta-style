@@ -1,8 +1,7 @@
-import { Type } from '../utils/baseType';
 import { sample } from 'lodash-es';
 import NeverKeyword from './NeverKeyword';
 import { resolveReferencedType } from '../utils/referenceTypes';
-import { Annotation, MantaStyleContext } from '@manta-style/core';
+import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class UnionType extends Type {
   private readonly types: Type[] = [];

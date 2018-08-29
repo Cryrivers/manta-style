@@ -1,4 +1,3 @@
-import { Type } from './baseType';
 import { resolveReferencedType } from './referenceTypes';
 import Literal from '../types/Literal';
 import AnyKeyword from '../types/AnyKeyword';
@@ -8,7 +7,7 @@ import BooleanKeyword from '../types/BooleanKeyword';
 import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
 import IntersectionType from '../types/IntersectionType';
-import { MantaStyleContext } from '@manta-style/core';
+import { MantaStyleContext, Type } from '@manta-style/core';
 
 export async function isAssignable(
   typeS: Type,

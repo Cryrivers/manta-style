@@ -1,9 +1,8 @@
 import MantaStyle, {
-  Type,
   LiteralType,
   resolveReferencedType,
 } from '@manta-style/runtime';
-import { Annotation, MantaStyleContext } from '@manta-style/core';
+import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class QueryType extends Type {
   private readonly type: Type;

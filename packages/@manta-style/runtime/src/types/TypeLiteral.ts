@@ -1,7 +1,6 @@
 import UnionType from './UnionType';
 import KeyOfKeyword from './KeyOfKeyword';
 import {
-  Type,
   Property,
   ComputedProperty,
   ComputedPropertyOperator,
@@ -14,6 +13,7 @@ import {
   Annotation,
   MantaStyleContext,
   annotationUtils,
+  Type,
 } from '@manta-style/core';
 
 export default class TypeLiteral extends Type {

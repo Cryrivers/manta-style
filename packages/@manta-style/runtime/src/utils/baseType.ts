@@ -1,14 +1,4 @@
-import { MantaStyleContext, Annotation } from '@manta-style/core';
-
-export abstract class Type {
-  abstract deriveLiteral(
-    parentAnnotations: Annotation[],
-    context: MantaStyleContext,
-  ): Promise<Type>;
-  public mock(): any {
-    throw new Error('Literal types should be derived before mock.');
-  }
-}
+import { Annotation, Type } from '@manta-style/core';
 
 export const enum QuestionToken {
   None,

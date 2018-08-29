@@ -1,9 +1,8 @@
 import UnionType from '../types/UnionType';
-import { Type } from './baseType';
 import MantaStyle from '..';
 import NeverKeyword from '../types/NeverKeyword';
 import { resolveReferencedType } from './referenceTypes';
-import { MantaStyleContext } from '@manta-style/core';
+import { MantaStyleContext, Type } from '@manta-style/core';
 
 export async function normalizeUnion(
   unionType: UnionType,

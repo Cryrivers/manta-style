@@ -1,8 +1,7 @@
-import { Type } from '../utils/baseType';
 import ArrayLiteral from './ArrayLiteral';
 import OptionalType from './OptionalType';
 import RestType from './RestType';
-import { Annotation, MantaStyleContext } from '@manta-style/core';
+import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class TupleType extends Type {
   private readonly elementTypes: Type[];

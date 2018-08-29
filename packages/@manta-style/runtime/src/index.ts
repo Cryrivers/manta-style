@@ -18,12 +18,12 @@ import RestType from './types/RestType';
 import OptionalType from './types/OptionalType';
 import IndexedAccessType from './types/IndexedAccessType';
 import MappedType from './types/MappedType';
-import { Type, Literals, Property } from './utils/baseType';
+import { Literals, Property } from './utils/baseType';
 import IntersectionType from './types/IntersectionType';
 import ParenthesizedType from './types/ParenthesizedType';
 import ObjectKeyword from './types/ObjectKeyword';
 import ArrayLiteral from './types/ArrayLiteral';
-import { Annotation } from '@manta-style/core';
+import { Annotation, Type } from '@manta-style/core';
 
 export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 export type TypeLiteral = TypeLiteral;
@@ -100,6 +100,5 @@ class MantaStyle {
 }
 
 export default MantaStyle;
-export { Type } from './utils/baseType';
 export const LiteralType = Literal;
 export { resolveReferencedType } from './utils/referenceTypes';

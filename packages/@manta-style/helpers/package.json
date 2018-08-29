@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@manta-style/runtime": "^0.1.1",
+    "@manta-style/core": "^0.1.0",
     "@manta-style/typescript-transformer": "^0.1.1",
     "awesome-typescript-loader": "^5.2.0",
     "source-map-loader": "^0.2.4",

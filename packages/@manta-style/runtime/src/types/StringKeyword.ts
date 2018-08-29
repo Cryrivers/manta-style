@@ -1,6 +1,5 @@
-import { Type } from '../utils/baseType';
 import Literal from './Literal';
-import { Annotation, MantaStyleContext } from '@manta-style/core';
+import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
 
 const DEFAULT_STATIC_STRING =
   'This is a string message. Customize it with JSDoc tag @example';
