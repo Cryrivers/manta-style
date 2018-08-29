@@ -605,20 +605,6 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@manta-style/typescript-builder@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@manta-style/typescript-builder/-/typescript-builder-0.1.1.tgz#0035f41a01f2e2624f19a81664d077dd0aef4d6e"
-  dependencies:
-    "@manta-style/typescript-transformer" "^0.1.1"
-    babel-core "^6.26.3"
-    babel-plugin-transform-es2015-modules-commonjs "^6.26.2"
-    glob "^7.1.2"
-    typescript "^3.0.1"
-
-"@manta-style/typescript-transformer@^0.1.1":
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/@manta-style/typescript-transformer/-/typescript-transformer-0.1.1.tgz#8e878bd084e001d2d432b0f4b81af4859d13d7a7"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -1314,7 +1300,7 @@ aws4@^1.8.0:
 
 axios@^0.18.0:
   version "0.18.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
+  resolved "http://registry.npmjs.org/axios/-/axios-0.18.0.tgz#32d53e4851efdc0a11993b6cd000789d70c05102"
   dependencies:
     follow-redirects "^1.3.0"
     is-buffer "^1.1.5"
@@ -6753,8 +6739,8 @@ webpack-log@^1.2.0:
     uuid "^3.1.0"
 
 webpack-sources@^1.0.1, webpack-sources@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.1.0.tgz#a101ebae59d6507354d71d8013950a3a8b7a5a54"
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-1.2.0.tgz#18181e0d013fce096faf6f8e6d41eeffffdceac2"
   dependencies:
     source-list-map "^2.0.0"
     source-map "~0.6.1"

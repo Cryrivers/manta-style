@@ -3,12 +3,16 @@
     "default": {
       "packages": [
         "package.json",
-        "packages/@manta-style/cli/package.json",
-        "packages/@manta-style/consts/package.json",
-        "packages/@manta-style/runtime/package.json",
-        "packages/@manta-style/typescript-builder/package.json",
-        "packages/@manta-style/typescript-helpers/package.json",
-        "packages/@manta-style/typescript-transformer/package.json"
+        "packages/core/cli/package.json",
+        "packages/core/core/package.json",
+        "packages/core/helpers/package.json",
+        "packages/core/runtime/package.json",
+        "packages/core/typescript-helpers/package.json",
+        "packages/plugins/plugin-builder-typescript/package.json",
+        "packages/plugins/plugin-mock-example/package.json",
+        "packages/plugins/plugin-mock-faker/package.json",
+        "packages/plugins/plugin-mock-iterate/package.json",
+        "packages/plugins/plugin-mock-range/package.json"
       ]
     }
   }
