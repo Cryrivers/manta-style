@@ -1,4 +1,4 @@
-import { annotationUtils, MockPlugin } from '@manta-style/plugin-helper';
+import { annotationUtils, MockPlugin } from '@manta-style/core';
 
 const generatorMap: {
   [key: string]: IterableIterator<string>;
