@@ -1,7 +1,11 @@
 import TypeParameter from './TypeParameter';
-import { Type, Annotation, MantaStyleContext } from '../utils/baseType';
+import {
+  Annotation,
+  annotationUtils,
+  MantaStyleContext,
+} from '@manta-style/core';
+import { Type } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
-import { findAnnotation, inheritAnnotations } from '../utils/annotation';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';
 
@@ -41,20 +45,23 @@ export default class TypeAliasDeclaration extends Type {
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
   ) {
-    const combinedAnnotations = inheritAnnotations(
+    const combinedAnnotations = annotationUtils.inheritAnnotations(
       parentAnnotations,
       this.annotations,
     );
     // Set actual type of type parameters
     // @preserveUnion is a special decorator which is not inheritable
     // thus we only find it in `this.annotations`
-    const preserveUnionType = findAnnotation('preserveUnion', this.annotations);
+    const preserveUnionType = annotationUtils.findAnnotation(
+      'preserveUnion',
+      this.annotations,
+    );
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
       const { type, annotations } = await resolveReferencedType(
         this.typeParameterTypes[i],
         context,
       );
-      const mergedAnnotations = inheritAnnotations(
+      const mergedAnnotations = annotationUtils.inheritAnnotations(
         combinedAnnotations,
         annotations,
       );

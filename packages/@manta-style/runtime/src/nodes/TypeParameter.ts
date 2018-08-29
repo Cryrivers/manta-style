@@ -1,6 +1,7 @@
-import { Annotation, Type, MantaStyleContext } from '../utils/baseType';
+import { Type } from '../utils/baseType';
 import { ErrorType } from '../utils/pseudoTypes';
 import { isAssignable } from '../utils/assignable';
+import { Annotation, MantaStyleContext } from '@manta-style/core';
 
 export default class TypeParameter extends Type {
   private readonly name: string;

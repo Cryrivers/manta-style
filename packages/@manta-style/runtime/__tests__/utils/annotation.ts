@@ -1,7 +1,7 @@
-import { Annotation } from '../../src/utils/baseType';
-import { inheritAnnotations } from '../../src/utils/annotation';
 import MS from '../../src';
-import PluginSystem from '@manta-style/plugin-system';
+import { PluginSystem, annotationUtils, Annotation } from '@manta-style/core';
+
+const { inheritAnnotations } = annotationUtils;
 
 describe('Annotation Test', () => {
   const context = { query: {}, plugins: PluginSystem.default() };

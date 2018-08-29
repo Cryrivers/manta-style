@@ -1,6 +1,6 @@
 import { isAssignable } from '../../src/utils/assignable';
 import MS from '../../src';
-import PluginSystem from '@manta-style/plugin-system';
+import { PluginSystem } from '@manta-style/core';
 
 describe('Assignablity Test', () => {
   const context = { query: {}, plugins: PluginSystem.default() };

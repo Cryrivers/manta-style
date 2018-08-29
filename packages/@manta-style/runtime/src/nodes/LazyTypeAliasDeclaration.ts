@@ -1,5 +1,6 @@
 import TypeAliasDeclaration from './TypeAliasDeclaration';
-import { Type, Annotation, MantaStyleContext } from '../utils/baseType';
+import { Type } from '../utils/baseType';
+import { Annotation, MantaStyleContext } from '@manta-style/core';
 
 export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
   private initializer: (currentType: TypeAliasDeclaration) => Type = () =>

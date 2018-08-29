@@ -1,8 +1,9 @@
 import TypeLiteral from './TypeLiteral';
 import UnionType from './UnionType';
 import Literal from './Literal';
-import { Type, MantaStyleContext, Annotation } from '../utils/baseType';
+import { Type } from '../utils/baseType';
 import { resolveReferencedType } from '../utils/referenceTypes';
+import { Annotation, MantaStyleContext } from '@manta-style/core';
 
 export default class KeyOfKeyword extends Type {
   private type: Type;

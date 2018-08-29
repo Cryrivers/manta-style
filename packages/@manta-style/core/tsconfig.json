@@ -4,9 +4,10 @@
     "target": "es5",
     "strict": true,
     "sourceMap": true,
+    "module": "esnext",
     "declaration": true,
-    "declarationDir": "./lib/typings",
-    "module": "esnext"
+    "declarationDir": "./lib/typings"
   },
-  "exclude": ["node_modules", "__tests__", "__mocks__", "./lib"]
+  "include": ["./src"],
+  "exclude": ["./node_modules", "./__tests__", "./__mocks__", "./lib"]
 }

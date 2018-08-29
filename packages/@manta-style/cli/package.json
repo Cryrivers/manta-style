@@ -32,13 +32,15 @@
     "@types/inquirer": "^0.0.43",
     "@types/log-update": "^2.0.0",
     "@types/query-string": "^6.1.0",
+    "@types/read-pkg-up": "^3.0.1",
+    "@types/resolve-from": "^0.0.18",
     "typescript": "^3.0.1"
   },
   "dependencies": {
+    "@manta-style/core": "0.1.0",
     "@manta-style/runtime": "^0.1.1",
     "@manta-style/typescript-builder": "^0.1.1",
     "@manta-style/typescript-helpers": "^0.1.1",
-    "@manta-style/plugin-system": "0.1.0",
     "axios": "^0.18.0",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
@@ -49,6 +51,8 @@
     "find-root": "^1.1.0",
     "inquirer": "^6.1.0",
     "log-update": "^2.3.0",
-    "query-string": "^6.1.0"
+    "query-string": "^6.1.0",
+    "read-pkg-up": "^4.0.0",
+    "resolve-from": "^4.0.0"
   }
 }

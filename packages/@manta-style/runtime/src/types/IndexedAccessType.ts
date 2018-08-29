@@ -1,9 +1,10 @@
-import { Annotation, Type, MantaStyleContext } from '../utils/baseType';
+import { Type } from '../utils/baseType';
 import Literal from './Literal';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import TypeLiteral from './TypeLiteral';
 import UnionType from './UnionType';
 import MantaStyle from '..';
+import { Annotation, MantaStyleContext } from '@manta-style/core';
 
 export default class IndexedAccessType extends Type {
   private readonly objectType: Type;

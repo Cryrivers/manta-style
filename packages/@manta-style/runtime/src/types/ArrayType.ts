@@ -1,6 +1,10 @@
-import { Type, Annotation, MantaStyleContext } from '../utils/baseType';
-import { getNumberFromAnnotationKey } from '../utils/annotation';
+import { Type } from '../utils/baseType';
 import ArrayLiteral from './ArrayLiteral';
+import {
+  Annotation,
+  MantaStyleContext,
+  annotationUtils,
+} from '@manta-style/core';
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -13,7 +17,7 @@ export default class ArrayType extends Type {
     context: MantaStyleContext,
   ) {
     const array: Type[] = [];
-    const lengthFromJSDoc = getNumberFromAnnotationKey({
+    const lengthFromJSDoc = annotationUtils.getNumberFromAnnotationKey({
       key: 'length',
       precision: 0,
       annotations,

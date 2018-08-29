@@ -3,7 +3,7 @@ import { Type } from './baseType';
 import MantaStyle from '..';
 import NeverKeyword from '../types/NeverKeyword';
 import { resolveReferencedType } from './referenceTypes';
-import { MantaStyleContext } from '../typedef';
+import { MantaStyleContext } from '@manta-style/core';
 
 export async function normalizeUnion(
   unionType: UnionType,

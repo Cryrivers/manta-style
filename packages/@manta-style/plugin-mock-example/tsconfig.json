@@ -3,10 +3,10 @@
   "compilerOptions": {
     "target": "es5",
     "strict": true,
-    "declaration": true,
     "sourceMap": true,
-    "module": "commonjs",
-    "outDir": "./lib"
+    "declaration": true,
+    "declarationDir": "./lib/typings",
+    "module": "esnext"
   },
   "exclude": ["node_modules", "__tests__", "__mocks__", "./lib"]
 }

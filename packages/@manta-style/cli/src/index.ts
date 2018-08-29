@@ -18,7 +18,7 @@ import {
 } from '@manta-style/runtime';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
-import PluginSystem, { PluginDiscovery } from '@manta-style/plugin-system';
+import PluginDiscovery from './discovery';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 
@@ -59,9 +59,6 @@ if (generateSnapshot && useSnapshot) {
   );
   process.exit(1);
 }
-
-import * as babelCore from 'babel-core';
-import * as fs from 'fs';
 
 (async function() {
   const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());

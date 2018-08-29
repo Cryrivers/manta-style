@@ -1,5 +1,4 @@
-import { Annotation, MantaStyleContext } from '../typedef';
-export { Annotation, MantaStyleContext };
+import { MantaStyleContext, Annotation } from '@manta-style/core';
 
 export abstract class Type {
   abstract deriveLiteral(

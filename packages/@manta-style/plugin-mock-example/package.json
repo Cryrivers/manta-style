@@ -1,7 +1,7 @@
 {
-  "name": "@manta-style/plugin-mock-faker",
+  "name": "@manta-style/plugin-mock-example",
   "version": "0.1.0",
-  "description": "Manta Style Mock Plugin - Faker",
+  "description": "Manta Style Mock Plugin - Example",
   "main": "./lib/index.js",
   "typings": "./lib/typings/index.d.ts",
   "scripts": {
@@ -9,9 +9,9 @@
     "test": "echo 'No test yet'"
   },
   "author": {
-    "name": "Tan Li Hau",
-    "email": "lhtan93@gmail.com",
-    "url": "https://github.com/tanhauhau"
+    "name": "Zhongliang Wang",
+    "email": "zwang@rebelworks.io",
+    "url": "https://github.com/Cryrivers"
   },
   "repository": {
     "type": "git",
@@ -20,11 +20,9 @@
   "license": "MIT",
   "dependencies": {
     "@manta-style/core": "0.1.0",
-    "faker": "^4.1.0",
     "lodash-es": "^4.17.10"
   },
   "devDependencies": {
-    "@types/faker": "^4.1.3",
     "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.0",
     "webpack": "^4.17.1",

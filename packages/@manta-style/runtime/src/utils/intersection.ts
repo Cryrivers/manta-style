@@ -1,9 +1,10 @@
-import { Type, MantaStyleContext } from './baseType';
+import { Type } from './baseType';
 import { isAssignable } from './assignable';
 import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
 import MantaStyle from '..';
 import { normalizeUnion } from './union';
+import { MantaStyleContext } from '@manta-style/core';
 
 export async function intersection(
   S: Type,
