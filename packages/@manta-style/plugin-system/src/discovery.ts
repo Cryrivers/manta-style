@@ -1,20 +1,24 @@
 import * as readPkgUp from 'read-pkg-up';
 import * as resolveFrom from 'resolve-from';
+import PluginSystem, { PLUGIN_REGEX } from './plugins';
 
-const PLUGIN_REGEX = /(^@manta-style\/plugin)|(^manta-style-plugin)/;
+export default class PluginDiscovery {
+  static async findPlugins(file: string) {
+    const { pkg } = await readPkgUp({ cwd: file, normalize: true });
+    const plugins = [
+      ...filterDependency(pkg.dependencies),
+      ...filterDependency(pkg.devDependencies),
+    ];
 
-export default async function findPlugins(file: string) {
-  const { pkg } = await readPkgUp({ cwd: file, normalize: true });
-  const plugins = [
-    ...filterDependency(pkg.dependencies),
-    ...filterDependency(pkg.devDependencies),
-  ];
-  return plugins.map((plugin) => {
-    return {
-      name: plugin,
-      module: resolveFrom(file, plugin),
-    };
-  });
+    return new PluginSystem(
+      plugins.map((plugin) => {
+        return {
+          name: plugin,
+          module: defaultInterops(require(resolveFrom(file, plugin))),
+        };
+      }),
+    );
+  }
 }
 
 function filterDependency(dep: { [name: string]: string } | undefined) {
@@ -22,4 +26,8 @@ function filterDependency(dep: { [name: string]: string } | undefined) {
     return Object.keys(dep).filter((name) => PLUGIN_REGEX.test(name));
   }
   return [];
+}
+
+function defaultInterops(pkg: any) {
+  return pkg.default !== undefined ? pkg.default : pkg;
 }
