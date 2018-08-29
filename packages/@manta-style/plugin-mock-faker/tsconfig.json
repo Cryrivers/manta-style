@@ -3,10 +3,8 @@
   "compilerOptions": {
     "target": "es5",
     "strict": true,
-    "declaration": true,
     "sourceMap": true,
-    "module": "commonjs",
-    "outDir": "./lib"
+    "module": "esnext"
   },
   "exclude": ["node_modules", "__tests__", "__mocks__", "./lib"]
 }
