@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/plugin-builder-typescript",
-  "version": "0.1.1",
+  "version": "0.2.0-alpha.1",
   "main": "./lib/typescript-builder.js",
   "typings": "./lib/index.d.js",
   "author": {
@@ -28,7 +28,7 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
-    "@manta-style/core": "0.1.0",
+    "@manta-style/core": "^0.2.0-alpha.1",
     "babel-core": "^6.26.3",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "glob": "^7.1.2",
