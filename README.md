@@ -163,6 +163,10 @@ $ ms --help
 - [plugin-mock-qotd](./packages/plugins/plugin-mock-qotd/README.md)
 - [plugin-mock-range](./packages/plugins/plugin-mock-range/README.md)
 
+### Builder
+
+Manta Style supports TypeScript only at the moment via `plugin-builder-typescript`. More language support is coming soon.
+
 ## Contributing
 
 ### Getting Started
