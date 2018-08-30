@@ -5,7 +5,7 @@ import transpile from './utils/transpile';
 const typescriptBuilderPlugin: BuilderPlugin = {
   name: 'TypeScript Builder',
   supportedExtensions: ['ts'],
-  async build(configFilePath, destDir, verbose, importHelpers) {
+  async buildConfigFile(configFilePath, destDir, verbose, importHelpers) {
     const compiledFilePath = build(
       configFilePath,
       destDir,
@@ -20,7 +20,7 @@ const typescriptBuilderPlugin: BuilderPlugin = {
       );
     }
   },
-  async transpile(sourceCode) {
+  async buildConfigSource(sourceCode) {
     return transpile(sourceCode);
   },
 };

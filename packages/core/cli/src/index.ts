@@ -106,7 +106,6 @@ if (generateSnapshot && useSnapshot) {
       const endpointMap: { [key: string]: Property } = {};
       for (const endpoint of endpoints) {
         const proxyAnnotation = endpoint.annotations.find(
-          // @ts-ignore
           (item) => item.key === 'proxy',
         );
         endpointTable.push({

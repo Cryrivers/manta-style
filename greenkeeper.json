@@ -12,7 +12,8 @@
         "packages/plugins/plugin-mock-example/package.json",
         "packages/plugins/plugin-mock-faker/package.json",
         "packages/plugins/plugin-mock-iterate/package.json",
-        "packages/plugins/plugin-mock-range/package.json"
+        "packages/plugins/plugin-mock-range/package.json",
+        "packages/plugins/plugin-mock-qotd/package.json"
       ]
     }
   }

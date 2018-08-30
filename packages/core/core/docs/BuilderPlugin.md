@@ -1,7 +1,7 @@
 # Builder Plugin
 
 - Builder plugin is responsible for compiling the config file into JavaScript that utilizes `@manta-style/runtime`
-- Package name for a mock plugin should be `@manta-style/plugin-builder-*`
+- Package name for a builder plugin should be `@manta-style/plugin-builder-*`
 - Current language support
 
   1. TypeScript (`@manta-style/plugin-builder-typescript`)
@@ -20,6 +20,6 @@ interface BuilderPlugin {
     verbose: boolean = false,
     importHelpers: boolean = true,
   ): Promise<string>;
-  buildSourceCode(sourceCode: string): Promise<string>;
+  buildConfigSource(sourceCode: string): Promise<string>;
 }
 ```
