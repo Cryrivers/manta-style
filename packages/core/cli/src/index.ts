@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import * as express from 'express';
+import { Express } from 'express-serve-static-core';
+import { Server } from 'http';
 import * as path from 'path';
 import * as program from 'commander';
 import findRoot = require('find-root');
@@ -20,6 +22,7 @@ import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
+const METHODS: HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
 
 program
   .version('0.0.11')
@@ -61,14 +64,13 @@ if (generateSnapshot && useSnapshot) {
 
 (async function() {
   const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
-
-  const app = express();
-  const endpointTable: {
+  let server: Server | undefined;
+  let endpointTable: {
     method: string;
     endpoint: string;
     proxy: string | null;
   }[] = [];
-  const endpointMockTable: {
+  let endpointMockTable: {
     [method: string]: { [endpoint: string]: boolean };
   } = {};
   const snapshotFilePath = path.join(
@@ -78,11 +80,7 @@ if (generateSnapshot && useSnapshot) {
 
   const tmpDir = findRoot(process.cwd()) + '/.mantastyle-tmp';
   const snapshotWatcher = chokidar.watch(snapshotFilePath);
-  const compiledFilePath = await pluginSystem.buildConfigFile(
-    path.resolve(configFile),
-    tmpDir,
-    verbose,
-  );
+  const configFileWatcher = chokidar.watch(path.resolve(configFile));
 
   let isSnapshotMode = Boolean(useSnapshot);
   const snapshot = useSnapshot
@@ -93,13 +91,23 @@ if (generateSnapshot && useSnapshot) {
     [key: string]: ReturnType<TypeAliasDeclarationFactory> | undefined;
   };
 
-  const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
-
   snapshotWatcher.on('change', () => {
     snapshot.reloadFromFile(snapshotFilePath);
   });
 
-  function buildEndpoints(method: HTTPMethods) {
+  configFileWatcher.on('change', async () => {
+    console.log(chalk.yellowBright('\nUpdating config file...\n'));
+    await setupMockServer();
+    clear();
+    console.log(chalk.green('\nEndpoint config updated!\n'));
+    printMessage();
+  });
+
+  function buildEndpoints(
+    method: HTTPMethods,
+    compileConfig: MantaStyleConfig,
+    app: Express,
+  ) {
     const methodTypeDef = compileConfig[method.toUpperCase()];
     if (methodTypeDef) {
       const endpoints = (methodTypeDef.getType() as TypeLiteral)._getProperties();
@@ -199,11 +207,25 @@ if (generateSnapshot && useSnapshot) {
     }
   }
 
-  (['get', 'post', 'put', 'delete', 'patch'] as HTTPMethods[]).forEach(
-    buildEndpoints,
-  );
+  async function setupMockServer() {
+    if (server) {
+      server.close();
+    }
+    const app = express();
+    endpointTable = [];
+    endpointMockTable = {};
+    const compiledFilePath = await pluginSystem.buildConfigFile(
+      path.resolve(configFile),
+      tmpDir,
+      verbose,
+    );
+    delete require.cache[compiledFilePath];
+    const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
+    METHODS.forEach((method) => buildEndpoints(method, compileConfig, app));
+    server = app.listen(port || 3000);
+  }
 
-  app.listen(port || 3000);
+  await setupMockServer();
   clear();
   printMessage();
   toggleSnapshotMode(true);
