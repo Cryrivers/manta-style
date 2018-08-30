@@ -12,6 +12,9 @@
     "email": "lhtan93@gmail.com",
     "url": "https://github.com/tanhauhau"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Cryrivers/manta-style"

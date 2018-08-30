@@ -16,6 +16,9 @@
     "type": "git",
     "url": "https://github.com/Cryrivers/manta-style"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "dependencies": {
     "@manta-style/core": "0.1.0",

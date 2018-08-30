@@ -21,6 +21,9 @@
     "@manta-style/core": "0.1.0",
     "lodash-es": "^4.17.10"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.0",

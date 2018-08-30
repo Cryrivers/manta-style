@@ -5,9 +5,11 @@
 [Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates API mock endpoints from TypeScript type definitions automatically.
 
 Contents
+
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
+- [Plugins](#plugins)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
@@ -17,16 +19,18 @@ Contents
 ### Yarn
 
 ```sh
-yarn add -D @manta-style/cli
+yarn add -D @manta-style/cli @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
 ```
 
 ### npm
 
 ```sh
-npm install --save-dev @manta-style/cli
+npm install --save-dev @manta-style/cli @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
 ```
 
-You could also install it globally, which adds a command line tool `ms` to your system.
+You could also install it globally, which adds a command line tool `ms` to your system. Manta Style needs plugins to generate mock data (faker.js support for example, just install `@manta-style/plugin-mock-faker`). You could check [Plugins](#plugins) for the usages of official plugins. You could also make our own plugins as well.
+
+If you are new to Manta Style, please install the plugins above. We are going to use them in [Quick Start](#quick-start).
 
 ## Quick Start
 
@@ -37,24 +41,24 @@ You could use following configuration for test purpose. For more information abo
 ```ts
 interface User {
   /**
-   * @example {{internet.userName}}
+   * @faker {{internet.userName}}
    */
   userName: string;
   gender: 0 | 1 | 2;
   /**
-   * @timestamp past
+   * @faker date.past
    */
   birthday: number;
   /**
-   * @example {{address.country}}
+   * @faker {{address.country}}
    */
   country: string;
   /**
-   * @example {{address.state}}
+   * @faker {{address.state}}
    */
   state: string;
   /**
-   * @example {{address.city}}
+   * @faker {{address.city}}
    */
   city: string;
 }
@@ -131,6 +135,7 @@ Press <kbd>S</kbd> to enable snapshot mode for a constant output.
 Press <kbd>O</kbd> to interactively disable or proxy a mocked endpoint.
 
 ## Usage
+
 ```
 $ ms --help
 
@@ -148,6 +153,16 @@ $ ms --help
     -h, --help                 output usage information
 ```
 
+## Plugins
+
+### Mock
+
+- [plugin-mock-example](./packages/plugin-mock-example/README.md)
+- [plugin-mock-faker](./packages/plugin-mock-faker/README.md)
+- [plugin-mock-iterate](./packages/plugin-mock-iterate/README.md)
+- [plugin-mock-qotd](./packages/plugin-mock-qotd/README.md)
+- [plugin-mock-range](./packages/plugin-mock-range/README.md)
+
 ## Contributing
 
 ### Getting Started
@@ -161,7 +176,8 @@ yarn run build
 ## Acknowledgments
 
 - [Zhongliang Wang](https://github.com/Cryrivers) for original idea, architecture design, initial implementation of runtime and transformers.
-- [Tan Li Hau](https://github.com/tanhauhau) for the design and implementation of selective mocking, watch mode and experiments of future crazy idea.
+- [Tan Li Hau](https://github.com/tanhauhau) for the design and implementation of selective mocking, plugin system, and many official plugins.
+- [Jennie Ji](https://github.com/JennieJi) for implementation of live-reload feature.
 
 ## License
 
