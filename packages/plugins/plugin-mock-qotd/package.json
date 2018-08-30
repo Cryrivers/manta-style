@@ -1,0 +1,31 @@
+{
+  "name": "@manta-style/plugin-mock-qotd",
+  "version": "0.1.0",
+  "description": "Manta Style Mock Plugin - Quote of the Day",
+  "main": "./lib/index.js",
+  "scripts": {
+    "build": "webpack",
+    "test": "echo 'No test yet'"
+  },
+  "author": {
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/manta-style"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@manta-style/core": "0.1.0",
+    "isomorphic-fetch": "^2.2.1",
+    "lodash-es": "^4.17.10"
+  },
+  "devDependencies": {
+    "@types/lodash-es": "^4.17.1",
+    "awesome-typescript-loader": "^5.2.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
+}
