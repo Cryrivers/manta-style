@@ -29,13 +29,13 @@ export interface MockPlugin {
 export interface BuilderPlugin {
   name: string;
   supportedExtensions: string[];
-  build(
+  buildConfigFile(
     configFilePath: string,
     destDir: string,
     verbose?: boolean,
     importHelpers?: boolean,
   ): Promise<string>;
-  transpile(sourceCode: string): Promise<string>;
+  buildConfigSource(sourceCode: string): Promise<string>;
 }
 
 export type Plugin = MockPlugin | BuilderPlugin;
@@ -120,20 +120,25 @@ export class PluginSystem {
     const extension = extractNormalizedExtension(configFilePath);
     const handler = this.builderPlugins[extension];
     if (handler) {
-      return handler.build(configFilePath, destDir, verbose, importHelpers);
+      return handler.buildConfigFile(
+        configFilePath,
+        destDir,
+        verbose,
+        importHelpers,
+      );
     } else {
       throw new Error(
         `Extension "${extension}" is not handled by any builder plugins.`,
       );
     }
   }
-  public async transpileConfigSource(
+  public async buildConfigSource(
     sourceCode: string,
     extension: string,
   ): Promise<string> {
     const handler = this.builderPlugins[extension];
     if (handler) {
-      return handler.transpile(sourceCode);
+      return handler.buildConfigSource(sourceCode);
     } else {
       throw new Error(
         `Extension "${extension}" is not handled by any builder plugins.`,
