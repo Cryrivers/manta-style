@@ -157,11 +157,11 @@ $ ms --help
 
 ### Mock
 
-- [plugin-mock-example](./packages/plugin-mock-example/README.md)
-- [plugin-mock-faker](./packages/plugin-mock-faker/README.md)
-- [plugin-mock-iterate](./packages/plugin-mock-iterate/README.md)
-- [plugin-mock-qotd](./packages/plugin-mock-qotd/README.md)
-- [plugin-mock-range](./packages/plugin-mock-range/README.md)
+- [plugin-mock-example](./packages/plugins/plugin-mock-example/README.md)
+- [plugin-mock-faker](./packages/plugins/plugin-mock-faker/README.md)
+- [plugin-mock-iterate](./packages/plugins/plugin-mock-iterate/README.md)
+- [plugin-mock-qotd](./packages/plugins/plugin-mock-qotd/README.md)
+- [plugin-mock-range](./packages/plugins/plugin-mock-range/README.md)
 
 ## Contributing
 
