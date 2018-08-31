@@ -16,7 +16,7 @@ Contents
 
 ## Installation
 
-### Manta Style CLI
+### CLI
 
 ```sh
 npm install --save-dev @manta-style/cli
@@ -24,7 +24,7 @@ npm install --save-dev @manta-style/cli
 
 You could also install it globally, which adds a command line tool `ms` to your system.
 
-### Manta Style Plugins
+### Plugins
 
 Manta Style needs plugins to support different file types and generate mock data.
 
