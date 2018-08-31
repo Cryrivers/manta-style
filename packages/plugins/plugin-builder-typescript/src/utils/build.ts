@@ -2,7 +2,7 @@ import * as ts from 'typescript';
 import * as fs from 'fs';
 import * as path from 'path';
 import * as glob from 'glob';
-import * as babelCore from 'babel-core';
+import * as babelCore from '@babel/core';
 import { createTransformer } from '../transformer';
 
 export default function build(
@@ -39,9 +39,15 @@ export default function build(
       console.log('[BABEL] Processing file: ' + file);
     }
     const result = babelCore.transformFileSync(file, {
-      plugins: [require('babel-plugin-transform-es2015-modules-commonjs')],
+      presets: [require('@babel/preset-env')],
+      plugins: [require('@babel/plugin-transform-modules-commonjs')],
     });
-    fs.writeFileSync(file, result.code);
+
+    if (result) {
+      fs.writeFileSync(file, result.code);
+    } else {
+      throw new Error('Babel failed to compile the config file.');
+    }
   }
   return (
     result.emittedFiles && result.emittedFiles[result.emittedFiles.length - 1]
