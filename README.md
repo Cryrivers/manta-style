@@ -16,21 +16,31 @@ Contents
 
 ## Installation
 
-### Yarn
+### Manta Style CLI
 
 ```sh
-yarn add -D @manta-style/cli @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
+npm install --save-dev @manta-style/cli
 ```
 
-### npm
+You could also install it globally, which adds a command line tool `ms` to your system.
+
+### Manta Style Plugins
+
+Manta Style needs plugins to support different file types and generate mock data.
+
+The example of Quick Start below is using TypeScript. So first you might want to install TypeScript support to Manta Style.
 
 ```sh
-npm install --save-dev @manta-style/cli @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
+npm install --save-dev @manta-style/plugin-builder-typescript
 ```
 
-You could also install it globally, which adds a command line tool `ms` to your system. Manta Style needs plugins to generate mock data (faker.js support for example, just install `@manta-style/plugin-mock-faker`). You could check [Plugins](#plugins) for the usages of official plugins. You could make our own plugins as well.
+If you are new to Manta Style, please install the plugins below. We are going to use them in [Quick Start](#quick-start).
 
-If you are new to Manta Style, please install the plugins above. We are going to use them in [Quick Start](#quick-start).
+```sh
+npm install --save-dev @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
+```
+
+You could check [Plugins](#plugins) for the usages of official plugins. You could make our own plugins as well.
 
 ## Quick Start
 
