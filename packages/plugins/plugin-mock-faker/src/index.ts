@@ -6,7 +6,6 @@ const fakerPlugin: MockPlugin = {
   name: 'faker',
   mock: {
     StringType(annotations) {
-      console.log('annotations', annotations);
       const jsdocExample = annotationUtils.getAnnotationsByKey(
         'faker',
         annotations,
@@ -20,7 +19,6 @@ const fakerPlugin: MockPlugin = {
       return null;
     },
     NumberType(annotations) {
-      console.log('annotations', annotations);
       const jsdocExample = annotationUtils.getAnnotationsByKey(
         'faker',
         annotations,
