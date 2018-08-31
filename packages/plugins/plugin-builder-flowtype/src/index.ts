@@ -3,8 +3,8 @@ import build from './utils/build';
 import transpile from './utils/transpile';
 
 const typescriptBuilderPlugin: BuilderPlugin = {
-  name: 'TypeScript Builder',
-  supportedExtensions: ['ts'],
+  name: 'FlowType Builder',
+  supportedExtensions: ['js'],
   async buildConfigFile(configFilePath, destDir, verbose, importHelpers) {
     const compiledFilePath = build(
       configFilePath,
@@ -16,7 +16,7 @@ const typescriptBuilderPlugin: BuilderPlugin = {
       return compiledFilePath;
     } else {
       throw new Error(
-        `TypeScript Builder is unable to compile file ${configFilePath}.`,
+        `FlowType Builder is unable to compile file ${configFilePath}.`,
       );
     }
   },
