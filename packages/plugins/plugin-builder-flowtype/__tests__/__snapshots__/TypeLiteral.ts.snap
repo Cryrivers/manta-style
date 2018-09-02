@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Type Literal Basic properties 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.TypeLiteral(function (typeLiteral) {
+    typeLiteral.property(\\"a\\", _Runtime.NumberKeyword, false, []);
+    typeLiteral.property(\\"b\\", _Runtime.Literal(1), false, []);
+    typeLiteral.property(\\"c\\", _Runtime.StringKeyword, true, []);
+    typeLiteral.property(\\"d\\", _Runtime.ArrayType(_Runtime.StringKeyword), false, []);
+  });
+
+  return type;
+}, []);"
+`;

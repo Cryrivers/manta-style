@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Keywords AnyKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.AnyKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords BooleanKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.BooleanKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords NeverKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.NeverKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords NullKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.NullKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords NumberKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.NumberKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords ObjectKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.ObjectKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords StringKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.StringKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords UndefinedKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.UndefinedKeyword;
+  return type;
+}, []);"
+`;

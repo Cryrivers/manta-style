@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Array Array keyword form 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = Array.argumentTypes(_Runtime.StringKeyword);
+  return type;
+}, []);"
+`;
+
+exports[`Array Array keyword form 2`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = Array.argumentTypes(_Runtime.UnionType([_Runtime.NumberKeyword, _Runtime.StringKeyword]));
+  return type;
+}, []);"
+`;
+
+exports[`Array Array keyword form 3`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const T = typeFactory.TypeParameter(\\"T\\");
+  const type = Array.argumentTypes(T);
+  return type;
+}, []);"
+`;
+
+exports[`Array Bracket form 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.ArrayType(_Runtime.StringKeyword);
+
+  return type;
+}, []);"
+`;
+
+exports[`Array Bracket form 2`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.ArrayType(_Runtime.UnionType([_Runtime.NumberKeyword, _Runtime.StringKeyword]));
+
+  return type;
+}, []);"
+`;

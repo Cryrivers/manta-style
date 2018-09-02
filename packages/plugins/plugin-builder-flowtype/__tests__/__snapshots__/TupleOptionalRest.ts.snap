@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tuple, Optional and Rest Optional 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.TupleType([_Runtime.NumberKeyword, _Runtime.NumberKeyword, _Runtime.OptionalType(_Runtime.NumberKeyword)]);
+
+  return type;
+}, []);"
+`;
+
+exports[`Tuple, Optional and Rest Tuple 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.TupleType([_Runtime.NumberKeyword, _Runtime.NumberKeyword]);
+
+  return type;
+}, []);"
+`;

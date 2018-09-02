@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Literals Array of literals 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.TupleType([_Runtime.Literal(1), _Runtime.Literal(2), _Runtime.Literal(3), _Runtime.Literal(\\"hello\\"), _Runtime.Literal(\\"world\\")]);
+
+  return type;
+}, []);"
+`;
+
+exports[`Literals Booleans 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.Literal(true);
+
+  return type;
+}, []);"
+`;
+
+exports[`Literals Booleans 2`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.Literal(false);
+
+  return type;
+}, []);"
+`;
+
+exports[`Literals Numbers 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.Literal(1);
+
+  return type;
+}, []);"
+`;
+
+exports[`Literals Strings 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.Literal(\\"test\\");
+
+  return type;
+}, []);"
+`;
