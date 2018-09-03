@@ -1113,11 +1113,6 @@
     npmlog "^4.1.2"
     write-file-atomic "^2.3.0"
 
-"@manta-style/core@0.1.0":
-  version "0.2.0-alpha.2"
-  dependencies:
-    lodash-es "^4.17.10"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"

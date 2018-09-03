@@ -33,7 +33,7 @@
     "@babel/core": "^7.0.0",
     "@babel/plugin-syntax-flow": "^7.0.0",
     "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
-    "@manta-style/core": "0.1.0",
+    "@manta-style/core": "^0.2.0-alpha.2",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "glob": "^7.1.2"
   },
