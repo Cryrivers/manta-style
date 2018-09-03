@@ -21,4 +21,15 @@ describe('Array', () => {
     ).toMatchSnapshot();
     expect(testTranspiledString('type Test<T> = Array<T>;')).toMatchSnapshot();
   });
+  test('ReadOnlyArray keyword form', () => {
+    expect(
+      testTranspiledString('type Test = $ReadOnlyArray<string>;'),
+    ).toMatchSnapshot();
+    expect(
+      testTranspiledString('type Test = $ReadOnlyArray<number | string>;'),
+    ).toMatchSnapshot();
+    expect(
+      testTranspiledString('type Test<T> = $ReadOnlyArray<T>;'),
+    ).toMatchSnapshot();
+  });
 });

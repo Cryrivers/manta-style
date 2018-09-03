@@ -282,6 +282,7 @@ export function createTransformer(importHelpers: boolean) {
                 ]);
               case 'Object':
                 return createRuntimeExpression('ObjectKeyword');
+              case '$ReadOnlyArray':
               case 'Array': {
                 // transform Array<T> to T[] and do `transformLiteral`
                 const elementType = node.typeParameters
@@ -289,6 +290,9 @@ export function createTransformer(importHelpers: boolean) {
                   : t.anyTypeAnnotation();
                 return transformLiteral(t.arrayTypeAnnotation(elementType));
               }
+              case '$ReadOnly':
+                // @ts-ignore
+                return transformLiteral(node.typeParameters.params[0]);
               case 'undefined':
                 return createRuntimeExpression('UndefinedKeyword');
             }
