@@ -216,6 +216,13 @@ export function createTransformer(importHelpers: boolean) {
                 ]);
               case 'Object':
                 return createRuntimeExpression('ObjectKeyword');
+              case 'Array': {
+                // transform Array<T> to T[] and do `transformLiteral`
+                const elementType = node.typeParameters
+                  ? node.typeParameters.params[0]
+                  : t.anyTypeAnnotation();
+                return transformLiteral(t.arrayTypeAnnotation(elementType));
+              }
               case 'undefined':
                 return createRuntimeExpression('UndefinedKeyword');
             }

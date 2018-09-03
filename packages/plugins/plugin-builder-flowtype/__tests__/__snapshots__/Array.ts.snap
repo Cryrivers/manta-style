@@ -4,7 +4,8 @@ exports[`Array Array keyword form 1`] = `
 "import _Runtime from \\"@manta-style/runtime\\";
 
 const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const type = Array.argumentTypes(_Runtime.StringKeyword);
+  const type = _Runtime.ArrayType(_Runtime.StringKeyword);
+
   return type;
 }, []);"
 `;
@@ -13,7 +14,8 @@ exports[`Array Array keyword form 2`] = `
 "import _Runtime from \\"@manta-style/runtime\\";
 
 const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const type = Array.argumentTypes(_Runtime.UnionType([_Runtime.NumberKeyword, _Runtime.StringKeyword]));
+  const type = _Runtime.ArrayType(_Runtime.UnionType([_Runtime.NumberKeyword, _Runtime.StringKeyword]));
+
   return type;
 }, []);"
 `;
@@ -23,7 +25,9 @@ exports[`Array Array keyword form 3`] = `
 
 const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
   const T = typeFactory.TypeParameter(\\"T\\");
-  const type = Array.argumentTypes(T);
+
+  const type = _Runtime.ArrayType(T);
+
   return type;
 }, []);"
 `;
