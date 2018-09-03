@@ -33,4 +33,19 @@ describe('Operators', () => {
       getTranspiledString('type Keys<T: Object> = $Keys<T>;'),
     ).toMatchSnapshot();
   });
+  test('$Values', () => {
+    expect(
+      getTranspiledString(
+        'type Values = $Values<{ a:number, b:string, c: boolean }>;',
+      ),
+    ).toMatchSnapshot();
+    expect(
+      getTranspiledString(
+        'type Obj = { a:number, b:string, c: boolean }; type Values = $Values<Obj>;',
+      ),
+    ).toMatchSnapshot();
+    expect(
+      getTranspiledString('type Values<T: Object> = $Values<T>;'),
+    ).toMatchSnapshot();
+  });
 });
