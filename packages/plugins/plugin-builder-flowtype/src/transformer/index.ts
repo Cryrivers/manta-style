@@ -272,6 +272,14 @@ export function createTransformer(importHelpers: boolean) {
                     transformLiteral(node.typeParameters.params[0]),
                   ]),
                 ]);
+              case '$PropertyType':
+                // runtime.IndexedAccessType(T, K);
+                return createRuntimeFunctionCall('IndexedAccessType', [
+                  // @ts-ignore
+                  transformLiteral(node.typeParameters.params[0]),
+                  // @ts-ignore
+                  transformLiteral(node.typeParameters.params[1]),
+                ]);
               case 'Object':
                 return createRuntimeExpression('ObjectKeyword');
               case 'Array': {

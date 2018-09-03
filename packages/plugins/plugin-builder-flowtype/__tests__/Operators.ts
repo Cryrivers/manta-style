@@ -48,4 +48,11 @@ describe('Operators', () => {
       getTranspiledString('type Values<T: Object> = $Values<T>;'),
     ).toMatchSnapshot();
   });
+  test('$PropertyType', () => {
+    expect(
+      getTranspiledString(
+        "type Obj = { a:number, b:string, c: boolean }; type PropertyType = $PropertyType<Obj, 'b'>;",
+      ),
+    ).toMatchSnapshot();
+  });
 });

@@ -58,6 +58,30 @@ var Keys = _runtime.default.TypeAliasDeclaration(\\"Keys\\", function (typeFacto
 }, []);"
 `;
 
+exports[`Operators $PropertyType 1`] = `
+"\\"use strict\\";
+
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Obj = _runtime.default.TypeAliasDeclaration(\\"Obj\\", function (typeFactory) {
+  var type = _runtime.default.TypeLiteral(function (typeLiteral) {
+    typeLiteral.property(\\"a\\", _runtime.default.NumberKeyword, false, []);
+    typeLiteral.property(\\"b\\", _runtime.default.StringKeyword, false, []);
+    typeLiteral.property(\\"c\\", _runtime.default.BooleanKeyword, false, []);
+  });
+
+  return type;
+}, []);
+
+var PropertyType = _runtime.default.TypeAliasDeclaration(\\"PropertyType\\", function (typeFactory) {
+  var type = _runtime.default.IndexedAccessType(Obj, _runtime.default.Literal(\\"b\\"));
+
+  return type;
+}, []);"
+`;
+
 exports[`Operators $Values 1`] = `
 "\\"use strict\\";
 
