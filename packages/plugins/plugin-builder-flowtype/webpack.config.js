@@ -4,8 +4,8 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: __dirname + '/lib',
-    filename: 'typescript-builder.js',
-    library: 'MantaStylePluginBuilderTypeScript',
+    filename: 'flowtype-builder.js',
+    library: 'MantaStylePluginBuilderFlowtype',
     libraryTarget: 'umd',
     // See https://github.com/webpack/webpack/issues/6522
     globalObject: "typeof self !== 'undefined' ? self : this",
@@ -15,10 +15,10 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
-  externals: {
-    typescript: 'typescript',
-    '@babel/core': '@babel/core',
-  },
+  // externals: {
+  //   typescript: 'typescript',
+  //   '@babel/core': '@babel/core',
+  // },
   module: {
     rules: [
       {

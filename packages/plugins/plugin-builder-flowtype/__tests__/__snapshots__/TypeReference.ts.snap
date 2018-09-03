@@ -1,32 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Type Reference Reference Type (Generic) 1`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const A = _Runtime.TypeAliasDeclaration(\\"A\\", function (typeFactory) {
-  const T = typeFactory.TypeParameter(\\"T\\");
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
 
-  const type = _Runtime.UnionType([_Runtime.StringKeyword, T]);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var A = _runtime.default.TypeAliasDeclaration(\\"A\\", function (typeFactory) {
+  var T = typeFactory.TypeParameter(\\"T\\");
+
+  var type = _runtime.default.UnionType([_runtime.default.StringKeyword, T]);
 
   return type;
 }, []);
 
-const B = _Runtime.TypeAliasDeclaration(\\"B\\", function (typeFactory) {
-  const type = A.argumentTypes(_Runtime.NumberKeyword);
+var B = _runtime.default.TypeAliasDeclaration(\\"B\\", function (typeFactory) {
+  var type = A.argumentTypes([_runtime.default.NumberKeyword]);
   return type;
 }, []);"
 `;
 
 exports[`Type Reference Reference Type (Non-generic) 1`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const A = _Runtime.TypeAliasDeclaration(\\"A\\", function (typeFactory) {
-  const type = _Runtime.StringKeyword;
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var A = _runtime.default.TypeAliasDeclaration(\\"A\\", function (typeFactory) {
+  var type = _runtime.default.StringKeyword;
   return type;
 }, []);
 
-const B = _Runtime.TypeAliasDeclaration(\\"B\\", function (typeFactory) {
-  const type = A;
+var B = _runtime.default.TypeAliasDeclaration(\\"B\\", function (typeFactory) {
+  var type = A;
   return type;
 }, []);"
 `;

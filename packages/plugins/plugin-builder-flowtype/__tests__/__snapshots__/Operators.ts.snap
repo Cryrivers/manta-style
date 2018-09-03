@@ -1,13 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Operators $Keys 1`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Keys = _Runtime.TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
-  const type = _Runtime.KeyOfKeyword(_Runtime.TypeLiteral(function (typeLiteral) {
-    typeLiteral.property(\\"a\\", _Runtime.NumberKeyword, false, []);
-    typeLiteral.property(\\"b\\", _Runtime.StringKeyword, false, []);
-    typeLiteral.property(\\"c\\", _Runtime.BooleanKeyword, false, []);
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Keys = _runtime.default.TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
+  var type = _runtime.default.KeyOfKeyword(_runtime.default.TypeLiteral(function (typeLiteral) {
+    typeLiteral.property(\\"a\\", _runtime.default.NumberKeyword, false, []);
+    typeLiteral.property(\\"b\\", _runtime.default.StringKeyword, false, []);
+    typeLiteral.property(\\"c\\", _runtime.default.BooleanKeyword, false, []);
   }));
 
   return type;
@@ -15,91 +19,119 @@ const Keys = _Runtime.TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
 `;
 
 exports[`Operators $Keys 2`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Obj = _Runtime.TypeAliasDeclaration(\\"Obj\\", function (typeFactory) {
-  const type = _Runtime.TypeLiteral(function (typeLiteral) {
-    typeLiteral.property(\\"a\\", _Runtime.NumberKeyword, false, []);
-    typeLiteral.property(\\"b\\", _Runtime.StringKeyword, false, []);
-    typeLiteral.property(\\"c\\", _Runtime.BooleanKeyword, false, []);
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Obj = _runtime.default.TypeAliasDeclaration(\\"Obj\\", function (typeFactory) {
+  var type = _runtime.default.TypeLiteral(function (typeLiteral) {
+    typeLiteral.property(\\"a\\", _runtime.default.NumberKeyword, false, []);
+    typeLiteral.property(\\"b\\", _runtime.default.StringKeyword, false, []);
+    typeLiteral.property(\\"c\\", _runtime.default.BooleanKeyword, false, []);
   });
 
   return type;
 }, []);
 
-const Keys = _Runtime.TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
-  const type = _Runtime.KeyOfKeyword(Obj);
+var Keys = _runtime.default.TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
+  var type = _runtime.default.KeyOfKeyword(Obj);
 
   return type;
 }, []);"
 `;
 
 exports[`Operators $Keys 3`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Keys = _Runtime.TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
-  const T = typeFactory.TypeParameter(\\"T\\", _Runtime.ObjectKeyword);
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
 
-  const type = _Runtime.KeyOfKeyword(T);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Keys = _runtime.default.TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
+  var T = typeFactory.TypeParameter(\\"T\\", _runtime.default.ObjectKeyword);
+
+  var type = _runtime.default.KeyOfKeyword(T);
 
   return type;
 }, []);"
 `;
 
 exports[`Operators Intersection and Union composed with brackets 1`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const T = typeFactory.TypeParameter(\\"T\\");
-  const S = typeFactory.TypeParameter(\\"S\\");
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
 
-  const type = _Runtime.IntersectionType([_Runtime.NumberKeyword, _Runtime.UnionType([_Runtime.Literal(1), T, S])]);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  var T = typeFactory.TypeParameter(\\"T\\");
+  var S = typeFactory.TypeParameter(\\"S\\");
+
+  var type = _runtime.default.IntersectionType([_runtime.default.NumberKeyword, _runtime.default.UnionType([_runtime.default.Literal(1), T, S])]);
 
   return type;
 }, []);"
 `;
 
 exports[`Operators Intersections 1`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const type = _Runtime.IntersectionType([_Runtime.NumberKeyword, _Runtime.AnyKeyword]);
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  var type = _runtime.default.IntersectionType([_runtime.default.NumberKeyword, _runtime.default.AnyKeyword]);
 
   return type;
 }, []);"
 `;
 
 exports[`Operators Intersections 2`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const T = typeFactory.TypeParameter(\\"T\\");
-  const S = typeFactory.TypeParameter(\\"S\\");
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
 
-  const type = _Runtime.IntersectionType([T, S, _Runtime.NumberKeyword]);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  var T = typeFactory.TypeParameter(\\"T\\");
+  var S = typeFactory.TypeParameter(\\"S\\");
+
+  var type = _runtime.default.IntersectionType([T, S, _runtime.default.NumberKeyword]);
 
   return type;
 }, []);"
 `;
 
 exports[`Operators Unions 1`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const type = _Runtime.UnionType([_Runtime.Literal(1), _Runtime.Literal(2)]);
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  var type = _runtime.default.UnionType([_runtime.default.Literal(1), _runtime.default.Literal(2)]);
 
   return type;
 }, []);"
 `;
 
 exports[`Operators Unions 2`] = `
-"import _Runtime from \\"@manta-style/runtime\\";
+"\\"use strict\\";
 
-const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const T = typeFactory.TypeParameter(\\"T\\");
-  const S = typeFactory.TypeParameter(\\"S\\");
+var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
 
-  const type = _Runtime.UnionType([T, S, _Runtime.Literal(1), _Runtime.Literal(2)]);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  var T = typeFactory.TypeParameter(\\"T\\");
+  var S = typeFactory.TypeParameter(\\"S\\");
+
+  var type = _runtime.default.UnionType([T, S, _runtime.default.Literal(1), _runtime.default.Literal(2)]);
 
   return type;
 }, []);"

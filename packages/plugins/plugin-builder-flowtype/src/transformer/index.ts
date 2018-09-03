@@ -7,8 +7,8 @@ export function createTransformer(importHelpers: boolean) {
     const ast = Babel.parse(code, {
       sourceType: 'module',
       plugins: [
-        '@babel/plugin-syntax-object-rest-spread',
-        '@babel/plugin-syntax-flow',
+        require('@babel/plugin-syntax-object-rest-spread'),
+        require('@babel/plugin-syntax-flow'),
       ],
     });
     if (ast) {
@@ -80,7 +80,7 @@ export function createTransformer(importHelpers: boolean) {
                           t.returnStatement(t.identifier('type')),
                         ]),
                       ),
-                      t.arrayExpression(),
+                      generateJSDocAnnotations(node.leadingComments),
                     ]),
                   ),
                 ]),
@@ -157,8 +157,9 @@ export function createTransformer(importHelpers: boolean) {
                                   : property.key,
                                 transformLiteral(property.value),
                                 t.booleanLiteral(!!property.optional),
-                                // TODO:
-                                t.arrayExpression(),
+                                generateJSDocAnnotations(
+                                  property.leadingComments,
+                                ),
                               ],
                             ),
                           );
@@ -184,7 +185,9 @@ export function createTransformer(importHelpers: boolean) {
                                   transformLiteral(indexer.value),
                                   t.numericLiteral(0), // ComputedPropertyOperator.INDEX_SIGNATURE
                                   t.booleanLiteral(false),
-                                  t.arrayExpression(),
+                                  generateJSDocAnnotations(
+                                    indexer.leadingComments,
+                                  ),
                                 ],
                               ),
                             );
@@ -224,6 +227,8 @@ export function createTransformer(importHelpers: boolean) {
               case 'VoidTypeAnnotation':
                 // runtime.UndefinedKeyword
                 return createRuntimeExpression('UndefinedKeyword');
+              case 'ExistsTypeAnnotation':
+                return createRuntimeExpression('ExistentialKeyword');
               case 'GenericTypeAnnotation':
                 return (
                   handleSpecialGenericType(node) ||
@@ -233,7 +238,11 @@ export function createTransformer(importHelpers: boolean) {
                           node.id,
                           t.identifier('argumentTypes'),
                         ),
-                        node.typeParameters.params.map(transformLiteral),
+                        [
+                          t.arrayExpression(
+                            node.typeParameters.params.map(transformLiteral),
+                          ),
+                        ],
                       )
                     : node.id)
                 );
@@ -269,8 +278,21 @@ export function createTransformer(importHelpers: boolean) {
         },
       });
 
-      return babelGenerate(ast).code;
+      // transpile
+      const transformedCode = babelGenerate(ast).code;
+      const transpiledAst = Babel.transformSync(transformedCode, {
+        presets: [require('@babel/preset-env')],
+      });
+      if (transpiledAst && transpiledAst.code) {
+        return transpiledAst.code;
+      }
     }
     return '';
   };
+}
+
+function generateJSDocAnnotations(
+  comments: ReadonlyArray<Babel.types.Comment> | null,
+) {
+  return t.arrayExpression();
 }
