@@ -20,7 +20,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.TupleType([
       _runtime.default.NumberKeyword,
       _runtime.default.NumberKeyword,
-      _runtime.default.OptionalType(_runtime.default.NumberKeyword),
+      _runtime.default.NullableType(_runtime.default.NumberKeyword),
     ]);
 
     return type;

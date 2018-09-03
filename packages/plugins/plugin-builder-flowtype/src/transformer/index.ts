@@ -202,8 +202,8 @@ function transformLiteral(node: Babel.types.Node): any {
         ),
       ]);
     case 'NullableTypeAnnotation':
-      // ?T -> runtime.OptionalType(T)
-      return createRuntimeFunctionCall('OptionalType', [
+      // ?T -> runtime.NullableType(T)
+      return createRuntimeFunctionCall('NullableType', [
         transformLiteral(node.typeAnnotation),
       ]);
     case 'ArrayTypeAnnotation':
@@ -261,49 +261,56 @@ function handleSpecialGenericType(node: Babel.types.GenericTypeAnnotation) {
     case '$Keys':
       // runtime.KeyOfKeyword(...);
       return createRuntimeFunctionCall('KeyOfKeyword', [
-        // @ts-ignore
-        transformLiteral(node.typeParameters.params[0]),
+        transformLiteral(firstParam(node)),
       ]);
     case '$Values':
       // runtime.IndexedAccessType(obj, runtime.KeyOfKeyword(obj));
       return createRuntimeFunctionCall('IndexedAccessType', [
-        // @ts-ignore
-        transformLiteral(node.typeParameters.params[0]),
+        transformLiteral(firstParam(node)),
         createRuntimeFunctionCall('KeyOfKeyword', [
-          // @ts-ignore
-          transformLiteral(node.typeParameters.params[0]),
+          transformLiteral(firstParam(node)),
         ]),
       ]);
     case '$PropertyType':
       // runtime.IndexedAccessType(T, K);
       return createRuntimeFunctionCall('IndexedAccessType', [
-        // @ts-ignore
-        transformLiteral(node.typeParameters.params[0]),
-        // @ts-ignore
-        transformLiteral(node.typeParameters.params[1]),
+        transformLiteral(firstParam(node)),
+        transformLiteral(secondParam(node)),
       ]);
     case '$Shape':
       return createRuntimeFunctionCall('ShapeOf', [
-        // @ts-ignore
-        transformLiteral(node.typeParameters.params[0]),
+        transformLiteral(firstParam(node)),
+      ]);
+    case '$NonMaybeType':
+      return createRuntimeFunctionCall('NonMaybeType', [
+        transformLiteral(firstParam(node)),
       ]);
     case '$ReadOnlyArray':
     case 'Array': {
       // transform Array<T> to T[] and do `transformLiteral`
       const elementType = node.typeParameters
-        ? node.typeParameters.params[0]
+        ? firstParam(node)
         : t.anyTypeAnnotation();
       return transformLiteral(t.arrayTypeAnnotation(elementType));
     }
     case '$ReadOnly':
     case '$Exact':
-      // @ts-ignore
-      return transformLiteral(node.typeParameters.params[0]);
+      return transformLiteral(firstParam(node));
     case 'Object':
       return createRuntimeExpression('ObjectKeyword');
     case 'undefined':
       return createRuntimeExpression('UndefinedKeyword');
   }
+}
+
+function firstParam(node: Babel.types.GenericTypeAnnotation) {
+  // @ts-ignore
+  return node.typeParameters.params[0];
+}
+
+function secondParam(node: Babel.types.GenericTypeAnnotation) {
+  // @ts-ignore
+  return node.typeParameters.params[1];
 }
 
 function generateJSDocAnnotations(
