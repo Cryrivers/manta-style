@@ -22,6 +22,9 @@ describe('Keywords', () => {
   test('UndefinedKeyword', () => {
     expect(getTranspiledString('type Test = undefined;')).toMatchSnapshot();
   });
+  test('EmptyKeyword', () => {
+    expect(getTranspiledString('type Test = empty;')).toMatchSnapshot();
+  });
   test('NullKeyword', () => {
     expect(getTranspiledString('type Test = null;')).toMatchSnapshot();
   });

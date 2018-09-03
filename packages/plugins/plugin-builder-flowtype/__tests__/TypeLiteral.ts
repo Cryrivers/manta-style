@@ -12,4 +12,14 @@ describe('Type Literal', () => {
       `;
     expect(getTranspiledString(source)).toMatchSnapshot();
   });
+
+  test('Object Indexer', () => {
+    const source = `
+        type Test = {
+          [key: string]: number,
+          a: string,
+        }
+      `;
+    expect(getTranspiledString(source)).toMatchSnapshot();
+  });
 });

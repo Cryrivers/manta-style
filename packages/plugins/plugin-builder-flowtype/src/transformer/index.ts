@@ -109,18 +109,22 @@ export function createTransformer(importHelpers: boolean) {
           function transformLiteral(node: Babel.types.Node): any {
             switch (node.type) {
               case 'NumberLiteralTypeAnnotation':
+                // 123 -> runtime.Literal(123)
                 return createRuntimeFunctionCall('Literal', [
                   t.numericLiteral(node.value),
                 ]);
               case 'BooleanLiteralTypeAnnotation':
+                // true -> runtime.Literal(true)
                 return createRuntimeFunctionCall('Literal', [
                   t.booleanLiteral(node.value),
                 ]);
               case 'StringLiteralTypeAnnotation':
+                // 'manta' -> runtime.Literal('manta')
                 return createRuntimeFunctionCall('Literal', [
                   t.stringLiteral(node.value),
                 ]);
               case 'TupleTypeAnnotation':
+                // [1, 2, 3] -> runtime.TupleType([1, 2, 3])
                 return createRuntimeFunctionCall('TupleType', [
                   t.arrayExpression(node.types.map(transformLiteral)),
                 ]);
@@ -129,7 +133,7 @@ export function createTransformer(importHelpers: boolean) {
                   t.arrayExpression(node.types.map(transformLiteral)),
                 ]);
               case 'IntersectionTypeAnnotation':
-                return createRuntimeFunctionCall('UnionType', [
+                return createRuntimeFunctionCall('IntersectionType', [
                   t.arrayExpression(node.types.map(transformLiteral)),
                 ]);
               case 'ObjectTypeAnnotation':
@@ -137,8 +141,9 @@ export function createTransformer(importHelpers: boolean) {
                   t.functionExpression(
                     null,
                     [t.identifier('typeLiteral')],
-                    t.blockStatement(
-                      node.properties.map((property) => {
+                    t.blockStatement([
+                      // { key: value }
+                      ...node.properties.map((property) => {
                         if (property.type === 'ObjectTypeProperty') {
                           return t.expressionStatement(
                             t.callExpression(
@@ -162,29 +167,63 @@ export function createTransformer(importHelpers: boolean) {
                           return t.emptyStatement();
                         }
                       }),
-                    ),
+                      // { [key: type]: value }
+                      ...(node.indexers
+                        ? node.indexers.map((indexer) => {
+                            return t.expressionStatement(
+                              t.callExpression(
+                                t.memberExpression(
+                                  t.identifier('typeLiteral'),
+                                  t.identifier('computedProperty'),
+                                ),
+                                [
+                                  t.stringLiteral(
+                                    indexer.id ? indexer.id.name : 'key',
+                                  ),
+                                  transformLiteral(indexer.key),
+                                  transformLiteral(indexer.value),
+                                  t.numericLiteral(0), // ComputedPropertyOperator.INDEX_SIGNATURE
+                                  t.booleanLiteral(false),
+                                  t.arrayExpression(),
+                                ],
+                              ),
+                            );
+                          })
+                        : []),
+                    ]),
                   ),
                 ]);
               case 'NullableTypeAnnotation':
+                // ?T -> runtime.OptionalType(T)
                 return createRuntimeFunctionCall('OptionalType', [
                   transformLiteral(node.typeAnnotation),
                 ]);
               case 'ArrayTypeAnnotation':
+                // T[] -> runtime.ArrayType(T)
                 return createRuntimeFunctionCall('ArrayType', [
                   transformLiteral(node.elementType),
                 ]);
               case 'NumberTypeAnnotation':
+                // runtime.NumberKeyword
                 return createRuntimeExpression('NumberKeyword');
               case 'AnyTypeAnnotation':
+                // runtime.AnyKeyword
                 return createRuntimeExpression('AnyKeyword');
               case 'StringTypeAnnotation':
+                // runtime.StringKeyword
                 return createRuntimeExpression('StringKeyword');
               case 'BooleanTypeAnnotation':
+                // runtime.BooleanKeyword
                 return createRuntimeExpression('BooleanKeyword');
               case 'NullLiteralTypeAnnotation':
+                // runtime.NullKeyword
                 return createRuntimeExpression('NullKeyword');
-              case 'VoidTypeAnnotation':
+              case 'EmptyTypeAnnotation':
+                // runtime.NeverKeyword
                 return createRuntimeExpression('NeverKeyword');
+              case 'VoidTypeAnnotation':
+                // runtime.UndefinedKeyword
+                return createRuntimeExpression('UndefinedKeyword');
               case 'GenericTypeAnnotation':
                 return (
                   handleSpecialGenericType(node) ||

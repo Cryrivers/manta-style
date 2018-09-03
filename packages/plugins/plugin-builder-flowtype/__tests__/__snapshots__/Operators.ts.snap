@@ -53,7 +53,7 @@ const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
   const T = typeFactory.TypeParameter(\\"T\\");
   const S = typeFactory.TypeParameter(\\"S\\");
 
-  const type = _Runtime.UnionType([_Runtime.NumberKeyword, _Runtime.UnionType([_Runtime.Literal(1), T, S])]);
+  const type = _Runtime.IntersectionType([_Runtime.NumberKeyword, _Runtime.UnionType([_Runtime.Literal(1), T, S])]);
 
   return type;
 }, []);"
@@ -63,7 +63,7 @@ exports[`Operators Intersections 1`] = `
 "import _Runtime from \\"@manta-style/runtime\\";
 
 const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  const type = _Runtime.UnionType([_Runtime.NumberKeyword, _Runtime.AnyKeyword]);
+  const type = _Runtime.IntersectionType([_Runtime.NumberKeyword, _Runtime.AnyKeyword]);
 
   return type;
 }, []);"
@@ -76,7 +76,7 @@ const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
   const T = typeFactory.TypeParameter(\\"T\\");
   const S = typeFactory.TypeParameter(\\"S\\");
 
-  const type = _Runtime.UnionType([T, S, _Runtime.NumberKeyword]);
+  const type = _Runtime.IntersectionType([T, S, _Runtime.NumberKeyword]);
 
   return type;
 }, []);"

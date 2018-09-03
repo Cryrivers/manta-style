@@ -14,3 +14,16 @@ const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
   return type;
 }, []);"
 `;
+
+exports[`Type Literal Object Indexer 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.TypeLiteral(function (typeLiteral) {
+    typeLiteral.property(\\"a\\", _Runtime.StringKeyword, false, []);
+    typeLiteral.computedProperty(\\"key\\", _Runtime.StringKeyword, _Runtime.NumberKeyword, 0, false, []);
+  });
+
+  return type;
+}, []);"
+`;

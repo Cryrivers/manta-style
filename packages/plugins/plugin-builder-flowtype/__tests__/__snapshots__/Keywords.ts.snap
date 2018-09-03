@@ -18,11 +18,20 @@ const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
 }, []);"
 `;
 
-exports[`Keywords NeverKeyword 1`] = `
+exports[`Keywords EmptyKeyword 1`] = `
 "import _Runtime from \\"@manta-style/runtime\\";
 
 const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
   const type = _Runtime.NeverKeyword;
+  return type;
+}, []);"
+`;
+
+exports[`Keywords NeverKeyword 1`] = `
+"import _Runtime from \\"@manta-style/runtime\\";
+
+const Test = _Runtime.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
+  const type = _Runtime.UndefinedKeyword;
   return type;
 }, []);"
 `;
