@@ -1,19 +1,24 @@
 import getTranspiledString from '../src/utils/transpile';
+import { BuilderPluginTestHelper } from '@manta-style/test-helpers';
+
+const testTranspiledString = BuilderPluginTestHelper.testTranspiledString(
+  getTranspiledString,
+);
 
 describe('Literals', () => {
   test('Numbers', () => {
-    expect(getTranspiledString('type Test = 1;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = 1;')).toMatchSnapshot();
   });
   test('Strings', () => {
-    expect(getTranspiledString('type Test = "test";')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = "test";')).toMatchSnapshot();
   });
   test('Booleans', () => {
-    expect(getTranspiledString('type Test = true;')).toMatchSnapshot();
-    expect(getTranspiledString('type Test = false;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = true;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = false;')).toMatchSnapshot();
   });
   test('Array of literals', () => {
     expect(
-      getTranspiledString('type Test = [1, 2, 3, "hello", "world"];'),
+      testTranspiledString('type Test = [1, 2, 3, "hello", "world"];'),
     ).toMatchSnapshot();
   });
 });

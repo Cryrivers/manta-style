@@ -1,28 +1,33 @@
 import getTranspiledString from '../src/utils/transpile';
+import { BuilderPluginTestHelper } from '@manta-style/test-helpers';
+
+const testTranspiledString = BuilderPluginTestHelper.testTranspiledString(
+  getTranspiledString,
+);
 
 describe('Keywords', () => {
   test('AnyKeyword', () => {
-    expect(getTranspiledString('type Test = any;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = any;')).toMatchSnapshot();
   });
   test('NumberKeyword', () => {
-    expect(getTranspiledString('type Test = number;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = number;')).toMatchSnapshot();
   });
   test('BooleanKeyword', () => {
-    expect(getTranspiledString('type Test = boolean;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = boolean;')).toMatchSnapshot();
   });
   test('NeverKeyword', () => {
-    expect(getTranspiledString('type Test = never;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = never;')).toMatchSnapshot();
   });
   test('ObjectKeyword', () => {
-    expect(getTranspiledString('type Test = object;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = object;')).toMatchSnapshot();
   });
   test('StringKeyword', () => {
-    expect(getTranspiledString('type Test = string;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = string;')).toMatchSnapshot();
   });
   test('UndefinedKeyword', () => {
-    expect(getTranspiledString('type Test = undefined;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = undefined;')).toMatchSnapshot();
   });
   test('NullKeyword', () => {
-    expect(getTranspiledString('type Test = null;')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = null;')).toMatchSnapshot();
   });
 });

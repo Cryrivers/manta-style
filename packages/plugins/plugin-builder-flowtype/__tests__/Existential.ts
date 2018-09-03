@@ -1,7 +1,12 @@
 import getTranspiledString from '../src/utils/transpile';
+import { BuilderPluginTestHelper } from '@manta-style/test-helpers';
+
+const testTranspiledString = BuilderPluginTestHelper.testTranspiledString(
+  getTranspiledString,
+);
 
 describe('Existential', () => {
   test('*', () => {
-    expect(getTranspiledString('type Test = Type<*>')).toMatchSnapshot();
+    expect(testTranspiledString('type Test = Type<*>')).toMatchSnapshot();
   });
 });

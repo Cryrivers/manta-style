@@ -1,29 +1,60 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Tuple, Optional and Rest Optional 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = [number, number, ?number]
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.TupleType([_runtime.default.NumberKeyword, _runtime.default.NumberKeyword, _runtime.default.OptionalType(_runtime.default.NumberKeyword)]);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  return type;
-}, []);"
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TupleType([
+      _runtime.default.NumberKeyword,
+      _runtime.default.NumberKeyword,
+      _runtime.default.OptionalType(_runtime.default.NumberKeyword),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
 `;
 
 exports[`Tuple, Optional and Rest Tuple 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = [number, number]
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.TupleType([_runtime.default.NumberKeyword, _runtime.default.NumberKeyword]);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  return type;
-}, []);"
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TupleType([
+      _runtime.default.NumberKeyword,
+      _runtime.default.NumberKeyword,
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
 `;

@@ -1,108 +1,221 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Operators Intersection and Union composed with brackets 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test<T,S> = number & (1 | T | S)
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var T = typeFactory.TypeParameter(\\"T\\");
-    var S = typeFactory.TypeParameter(\\"S\\");
-    var type = runtime_1[\\"default\\"].IntersectionType([runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].ParenthesizedType(runtime_1[\\"default\\"].UnionType([runtime_1[\\"default\\"].Literal(1), T, S]))]);
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+    var S = typeFactory.TypeParameter('S');
+    var type = runtime_1['default'].IntersectionType([
+      runtime_1['default'].NumberKeyword,
+      runtime_1['default'].ParenthesizedType(
+        runtime_1['default'].UnionType([runtime_1['default'].Literal(1), T, S]),
+      ),
+    ]);
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Operators Intersections 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = number & any;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].IntersectionType([runtime_1[\\"default\\"].NumberKeyword, runtime_1[\\"default\\"].AnyKeyword]);
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].IntersectionType([
+      runtime_1['default'].NumberKeyword,
+      runtime_1['default'].AnyKeyword,
+    ]);
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Operators Intersections 2`] = `
-"\\"use strict\\";
+"FROM:
+type Test<T,S> = T & S & number;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var T = typeFactory.TypeParameter(\\"T\\");
-    var S = typeFactory.TypeParameter(\\"S\\");
-    var type = runtime_1[\\"default\\"].IntersectionType([T, S, runtime_1[\\"default\\"].NumberKeyword]);
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+    var S = typeFactory.TypeParameter('S');
+    var type = runtime_1['default'].IntersectionType([
+      T,
+      S,
+      runtime_1['default'].NumberKeyword,
+    ]);
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Operators KeyOf 1`] = `
-"\\"use strict\\";
+"FROM:
+type Keys = keyof { a:number, b:string, c: boolean };
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Keys = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].KeyOfKeyword(runtime_1[\\"default\\"].TypeLiteral(function (typeLiteral) {
-        typeLiteral.property(\\"a\\", runtime_1[\\"default\\"].NumberKeyword, false, []);
-        typeLiteral.property(\\"b\\", runtime_1[\\"default\\"].StringKeyword, false, []);
-        typeLiteral.property(\\"c\\", runtime_1[\\"default\\"].BooleanKeyword, false, []);
-    }));
+var runtime_1 = require('@manta-style/runtime');
+var Keys = runtime_1['default'].TypeAliasDeclaration(
+  'Keys',
+  function(typeFactory) {
+    var type = runtime_1['default'].KeyOfKeyword(
+      runtime_1['default'].TypeLiteral(function(typeLiteral) {
+        typeLiteral.property(
+          'a',
+          runtime_1['default'].NumberKeyword,
+          false,
+          [],
+        );
+        typeLiteral.property(
+          'b',
+          runtime_1['default'].StringKeyword,
+          false,
+          [],
+        );
+        typeLiteral.property(
+          'c',
+          runtime_1['default'].BooleanKeyword,
+          false,
+          [],
+        );
+      }),
+    );
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Operators KeyOf 2`] = `
-"\\"use strict\\";
+"FROM:
+type Obj = { a:number, b:string, c: boolean }; type Keys = keyof Obj;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Obj = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Obj\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].TypeLiteral(function (typeLiteral) {
-        typeLiteral.property(\\"a\\", runtime_1[\\"default\\"].NumberKeyword, false, []);
-        typeLiteral.property(\\"b\\", runtime_1[\\"default\\"].StringKeyword, false, []);
-        typeLiteral.property(\\"c\\", runtime_1[\\"default\\"].BooleanKeyword, false, []);
+var runtime_1 = require('@manta-style/runtime');
+var Obj = runtime_1['default'].TypeAliasDeclaration(
+  'Obj',
+  function(typeFactory) {
+    var type = runtime_1['default'].TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', runtime_1['default'].NumberKeyword, false, []);
+      typeLiteral.property('b', runtime_1['default'].StringKeyword, false, []);
+      typeLiteral.property('c', runtime_1['default'].BooleanKeyword, false, []);
     });
     return type;
-}, []);
-var Keys = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].KeyOfKeyword(Obj);
+  },
+  [],
+);
+var Keys = runtime_1['default'].TypeAliasDeclaration(
+  'Keys',
+  function(typeFactory) {
+    var type = runtime_1['default'].KeyOfKeyword(Obj);
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Operators KeyOf 3`] = `
-"\\"use strict\\";
+"FROM:
+type Keys<T extends object> = keyof T;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Keys = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Keys\\", function (typeFactory) {
-    var T = typeFactory.TypeParameter(\\"T\\", runtime_1[\\"default\\"].ObjectKeyword);
-    var type = runtime_1[\\"default\\"].KeyOfKeyword(T);
+var runtime_1 = require('@manta-style/runtime');
+var Keys = runtime_1['default'].TypeAliasDeclaration(
+  'Keys',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T', runtime_1['default'].ObjectKeyword);
+    var type = runtime_1['default'].KeyOfKeyword(T);
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Operators Unions 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = 1 | 2;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].UnionType([runtime_1[\\"default\\"].Literal(1), runtime_1[\\"default\\"].Literal(2)]);
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].UnionType([
+      runtime_1['default'].Literal(1),
+      runtime_1['default'].Literal(2),
+    ]);
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Operators Unions 2`] = `
-"\\"use strict\\";
+"FROM:
+type Test<T,S> = T | S | 1 | 2;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var T = typeFactory.TypeParameter(\\"T\\");
-    var S = typeFactory.TypeParameter(\\"S\\");
-    var type = runtime_1[\\"default\\"].UnionType([T, S, runtime_1[\\"default\\"].Literal(1), runtime_1[\\"default\\"].Literal(2)]);
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+    var S = typeFactory.TypeParameter('S');
+    var type = runtime_1['default'].UnionType([
+      T,
+      S,
+      runtime_1['default'].Literal(1),
+      runtime_1['default'].Literal(2),
+    ]);
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;

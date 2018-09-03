@@ -1,71 +1,137 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Literals Array of literals 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = [1, 2, 3, \\"hello\\", \\"world\\"];
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.TupleType([_runtime.default.Literal(1), _runtime.default.Literal(2), _runtime.default.Literal(3), _runtime.default.Literal(\\"hello\\"), _runtime.default.Literal(\\"world\\")]);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  return type;
-}, []);"
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TupleType([
+      _runtime.default.Literal(1),
+      _runtime.default.Literal(2),
+      _runtime.default.Literal(3),
+      _runtime.default.Literal('hello'),
+      _runtime.default.Literal('world'),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
 `;
 
 exports[`Literals Booleans 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = true;
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.Literal(true);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  return type;
-}, []);"
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.Literal(true);
+
+    return type;
+  },
+  [],
+);
+"
 `;
 
 exports[`Literals Booleans 2`] = `
-"\\"use strict\\";
+"FROM:
+type Test = false;
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.Literal(false);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  return type;
-}, []);"
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.Literal(false);
+
+    return type;
+  },
+  [],
+);
+"
 `;
 
 exports[`Literals Numbers 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = 1;
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.Literal(1);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  return type;
-}, []);"
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.Literal(1);
+
+    return type;
+  },
+  [],
+);
+"
 `;
 
 exports[`Literals Strings 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = \\"test\\";
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.Literal(\\"test\\");
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  return type;
-}, []);"
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.Literal('test');
+
+    return type;
+  },
+  [],
+);
+"
 `;

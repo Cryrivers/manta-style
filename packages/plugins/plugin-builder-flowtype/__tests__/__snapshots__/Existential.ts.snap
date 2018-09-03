@@ -1,14 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Existential * 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = Type<*>
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = Type.argumentTypes([_runtime.default.ExistentialKeyword]);
-  return type;
-}, []);"
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = Type.argumentTypes([_runtime.default.ExistentialKeyword]);
+    return type;
+  },
+  [],
+);
+"
 `;

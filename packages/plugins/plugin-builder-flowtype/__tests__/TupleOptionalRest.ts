@@ -1,19 +1,24 @@
 import getTranspiledString from '../src/utils/transpile';
+import { BuilderPluginTestHelper } from '@manta-style/test-helpers';
+
+const testTranspiledString = BuilderPluginTestHelper.testTranspiledString(
+  getTranspiledString,
+);
 
 describe('Tuple, Optional and Rest', () => {
   test('Tuple', () => {
     expect(
-      getTranspiledString('type Test = [number, number]'),
+      testTranspiledString('type Test = [number, number]'),
     ).toMatchSnapshot();
   });
   test('Optional', () => {
     expect(
-      getTranspiledString('type Test = [number, number, ?number]'),
+      testTranspiledString('type Test = [number, number, ?number]'),
     ).toMatchSnapshot();
   });
   xtest('Rest', () => {
     expect(
-      getTranspiledString('type Test = [number, number, string]'),
+      testTranspiledString('type Test = [number, number, string]'),
     ).toMatchSnapshot();
   });
 });

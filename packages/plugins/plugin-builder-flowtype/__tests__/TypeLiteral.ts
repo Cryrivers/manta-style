@@ -1,4 +1,9 @@
 import getTranspiledString from '../src/utils/transpile';
+import { BuilderPluginTestHelper } from '@manta-style/test-helpers';
+
+const testTranspiledString = BuilderPluginTestHelper.testTranspiledString(
+  getTranspiledString,
+);
 
 describe('Type Literal', () => {
   test('Basic properties', () => {
@@ -10,7 +15,7 @@ describe('Type Literal', () => {
             d: string[]
         }
       `;
-    expect(getTranspiledString(source)).toMatchSnapshot();
+    expect(testTranspiledString(source)).toMatchSnapshot();
   });
 
   test('Object Indexer', () => {
@@ -20,6 +25,6 @@ describe('Type Literal', () => {
           a: string,
         }
       `;
-    expect(getTranspiledString(source)).toMatchSnapshot();
+    expect(testTranspiledString(source)).toMatchSnapshot();
   });
 });

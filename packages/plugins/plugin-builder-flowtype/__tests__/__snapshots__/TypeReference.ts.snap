@@ -1,40 +1,72 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Type Reference Reference Type (Generic) 1`] = `
-"\\"use strict\\";
+"FROM:
+type A<T> = string | T; type B = A<number>;
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var A = _runtime.default.TypeAliasDeclaration(\\"A\\", function (typeFactory) {
-  var T = typeFactory.TypeParameter(\\"T\\");
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-  var type = _runtime.default.UnionType([_runtime.default.StringKeyword, T]);
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
 
-  return type;
-}, []);
+    var type = _runtime.default.UnionType([_runtime.default.StringKeyword, T]);
 
-var B = _runtime.default.TypeAliasDeclaration(\\"B\\", function (typeFactory) {
-  var type = A.argumentTypes([_runtime.default.NumberKeyword]);
-  return type;
-}, []);"
+    return type;
+  },
+  [],
+);
+
+var B = _runtime.default.TypeAliasDeclaration(
+  'B',
+  function(typeFactory) {
+    var type = A.argumentTypes([_runtime.default.NumberKeyword]);
+    return type;
+  },
+  [],
+);
+"
 `;
 
 exports[`Type Reference Reference Type (Non-generic) 1`] = `
-"\\"use strict\\";
+"FROM:
+type A = string; type B = A;
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+--------------------------------------------------------
+TO:
+'use strict';
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-var A = _runtime.default.TypeAliasDeclaration(\\"A\\", function (typeFactory) {
-  var type = _runtime.default.StringKeyword;
-  return type;
-}, []);
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
 
-var B = _runtime.default.TypeAliasDeclaration(\\"B\\", function (typeFactory) {
-  var type = A;
-  return type;
-}, []);"
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.StringKeyword;
+    return type;
+  },
+  [],
+);
+
+var B = _runtime.default.TypeAliasDeclaration(
+  'B',
+  function(typeFactory) {
+    var type = A;
+    return type;
+  },
+  [],
+);
+"
 `;

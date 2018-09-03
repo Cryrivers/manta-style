@@ -1,0 +1,11 @@
+{
+  "name": "@manta-style/test-helpers",
+  "version": "0.1.0",
+  "main": "src/index.ts",
+  "dependencies": {
+    "prettier": "^1.14.2"
+  },
+  "devDependencies": {
+    "@types/prettier": "^1.13.2"
+  }
+}

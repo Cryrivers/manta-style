@@ -1,37 +1,85 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Type Literal Basic properties 1`] = `
-"\\"use strict\\";
+"FROM:
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+        type Test = {
+            a: number,
+            b: 1,
+            c?: string,
+            d: string[]
+        }
+      
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+--------------------------------------------------------
+TO:
+'use strict';
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.TypeLiteral(function (typeLiteral) {
-    typeLiteral.property(\\"a\\", _runtime.default.NumberKeyword, false, []);
-    typeLiteral.property(\\"b\\", _runtime.default.Literal(1), false, []);
-    typeLiteral.property(\\"c\\", _runtime.default.StringKeyword, true, []);
-    typeLiteral.property(\\"d\\", _runtime.default.ArrayType(_runtime.default.StringKeyword), false, []);
-  });
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-  return type;
-}, []);"
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
+      typeLiteral.property('b', _runtime.default.Literal(1), false, []);
+      typeLiteral.property('c', _runtime.default.StringKeyword, true, []);
+      typeLiteral.property(
+        'd',
+        _runtime.default.ArrayType(_runtime.default.StringKeyword),
+        false,
+        [],
+      );
+    });
+
+    return type;
+  },
+  [],
+);
+"
 `;
 
 exports[`Type Literal Object Indexer 1`] = `
-"\\"use strict\\";
+"FROM:
 
-var _runtime = _interopRequireDefault(require(\\"@manta-style/runtime\\"));
+        type Test = {
+          [key: string]: number,
+          a: string,
+        }
+      
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+--------------------------------------------------------
+TO:
+'use strict';
 
-var Test = _runtime.default.TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-  var type = _runtime.default.TypeLiteral(function (typeLiteral) {
-    typeLiteral.property(\\"a\\", _runtime.default.StringKeyword, false, []);
-    typeLiteral.computedProperty(\\"key\\", _runtime.default.StringKeyword, _runtime.default.NumberKeyword, 0, false, []);
-  });
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
-  return type;
-}, []);"
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', _runtime.default.StringKeyword, false, []);
+      typeLiteral.computedProperty(
+        'key',
+        _runtime.default.StringKeyword,
+        _runtime.default.NumberKeyword,
+        0,
+        false,
+        [],
+      );
+    });
+
+    return type;
+  },
+  [],
+);
+"
 `;

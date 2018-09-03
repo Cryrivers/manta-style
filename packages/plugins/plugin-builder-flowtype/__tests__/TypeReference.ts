@@ -1,14 +1,19 @@
 import getTranspiledString from '../src/utils/transpile';
+import { BuilderPluginTestHelper } from '@manta-style/test-helpers';
+
+const testTranspiledString = BuilderPluginTestHelper.testTranspiledString(
+  getTranspiledString,
+);
 
 describe('Type Reference', () => {
   test('Reference Type (Non-generic)', () => {
     expect(
-      getTranspiledString('type A = string; type B = A;'),
+      testTranspiledString('type A = string; type B = A;'),
     ).toMatchSnapshot();
   });
   test('Reference Type (Generic)', () => {
     expect(
-      getTranspiledString('type A<T> = string | T; type B = A<number>;'),
+      testTranspiledString('type A<T> = string | T; type B = A<number>;'),
     ).toMatchSnapshot();
   });
 });
