@@ -2,10 +2,9 @@
 
 > 🚀 Futuristic API Mock Server for Frontend
 
-[Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates API mock endpoints from TypeScript type definitions automatically.
-
 Contents
 
+- [Motivation](#Motivation)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
@@ -13,6 +12,72 @@ Contents
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
+
+## Motivation
+
+[Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates "real" _(enough)_ mock data from [TypeScript](http://www.typescriptlang.org/) type definitions.
+
+With _Manta Style_, you can start implementing feature once your data schema is defined. 
+But _Manta Style_ is more than just that.
+
+### Generates mock data directly from your type declarations
+
+Right now Manta Style supports only TypeScript. We are working on FlowType.
+<!-- some more words goes here @TODO wgao19 -->
+
+### Mock data with respect to real world scenario such as past dates, addresses, names
+
+```ts
+interface User {
+  /**
+   * @faker {{internet.userName}}
+   * 
+   */
+  userName: string; // Amina.Langosh49
+
+  /**
+   * @timestamp past
+   */
+  birthday: number; // 1529370938452
+
+  /**
+   * @example Croatia
+   */
+  country: string;  // Croatia
+}
+```
+
+### Mock error conditions specific to your type definitions
+
+```ts
+type WithResponseSuccess<T> = {
+  status: 'ok';
+  data: T;
+};
+
+type WithResponseFailure = {
+  status: 'error';
+  /**
+   * @example Bad Request
+   */
+  message: string;
+};
+
+type WithResponse<T> = WithResponseSuccess<T> | WithResponseFailure;
+```
+
+Manta Style will generate either the error case or the normal case according to your declarations.
+Already have your list of error conditions and messages well-defined with your back end? You are in the luck! Manta Style will generate those cases for you just like in real world.
+
+This also gives us one more motivation to fine-tune the typing to our codebase.
+
+### Fix a test case like a snapshot.
+
+Implementing boundary cases has been hair pulling. With Manta Style you can supply a snapshot and have it returned every time until you finish.
+
+### ... and more
+
+Need more feature? [Create an issue](https://github.com/Cryrivers/manta-style/issues/new/choose) and let us know how Manta Style can help you.
 
 ## Installation
 
@@ -22,27 +87,40 @@ Contents
 npm install --save-dev @manta-style/cli
 ```
 
-You could also install it globally, which adds a command line tool `ms` to your system.
+To install globally
 
-### Plugins
+```
+npm install -g @manta-style/cli
+```
 
-Manta Style needs plugins to support different file types and generate mock data.
+This adds a command line tool `ms` to your system.
 
-The example of Quick Start below is using TypeScript. So first you might want to install TypeScript support to Manta Style.
+### Builders
+
+Manta Style supports generation of mock data from different typing systems via binding builders.
+
+In [Quick Start](#quick-start) we show an example using TypeScript. You will need to [install TypeScript](https://www.typescriptlang.org/index.html#download-links) _and_ add the Manta Style TypeScript builder:
 
 ```sh
 npm install --save-dev @manta-style/plugin-builder-typescript
 ```
 
-If you are new to Manta Style, please install the plugins below. We are going to use them in [Quick Start](#quick-start).
+### Plugins
 
-```sh
-npm install --save-dev @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
-```
+Manta Style supports a handful of data generating features via plugins.
+One major example is `@manta-style/plugin-mock-faker`. This is a plugin that enables you to generate fake datas that look real.
 
 You could check [Plugins](#plugins) for the usages of official plugins. You could make our own plugins as well.
 
+<!-- TODO: add support for creating plugins? -->
+
 ## Quick Start
+
+Install the packages below:
+
+```sh
+npm install --save-dev @manta-style/cli @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
+```
 
 ### Create mock API configuration
 
