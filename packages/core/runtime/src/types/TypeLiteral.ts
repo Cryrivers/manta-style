@@ -22,6 +22,9 @@ export default class TypeLiteral extends Type {
   public _getProperties() {
     return this.properties;
   }
+  public _getComputedProperties() {
+    return this.computedProperties;
+  }
   public getKeys() {
     return this.properties.map((prop) => prop.name);
   }

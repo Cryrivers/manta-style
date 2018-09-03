@@ -24,6 +24,7 @@ import ParenthesizedType from './types/ParenthesizedType';
 import ObjectKeyword from './types/ObjectKeyword';
 import ArrayLiteral from './types/ArrayLiteral';
 import { Annotation, Type } from '@manta-style/core';
+import Shape from './types/Shape';
 
 export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 export type TypeLiteral = TypeLiteral;
@@ -96,6 +97,10 @@ class MantaStyle {
   public static ObjectKeyword = new ObjectKeyword();
   public static KeyOfKeyword(type: Type) {
     return new KeyOfKeyword(type);
+  }
+  // Flow Specific
+  public static ShapeOf(type: Type) {
+    return new Shape(type);
   }
 }
 

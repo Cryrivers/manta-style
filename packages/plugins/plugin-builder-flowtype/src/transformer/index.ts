@@ -280,6 +280,11 @@ export function createTransformer(importHelpers: boolean) {
                   // @ts-ignore
                   transformLiteral(node.typeParameters.params[1]),
                 ]);
+              case '$Shape':
+                return createRuntimeFunctionCall('ShapeOf', [
+                  // @ts-ignore
+                  transformLiteral(node.typeParameters.params[0]),
+                ]);
               case 'Object':
                 return createRuntimeExpression('ObjectKeyword');
               case '$ReadOnlyArray':
