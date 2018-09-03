@@ -15,7 +15,7 @@ Contents
 
 ## Motivation
 
-[Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates "real" _(enough)_ mock data from [TypeScript](http://www.typescriptlang.org/) type definitions.
+[Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates "real" _(enough)_ mock data from your type definitions.
 
 With _Manta Style_, you can start implementing feature once your data schema is defined. 
 But _Manta Style_ is more than just that.
@@ -47,7 +47,7 @@ interface User {
 }
 ```
 
-### Mock error conditions specific to your type definitions
+### Mock conditions specific to your type definitions
 
 ```ts
 type WithResponseSuccess<T> = {
@@ -87,6 +87,13 @@ Need more feature? [Create an issue](https://github.com/Cryrivers/manta-style/is
 npm install --save-dev @manta-style/cli
 ```
 
+<!-- 
+
+global install issue:
+cannot link the builder plugin if built globally
+
+commenting this part of the docs out for now
+
 To install globally
 
 ```
@@ -94,16 +101,20 @@ npm install -g @manta-style/cli
 ```
 
 This adds a command line tool `ms` to your system.
+-->
 
 ### Builders
 
 Manta Style supports generation of mock data from different typing systems via binding builders.
+You need to add the corresponding builder plugin to your project.
 
-In [Quick Start](#quick-start) we show an example using TypeScript. You will need to [install TypeScript](https://www.typescriptlang.org/index.html#download-links) _and_ add the Manta Style TypeScript builder:
+In [Quick Start](#quick-start) we show an example using TypeScript. 
 
 ```sh
 npm install --save-dev @manta-style/plugin-builder-typescript
 ```
+
+Check out docs on [builder plugins](#) for more information on currently supported builders and for information on implementing your own type systems.
 
 ### Plugins
 
