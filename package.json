@@ -2,6 +2,7 @@
   "name": "manta-style",
   "private": true,
   "scripts": {
+    "dev:flow": "echo \"Remove this when done\" && lerna run --parallel watch --scope=@manta-style/runtime --scope=@manta-style/plugin-builder-flowtype",
     "format": "prettier --parser typescript './packages/**/*.ts' --write",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
