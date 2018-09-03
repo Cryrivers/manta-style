@@ -291,6 +291,7 @@ export function createTransformer(importHelpers: boolean) {
                 return transformLiteral(t.arrayTypeAnnotation(elementType));
               }
               case '$ReadOnly':
+              case '$Exact':
                 // @ts-ignore
                 return transformLiteral(node.typeParameters.params[0]);
               case 'undefined':

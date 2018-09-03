@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Exact Exact 1`] = `
+"FROM:
+type A = {a: string, b: number}; type B = $Exact<A>
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', _runtime.default.StringKeyword, false, []);
+      typeLiteral.property('b', _runtime.default.NumberKeyword, false, []);
+    });
+
+    return type;
+  },
+  [],
+);
+
+var B = _runtime.default.TypeAliasDeclaration(
+  'B',
+  function(typeFactory) {
+    var type = A;
+    return type;
+  },
+  [],
+);
+"
+`;
