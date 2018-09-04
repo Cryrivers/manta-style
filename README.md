@@ -8,7 +8,6 @@ Contents
 - [Installation](#installation)
 - [Quick Start](#quick-start)
 - [Usage](#usage)
-- [Plugins](#plugins)
 - [Contributing](#contributing)
 - [Acknowledgments](#acknowledgments)
 - [License](#license)
@@ -130,7 +129,7 @@ You could check [Plugins](#plugins) for the usages of official plugins. You coul
 Install the packages below:
 
 ```sh
-npm install --save-dev @manta-style/cli @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
+npm install --save-dev @manta-style/cli @manta-style/plugin-builder-typescript @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
 ```
 
 ### Create mock API configuration
@@ -251,20 +250,6 @@ $ ms --help
     -v --verbose               show debug information
     -h, --help                 output usage information
 ```
-
-## Plugins
-
-### Mock
-
-- [plugin-mock-example](./packages/plugins/plugin-mock-example/README.md)
-- [plugin-mock-faker](./packages/plugins/plugin-mock-faker/README.md)
-- [plugin-mock-iterate](./packages/plugins/plugin-mock-iterate/README.md)
-- [plugin-mock-qotd](./packages/plugins/plugin-mock-qotd/README.md)
-- [plugin-mock-range](./packages/plugins/plugin-mock-range/README.md)
-
-### Builder
-
-Manta Style supports TypeScript only at the moment via `plugin-builder-typescript`. More language support is coming soon.
 
 ## Contributing
 
