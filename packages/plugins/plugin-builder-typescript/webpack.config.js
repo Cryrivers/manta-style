@@ -17,6 +17,8 @@ module.exports = {
   },
   externals: {
     typescript: 'typescript',
+    glob: 'glob',
+    '@babel/core': '@babel/core',
   },
   module: {
     rules: [
