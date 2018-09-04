@@ -16,12 +16,13 @@ Contents
 
 [Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates "real" _(enough)_ mock data from your type definitions.
 
-With _Manta Style_, you can start implementing feature once your data schema is defined. 
+With _Manta Style_, you can start implementing feature once your data schema is defined.
 But _Manta Style_ is more than just that.
 
 ### Generates mock data directly from your type declarations
 
 Right now Manta Style supports only TypeScript. We are working on FlowType.
+
 <!-- some more words goes here @TODO wgao19 -->
 
 ### Mock data with respect to real world scenario such as past dates, addresses, names
@@ -30,19 +31,19 @@ Right now Manta Style supports only TypeScript. We are working on FlowType.
 interface User {
   /**
    * @faker {{internet.userName}}
-   * 
+   *
    */
   userName: string; // Amina.Langosh49
 
   /**
-   * @timestamp past
+   * @faker date.past
    */
   birthday: number; // 1529370938452
 
   /**
    * @example Croatia
    */
-  country: string;  // Croatia
+  country: string; // Croatia
 }
 ```
 
@@ -86,7 +87,7 @@ Need more feature? [Create an issue](https://github.com/Cryrivers/manta-style/is
 npm install --save-dev @manta-style/cli
 ```
 
-<!-- 
+<!--
 
 global install issue:
 cannot link the builder plugin if built globally
@@ -107,7 +108,7 @@ This adds a command line tool `ms` to your system.
 Manta Style supports generation of mock data from different typing systems via binding builders.
 You need to add the corresponding builder plugin to your project.
 
-In [Quick Start](#quick-start) we show an example using TypeScript. 
+In [Quick Start](#quick-start) we show an example using TypeScript.
 
 ```sh
 npm install --save-dev @manta-style/plugin-builder-typescript
