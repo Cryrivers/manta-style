@@ -7,7 +7,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
-    "test": "lerna exec \"yarn test --coverage\" && codecov -t $CODECOV_TOKEN",
+    "test": "lerna run test -- --coverage && codecov -t $CODECOV_TOKEN",
     "precommit": "lint-staged"
   },
   "devDependencies": {

@@ -9,12 +9,13 @@ TO:
 'use strict';
 exports.__esModule = true;
 var runtime_1 = require('@manta-style/runtime');
+var MantaStyleHelper = require('@manta-style/typescript-helpers');
 var Test = runtime_1['default'].TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
-    var type = runtime_1['default'].ArrayType(
+    var type = MantaStyleHelper.Array.argumentTypes([
       runtime_1['default'].StringKeyword,
-    );
+    ]);
     return type;
   },
   [],
@@ -31,17 +32,16 @@ TO:
 'use strict';
 exports.__esModule = true;
 var runtime_1 = require('@manta-style/runtime');
+var MantaStyleHelper = require('@manta-style/typescript-helpers');
 var Test = runtime_1['default'].TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
-    var type = runtime_1['default'].ArrayType(
-      runtime_1['default'].ParenthesizedType(
-        runtime_1['default'].UnionType([
-          runtime_1['default'].NumberKeyword,
-          runtime_1['default'].StringKeyword,
-        ]),
-      ),
-    );
+    var type = MantaStyleHelper.Array.argumentTypes([
+      runtime_1['default'].UnionType([
+        runtime_1['default'].NumberKeyword,
+        runtime_1['default'].StringKeyword,
+      ]),
+    ]);
     return type;
   },
   [],
@@ -58,11 +58,12 @@ TO:
 'use strict';
 exports.__esModule = true;
 var runtime_1 = require('@manta-style/runtime');
+var MantaStyleHelper = require('@manta-style/typescript-helpers');
 var Test = runtime_1['default'].TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
     var T = typeFactory.TypeParameter('T');
-    var type = runtime_1['default'].ArrayType(T);
+    var type = MantaStyleHelper.Array.argumentTypes([T]);
     return type;
   },
   [],
