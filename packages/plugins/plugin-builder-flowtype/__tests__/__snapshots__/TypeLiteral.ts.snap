@@ -15,6 +15,10 @@ exports[`Type Literal Basic properties 1`] = `
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -55,6 +59,10 @@ exports[`Type Literal Object Indexer 1`] = `
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 

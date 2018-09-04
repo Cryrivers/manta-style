@@ -1,5 +1,6 @@
 import * as Babel from '@babel/core';
 import babelGenerate from '@babel/generator';
+import helperTypes from '@manta-style/flowtype-helpers-types';
 
 const { types: t } = Babel;
 export function createTransformer(importHelpers: boolean) {
@@ -18,6 +19,12 @@ export function createTransformer(importHelpers: boolean) {
             t.importDeclaration(
               [t.importDefaultSpecifier(t.identifier('Runtime'))],
               t.stringLiteral('@manta-style/runtime'),
+            ),
+          );
+          path.node.body.unshift(
+            t.importDeclaration(
+              [t.importDefaultSpecifier(t.identifier('RuntimeHelpers'))],
+              t.stringLiteral('@manta-style/flowtype-helpers'),
             ),
           );
         },
@@ -240,7 +247,10 @@ function transformLiteral(node: Babel.types.Node): any {
         (node.typeParameters
           ? // A<S, T> -> A.argumentTypes([S,T])
             t.callExpression(
-              t.memberExpression(node.id, t.identifier('argumentTypes')),
+              t.memberExpression(
+                runtimeHelperName(node.id),
+                t.identifier('argumentTypes'),
+              ),
               [
                 t.arrayExpression(
                   node.typeParameters.params.map(transformLiteral),
@@ -248,7 +258,7 @@ function transformLiteral(node: Babel.types.Node): any {
               ],
             )
           : // A -> A
-            node.id)
+            runtimeHelperName(node.id))
       );
     default:
       console.log(node.type, 'Not Implemented');
@@ -258,49 +268,18 @@ function transformLiteral(node: Babel.types.Node): any {
 
 function handleSpecialGenericType(node: Babel.types.GenericTypeAnnotation) {
   switch (node.id.name) {
-    case '$Keys':
-      // runtime.KeyOfKeyword(...);
-      return createRuntimeFunctionCall('KeyOfKeyword', [
-        transformLiteral(firstParam(node)),
-      ]);
-    case '$Values':
-      // runtime.IndexedAccessType(obj, runtime.KeyOfKeyword(obj));
-      return createRuntimeFunctionCall('IndexedAccessType', [
-        transformLiteral(firstParam(node)),
-        createRuntimeFunctionCall('KeyOfKeyword', [
-          transformLiteral(firstParam(node)),
-        ]),
-      ]);
-    case '$PropertyType':
-      // runtime.IndexedAccessType(T, K);
-      return createRuntimeFunctionCall('IndexedAccessType', [
-        transformLiteral(firstParam(node)),
-        transformLiteral(secondParam(node)),
-      ]);
-    case '$Shape':
-      return createRuntimeFunctionCall('ShapeOf', [
-        transformLiteral(firstParam(node)),
-      ]);
-    case '$NonMaybeType':
-      return createRuntimeFunctionCall('NonMaybeType', [
-        transformLiteral(firstParam(node)),
-      ]);
-    case '$ReadOnlyArray':
-    case 'Array': {
-      // transform Array<T> to T[] and do `transformLiteral`
-      const elementType = node.typeParameters
-        ? firstParam(node)
-        : t.anyTypeAnnotation();
-      return transformLiteral(t.arrayTypeAnnotation(elementType));
-    }
-    case '$ReadOnly':
-    case '$Exact':
-      return transformLiteral(firstParam(node));
     case 'Object':
       return createRuntimeExpression('ObjectKeyword');
     case 'undefined':
       return createRuntimeExpression('UndefinedKeyword');
   }
+}
+
+function runtimeHelperName(id: Babel.types.Identifier) {
+  if (helperTypes.indexOf(id.name) > -1) {
+    return t.memberExpression(t.identifier('RuntimeHelpers'), id);
+  }
+  return id;
 }
 
 function firstParam(node: Babel.types.GenericTypeAnnotation) {

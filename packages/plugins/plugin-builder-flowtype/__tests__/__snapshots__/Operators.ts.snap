@@ -8,6 +8,10 @@ type Keys = $Keys<{ a:number, b:string, c: boolean }>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -17,13 +21,13 @@ function _interopRequireDefault(obj) {
 var Keys = _runtime.default.TypeAliasDeclaration(
   'Keys',
   function(typeFactory) {
-    var type = _runtime.default.KeyOfKeyword(
+    var type = _flowtypeHelpers.default.$Keys.argumentTypes([
       _runtime.default.TypeLiteral(function(typeLiteral) {
         typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
         typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
         typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
       }),
-    );
+    ]);
 
     return type;
   },
@@ -39,6 +43,10 @@ type Obj = { a:number, b:string, c: boolean }; type Keys = $Keys<Obj>;
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -63,7 +71,7 @@ var Obj = _runtime.default.TypeAliasDeclaration(
 var Keys = _runtime.default.TypeAliasDeclaration(
   'Keys',
   function(typeFactory) {
-    var type = _runtime.default.KeyOfKeyword(Obj);
+    var type = _flowtypeHelpers.default.$Keys.argumentTypes([Obj]);
 
     return type;
   },
@@ -80,6 +88,10 @@ type Keys<T: Object> = $Keys<T>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -91,7 +103,7 @@ var Keys = _runtime.default.TypeAliasDeclaration(
   function(typeFactory) {
     var T = typeFactory.TypeParameter('T', _runtime.default.ObjectKeyword);
 
-    var type = _runtime.default.KeyOfKeyword(T);
+    var type = _flowtypeHelpers.default.$Keys.argumentTypes([T]);
 
     return type;
   },
@@ -107,6 +119,10 @@ type Obj = { a:number, b:string, c: boolean }; type PropertyType = $PropertyType
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -131,10 +147,10 @@ var Obj = _runtime.default.TypeAliasDeclaration(
 var PropertyType = _runtime.default.TypeAliasDeclaration(
   'PropertyType',
   function(typeFactory) {
-    var type = _runtime.default.IndexedAccessType(
+    var type = _flowtypeHelpers.default.$PropertyType.argumentTypes([
       Obj,
       _runtime.default.Literal('b'),
-    );
+    ]);
 
     return type;
   },
@@ -151,6 +167,10 @@ type Values = $Values<{ a:number, b:string, c: boolean }>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -160,20 +180,13 @@ function _interopRequireDefault(obj) {
 var Values = _runtime.default.TypeAliasDeclaration(
   'Values',
   function(typeFactory) {
-    var type = _runtime.default.IndexedAccessType(
+    var type = _flowtypeHelpers.default.$Values.argumentTypes([
       _runtime.default.TypeLiteral(function(typeLiteral) {
         typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
         typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
         typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
       }),
-      _runtime.default.KeyOfKeyword(
-        _runtime.default.TypeLiteral(function(typeLiteral) {
-          typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
-          typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
-          typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
-        }),
-      ),
-    );
+    ]);
 
     return type;
   },
@@ -189,6 +202,10 @@ type Obj = { a:number, b:string, c: boolean }; type Values = $Values<Obj>;
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -213,10 +230,7 @@ var Obj = _runtime.default.TypeAliasDeclaration(
 var Values = _runtime.default.TypeAliasDeclaration(
   'Values',
   function(typeFactory) {
-    var type = _runtime.default.IndexedAccessType(
-      Obj,
-      _runtime.default.KeyOfKeyword(Obj),
-    );
+    var type = _flowtypeHelpers.default.$Values.argumentTypes([Obj]);
 
     return type;
   },
@@ -233,6 +247,10 @@ type Values<T: Object> = $Values<T>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -244,10 +262,7 @@ var Values = _runtime.default.TypeAliasDeclaration(
   function(typeFactory) {
     var T = typeFactory.TypeParameter('T', _runtime.default.ObjectKeyword);
 
-    var type = _runtime.default.IndexedAccessType(
-      T,
-      _runtime.default.KeyOfKeyword(T),
-    );
+    var type = _flowtypeHelpers.default.$Values.argumentTypes([T]);
 
     return type;
   },
@@ -263,6 +278,10 @@ type Test<T,S> = number & (1 | T | S)
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -296,6 +315,10 @@ type Test = number & any;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -324,6 +347,10 @@ type Test<T,S> = T & S & number;
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -358,6 +385,10 @@ type Test = 1 | 2;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -386,6 +417,10 @@ type Test<T,S> = T | S | 1 | 2;
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 

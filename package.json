@@ -8,7 +8,7 @@
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
     "test": "lerna run test -- --coverage && codecov -t $CODECOV_TOKEN",
-    "precommit": "lint-staged"
+    "precommit": "lerna run precommit && lint-staged"
   },
   "devDependencies": {
     "codecov": "^3.0.4",

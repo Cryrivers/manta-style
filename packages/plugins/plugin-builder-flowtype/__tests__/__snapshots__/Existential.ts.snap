@@ -8,6 +8,10 @@ type Test = Type<*>
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {

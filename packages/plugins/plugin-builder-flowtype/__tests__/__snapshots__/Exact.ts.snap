@@ -8,6 +8,10 @@ type A = {a: string, b: number}; type B = $Exact<A>
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -30,7 +34,8 @@ var A = _runtime.default.TypeAliasDeclaration(
 var B = _runtime.default.TypeAliasDeclaration(
   'B',
   function(typeFactory) {
-    var type = A;
+    var type = _flowtypeHelpers.default.$Exact.argumentTypes([A]);
+
     return type;
   },
   [],

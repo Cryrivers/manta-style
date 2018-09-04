@@ -1,0 +1,31 @@
+{
+  "name": "@manta-style/flowtype-helpers",
+  "version": "0.2.0-alpha.2",
+  "description": "Manta Style Helper for FlowType",
+  "main": "./lib/index.js",
+  "author": {
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/manta-style"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "echo 'No test yet'",
+    "build": "node ./script/build.js && node ./script/extract-type.js",
+    "precommit": "node ./script/extract-type.js && git -C \"../../../\" add ./packages/core/flowtype-helpers-types/src"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@manta-style/plugin-builder-typescript": "^0.2.0-alpha.2",
+    "@manta-style/helpers-builder": "0.1.0",
+    "typescript": "3.0.3",
+    "webpack": "^4.16.5",
+    "webpack-cli": "^3.1.0"
+  }
+}

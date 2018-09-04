@@ -8,6 +8,10 @@ type A = ?number; type B = $NonMaybeType<A>
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -27,7 +31,7 @@ var A = _runtime.default.TypeAliasDeclaration(
 var B = _runtime.default.TypeAliasDeclaration(
   'B',
   function(typeFactory) {
-    var type = _runtime.default.NonMaybeType(A);
+    var type = _flowtypeHelpers.default.$NonMaybeType.argumentTypes([A]);
 
     return type;
   },
@@ -43,6 +47,10 @@ type A = number | null; type B = $NonMaybeType<A>
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -66,7 +74,7 @@ var A = _runtime.default.TypeAliasDeclaration(
 var B = _runtime.default.TypeAliasDeclaration(
   'B',
   function(typeFactory) {
-    var type = _runtime.default.NonMaybeType(A);
+    var type = _flowtypeHelpers.default.$NonMaybeType.argumentTypes([A]);
 
     return type;
   },

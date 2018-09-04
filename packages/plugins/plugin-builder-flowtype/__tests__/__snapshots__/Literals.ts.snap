@@ -8,6 +8,10 @@ type Test = [1, 2, 3, \\"hello\\", \\"world\\"];
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -40,6 +44,10 @@ type Test = true;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -65,6 +73,10 @@ type Test = false;
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -92,6 +104,10 @@ type Test = 1;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -117,6 +133,10 @@ type Test = \\"test\\";
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 

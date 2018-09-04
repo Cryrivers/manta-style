@@ -8,6 +8,10 @@ type Test = Array<string>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -17,7 +21,9 @@ function _interopRequireDefault(obj) {
 var Test = _runtime.default.TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
-    var type = _runtime.default.ArrayType(_runtime.default.StringKeyword);
+    var type = _flowtypeHelpers.default.Array.argumentTypes([
+      _runtime.default.StringKeyword,
+    ]);
 
     return type;
   },
@@ -34,6 +40,10 @@ type Test = Array<number | string>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -43,12 +53,12 @@ function _interopRequireDefault(obj) {
 var Test = _runtime.default.TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
-    var type = _runtime.default.ArrayType(
+    var type = _flowtypeHelpers.default.Array.argumentTypes([
       _runtime.default.UnionType([
         _runtime.default.NumberKeyword,
         _runtime.default.StringKeyword,
       ]),
-    );
+    ]);
 
     return type;
   },
@@ -65,6 +75,10 @@ type Test<T> = Array<T>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -76,7 +90,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
   function(typeFactory) {
     var T = typeFactory.TypeParameter('T');
 
-    var type = _runtime.default.ArrayType(T);
+    var type = _flowtypeHelpers.default.Array.argumentTypes([T]);
 
     return type;
   },
@@ -92,6 +106,10 @@ type Test = string[]
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -118,6 +136,10 @@ type Test = (number | string)[]
 --------------------------------------------------------
 TO:
 'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
 
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
@@ -150,6 +172,10 @@ type Test = $ReadOnlyArray<string>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -159,7 +185,9 @@ function _interopRequireDefault(obj) {
 var Test = _runtime.default.TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
-    var type = _runtime.default.ArrayType(_runtime.default.StringKeyword);
+    var type = _flowtypeHelpers.default.$ReadOnlyArray.argumentTypes([
+      _runtime.default.StringKeyword,
+    ]);
 
     return type;
   },
@@ -176,6 +204,10 @@ type Test = $ReadOnlyArray<number | string>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -185,12 +217,12 @@ function _interopRequireDefault(obj) {
 var Test = _runtime.default.TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
-    var type = _runtime.default.ArrayType(
+    var type = _flowtypeHelpers.default.$ReadOnlyArray.argumentTypes([
       _runtime.default.UnionType([
         _runtime.default.NumberKeyword,
         _runtime.default.StringKeyword,
       ]),
-    );
+    ]);
 
     return type;
   },
@@ -207,6 +239,10 @@ type Test<T> = $ReadOnlyArray<T>;
 TO:
 'use strict';
 
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
 var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
 
 function _interopRequireDefault(obj) {
@@ -218,7 +254,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
   function(typeFactory) {
     var T = typeFactory.TypeParameter('T');
 
-    var type = _runtime.default.ArrayType(T);
+    var type = _flowtypeHelpers.default.$ReadOnlyArray.argumentTypes([T]);
 
     return type;
   },
