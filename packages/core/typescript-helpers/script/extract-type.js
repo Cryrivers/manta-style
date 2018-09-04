@@ -6,11 +6,11 @@ const { execSync } = require('child_process');
 const input = path.join(__dirname, '../src/index.ts');
 const output = path.join(
   __dirname,
-  '../../flowtype-helpers-types/src/index.ts',
+  '../../typescript-helpers-types/src/index.ts',
 );
 
-console.log('Generating "flowtype-helpers-types"');
+console.log('Generating "typescript-helpers-types"');
 extractExportName(input, output);
 execSync(`git add ${output}`, { cwd: process.env.INIT_CWD });
 
-console.log(`${output} generated.`);
+console.log(`${output} generated.`)
