@@ -12,4 +12,6 @@ export const MANTASTYLE_HELPER_TYPES = [
   'Exclude',
   'Extract',
   'NonNullable',
+  'Array',
+  'ReadonlyArray',
 ];

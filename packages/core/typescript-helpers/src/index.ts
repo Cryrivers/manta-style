@@ -45,3 +45,6 @@ export type Extract<T, U> = T extends U ? T : never;
  * @preserveUnion
  */
 export type NonNullable<T> = T extends null | undefined ? never : T;
+
+export type Array<T> = T[];
+export type ReadonlyArray<T> = T[];
