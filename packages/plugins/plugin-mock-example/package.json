@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/plugin-mock-example",
-  "version": "0.2.0-alpha.2",
+  "version": "0.2.0-alpha.4",
   "description": "Manta Style Mock Plugin - Example",
   "main": "./lib/index.js",
   "typings": "./lib/typings/index.d.ts",
@@ -22,7 +22,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.2",
+    "@manta-style/core": "^0.2.0-alpha.4",
     "lodash-es": "^4.17.10"
   },
   "devDependencies": {

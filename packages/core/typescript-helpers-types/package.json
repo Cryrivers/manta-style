@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/typescript-helpers-types",
-  "version": "0.2.0-alpha.2",
+  "version": "0.2.0-alpha.4",
   "description": "Manta Style Helper Types for TypeScript",
   "main": "./src/index.ts",
   "typings": "./src/index.ts",

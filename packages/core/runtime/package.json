@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/runtime",
-  "version": "0.2.0-alpha.2",
+  "version": "0.2.0-alpha.4",
   "description": "Manta Style Runtime",
   "main": "./lib/manta-style.js",
   "typings": "./lib/typings/index.d.ts",
@@ -23,7 +23,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@manta-style/plugin-mock-example": "^0.2.0-alpha.2",
+    "@manta-style/plugin-mock-example": "^0.2.0-alpha.4",
     "@types/jest": "^23.3.1",
     "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.0",
@@ -35,7 +35,7 @@
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.2",
+    "@manta-style/core": "^0.2.0-alpha.4",
     "lodash-es": "^4.17.10"
   },
   "jest": {
