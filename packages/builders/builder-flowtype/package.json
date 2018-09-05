@@ -1,6 +1,7 @@
 {
   "name": "@manta-style/builder-flowtype",
   "version": "0.2.0-alpha.5",
+  "description": "FlowType Language Support",
   "main": "./lib/flowtype-builder.js",
   "typings": "./lib/index.d.js",
   "author": {

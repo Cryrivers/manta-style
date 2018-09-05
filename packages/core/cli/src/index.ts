@@ -38,9 +38,11 @@ program
   )
   .option('--useSnapshot <file>', 'To launch a server with data snapshot')
   .option('-v --verbose', 'show debug information')
+  .option('--official-plugins', 'show all available official plugins')
   .parse(process.argv);
 
 const {
+  officialPlugins,
   configFile,
   port,
   generateSnapshot,
@@ -49,20 +51,32 @@ const {
   proxyUrl,
 } = program;
 
-if (!configFile) {
-  console.log(
-    'Please specifiy a entry point config file by using --configFile.',
-  );
-  process.exit(1);
-}
-if (generateSnapshot && useSnapshot) {
-  console.log(
-    'You cannot use --generateSnapshot and --useSnapshot at the same time.',
-  );
-  process.exit(1);
-}
-
 (async function() {
+  if (officialPlugins) {
+    const { data: officialPlugins } = await axios.get(
+      'https://api.npms.io/v2/search?q=@manta-style/plugins',
+    );
+    const table = new Table({ colors: false });
+    table.push([chalk.yellow('Plugin'), chalk.yellow('Description')]);
+    // @ts-ignore
+    officialPlugins.results.forEach((item) => {
+      table.push([item.package.name || '', item.package.description || '']);
+    });
+    console.log(table.toString());
+    process.exit(0);
+  }
+  if (!configFile) {
+    console.log(
+      'Please specifiy a entry point config file by using --configFile.',
+    );
+    process.exit(1);
+  }
+  if (generateSnapshot && useSnapshot) {
+    console.log(
+      'You cannot use --generateSnapshot and --useSnapshot at the same time.',
+    );
+    process.exit(1);
+  }
   const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
   let server: Server | undefined;
   let endpointTable: {
