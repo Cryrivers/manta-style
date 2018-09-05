@@ -19,6 +19,7 @@ type MockResult<T> = T | null | Promise<T | null>;
 
 export interface MockPlugin {
   name: string;
+  key: string;
   mock: {
     StringType?: (annotations: Annotation[]) => MockResult<string>;
     NumberType?: (annotations: Annotation[]) => MockResult<number>;
@@ -53,7 +54,7 @@ export class PluginSystem {
   }
   private mockPlugins: {
     [key: string]:
-      | Array<{ name: string; mock: SupportedMockFunction }>
+      | { [key: string]: { name: string; mock: SupportedMockFunction } }
       | undefined;
   } = {};
   private builderPlugins: {
@@ -62,15 +63,23 @@ export class PluginSystem {
   constructor(plugins: PluginEntry[]) {
     for (const plugin of plugins) {
       if (isMockPlugin(plugin)) {
-        const { name, mock } = plugin.module;
+        const { key, name, mock } = plugin.module;
         const types = Object.keys(mock) as SupportedMockType[];
         for (const type of types) {
           const mockFunction = mock[type];
           if (mockFunction) {
-            (this.mockPlugins[type] = this.mockPlugins[type] || []).push({
-              name,
-              mock: mockFunction,
-            });
+            this.mockPlugins[type] = this.mockPlugins[type] || {};
+            // @ts-ignore
+            if (key in this.mockPlugins[type]) {
+              throw new Error(
+                `@manta-style duplicate key (${key}) exists in plugins: ${name}, ${
+                  // @ts-ignore
+                  this.mockPlugins[type][key].name
+                }`,
+              );
+            }
+            // @ts-ignore
+            this.mockPlugins[type][key] = mockFunction;
           }
         }
       } else if (isBuilderPlugin(plugin)) {
@@ -97,16 +106,9 @@ export class PluginSystem {
   ) {
     const plugins = this.mockPlugins[type];
     if (plugins) {
-      for (const plugin of plugins) {
-        try {
-          const value = await callback(plugin.mock);
-          if (value !== null) {
-            return value;
-          }
-        } catch (e) {
-          console.error(`@manta-style Error from plugin: ${plugin.name}`);
-          console.error(e);
-        }
+      const value = await callback(plugins);
+      if (value !== null) {
+        return value;
       }
     }
     return null;

@@ -1,0 +1,28 @@
+{
+  "name": "@manta-style/annotation-parser",
+  "version": "0.1.0",
+  "description": "Manta Style Annotation Parser",
+  "main": "./lib/parser.js",
+  "typings": "./lib/typings/index.d.ts",
+  "author": {
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/manta-style"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "echo 'No test yet'",
+    "build": "tsc -p ./tsconfig.json"
+  },
+  "devDependencies": {
+    "typescript": "^3.0.3"
+  },
+  "dependencies": {
+    "@types/handlebars": "^4.0.39",
+    "handlebars": "^4.0.12"
+  }
+}
