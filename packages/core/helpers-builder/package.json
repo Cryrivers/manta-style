@@ -1,0 +1,23 @@
+{
+  "name": "@manta-style/helpers-builder",
+  "version": "0.1.0",
+  "description": "Extract the exported helper type",
+  "main": "./lib/index.js",
+  "author": {
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/manta-style"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "echo 'No test yet'",
+    "build": "tsc -p ./tsconfig.json"
+  },
+  "dependencies": {
+    "typescript": "^3.0.3"
+  }
+}

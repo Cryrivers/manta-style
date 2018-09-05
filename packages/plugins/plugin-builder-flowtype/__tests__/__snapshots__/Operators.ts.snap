@@ -1,0 +1,449 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Operators $Keys 1`] = `
+"FROM:
+type Keys = $Keys<{ a:number, b:string, c: boolean }>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Keys = _runtime.default.TypeAliasDeclaration(
+  'Keys',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$Keys.argumentTypes([
+      _runtime.default.TypeLiteral(function(typeLiteral) {
+        typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
+        typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
+        typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
+      }),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators $Keys 2`] = `
+"FROM:
+type Obj = { a:number, b:string, c: boolean }; type Keys = $Keys<Obj>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Obj = _runtime.default.TypeAliasDeclaration(
+  'Obj',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
+      typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
+      typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
+    });
+
+    return type;
+  },
+  [],
+);
+
+var Keys = _runtime.default.TypeAliasDeclaration(
+  'Keys',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$Keys.argumentTypes([Obj]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators $Keys 3`] = `
+"FROM:
+type Keys<T: Object> = $Keys<T>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Keys = _runtime.default.TypeAliasDeclaration(
+  'Keys',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T', _runtime.default.ObjectKeyword);
+
+    var type = _flowtypeHelpers.default.$Keys.argumentTypes([T]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators $PropertyType 1`] = `
+"FROM:
+type Obj = { a:number, b:string, c: boolean }; type PropertyType = $PropertyType<Obj, 'b'>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Obj = _runtime.default.TypeAliasDeclaration(
+  'Obj',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
+      typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
+      typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
+    });
+
+    return type;
+  },
+  [],
+);
+
+var PropertyType = _runtime.default.TypeAliasDeclaration(
+  'PropertyType',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$PropertyType.argumentTypes([
+      Obj,
+      _runtime.default.Literal('b'),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators $Values 1`] = `
+"FROM:
+type Values = $Values<{ a:number, b:string, c: boolean }>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Values = _runtime.default.TypeAliasDeclaration(
+  'Values',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$Values.argumentTypes([
+      _runtime.default.TypeLiteral(function(typeLiteral) {
+        typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
+        typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
+        typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
+      }),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators $Values 2`] = `
+"FROM:
+type Obj = { a:number, b:string, c: boolean }; type Values = $Values<Obj>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Obj = _runtime.default.TypeAliasDeclaration(
+  'Obj',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
+      typeLiteral.property('b', _runtime.default.StringKeyword, false, []);
+      typeLiteral.property('c', _runtime.default.BooleanKeyword, false, []);
+    });
+
+    return type;
+  },
+  [],
+);
+
+var Values = _runtime.default.TypeAliasDeclaration(
+  'Values',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$Values.argumentTypes([Obj]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators $Values 3`] = `
+"FROM:
+type Values<T: Object> = $Values<T>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Values = _runtime.default.TypeAliasDeclaration(
+  'Values',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T', _runtime.default.ObjectKeyword);
+
+    var type = _flowtypeHelpers.default.$Values.argumentTypes([T]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators Intersection and Union composed with brackets 1`] = `
+"FROM:
+type Test<T,S> = number & (1 | T | S)
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+    var S = typeFactory.TypeParameter('S');
+
+    var type = _runtime.default.IntersectionType([
+      _runtime.default.NumberKeyword,
+      _runtime.default.UnionType([_runtime.default.Literal(1), T, S]),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators Intersections 1`] = `
+"FROM:
+type Test = number & any;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.IntersectionType([
+      _runtime.default.NumberKeyword,
+      _runtime.default.AnyKeyword,
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators Intersections 2`] = `
+"FROM:
+type Test<T,S> = T & S & number;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+    var S = typeFactory.TypeParameter('S');
+
+    var type = _runtime.default.IntersectionType([
+      T,
+      S,
+      _runtime.default.NumberKeyword,
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators Unions 1`] = `
+"FROM:
+type Test = 1 | 2;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.UnionType([
+      _runtime.default.Literal(1),
+      _runtime.default.Literal(2),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Operators Unions 2`] = `
+"FROM:
+type Test<T,S> = T | S | 1 | 2;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+    var S = typeFactory.TypeParameter('S');
+
+    var type = _runtime.default.UnionType([
+      T,
+      S,
+      _runtime.default.Literal(1),
+      _runtime.default.Literal(2),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;

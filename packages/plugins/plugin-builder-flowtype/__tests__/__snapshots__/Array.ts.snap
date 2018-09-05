@@ -1,0 +1,264 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Array Array keyword form 1`] = `
+"FROM:
+type Test = Array<string>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.Array.argumentTypes([
+      _runtime.default.StringKeyword,
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Array Array keyword form 2`] = `
+"FROM:
+type Test = Array<number | string>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.Array.argumentTypes([
+      _runtime.default.UnionType([
+        _runtime.default.NumberKeyword,
+        _runtime.default.StringKeyword,
+      ]),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Array Array keyword form 3`] = `
+"FROM:
+type Test<T> = Array<T>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+
+    var type = _flowtypeHelpers.default.Array.argumentTypes([T]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Array Bracket form 1`] = `
+"FROM:
+type Test = string[]
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.ArrayType(_runtime.default.StringKeyword);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Array Bracket form 2`] = `
+"FROM:
+type Test = (number | string)[]
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.ArrayType(
+      _runtime.default.UnionType([
+        _runtime.default.NumberKeyword,
+        _runtime.default.StringKeyword,
+      ]),
+    );
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Array ReadOnlyArray keyword form 1`] = `
+"FROM:
+type Test = $ReadOnlyArray<string>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$ReadOnlyArray.argumentTypes([
+      _runtime.default.StringKeyword,
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Array ReadOnlyArray keyword form 2`] = `
+"FROM:
+type Test = $ReadOnlyArray<number | string>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$ReadOnlyArray.argumentTypes([
+      _runtime.default.UnionType([
+        _runtime.default.NumberKeyword,
+        _runtime.default.StringKeyword,
+      ]),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Array ReadOnlyArray keyword form 3`] = `
+"FROM:
+type Test<T> = $ReadOnlyArray<T>;
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var T = typeFactory.TypeParameter('T');
+
+    var type = _flowtypeHelpers.default.$ReadOnlyArray.argumentTypes([T]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
