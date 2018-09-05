@@ -2,7 +2,7 @@
   "name": "@manta-style/annotation-parser",
   "version": "0.1.0",
   "description": "Manta Style Annotation Parser",
-  "main": "./lib/parser.js",
+  "main": "./lib/index.js",
   "typings": "./lib/typings/index.d.ts",
   "author": {
     "name": "Tan Li Hau",

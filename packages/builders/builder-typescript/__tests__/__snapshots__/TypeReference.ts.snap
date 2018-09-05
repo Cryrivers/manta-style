@@ -19,7 +19,7 @@ var A = runtime_1['default'].TypeAliasDeclaration(
     ]);
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 var B = runtime_1['default'].TypeAliasDeclaration(
   'B',
@@ -27,7 +27,7 @@ var B = runtime_1['default'].TypeAliasDeclaration(
     var type = A.argumentTypes([runtime_1['default'].NumberKeyword]);
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 "
 `;
@@ -47,7 +47,7 @@ var A = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].StringKeyword;
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 var B = runtime_1['default'].TypeAliasDeclaration(
   'B',
@@ -55,7 +55,7 @@ var B = runtime_1['default'].TypeAliasDeclaration(
     var type = A;
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 "
 `;

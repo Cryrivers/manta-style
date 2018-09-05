@@ -25,7 +25,7 @@ var A = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 
 var B = _runtime.default.TypeAliasDeclaration(
@@ -35,7 +35,7 @@ var B = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -68,7 +68,7 @@ var A = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 
 var B = _runtime.default.TypeAliasDeclaration(
@@ -78,7 +78,7 @@ var B = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;

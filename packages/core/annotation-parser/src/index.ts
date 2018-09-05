@@ -22,8 +22,11 @@ export class MantaStyleAnnotation {
 
 async function execute(
   plugins: Plugins,
-  statement: hbs.AST.Expression,
+  statement: hbs.AST.Expression | null,
 ): Promise<any> {
+  if (!statement) {
+    return null;
+  }
   switch (statement.type) {
     case 'MustacheStatement':
     case 'SubExpression': {

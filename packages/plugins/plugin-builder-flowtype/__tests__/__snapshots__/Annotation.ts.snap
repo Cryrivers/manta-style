@@ -1,8 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ReadOnly ReadOnly 1`] = `
+exports[`Annotation Annotatin 1`] = `
 "FROM:
-type A = {a: string, b: number}; type B = $ReadOnly<A>
+type A = {
+      /**
+       * @mantastyle {{ plugin a b c }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ multiline a
+       *  b
+       *  c }}
+       */
+      b: number;
+    };
 
 --------------------------------------------------------
 TO:
@@ -26,25 +37,15 @@ var A = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.StringKeyword,
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation('{{ plugin a b c }}'),
       );
       typeLiteral.property(
         'b',
         _runtime.default.NumberKeyword,
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation('{{ multiline a\\\\nb\\\\nc }}'),
       );
     });
-
-    return type;
-  },
-  _runtime.default.MantaAnnotation(''),
-);
-
-var B = _runtime.default.TypeAliasDeclaration(
-  'B',
-  function(typeFactory) {
-    var type = _flowtypeHelpers.default.$ReadOnly.argumentTypes([A]);
 
     return type;
   },

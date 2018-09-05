@@ -27,7 +27,7 @@ var A = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 
 var B = _runtime.default.TypeAliasDeclaration(
@@ -36,7 +36,7 @@ var B = _runtime.default.TypeAliasDeclaration(
     var type = A.argumentTypes([_runtime.default.NumberKeyword]);
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -65,7 +65,7 @@ var A = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.StringKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 
 var B = _runtime.default.TypeAliasDeclaration(
@@ -74,7 +74,7 @@ var B = _runtime.default.TypeAliasDeclaration(
     var type = A;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;

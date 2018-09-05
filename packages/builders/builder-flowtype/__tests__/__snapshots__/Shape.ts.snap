@@ -22,13 +22,23 @@ var A = _runtime.default.TypeAliasDeclaration(
   'A',
   function(typeFactory) {
     var type = _runtime.default.TypeLiteral(function(typeLiteral) {
-      typeLiteral.property('a', _runtime.default.StringKeyword, false, []);
-      typeLiteral.property('b', _runtime.default.NumberKeyword, false, []);
+      typeLiteral.property(
+        'a',
+        _runtime.default.StringKeyword,
+        false,
+        _runtime.default.MantaAnnotation(''),
+      );
+      typeLiteral.property(
+        'b',
+        _runtime.default.NumberKeyword,
+        false,
+        _runtime.default.MantaAnnotation(''),
+      );
     });
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 
 var B = _runtime.default.TypeAliasDeclaration(
@@ -38,7 +48,7 @@ var B = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;

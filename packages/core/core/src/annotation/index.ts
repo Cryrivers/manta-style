@@ -1,9 +1,10 @@
+import { MantaStyleAnnotation } from '@manta-style/annotation-parser';
 export interface Annotation {
   parentAnnotation?: Annotation;
   annotation: string;
 }
 
-const MANTA_STYLE_JSDOC_REGEX = /@manta-style ({{([^}]+)}})/;
+const MANTA_STYLE_JSDOC_REGEX = /@mantastyle ({{([^}]+)}})/;
 
 export function inheritAnnotations(
   parentAnnotation: Annotation,
@@ -14,12 +15,11 @@ export function inheritAnnotations(
 
 export function extractMantaStyleJSDocContent(
   multilineComment: string,
-): Annotation | null {
+): string {
   const match = multilineComment.match(MANTA_STYLE_JSDOC_REGEX);
-  if (match) {
-    return {
-      annotation: match[1],
-    };
-  }
-  return null;
+  return match ? match[1] : '';
+}
+
+export function parseMantaStyleAnnotation(annotation: string) {
+  return MantaStyleAnnotation.parseFromString(annotation);
 }

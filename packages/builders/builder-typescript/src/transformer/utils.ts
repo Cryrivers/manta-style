@@ -187,20 +187,11 @@ function createTypeReferenceOrIdentifier(
 }
 
 function generateJSDocParam(jsdocArray: ReadonlyArray<ts.JSDocTag>) {
-  return ts.createArrayLiteral(
-    jsdocArray.map((tag) => {
-      return ts.createObjectLiteral([
-        ts.createPropertyAssignment(
-          'key',
-          ts.createStringLiteral(tag.tagName.text),
-        ),
-        ts.createPropertyAssignment(
-          'value',
-          ts.createStringLiteral(tag.comment || ''),
-        ),
-      ]);
-    }),
-  );
+  const mantaTag = jsdocArray.find((tag) => tag.tagName.text === 'mantastyle');
+  const value = mantaTag ? mantaTag.comment || '' : '';
+  return createRuntimeFunctionCall('MantaAnnotation', [
+    ts.createStringLiteral(value),
+  ]);
 }
 
 function createTypeLiteralProperties(

@@ -29,7 +29,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -62,7 +62,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;

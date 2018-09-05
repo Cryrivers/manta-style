@@ -24,7 +24,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.AnyKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -53,7 +53,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.BooleanKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -82,7 +82,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.NeverKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -111,7 +111,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.UndefinedKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -140,7 +140,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.NullKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -169,7 +169,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.NumberKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -198,7 +198,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.ObjectKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -227,7 +227,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.StringKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -256,7 +256,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = _runtime.default.UndefinedKeyword;
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;

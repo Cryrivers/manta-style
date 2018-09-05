@@ -21,7 +21,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     ]);
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 "
 `;
@@ -41,7 +41,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].Literal(true);
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 "
 `;
@@ -61,7 +61,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].Literal(false);
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 "
 `;
@@ -81,7 +81,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].Literal(1);
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 "
 `;
@@ -101,7 +101,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].Literal('test');
     return type;
   },
-  [],
+  runtime_1['default'].MantaAnnotation(''),
 );
 "
 `;

@@ -29,20 +29,35 @@ var Test = _runtime.default.TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
     var type = _runtime.default.TypeLiteral(function(typeLiteral) {
-      typeLiteral.property('a', _runtime.default.NumberKeyword, false, []);
-      typeLiteral.property('b', _runtime.default.Literal(1), false, []);
-      typeLiteral.property('c', _runtime.default.StringKeyword, true, []);
+      typeLiteral.property(
+        'a',
+        _runtime.default.NumberKeyword,
+        false,
+        _runtime.default.MantaAnnotation(''),
+      );
+      typeLiteral.property(
+        'b',
+        _runtime.default.Literal(1),
+        false,
+        _runtime.default.MantaAnnotation(''),
+      );
+      typeLiteral.property(
+        'c',
+        _runtime.default.StringKeyword,
+        true,
+        _runtime.default.MantaAnnotation(''),
+      );
       typeLiteral.property(
         'd',
         _runtime.default.ArrayType(_runtime.default.StringKeyword),
         false,
-        [],
+        _runtime.default.MantaAnnotation(''),
       );
     });
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;
@@ -74,20 +89,25 @@ var Test = _runtime.default.TypeAliasDeclaration(
   'Test',
   function(typeFactory) {
     var type = _runtime.default.TypeLiteral(function(typeLiteral) {
-      typeLiteral.property('a', _runtime.default.StringKeyword, false, []);
+      typeLiteral.property(
+        'a',
+        _runtime.default.StringKeyword,
+        false,
+        _runtime.default.MantaAnnotation(''),
+      );
       typeLiteral.computedProperty(
         'key',
         _runtime.default.StringKeyword,
         _runtime.default.NumberKeyword,
         0,
         false,
-        [],
+        _runtime.default.MantaAnnotation(''),
       );
     });
 
     return type;
   },
-  [],
+  _runtime.default.MantaAnnotation(''),
 );
 "
 `;

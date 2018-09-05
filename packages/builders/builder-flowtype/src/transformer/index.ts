@@ -1,6 +1,7 @@
 import * as Babel from '@babel/core';
 import babelGenerate from '@babel/generator';
 import helperTypes from '../utils/builtin-types';
+import { annotationUtils } from '@manta-style/core';
 
 const { types: t } = Babel;
 export function createTransformer(importHelpers: boolean) {
@@ -282,18 +283,23 @@ function runtimeHelperName(id: Babel.types.Identifier) {
   return id;
 }
 
-function firstParam(node: Babel.types.GenericTypeAnnotation) {
-  // @ts-ignore
-  return node.typeParameters.params[0];
-}
-
-function secondParam(node: Babel.types.GenericTypeAnnotation) {
-  // @ts-ignore
-  return node.typeParameters.params[1];
-}
-
 function generateJSDocAnnotations(
   comments: ReadonlyArray<Babel.types.Comment> | null,
 ) {
-  return t.arrayExpression();
+  const comment = comments
+    ? comments.map((comment) => comment.value).join('\n')
+    : '';
+  const annotation = annotationUtils.extractMantaStyleJSDocContent(
+    cleanComment(comment),
+  );
+  return createRuntimeFunctionCall('MantaAnnotation', [
+    t.stringLiteral(annotation),
+  ]);
+}
+
+function cleanComment(comment: string): string {
+  return comment
+    .split('\n')
+    .map((line) => line.replace(/^[\*\s]*/, ''))
+    .join('\n');
 }

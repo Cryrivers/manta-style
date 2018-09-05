@@ -1,4 +1,4 @@
-import * as annotationUtils from './utils/annotation';
+import * as annotationUtils from './annotation';
 import { PluginSystem } from './plugin';
 import { Annotation } from './utils/annotation';
 
