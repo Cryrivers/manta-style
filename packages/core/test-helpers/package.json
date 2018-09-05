@@ -5,6 +5,9 @@
   "dependencies": {
     "prettier": "^1.14.2"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/prettier": "^1.13.2"
   }
