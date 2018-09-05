@@ -1,4 +1,4 @@
-import { annotationUtils, MockPlugin } from '@manta-style/core';
+import { MockPlugin } from '@manta-style/core';
 
 const generatorMap: {
   [key: string]: IterableIterator<string>;
@@ -6,19 +6,12 @@ const generatorMap: {
 
 const fakerPlugin: MockPlugin = {
   name: 'iterate',
+  key: 'iterate',
   mock: {
-    StringType(annotations) {
-      const jsdocIterate = annotationUtils.getAnnotationsByKey(
-        'iterate',
-        annotations,
-      );
-      if (jsdocIterate.length === 0) {
-        return null;
-      }
-
-      const key = JSON.stringify(jsdocIterate);
+    StringType(...examples) {
+      const key = JSON.stringify(examples);
       if (!(key in generatorMap)) {
-        generatorMap[key] = createGenerator(jsdocIterate);
+        generatorMap[key] = createGenerator(examples);
       }
 
       return String(generatorMap[key].next().value);

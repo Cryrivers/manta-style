@@ -21,10 +21,10 @@ export interface MockPlugin {
   name: string;
   key: string;
   mock: {
-    StringType?: (annotations: Annotation[]) => MockResult<string>;
-    NumberType?: (annotations: Annotation[]) => MockResult<number>;
-    BooleanType?: (annotations: Annotation[]) => MockResult<boolean>;
-    TypeLiteral?: (annotations: Annotation[]) => MockResult<AnyObject>;
+    StringType?: (...params: any[]) => MockResult<string>;
+    NumberType?: (...params: any[]) => MockResult<number>;
+    BooleanType?: (...params: any[]) => MockResult<boolean>;
+    TypeLiteral?: (...params: any[]) => MockResult<AnyObject>;
   };
 }
 export interface BuilderPlugin {

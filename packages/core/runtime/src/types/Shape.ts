@@ -1,4 +1,4 @@
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 import TypeLiteral from './TypeLiteral';
 
 export default class Shape extends Type {
@@ -8,7 +8,7 @@ export default class Shape extends Type {
     this.type = type;
   }
   public async deriveLiteral(
-    annotations: Annotation[],
+    annotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const type = await this.type.deriveLiteral(annotations, context);

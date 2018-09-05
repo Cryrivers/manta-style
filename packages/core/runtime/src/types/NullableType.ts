@@ -1,4 +1,4 @@
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 import UnionType from './UnionType';
 import NullKeyword from './NullKeyword';
 import UndefinedKeyword from './UndefinedKeyword';
@@ -16,7 +16,7 @@ export default class NullableType extends Type {
     ]);
   }
   public async deriveLiteral(
-    annotations: Annotation[],
+    annotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     return this.nullableType.deriveLiteral(annotations, context);

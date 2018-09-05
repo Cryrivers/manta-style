@@ -11,7 +11,7 @@ export { annotationUtils, Annotation };
 
 export abstract class Type {
   abstract deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ): Promise<Type>;
   public mock(): any {

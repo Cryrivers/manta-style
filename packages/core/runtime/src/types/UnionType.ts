@@ -1,7 +1,7 @@
 import { sample } from 'lodash-es';
 import NeverKeyword from './NeverKeyword';
 import { resolveReferencedType } from '../utils/referenceTypes';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class UnionType extends Type {
   private readonly types: Type[] = [];
@@ -12,7 +12,7 @@ export default class UnionType extends Type {
     this.chosenType = chosenType;
   }
   public async deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const { chosenType } = this;
@@ -30,7 +30,7 @@ export default class UnionType extends Type {
     }
   }
   public async derivePreservedUnionLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const resolvedTypes = await Promise.all(

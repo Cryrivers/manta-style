@@ -4,7 +4,7 @@ export interface Annotation {
   annotation: string;
 }
 
-const MANTA_STYLE_JSDOC_REGEX = /@mantastyle ({{([^}]+)}})/;
+const MANTA_STYLE_ANNOTATION = `@${MantaStyleAnnotation.JsdocKey}`;
 
 export function inheritAnnotations(
   parentAnnotation: Annotation,
@@ -16,10 +16,20 @@ export function inheritAnnotations(
 export function extractMantaStyleJSDocContent(
   multilineComment: string,
 ): string {
-  const match = multilineComment.match(MANTA_STYLE_JSDOC_REGEX);
-  return match ? match[1] : '';
+  const jsdocIndex = multilineComment.indexOf(MANTA_STYLE_ANNOTATION);
+  console.log('jsdocIndex', jsdocIndex);
+  if (jsdocIndex > -1) {
+    const substr = multilineComment
+      .substring(jsdocIndex + MANTA_STYLE_ANNOTATION.length)
+      .trimLeft();
+    console.log('substr', substr);
+    if (substr.startsWith('{{')) {
+      const bracketEnd = substr.indexOf('}}');
+      console.log('bracketEnd', bracketEnd);
+      return substr.substring(0, bracketEnd + 2);
+    }
+  }
+  return '';
 }
 
-export function parseMantaStyleAnnotation(annotation: string) {
-  return MantaStyleAnnotation.parseFromString(annotation);
-}
+export { MantaStyleAnnotation };

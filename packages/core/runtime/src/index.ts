@@ -27,6 +27,7 @@ import { Annotation, Type } from '@manta-style/core';
 import Shape from './types/Shape';
 import NullableType from './types/NullableType';
 import NonMaybeType from './types/NonMaybeType';
+import { annotationUtils } from '@manta-style/core';
 
 export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 export type TypeLiteral = TypeLiteral;
@@ -35,7 +36,7 @@ class MantaStyle {
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
-    annotations: Annotation[],
+    annotations: annotationUtils.MantaStyleAnnotation,
   ) {
     const newType = new LazyTypeAliasDeclaration(typeName, annotations);
     newType.setInitialize(typeCallback);
@@ -103,6 +104,11 @@ class MantaStyle {
   public static KeyOfKeyword(type: Type) {
     return new KeyOfKeyword(type);
   }
+
+  public static MantaAnnotation(comment: string) {
+    return annotationUtils.MantaStyleAnnotation.parseFromString(comment);
+  }
+
   // Flow Specific
   public static ShapeOf(type: Type) {
     return new Shape(type);

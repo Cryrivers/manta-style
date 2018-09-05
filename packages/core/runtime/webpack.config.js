@@ -27,6 +27,9 @@ module.exports = {
       },
     ],
   },
+  externals: {
+    fs: 'fs',
+  },
   performance: {
     hints: false,
   },

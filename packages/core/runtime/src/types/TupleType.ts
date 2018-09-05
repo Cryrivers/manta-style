@@ -1,7 +1,7 @@
 import ArrayLiteral from './ArrayLiteral';
 import OptionalType from './OptionalType';
 import RestType from './RestType';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class TupleType extends Type {
   private readonly elementTypes: Type[];
@@ -10,7 +10,7 @@ export default class TupleType extends Type {
     this.elementTypes = elementTypes;
   }
   public async deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const arrayLiteral: Type[] = [];

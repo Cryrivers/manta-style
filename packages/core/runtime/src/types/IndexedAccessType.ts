@@ -3,7 +3,7 @@ import { resolveReferencedType } from '../utils/referenceTypes';
 import TypeLiteral from './TypeLiteral';
 import UnionType from './UnionType';
 import MantaStyle from '..';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class IndexedAccessType extends Type {
   private readonly objectType: Type;
@@ -22,7 +22,10 @@ export default class IndexedAccessType extends Type {
       this.indexType,
       context,
     );
-    const indexName = (await indexType.deriveLiteral([], context)).mock();
+    const indexName = (await indexType.deriveLiteral(
+      annotationUtils.MantaStyleAnnotation.empty(),
+      context,
+    )).mock();
     if (objType instanceof TypeLiteral) {
       return objType
         ._getProperties()
@@ -30,7 +33,7 @@ export default class IndexedAccessType extends Type {
     }
   }
   public async deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const {
@@ -50,7 +53,7 @@ export default class IndexedAccessType extends Type {
         return indexedAccessTypeLiteral(objectType, indexType);
       } else if (indexType instanceof UnionType) {
         const indexTypes = (await indexType.derivePreservedUnionLiteral(
-          [],
+          annotationUtils.MantaStyleAnnotation.empty(),
           context,
         )).getTypes();
         return new UnionType(

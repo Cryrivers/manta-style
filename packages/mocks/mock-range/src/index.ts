@@ -1,34 +1,12 @@
-import { annotationUtils, MockPlugin } from '@manta-style/core';
-import { sample } from 'lodash-es';
-
-const RANGE_REGEX = /^\s*(\d+)\s+(\d+)\s*$/;
-
-const fakerPlugin: MockPlugin = {
+import { MockPlugin } from '@manta-style/core';
+const rangePlugin: MockPlugin = {
   name: 'range',
+  key: 'range',
   mock: {
-    NumberType(annotations) {
-      const jsdocRange = annotationUtils.getAnnotationsByKey(
-        'range',
-        annotations,
-      );
-      if (jsdocRange.length === 0) {
-        return null;
-      }
-
-      const sampled = sample(jsdocRange);
-      if (!sampled) {
-        return null;
-      }
-
-      const minMaxMatch = sampled.match(RANGE_REGEX);
-      if (!minMaxMatch) {
-        return null;
-      }
-
-      const [, min, max] = minMaxMatch;
+    NumberType(min, max = Number.MAX_SAFE_INTEGER) {
       return Math.round(Math.random() * (+max - +min)) + +min;
     },
   },
 };
 
-export default fakerPlugin;
+export default rangePlugin;

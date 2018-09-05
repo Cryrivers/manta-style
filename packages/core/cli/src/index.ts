@@ -20,6 +20,7 @@ import {
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
+import { annotationUtils } from '@manta-style/core';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 const METHODS: HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
@@ -113,17 +114,19 @@ if (generateSnapshot && useSnapshot) {
       const endpoints = (methodTypeDef.getType() as TypeLiteral)._getProperties();
       const endpointMap: { [key: string]: Property } = {};
       for (const endpoint of endpoints) {
-        const proxyAnnotation = endpoint.annotations.find(
-          (item) => item.key === 'proxy',
-        );
+        const proxyAnnotation = undefined;
+        // endpoint.annotations.find(
+        //   (item) => item.key === 'proxy',
+        // );
         endpointTable.push({
           method,
           endpoint: endpoint.name,
-          proxy: proxyAnnotation
-            ? proxyAnnotation.value
-            : proxyUrl
-              ? proxyUrl
-              : null,
+          proxy: null,
+          // proxyAnnotation
+          //   ? proxyAnnotation.value
+          //   : proxyUrl
+          //     ? proxyUrl
+          //     : null,
         });
         (endpointMockTable[method] = endpointMockTable[method] || {})[
           endpoint.name
@@ -142,7 +145,10 @@ if (generateSnapshot && useSnapshot) {
             (item) => item.method === method && item.endpoint === endpoint.name,
           );
         if (endpointInfo && endpointMockTable[method][endpoint.name]) {
-          const literalType = await endpoint.type.deriveLiteral([], context);
+          const literalType = await endpoint.type.deriveLiteral(
+            annotationUtils.MantaStyleAnnotation.empty(),
+            context,
+          );
           const mockData = literalType.mock();
           if (isSnapshotMode) {
             const snapshotData = snapshot.fetchSnapshot(

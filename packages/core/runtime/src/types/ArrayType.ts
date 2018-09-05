@@ -13,15 +13,17 @@ export default class ArrayType extends Type {
     this.elementType = elementType;
   }
   public async deriveLiteral(
-    annotations: Annotation[],
+    annotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const array: Type[] = [];
-    const lengthFromJSDoc = annotationUtils.getNumberFromAnnotationKey({
-      key: 'length',
-      precision: 0,
-      annotations,
-    });
+    // TODO:
+    // const lengthFromJSDoc = annotationUtils.getNumberFromAnnotationKey({
+    //   key: 'length',
+    //   precision: 0,
+    //   annotations,
+    // });
+    const lengthFromJSDoc = undefined;
     const length =
       typeof lengthFromJSDoc !== 'undefined'
         ? lengthFromJSDoc

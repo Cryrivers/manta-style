@@ -10,13 +10,24 @@ export class MantaStyleAnnotation {
     return new MantaStyleAnnotation(mustacheStatement);
   }
 
-  private mustacheStatement: hbs.AST.Expression;
-  constructor(mustacheStatement: hbs.AST.Expression) {
+  static empty() {
+    return new MantaStyleAnnotation(null);
+  }
+
+  static JsdocKey = 'mantastyle';
+
+  private mustacheStatement: hbs.AST.Expression | null;
+  constructor(mustacheStatement: hbs.AST.Expression | null) {
     this.mustacheStatement = mustacheStatement;
   }
 
   public execute(plugins: Plugins) {
     return execute(plugins, this.mustacheStatement);
+  }
+
+  public inherit(parentAnnotation: MantaStyleAnnotation) {
+    // TODO: honestly i don't know what to do with this
+    return this;
   }
 }
 
@@ -43,12 +54,19 @@ async function execute(
         params.push(await execute(plugins, param));
       }
       // @ts-ignore
-      for (const hashPair of statement.hash.pairs) {
+      if (statement.hash) {
         // @ts-ignore
-        hash[hashPair.key] = await execute(plugins, hashPair.value);
+        for (const hashPair of statement.hash.pairs) {
+          // @ts-ignore
+          hash[hashPair.key] = await execute(plugins, hashPair.value);
+        }
+      }
+      if (Object.keys(hash).length > 0) {
+        // only add hash if hash is not empty
+        params.push(hash);
       }
       // @ts-ignore
-      return await plugin(...params, hash);
+      return await plugin(...params);
     }
     case 'StringLiteral':
     case 'BooleanLiteral':

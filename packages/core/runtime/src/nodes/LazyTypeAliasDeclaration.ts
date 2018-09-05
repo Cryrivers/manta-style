@@ -1,13 +1,22 @@
 import TypeAliasDeclaration from './TypeAliasDeclaration';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  annotationUtils,
+  Annotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 
 export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
   private initializer: (currentType: TypeAliasDeclaration) => Type = () =>
     this.type;
   private initialized: boolean;
 
-  constructor(name: string, annotations: Annotation[]) {
-    super(name, annotations);
+  constructor(
+    name: string,
+    annotations: annotationUtils.MantaStyleAnnotation,
+    preserveUnion: boolean = false,
+  ) {
+    super(name, annotations, preserveUnion);
     this.initialized = false;
   }
 
@@ -35,7 +44,7 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
   }
 
   public async deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ): Promise<Type> {
     this.initialize();

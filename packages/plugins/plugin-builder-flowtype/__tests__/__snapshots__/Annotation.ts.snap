@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Annotation Annotatin 1`] = `
+exports[`Annotation Annotation 1`] = `
 "FROM:
 type A = {
       /**
@@ -44,6 +44,112 @@ var A = _runtime.default.TypeAliasDeclaration(
         _runtime.default.NumberKeyword,
         false,
         _runtime.default.MantaAnnotation('{{ multiline a\\\\nb\\\\nc }}'),
+      );
+    });
+
+    return type;
+  },
+  _runtime.default.MantaAnnotation(''),
+);
+"
+`;
+
+exports[`Annotation Handles { and }, escaped bracket 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin \\"{{foo}}\\" }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ plugin \\"{{foo}} {{bar}}\\" }}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        _runtime.default.StringKeyword,
+        false,
+        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+      );
+      typeLiteral.property(
+        'b',
+        _runtime.default.NumberKeyword,
+        false,
+        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}} {{bar}}\\" }}'),
+      );
+    });
+
+    return type;
+  },
+  _runtime.default.MantaAnnotation(''),
+);
+"
+`;
+
+exports[`Annotation Handles }} in other annotation 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin \\"{{foo}}\\" }}
+       * @random {{}}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ plugin \\"{{foo}} {{bar}}\\" }}
+       * @random {{}}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        _runtime.default.StringKeyword,
+        false,
+        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+      );
+      typeLiteral.property(
+        'b',
+        _runtime.default.NumberKeyword,
+        false,
+        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}} {{bar}}\\" }}'),
       );
     });
 

@@ -2,12 +2,7 @@ import TypeAliasDeclaration from '../nodes/TypeAliasDeclaration';
 import TypeParameter from '../nodes/TypeParameter';
 import KeyOfKeyword from '../types/KeyOfKeyword';
 import ParenthesizedType from '../types/ParenthesizedType';
-import {
-  Annotation,
-  MantaStyleContext,
-  annotationUtils,
-  Type,
-} from '@manta-style/core';
+import { MantaStyleContext, annotationUtils, Type } from '@manta-style/core';
 
 /**
  * @description
@@ -20,9 +15,9 @@ import {
 export async function resolveReferencedType(
   type: Type,
   context: MantaStyleContext,
-): Promise<{ type: Type; annotations: Annotation[] }> {
+): Promise<{ type: Type; annotations: annotationUtils.MantaStyleAnnotation }> {
   let actualType = type;
-  let annotations: Annotation[] = [];
+  let annotations: annotationUtils.MantaStyleAnnotation = annotationUtils.MantaStyleAnnotation.empty();
   while (
     actualType instanceof TypeAliasDeclaration ||
     actualType instanceof TypeParameter ||
@@ -34,10 +29,7 @@ export async function resolveReferencedType(
       // as we moved the initialization from `argumentTypes`
       // to `deriveLiteral`.
       await actualType.deriveLiteral(annotations, context);
-      annotations = annotationUtils.inheritAnnotations(
-        annotations,
-        actualType.getAnnotations(),
-      );
+      annotations = actualType.getAnnotations().inherit(annotations);
       actualType = actualType.getType();
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();

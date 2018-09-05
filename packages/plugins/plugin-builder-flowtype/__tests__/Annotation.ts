@@ -6,7 +6,7 @@ const testTranspiledString = BuilderPluginTestHelper.testTranspiledString(
 );
 
 describe('Annotation', () => {
-  test('Annotatin', () => {
+  test('Annotation', () => {
     expect(
       testTranspiledString(`type A = {
       /**
@@ -17,6 +17,37 @@ describe('Annotation', () => {
        * @mantastyle {{ multiline a
        *  b
        *  c }}
+       */
+      b: number;
+    };`),
+    ).toMatchSnapshot();
+  });
+  test('Handles { and }, escaped bracket', () => {
+    expect(
+      testTranspiledString(`type A = {
+      /**
+       * @mantastyle {{ plugin "\\{\\{foo\\}\\}" }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ plugin "\\{\\{foo\\}\\} \\{\\{bar\\}\\}" }}
+       */
+      b: number;
+    };`),
+    ).toMatchSnapshot();
+  });
+
+  test('Handles }} in other annotation', () => {
+    expect(
+      testTranspiledString(`type A = {
+      /**
+       * @mantastyle {{ plugin "\\{\\{foo\\}\\}" }}
+       * @random {{}}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ plugin "\\{\\{foo\\}\\} \\{\\{bar\\}\\}" }}
+       * @random {{}}
        */
       b: number;
     };`),

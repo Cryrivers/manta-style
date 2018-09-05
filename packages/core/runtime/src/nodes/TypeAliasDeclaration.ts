@@ -1,27 +1,28 @@
 import TypeParameter from './TypeParameter';
-import {
-  Annotation,
-  annotationUtils,
-  MantaStyleContext,
-  Type,
-} from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 import { ErrorType } from '../utils/pseudoTypes';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';
 
 export default class TypeAliasDeclaration extends Type {
   protected readonly name: string;
-  protected readonly annotations: Annotation[];
+  protected readonly annotations: annotationUtils.MantaStyleAnnotation;
+  private preserveUnion: boolean;
 
   private typeParameterTypes: Type[] = [];
   private typeParameters: TypeParameter[] = [];
   protected type: Type = new ErrorType(
     `TypeAliasDeclaration "${this.name}" hasn't been initialized.`,
   );
-  constructor(name: string, annotations: Annotation[]) {
+  constructor(
+    name: string,
+    annotations: annotationUtils.MantaStyleAnnotation,
+    preserveUnion: boolean = false,
+  ) {
     super();
     this.name = name;
     this.annotations = annotations;
+    this.preserveUnion = preserveUnion;
   }
   public TypeParameter(name: string) {
     const newTypeParam = new TypeParameter(name);
@@ -42,30 +43,18 @@ export default class TypeAliasDeclaration extends Type {
     return this.annotations;
   }
   public async deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
-    const combinedAnnotations = annotationUtils.inheritAnnotations(
-      parentAnnotations,
-      this.annotations,
-    );
+    const combinedAnnotations = this.annotations.inherit(parentAnnotations);
     // Set actual type of type parameters
-    // @preserveUnion is a special decorator which is not inheritable
-    // thus we only find it in `this.annotations`
-    const preserveUnionType = annotationUtils.findAnnotation(
-      'preserveUnion',
-      this.annotations,
-    );
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
       const { type, annotations } = await resolveReferencedType(
         this.typeParameterTypes[i],
         context,
       );
-      const mergedAnnotations = annotationUtils.inheritAnnotations(
-        combinedAnnotations,
-        annotations,
-      );
-      if (type instanceof UnionType && preserveUnionType) {
+      const mergedAnnotations = this.annotations.inherit(combinedAnnotations);
+      if (type instanceof UnionType && this.preserveUnion) {
         await this.typeParameters[i].setActualType(
           await type.derivePreservedUnionLiteral(mergedAnnotations, context),
           context,

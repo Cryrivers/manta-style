@@ -1,35 +1,21 @@
-import { annotationUtils, MockPlugin } from '@manta-style/core';
+import { MockPlugin } from '@manta-style/core';
 import { sample } from 'lodash-es';
 
 const fakerPlugin: MockPlugin = {
   name: 'example',
+  key: 'example',
   mock: {
-    StringType(annotations) {
-      const jsdocExample = annotationUtils.getAnnotationsByKey(
-        'example',
-        annotations,
-      );
-      if (jsdocExample.length > 0) {
-        const sampled = sample(jsdocExample);
+    StringType(...examples) {
+      if (examples.length > 0) {
+        const sampled = sample(examples);
         if (sampled) {
           return sampled;
         }
       }
       return null;
     },
-    NumberType(annotations) {
-      const precisionAnnotation = annotationUtils.getAnnotationsByKey(
-        'precision',
-        annotations,
-      );
-
-      const precision =
-        precisionAnnotation.length > 0 ? parseInt(precisionAnnotation[0]) : 0;
-      const generatedNumber = annotationUtils.getNumberFromAnnotationKey({
-        key: 'example',
-        precision,
-        annotations,
-      });
+    NumberType(...examples) {
+      const generatedNumber = sample(examples);
       return generatedNumber || null;
     },
   },

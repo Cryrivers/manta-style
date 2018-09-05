@@ -1,4 +1,4 @@
-import { Annotation, Type } from '@manta-style/core';
+import { Type, annotationUtils } from '@manta-style/core';
 
 export const enum QuestionToken {
   None,
@@ -10,7 +10,7 @@ export type Property = {
   name: string;
   type: Type;
   questionMark: boolean;
-  annotations: Annotation[];
+  annotations: annotationUtils.MantaStyleAnnotation;
 };
 
 export const enum ComputedPropertyOperator {

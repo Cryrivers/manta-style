@@ -1,16 +1,16 @@
 import Literal from './Literal';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class NumberKeyword extends Type {
   public async deriveLiteral(
-    annotations: Annotation[],
+    annotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const { plugins } = context;
 
     const pluginValue = await plugins.getMockValueFromPlugin(
       'NumberType',
-      (plugin: any) => plugin(annotations, context),
+      (plugin: any) => annotations.execute(plugin),
     );
     const numberValue =
       pluginValue !== null ? Number(pluginValue) : Math.random() * 100;

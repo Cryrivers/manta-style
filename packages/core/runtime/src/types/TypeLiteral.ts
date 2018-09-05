@@ -9,12 +9,7 @@ import {
 import { resolveReferencedType } from '../utils/referenceTypes';
 import NeverKeyword from './NeverKeyword';
 import { intersection } from '../utils/intersection';
-import {
-  Annotation,
-  MantaStyleContext,
-  annotationUtils,
-  Type,
-} from '@manta-style/core';
+import { MantaStyleContext, annotationUtils, Type } from '@manta-style/core';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -32,7 +27,7 @@ export default class TypeLiteral extends Type {
     name: string,
     type: Type,
     questionMark: boolean,
-    annotations: Annotation[],
+    annotations: annotationUtils.MantaStyleAnnotation,
   ) {
     this.properties.push({
       name,
@@ -47,7 +42,7 @@ export default class TypeLiteral extends Type {
     type: Type,
     operator: ComputedPropertyOperator,
     questionMark: boolean,
-    annotations: Annotation[],
+    annotations: annotationUtils.MantaStyleAnnotation,
   ) {
     this.computedProperties.push({
       name,
@@ -59,7 +54,7 @@ export default class TypeLiteral extends Type {
     });
   }
   public async deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const typeLiteral = new TypeLiteral();
@@ -68,10 +63,7 @@ export default class TypeLiteral extends Type {
       typeLiteral.property(
         property.name,
         await property.type.deriveLiteral(
-          annotationUtils.inheritAnnotations(
-            parentAnnotations,
-            property.annotations,
-          ),
+          property.annotations.inherit(parentAnnotations),
           context,
         ),
         property.questionMark,
@@ -81,42 +73,44 @@ export default class TypeLiteral extends Type {
 
     // Enumerate IndexSignatures
     for (const computedProperty of this.computedProperties) {
-      const jsDocForKeys: Annotation[] = computedProperty.annotations
-        .filter((item) => item.key === 'key')
-        .map((item) => ({ ...item, key: 'example' }));
-      const jsDocForValues: Annotation[] = computedProperty.annotations.filter(
-        (item) => item.key !== 'key',
-      );
+      // TODO:
+      // const jsDocForKeys: Annotation[] = computedProperty.annotations
+      //   .filter((item) => item.key === 'key')
+      //   .map((item) => ({ ...item, key: 'example' }));
+      // const jsDocForValues: Annotation[] = computedProperty.annotations.filter(
+      //   (item) => item.key !== 'key',
+      // );
 
       if (
         computedProperty.operator === ComputedPropertyOperator.INDEX_SIGNATURE
       ) {
-        if (jsDocForKeys.length > 0) {
-          for (let i = 0; i < jsDocForKeys.length; i++) {
-            const chance = computedProperty.questionMark ? Math.random() : 1;
-            const literal = await computedProperty.type.deriveLiteral(
-              jsDocForValues,
-              context,
-            );
-            // TODO: Remove the assumption of string index signature.
-            // support number in future
-            if (chance > 0.5) {
-              typeLiteral.property(
-                jsDocForKeys[i].value,
-                literal,
-                false,
-                jsDocForValues,
-              );
-            }
-          }
-        } else {
-          typeLiteral.property(
-            'This is a key. Customize it with JSDoc tag @key',
-            await computedProperty.type.deriveLiteral(jsDocForValues, context),
-            false,
-            jsDocForValues,
-          );
-        }
+        // TODO:
+        // if (jsDocForKeys.length > 0) {
+        //   for (let i = 0; i < jsDocForKeys.length; i++) {
+        //     const chance = computedProperty.questionMark ? Math.random() : 1;
+        //     const literal = await computedProperty.type.deriveLiteral(
+        //       computedProperty.annotations,
+        //       context,
+        //     );
+        //     // TODO: Remove the assumption of string index signature.
+        //     // support number in future
+        //     // if (chance > 0.5) {
+        //     //   typeLiteral.property(
+        //     //     jsDocForKeys[i].value,
+        //     //     literal,
+        //     //     false,
+        //     //     jsDocForValues,
+        //     //   );
+        //     // }
+        //   }
+        // } else {
+        //   typeLiteral.property(
+        //     'This is a key. Customize it with JSDoc tag @key',
+        //     await computedProperty.type.deriveLiteral(jsDocForValues, context),
+        //     false,
+        //     jsDocForValues,
+        //   );
+        // }
       } else if (
         computedProperty.operator === ComputedPropertyOperator.IN_KEYWORD
       ) {
@@ -124,7 +118,12 @@ export default class TypeLiteral extends Type {
         const { keyType, name } = computedProperty;
         const subTypeLiteral = new TypeLiteral();
         // TODO: Correct annotation
-        typeLiteral.property(name, subTypeLiteral, false, []);
+        typeLiteral.property(
+          name,
+          subTypeLiteral,
+          false,
+          annotationUtils.MantaStyleAnnotation.parseFromString(''),
+        );
         const { type: actualType } = await resolveReferencedType(
           keyType,
           context,
@@ -139,7 +138,12 @@ export default class TypeLiteral extends Type {
               : (await Promise.all(
                   actualType
                     .getTypes()
-                    .map((type) => type.deriveLiteral([], context)),
+                    .map((type) =>
+                      type.deriveLiteral(
+                        annotationUtils.MantaStyleAnnotation.empty(),
+                        context,
+                      ),
+                    ),
                 )).map((type) => type.mock());
           for (const key of keys) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
@@ -187,7 +191,7 @@ export default class TypeLiteral extends Type {
           propS.name,
           await intersection(propS.type, propT.type, context),
           [propS.questionMark, propT.questionMark].every(Boolean),
-          [...propS.annotations, ...propT.annotations],
+          propS.annotations.inherit(propT.annotations),
         );
       } else {
         composedTypeLiteral.property(

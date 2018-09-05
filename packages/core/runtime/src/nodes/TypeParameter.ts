@@ -1,6 +1,6 @@
 import { ErrorType } from '../utils/pseudoTypes';
 import { isAssignable } from '../utils/assignable';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
 
 export default class TypeParameter extends Type {
   private readonly name: string;
@@ -35,7 +35,7 @@ export default class TypeParameter extends Type {
     return this.actualType || this.defaultType;
   }
   public deriveLiteral(
-    parentAnnotations: Annotation[],
+    parentAnnotations: annotationUtils.MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     return this.getActualType().deriveLiteral(parentAnnotations, context);
