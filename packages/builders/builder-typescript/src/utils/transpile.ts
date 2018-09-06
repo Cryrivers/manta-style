@@ -4,8 +4,9 @@ import { createTransformer } from '../transformer';
 export default function transpile(
   sourceCode: string,
   importHelpers: boolean = true,
+  isInternal: boolean = false,
 ): string {
-  const MantaStyleTranformer = createTransformer(importHelpers);
+  const MantaStyleTranformer = createTransformer(importHelpers, isInternal);
   const sourceFile = ts.createSourceFile(
     'test.ts',
     sourceCode,

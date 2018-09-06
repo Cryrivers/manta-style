@@ -41,7 +41,10 @@ export function createConstVariableStatement(
   );
 }
 
-export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
+export function createTypeAliasDeclaration(
+  node: ts.TypeAliasDeclaration,
+  isInternal: boolean,
+) {
   const name = node.name.getText();
   const typeParameters = node.typeParameters || ts.createNodeArray();
   const jsdocTags = ts.getJSDocTags(node);
@@ -83,6 +86,7 @@ export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
         ),
       ),
       generateJSDocParam(jsdocTags),
+      ...(isInternal ? [ts.createTrue()] : []),
     ]),
   );
   varCreation.modifiers = node.modifiers;

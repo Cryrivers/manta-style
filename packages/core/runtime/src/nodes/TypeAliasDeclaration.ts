@@ -7,7 +7,7 @@ import UnionType from '../types/UnionType';
 export default class TypeAliasDeclaration extends Type {
   protected readonly name: string;
   protected readonly annotations: annotationUtils.MantaStyleAnnotation;
-  private preserveUnion: boolean;
+  protected readonly preserveUnion: boolean;
 
   private typeParameterTypes: Type[] = [];
   private typeParameters: TypeParameter[] = [];
@@ -17,7 +17,7 @@ export default class TypeAliasDeclaration extends Type {
   constructor(
     name: string,
     annotations: annotationUtils.MantaStyleAnnotation,
-    preserveUnion: boolean = false,
+    preserveUnion: boolean,
   ) {
     super();
     this.name = name;

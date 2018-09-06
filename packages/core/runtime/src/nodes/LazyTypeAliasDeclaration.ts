@@ -14,7 +14,7 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
   constructor(
     name: string,
     annotations: annotationUtils.MantaStyleAnnotation,
-    preserveUnion: boolean = false,
+    preserveUnion: boolean,
   ) {
     super(name, annotations, preserveUnion);
     this.initialized = false;
@@ -57,6 +57,7 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
     const typeAliasImplementation = new TypeAliasDeclaration(
       this.name,
       this.annotations,
+      this.preserveUnion,
     );
     typeAliasImplementation.setType(this.initializer(typeAliasImplementation));
     typeAliasImplementation.argumentTypes(types);

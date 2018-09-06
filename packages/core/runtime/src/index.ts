@@ -37,8 +37,13 @@ class MantaStyle {
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
     annotations: annotationUtils.MantaStyleAnnotation,
+    preserveUnion: boolean = false,
   ) {
-    const newType = new LazyTypeAliasDeclaration(typeName, annotations);
+    const newType = new LazyTypeAliasDeclaration(
+      typeName,
+      annotations,
+      preserveUnion,
+    );
     newType.setInitialize(typeCallback);
     return newType;
   }

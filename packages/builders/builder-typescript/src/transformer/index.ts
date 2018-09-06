@@ -7,11 +7,11 @@ import {
   HELPER_PACKAGE_NAME,
 } from './constants';
 
-export function createTransformer(importHelpers: boolean) {
+export function createTransformer(importHelpers: boolean, isInternal: boolean) {
   const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
     const MantaStyleRuntimeTypeVisitor: ts.Visitor = (node) => {
       if (ts.isTypeAliasDeclaration(node)) {
-        return createTypeAliasDeclaration(node);
+        return createTypeAliasDeclaration(node, isInternal);
       } else if (ts.isInterfaceDeclaration(node)) {
         return createTypeAliasDeclaration(
           ts.createTypeAliasDeclaration(
@@ -21,6 +21,7 @@ export function createTransformer(importHelpers: boolean) {
             node.typeParameters,
             ts.createTypeLiteralNode(node.members),
           ),
+          isInternal,
         );
       } else if (ts.isImportSpecifier(node)) {
         // Do not erase type import

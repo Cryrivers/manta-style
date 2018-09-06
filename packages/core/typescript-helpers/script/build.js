@@ -6,4 +6,5 @@ build(
   path.join(__dirname, '..', 'lib'),
   true,
   false,
+  true,
 );

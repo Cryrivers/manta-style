@@ -10,8 +10,9 @@ export default function build(
   destDir: string,
   verbose: boolean = false,
   importHelpers: boolean = true,
+  isInternal: boolean = false,
 ) {
-  const MantaStyleTranformer = createTransformer(importHelpers);
+  const MantaStyleTranformer = createTransformer(importHelpers, isInternal);
   const program = ts.createProgram([fileName], {
     strict: true,
     noEmitOnError: true,
