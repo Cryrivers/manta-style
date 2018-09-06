@@ -59,6 +59,12 @@ export class PluginSystem {
   private builderPlugins: {
     [key: string]: BuilderPlugin | undefined;
   } = {};
+  public getMockPluginCount() {
+    return Object.keys(this.mockPlugins).length;
+  }
+  public getBuilderPluginCount() {
+    return Object.keys(this.builderPlugins).length;
+  }
   constructor(plugins: PluginEntry[]) {
     for (const plugin of plugins) {
       if (isMockPlugin(plugin)) {

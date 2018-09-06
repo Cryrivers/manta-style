@@ -51,19 +51,35 @@ const {
   proxyUrl,
 } = program;
 
+async function showOfficialPluginList() {
+  const { data: officialPlugins } = await axios.get(
+    'https://api.npms.io/v2/search?q=@manta-style/plugins',
+  );
+  const table = new Table({ colors: false });
+  table.push([chalk.yellow('Plugin'), chalk.yellow('Description')]);
+  // @ts-ignore
+  officialPlugins.results.forEach((item) => {
+    table.push([item.package.name || '', item.package.description || '']);
+  });
+  console.log(table.toString());
+  process.exit(0);
+}
+
 (async function() {
-  if (officialPlugins) {
-    const { data: officialPlugins } = await axios.get(
-      'https://api.npms.io/v2/search?q=@manta-style/plugins',
+  const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
+  // Check plugin nums
+  if (pluginSystem.getBuilderPluginCount() === 0) {
+    console.log(
+      chalk.bold(
+        chalk.yellow(
+          "\nHi there! It seems that you don't have any builder plugins installed. Manta Style needs them to support different languages. Please check out the following table and install one.\n",
+        ),
+      ),
     );
-    const table = new Table({ colors: false });
-    table.push([chalk.yellow('Plugin'), chalk.yellow('Description')]);
-    // @ts-ignore
-    officialPlugins.results.forEach((item) => {
-      table.push([item.package.name || '', item.package.description || '']);
-    });
-    console.log(table.toString());
-    process.exit(0);
+    await showOfficialPluginList();
+  }
+  if (officialPlugins) {
+    await showOfficialPluginList();
   }
   if (!configFile) {
     console.log(
@@ -77,7 +93,15 @@ const {
     );
     process.exit(1);
   }
-  const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
+  if (pluginSystem.getMockPluginCount() === 0) {
+    console.log(
+      chalk.bold(
+        chalk.yellow(
+          '\nNo mock plugin installed. You might want to run `ms --official-plugins` and install one.\n',
+        ),
+      ),
+    );
+  }
   let server: Server | undefined;
   let endpointTable: {
     method: string;
