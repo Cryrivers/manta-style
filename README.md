@@ -21,7 +21,7 @@ But _Manta Style_ is more than just that.
 
 ### Generates mock data directly from your type declarations
 
-Right now Manta Style supports only TypeScript. We are working on FlowType.
+Manta Style officially supports TypeScript and Flow at the moment.
 
 <!-- some more words goes here @TODO wgao19 -->
 
@@ -69,7 +69,7 @@ type WithResponse<T> = WithResponseSuccess<T> | WithResponseFailure;
 Manta Style will generate either the error case or the normal case according to your declarations.
 Already have your list of error conditions and messages well-defined with your back end? You are in the luck! Manta Style will generate those cases for you just like in real world.
 
-This also gives us one more motivation to fine-tune the typing to our codebase.
+This also gives us one more motivation to fine-tuned the typing to our codebase.
 
 ### Fix a test case like a snapshot.
 
