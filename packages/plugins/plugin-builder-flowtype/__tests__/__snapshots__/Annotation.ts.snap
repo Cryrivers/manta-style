@@ -159,3 +159,63 @@ var A = _runtime.default.TypeAliasDeclaration(
 );
 "
 `;
+
+exports[`Annotation Handles random }} in next row 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin \\"{{foo}}\\" }}
+       * }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ multiline 
+       *   \\"{{foo}} {{bar}}\\"
+       *   123
+       *   (as \\"ew\\")
+       * }}
+       * }}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        _runtime.default.StringKeyword,
+        false,
+        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+      );
+      typeLiteral.property(
+        'b',
+        _runtime.default.NumberKeyword,
+        false,
+        _runtime.default.MantaAnnotation(
+          '{{ multiline \\\\n\\"{{foo}} {{bar}}\\"\\\\n123\\\\n(as \\"ew\\")\\\\n}}',
+        ),
+      );
+    });
+
+    return type;
+  },
+  _runtime.default.MantaAnnotation(''),
+);
+"
+`;

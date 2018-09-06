@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Annotation Annotation 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin a b c }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ multiline a
+       *  b
+       *  c }}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var A = runtime_1['default'].TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = runtime_1['default'].TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        runtime_1['default'].StringKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation('{{ plugin a b c }}'),
+      );
+      typeLiteral.property(
+        'b',
+        runtime_1['default'].NumberKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation('{{ multiline a\\\\nb\\\\nc }}'),
+      );
+    });
+    return type;
+  },
+  runtime_1['default'].MantaAnnotation(''),
+);
+"
+`;
+
+exports[`Annotation Handles { and }, escaped bracket 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin \\"{{foo}}\\" }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ plugin \\"{{foo}} {{bar}}\\" }}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var A = runtime_1['default'].TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = runtime_1['default'].TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        runtime_1['default'].StringKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+      );
+      typeLiteral.property(
+        'b',
+        runtime_1['default'].NumberKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation('{{ plugin \\"{{foo}} {{bar}}\\" }}'),
+      );
+    });
+    return type;
+  },
+  runtime_1['default'].MantaAnnotation(''),
+);
+"
+`;
+
+exports[`Annotation Handles }} in other annotation 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin \\"{{foo}}\\" }}
+       * @random {{}}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ plugin \\"{{foo}} {{bar}}\\" }}
+       * @random {{}}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var A = runtime_1['default'].TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = runtime_1['default'].TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        runtime_1['default'].StringKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+      );
+      typeLiteral.property(
+        'b',
+        runtime_1['default'].NumberKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation('{{ plugin \\"{{foo}} {{bar}}\\" }}'),
+      );
+    });
+    return type;
+  },
+  runtime_1['default'].MantaAnnotation(''),
+);
+"
+`;
+
+exports[`Annotation Handles random }} in next row 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin \\"{{foo}}\\" }}
+       * }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ multiline 
+       *   \\"{{foo}} {{bar}}\\"
+       *   123
+       *   (as \\"ew\\")
+       * }}
+       * }}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var A = runtime_1['default'].TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = runtime_1['default'].TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        runtime_1['default'].StringKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+      );
+      typeLiteral.property(
+        'b',
+        runtime_1['default'].NumberKeyword,
+        false,
+        runtime_1['default'].MantaAnnotation(
+          '{{ multiline \\\\n\\"{{foo}} {{bar}}\\"\\\\n123\\\\n(as \\"ew\\")\\\\n}}',
+        ),
+      );
+    });
+    return type;
+  },
+  runtime_1['default'].MantaAnnotation(''),
+);
+"
+`;

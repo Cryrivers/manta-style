@@ -2,6 +2,7 @@ import * as ts from 'typescript';
 import { MANTASTYLE_RUNTIME_NAME, MANTASTYLE_HELPER_NAME } from './constants';
 import { isOptionalTypeNode, isRestTypeNode } from './typescript';
 import MANTASTYLE_HELPER_TYPES from '../utils/builtin-types';
+import { annotationUtils } from '@manta-style/core';
 
 const enum QuestionToken {
   None,
@@ -187,8 +188,12 @@ function createTypeReferenceOrIdentifier(
 }
 
 function generateJSDocParam(jsdocArray: ReadonlyArray<ts.JSDocTag>) {
-  const mantaTag = jsdocArray.find((tag) => tag.tagName.text === 'mantastyle');
-  const value = mantaTag ? mantaTag.comment || '' : '';
+  const mantaTag = jsdocArray.find(
+    (tag) => tag.tagName.text === annotationUtils.MantaStyleAnnotation.JsdocKey,
+  );
+  const value = mantaTag
+    ? annotationUtils.cleanMantaStyleJSDocContent(mantaTag.comment || '') || ''
+    : '';
   return createRuntimeFunctionCall('MantaAnnotation', [
     ts.createStringLiteral(value),
   ]);
