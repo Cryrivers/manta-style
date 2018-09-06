@@ -11,7 +11,7 @@ But _Manta Style_ is more than just that.
 
 ### Generates mock data directly from your type declarations
 
-Manta Style officially supports TypeScript and Flow at the moment.
+Manta Style officially supports [TypeScript](TypeScript) and [Flow](http://flowtype.org/) at the moment.
 
 <!-- some more words goes here @TODO wgao19 -->
 
