@@ -6,7 +6,7 @@ const { execSync } = require('child_process');
 const input = path.join(__dirname, '../src/index.ts');
 const output = path.join(
   __dirname,
-  '../../flowtype-helpers-types/src/index.ts',
+  '../../../plugins/plugin-builder-flowtype/src/utils/builtin-types.ts',
 );
 
 console.log('Generating "flowtype-helpers-types"');

@@ -1,6 +1,6 @@
 import * as Babel from '@babel/core';
 import babelGenerate from '@babel/generator';
-import helperTypes from '@manta-style/flowtype-helpers-types';
+import helperTypes from '../utils/builtin-types';
 
 const { types: t } = Babel;
 export function createTransformer(importHelpers: boolean) {
