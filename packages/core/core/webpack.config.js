@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   mode: 'production',
   entry: __dirname + '/src/index.ts',
@@ -13,9 +15,9 @@ module.exports = {
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
-  },
-  externals: {
-    fs: 'fs',
+    alias: {
+      fs: path.join(__dirname, './helper/fs.js'),
+    },
   },
   module: {
     rules: [

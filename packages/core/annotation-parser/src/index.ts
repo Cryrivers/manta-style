@@ -1,4 +1,4 @@
-import * as Handlebars from 'handlebars';
+import { parse } from 'handlebars';
 
 type Plugins = {
   [key: string]: { name: string; mock: Function };
@@ -6,7 +6,7 @@ type Plugins = {
 
 export class MantaStyleAnnotation {
   static parseFromString(handlebarString: string) {
-    const mustacheStatement = Handlebars.parse(handlebarString).body[0];
+    const mustacheStatement = parse(handlebarString).body[0];
     return new MantaStyleAnnotation(mustacheStatement);
   }
 
@@ -25,7 +25,7 @@ export class MantaStyleAnnotation {
     return execute(plugins, this.mustacheStatement);
   }
 
-  public inherit(parentAnnotation: MantaStyleAnnotation) {
+  public inherit(parentAnnotation: MantaStyleAnnotation): MantaStyleAnnotation {
     // TODO: honestly i don't know what to do with this
     return this;
   }
