@@ -26,8 +26,10 @@ export class MantaStyleAnnotation {
   }
 
   public inherit(parentAnnotation: MantaStyleAnnotation): MantaStyleAnnotation {
-    // TODO: honestly i don't know what to do with this
-    return this;
+    if (this.mustacheStatement != null) {
+      return this;
+    }
+    return parentAnnotation;
   }
 }
 
