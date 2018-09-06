@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/plugin-builder-typescript",
-  "version": "0.2.0-alpha.2",
+  "version": "0.2.0-alpha.4",
   "main": "./lib/typescript-builder.js",
   "typings": "./lib/index.d.js",
   "author": {
@@ -35,7 +35,9 @@
     "@babel/core": "^7.0.0",
     "@babel/plugin-transform-modules-commonjs": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
-    "@manta-style/core": "^0.2.0-alpha.2",
+    "@manta-style/core": "^0.2.0-alpha.4",
+    "@manta-style/test-helpers": "^0.2.0-alpha.4",
+    "@manta-style/typescript-helpers-types": "^0.2.0-alpha.4",
     "glob": "^7.1.3",
     "typescript": "^3.0.3"
   },

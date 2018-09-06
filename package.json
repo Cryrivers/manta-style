@@ -2,12 +2,13 @@
   "name": "manta-style",
   "private": true,
   "scripts": {
+    "dev:flow": "echo \"Remove this when done\" && lerna run --parallel watch --scope=@manta-style/runtime --scope=@manta-style/plugin-builder-flowtype",
     "format": "prettier --parser typescript './packages/**/*.ts' --write",
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
-    "test": "lerna exec \"yarn test --coverage\" && codecov -t $CODECOV_TOKEN",
-    "precommit": "lint-staged"
+    "test": "lerna run test -- --coverage && codecov -t $CODECOV_TOKEN",
+    "precommit": "lerna run precommit && lint-staged"
   },
   "devDependencies": {
     "codecov": "^3.0.4",

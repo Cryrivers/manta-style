@@ -1,0 +1,84 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NonMaybeType NonMaybeType 1`] = `
+"FROM:
+type A = ?number; type B = $NonMaybeType<A>
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.NullableType(_runtime.default.NumberKeyword);
+
+    return type;
+  },
+  [],
+);
+
+var B = _runtime.default.TypeAliasDeclaration(
+  'B',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$NonMaybeType.argumentTypes([A]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`NonMaybeType NonMaybeType 2`] = `
+"FROM:
+type A = number | null; type B = $NonMaybeType<A>
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.UnionType([
+      _runtime.default.NumberKeyword,
+      _runtime.default.NullKeyword,
+    ]);
+
+    return type;
+  },
+  [],
+);
+
+var B = _runtime.default.TypeAliasDeclaration(
+  'B',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$NonMaybeType.argumentTypes([A]);
+
+    return type;
+  },
+  [],
+);
+"
+`;

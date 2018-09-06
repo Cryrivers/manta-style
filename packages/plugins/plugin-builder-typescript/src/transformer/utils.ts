@@ -511,17 +511,6 @@ export function createMantaStyleRuntimeObject(
       createMantaStyleRuntimeObject(node.type, typeParameters),
     ]);
   } else if (ts.isTypeReferenceNode(node)) {
-    // Special Cases
-    if (
-      node.typeName.getText() === 'Array' &&
-      node.typeArguments &&
-      node.typeArguments.length === 1
-    ) {
-      return createArrayType(
-        ts.createArrayTypeNode(node.typeArguments[0]),
-        typeParameters,
-      );
-    }
     return createTypeReference(node, typeParameters);
   } else {
     throw new Error(`Unhandled Type. ${node.getText()}`);

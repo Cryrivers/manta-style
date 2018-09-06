@@ -1,89 +1,161 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Keywords AnyKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = any;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].AnyKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].AnyKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Keywords BooleanKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = boolean;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].BooleanKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].BooleanKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Keywords NeverKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = never;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].NeverKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].NeverKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Keywords NullKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = null;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].NullKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].NullKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Keywords NumberKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = number;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].NumberKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].NumberKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Keywords ObjectKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = object;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].ObjectKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].ObjectKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Keywords StringKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = string;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].StringKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].StringKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;
 
 exports[`Keywords UndefinedKeyword 1`] = `
-"\\"use strict\\";
+"FROM:
+type Test = undefined;
+
+--------------------------------------------------------
+TO:
+'use strict';
 exports.__esModule = true;
-var runtime_1 = require(\\"@manta-style/runtime\\");
-var Test = runtime_1[\\"default\\"].TypeAliasDeclaration(\\"Test\\", function (typeFactory) {
-    var type = runtime_1[\\"default\\"].UndefinedKeyword;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = runtime_1['default'].UndefinedKeyword;
     return type;
-}, []);
+  },
+  [],
+);
 "
 `;

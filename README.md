@@ -265,8 +265,9 @@ yarn run build
 ## Acknowledgments
 
 - [Zhongliang Wang](https://github.com/Cryrivers) for original idea, architecture design, initial implementation of runtime and transformers.
-- [Tan Li Hau](https://github.com/tanhauhau) for the design and implementation of selective mocking, plugin system, and many official plugins.
+- [Tan Li Hau](https://github.com/tanhauhau) for the design and implementation of selective mocking, plugin system, FlowType support and many official plugins.
 - [Jennie Ji](https://github.com/JennieJi) for implementation of live-reload feature.
+- [Wei Gao](https://github.com/wgao19) for brilliant documentation.
 
 ## License
 

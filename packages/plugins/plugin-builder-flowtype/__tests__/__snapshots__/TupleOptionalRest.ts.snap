@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tuple, Optional and Rest Optional 1`] = `
+"FROM:
+type Test = [number, number, ?number]
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TupleType([
+      _runtime.default.NumberKeyword,
+      _runtime.default.NumberKeyword,
+      _runtime.default.NullableType(_runtime.default.NumberKeyword),
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;
+
+exports[`Tuple, Optional and Rest Tuple 1`] = `
+"FROM:
+type Test = [number, number]
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TupleType([
+      _runtime.default.NumberKeyword,
+      _runtime.default.NumberKeyword,
+    ]);
+
+    return type;
+  },
+  [],
+);
+"
+`;

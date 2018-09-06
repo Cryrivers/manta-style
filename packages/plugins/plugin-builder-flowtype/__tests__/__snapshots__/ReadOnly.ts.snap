@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ReadOnly ReadOnly 1`] = `
+"FROM:
+type A = {a: string, b: number}; type B = $ReadOnly<A>
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property('a', _runtime.default.StringKeyword, false, []);
+      typeLiteral.property('b', _runtime.default.NumberKeyword, false, []);
+    });
+
+    return type;
+  },
+  [],
+);
+
+var B = _runtime.default.TypeAliasDeclaration(
+  'B',
+  function(typeFactory) {
+    var type = _flowtypeHelpers.default.$ReadOnly.argumentTypes([A]);
+
+    return type;
+  },
+  [],
+);
+"
+`;

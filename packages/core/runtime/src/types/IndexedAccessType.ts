@@ -47,19 +47,17 @@ export default class IndexedAccessType extends Type {
     );
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
-        // property index access
-        const key = indexType.mock();
-        const foundType = objectType
-          ._getProperties()
-          .find((item) => item.name === key);
-        if (foundType) {
-          return foundType.questionMark
-            ? new UnionType([foundType.type, MantaStyle.UndefinedKeyword])
-            : foundType.type;
-        } else {
-          // by right it should return AnyKeyword
-          return MantaStyle.NeverKeyword;
-        }
+        return indexedAccessTypeLiteral(objectType, indexType);
+      } else if (indexType instanceof UnionType) {
+        const indexTypes = (await indexType.derivePreservedUnionLiteral(
+          [],
+          context,
+        )).getTypes();
+        return new UnionType(
+          indexTypes.map((indType) =>
+            indexedAccessTypeLiteral(objectType, indType),
+          ),
+        );
       } else {
         // search for index signatures
         // TODO: Implement for index signatures
@@ -68,5 +66,24 @@ export default class IndexedAccessType extends Type {
     } else {
       return objectType.deriveLiteral(parentAnnotations, context);
     }
+  }
+}
+
+function indexedAccessTypeLiteral(
+  objectType: TypeLiteral,
+  indexType: Type,
+): Type {
+  // property index access
+  const key = indexType.mock();
+  const foundType = objectType
+    ._getProperties()
+    .find((item) => item.name === key);
+  if (foundType) {
+    return foundType.questionMark
+      ? new UnionType([foundType.type, MantaStyle.UndefinedKeyword])
+      : foundType.type;
+  } else {
+    // by right it should return AnyKeyword
+    return MantaStyle.NeverKeyword;
   }
 }
