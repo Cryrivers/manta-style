@@ -32,6 +32,7 @@
     "@types/find-root": "^1.1.1",
     "@types/inquirer": "^0.0.43",
     "@types/log-update": "^2.0.0",
+    "@types/node": "^10.9.4",
     "@types/query-string": "^6.1.0",
     "@types/read-pkg-up": "^3.0.1",
     "@types/resolve-from": "^0.0.18",

@@ -51,14 +51,25 @@ const {
   proxyUrl,
 } = program;
 
-async function showOfficialPluginList() {
-  const { data: officialPlugins } = await axios.get(
-    'https://api.npms.io/v2/search?q=@manta-style/plugins',
+const queryOfficialPlugin = (type: 'mock' | 'builder') =>
+  axios.get(
+    `https://api.npms.io/v2/search?q=scope:manta-style+keywords:${type}`,
   );
+
+async function showOfficialPluginList() {
+  const [{ data: builderPlugins }, { data: mockPlugins }] = await Promise.all([
+    queryOfficialPlugin('builder'),
+    queryOfficialPlugin('mock'),
+  ]);
   const table = new Table({ colors: false });
-  table.push([chalk.yellow('Plugin'), chalk.yellow('Description')]);
+  table.push([chalk.yellow('Builders'), chalk.yellow('Description')]);
   // @ts-ignore
-  officialPlugins.results.forEach((item) => {
+  builderPlugins.results.forEach((item) => {
+    table.push([item.package.name || '', item.package.description || '']);
+  });
+  table.push([chalk.yellow('Mocks'), chalk.yellow('Description')]);
+  // @ts-ignore
+  mockPlugins.results.forEach((item) => {
     table.push([item.package.name || '', item.package.description || '']);
   });
   console.log(table.toString());

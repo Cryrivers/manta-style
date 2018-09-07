@@ -44,5 +44,6 @@ export function generateErrorMessage<T extends ErrorCode>(
   errorCode: T,
   ...args: ErrorDetail[T] extends (...args: infer R) => string ? R : []
 ) {
+  // @ts-ignore
   return `MS-${errorCode}: ${errorMessages[errorCode](...args)}`;
 }

@@ -17,6 +17,9 @@
     "access": "public"
   },
   "license": "MIT",
+  "keywords": [
+    "builder"
+  ],
   "scripts": {
     "test": "jest",
     "build": "webpack",
