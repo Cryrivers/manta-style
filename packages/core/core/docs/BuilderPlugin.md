@@ -1,12 +1,12 @@
 # Builder Plugin
 
 - Builder plugin is responsible for compiling the config file into JavaScript that utilizes `@manta-style/runtime`
-- Package name for a builder plugin should be `@manta-style/plugin-builder-*`
+- Package name for a builder plugin should be `@manta-style/builder-*`
 - Current language support
 
-  1. TypeScript (`@manta-style/plugin-builder-typescript`)
-  2. Flowtype (WIP, `@manta-style/plugin-builder-flow`)
-  3. GraphQL (Under consideration, `@manta-style/plugin-builder-graphql`)
+  1. TypeScript (`@manta-style/builder-typescript`)
+  2. Flowtype (WIP, `@manta-style/builder-flow`)
+  3. GraphQL (Under consideration, `@manta-style/builder-graphql`)
 
 ## Interface
 

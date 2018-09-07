@@ -1,8 +1,9 @@
-# @manta-style/plugin-mock-faker
+# @manta-style/mock-faker
 
 ## Installation
+
 ```sh
-$ yarn add @manta-style/plugin-mock-faker
+$ yarn add @manta-style/mock-faker
 ```
 
 ## Usage
@@ -15,11 +16,11 @@ userName: string;
 /**
  * @faker {{address.city}}, {{address.state}}, {{address.country}}
  */
- address: string;
+address: string;
 /**
  * @faker date.past
  */
- lastLoggedIn: number;
+lastLoggedIn: number;
 ```
 
 - Use [faker.js](https://github.com/marak/faker.js/) to generate mock data

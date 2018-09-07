@@ -1,6 +1,6 @@
 import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
-import ExamplePlugin from '@manta-style/plugin-mock-example';
+import ExamplePlugin from '@manta-style/mock-example';
 
 describe('Plugin Test', () => {
   test('Test original @example annotation', async () => {
@@ -8,7 +8,7 @@ describe('Plugin Test', () => {
       query: {},
       plugins: new PluginSystem([
         {
-          name: '@manta-style/plugin-mock-example',
+          name: '@manta-style/mock-example',
           module: ExamplePlugin,
         },
       ]),

@@ -1,7 +1,7 @@
 # Mock Plugin
 
 - Mock plugin is responsible for mocking data.
-- Package name for a mock plugin should be `@manta-style/plugin-mock-*`
+- Package name for a mock plugin should be `@manta-style/mock-*`
 
 ## Node type supported
 
@@ -39,11 +39,11 @@ type Plugin = {
 # CLI Plugin
 
 - CLI Plugin is responsible for adding interfaces to the command line tool `ms`.
-- Package name for a CLI plugin should be `@manta-style/plugin-cli-*`
+- Package name for a CLI plugin should be `@manta-style/command-*`
 - Current CLI plugin support
-  1. KOA REST Server (`@manta-style/plugin-cli-koa-rest`)
-  2. Boilerplate Code Generator (Under consideration, `@manta-style/plugin-cli-boilerplate-generator`)
-  3. Apollo GraphQL Server (Under consideration, `@manta-style/plugin-cli-apollo-graphql`)
+  1. KOA REST Server (`@manta-style/command-koa-rest`)
+  2. Boilerplate Code Generator (Under consideration, `@manta-style/command-boilerplate-generator`)
+  3. Apollo GraphQL Server (Under consideration, `@manta-style/command-apollo-graphql`)
 
 ## Plugin Interface (TBD)
 

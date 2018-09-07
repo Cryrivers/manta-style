@@ -1,12 +1,12 @@
 {
-  "name": "@manta-style/plugin-builder-typescript",
+  "name": "@manta-style/builder-flowtype",
   "version": "0.2.0-alpha.4",
-  "main": "./lib/typescript-builder.js",
+  "main": "./lib/flowtype-builder.js",
   "typings": "./lib/index.d.js",
   "author": {
-    "name": "Zhongliang Wang",
-    "email": "zwang@rebelworks.io",
-    "url": "https://github.com/Cryrivers"
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
   },
   "repository": {
     "type": "git",
@@ -27,18 +27,22 @@
     "@types/babel__parser": "^7.0.0",
     "@types/babel__template": "^7.0.0",
     "@types/babel__traverse": "^7.0.0",
+    "@types/fs-extra": "^5.0.4",
     "@types/glob": "^5.0.35",
-    "webpack": "^4.17.1",
+    "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "@babel/core": "^7.0.0",
-    "@babel/plugin-transform-modules-commonjs": "^7.0.0",
+    "@babel/plugin-syntax-flow": "^7.0.0",
+    "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
     "@manta-style/core": "^0.2.0-alpha.4",
+    "@manta-style/flowtype-helpers": "^0.2.0-alpha.4",
     "@manta-style/test-helpers": "^0.2.0-alpha.4",
-    "glob": "^7.1.3",
-    "typescript": "^3.0.3"
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
+    "fs-extra": "^7.0.0",
+    "glob": "^7.1.2"
   },
   "jest": {
     "transform": {

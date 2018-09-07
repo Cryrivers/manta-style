@@ -1,17 +1,17 @@
 import { Annotation } from '../utils/annotation';
 
-const PLUGIN_PREFIX = ['@manta-style/plugin', 'manta-style-plugin'];
+const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
 export const PLUGIN_REGEX = new RegExp(
-  PLUGIN_PREFIX.map((prefix) => `(^${prefix})`).join('|'),
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}(mock|builder)-)`).join('|'),
 );
 
 const MOCK_PLUGIN_REGEX = new RegExp(
-  PLUGIN_PREFIX.map((prefix) => `(^${prefix}-mock-)`).join('|'),
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}mock-)`).join('|'),
 );
 
 const BUILDER_PLUGIN_REGEX = new RegExp(
-  PLUGIN_PREFIX.map((prefix) => `(^${prefix}-builder-)`).join('|'),
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}builder-)`).join('|'),
 );
 
 type AnyObject = { [key: string]: any };

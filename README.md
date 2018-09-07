@@ -31,13 +31,13 @@ Manta Style needs plugins to support different file types and generate mock data
 The example of Quick Start below is using TypeScript. So first you might want to install TypeScript support to Manta Style.
 
 ```sh
-npm install --save-dev @manta-style/plugin-builder-typescript
+npm install --save-dev @manta-style/builder-typescript
 ```
 
 If you are new to Manta Style, please install the plugins below. We are going to use them in [Quick Start](#quick-start).
 
 ```sh
-npm install --save-dev @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
+npm install --save-dev @manta-style/mock-example @manta-style/mock-faker
 ```
 
 You could check [Plugins](#plugins) for the usages of official plugins. You could make our own plugins as well.
@@ -167,15 +167,15 @@ $ ms --help
 
 ### Mock
 
-- [plugin-mock-example](./packages/plugins/plugin-mock-example/README.md)
-- [plugin-mock-faker](./packages/plugins/plugin-mock-faker/README.md)
-- [plugin-mock-iterate](./packages/plugins/plugin-mock-iterate/README.md)
-- [plugin-mock-qotd](./packages/plugins/plugin-mock-qotd/README.md)
-- [plugin-mock-range](./packages/plugins/plugin-mock-range/README.md)
+- [mock-example](./packages/mocks/mock-example/README.md)
+- [mock-faker](./packages/mocks/mock-faker/README.md)
+- [mock-iterate](./packages/mocks/mock-iterate/README.md)
+- [mock-qotd](./packages/mocks/mock-qotd/README.md)
+- [mock-range](./packages/mocks/mock-range/README.md)
 
 ### Builder
 
-Manta Style supports TypeScript only at the moment via `plugin-builder-typescript`. More language support is coming soon.
+Manta Style supports TypeScript only at the moment via `builder-typescript`. More language support is coming soon.
 
 ## Contributing
 
