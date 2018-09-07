@@ -1,7 +1,7 @@
 import { AnnotationAst } from '@manta-style/annotation-parser';
 
 type Plugins = {
-  [key: string]: { name: string; mock: Function };
+  [key: string]: { name: string; lazy: boolean; mock: Function };
 };
 
 export class MantaStyleAnnotation {
@@ -37,9 +37,8 @@ async function execute(
     case 'literal':
       return statement.value;
     case 'expression': {
-      // TODO: LAZY Plugin?
-      const lazy = false;
       const plugin = plugins[statement.name];
+      const lazy = plugin.lazy;
       if (!plugin) {
         throw new Error(`@manta-style Plugin "${statement.name}" not found`);
       }
@@ -58,6 +57,13 @@ async function execute(
         }
 
         return await plugin.mock(...params);
+      } else {
+        const params: any[] = [...statement.params];
+        if (Object.keys(statement.hash).length > 0) {
+          // only add hash if hash is not empty
+          params.push(statement.hash);
+        }
+        return execute(plugins, await plugin.mock(...params));
       }
     }
     default:

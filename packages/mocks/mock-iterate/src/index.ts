@@ -7,6 +7,7 @@ const generatorMap: {
 const fakerPlugin: MockPlugin = {
   name: 'iterate',
   key: 'iterate',
+  lazy: true,
   mock: {
     StringType(...examples) {
       const key = JSON.stringify(examples);
@@ -14,7 +15,7 @@ const fakerPlugin: MockPlugin = {
         generatorMap[key] = createGenerator(examples);
       }
 
-      return String(generatorMap[key].next().value);
+      return generatorMap[key].next().value;
     },
   },
 };

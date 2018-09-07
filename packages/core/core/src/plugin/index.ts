@@ -1,5 +1,3 @@
-import { Annotation } from '../utils/annotation';
-
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
 export const PLUGIN_REGEX = new RegExp(
@@ -20,6 +18,7 @@ type MockResult<T> = T | null | Promise<T | null>;
 export interface MockPlugin {
   name: string;
   key: string;
+  lazy?: boolean;
   mock: {
     StringType?: (...params: any[]) => MockResult<string>;
     NumberType?: (...params: any[]) => MockResult<number>;
@@ -54,7 +53,13 @@ export class PluginSystem {
   }
   private mockPlugins: {
     [key: string]:
-      | { [key: string]: { name: string; mock: SupportedMockFunction } }
+      | {
+          [key: string]: {
+            name: string;
+            lazy: boolean;
+            mock: SupportedMockFunction;
+          };
+        }
       | undefined;
   } = {};
   private builderPlugins: {
@@ -63,7 +68,7 @@ export class PluginSystem {
   constructor(plugins: PluginEntry[]) {
     for (const plugin of plugins) {
       if (isMockPlugin(plugin)) {
-        const { key, name, mock } = plugin.module;
+        const { key, name, lazy, mock } = plugin.module;
         const types = Object.keys(mock) as SupportedMockType[];
         for (const type of types) {
           const mockFunction = mock[type];
@@ -81,6 +86,7 @@ export class PluginSystem {
             // @ts-ignore
             this.mockPlugins[type][key] = {
               name,
+              lazy: !!lazy,
               mock: mockFunction,
             };
           }
@@ -106,7 +112,9 @@ export class PluginSystem {
 
   public getPluginForNode(
     type: SupportedMockType,
-  ): { [key: string]: { name: string; mock: SupportedMockFunction } } {
+  ): {
+    [key: string]: { name: string; lazy: boolean; mock: SupportedMockFunction };
+  } {
     return this.mockPlugins[type] || {};
   }
 

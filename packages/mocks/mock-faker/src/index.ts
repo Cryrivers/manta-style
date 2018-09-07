@@ -6,7 +6,6 @@ const fakerPlugin: MockPlugin = {
   key: 'faker',
   mock: {
     StringType(fakerString) {
-      console.log(fakerString);
       return faker.fake(fakerString);
     },
     NumberType(fakerString) {

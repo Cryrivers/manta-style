@@ -4,6 +4,7 @@ import { sample } from 'lodash-es';
 const fakerPlugin: MockPlugin = {
   name: 'example',
   key: 'example',
+  lazy: true,
   mock: {
     StringType(...examples) {
       if (examples.length > 0) {
