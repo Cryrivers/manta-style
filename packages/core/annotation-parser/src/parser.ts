@@ -27,22 +27,17 @@ function simplifyAst(statement: hbs.AST.Expression | null): AnnotationNode {
   if (!statement) {
     return undefined;
   }
-  switch (statement.type) {
-    case 'MustacheStatement':
-    case 'SubExpression': {
-      // @ts-ignore
-      const fnName: string = statement.path.original;
+  if (isMustacheStatement(statement) || isSubExpression(statement)) {
+    const { path } = statement;
+    if (isPathExpression(path)) {
+      const fnName: string = path.original;
       const params: Array<AnnotationNode> = [];
       const hash: { [name: string]: AnnotationNode } = {};
-      // @ts-ignore
       for (const param of statement.params) {
         params.push(simplifyAst(param));
       }
-      // @ts-ignore
       if (statement.hash) {
-        // @ts-ignore
         for (const hashPair of statement.hash.pairs) {
-          // @ts-ignore
           hash[hashPair.key] = simplifyAst(hashPair.value);
         }
       }
@@ -52,33 +47,86 @@ function simplifyAst(statement: hbs.AST.Expression | null): AnnotationNode {
         params,
         hash,
       };
+    } else {
+      throw new Error(
+        'MustacheStatement with Literal key instead of PathExpression.',
+      );
     }
-    case 'PathExpression':
-      return {
-        type: 'expression',
-        // @ts-ignore
-        name: statement.original,
-        params: [],
-        hash: {},
-      };
-    case 'StringLiteral':
-    case 'BooleanLiteral':
-    case 'NumberLiteral':
-      return {
-        type: 'literal',
-        // @ts-ignore
-        value: statement.value,
-      };
-    case 'UndefinedLiteral':
-      return {
-        type: 'literal',
-        value: undefined,
-      };
-    case 'NullLiteral':
-      return {
-        type: 'literal',
-        value: null,
-      };
+  } else if (isPathExpression(statement)) {
+    return {
+      type: 'expression',
+      name: statement.original,
+      params: [],
+      hash: {},
+    };
+  } else if (
+    isStringLiteral(statement) ||
+    isBooleanLiteral(statement) ||
+    isNumberLiteral(statement)
+  ) {
+    return {
+      type: 'literal',
+      value: statement.value,
+    };
+  } else if (isUndefinedLiteral(statement)) {
+    return {
+      type: 'literal',
+      value: undefined,
+    };
+  } else if (isNullLiteral(statement)) {
+    return {
+      type: 'literal',
+      value: null,
+    };
   }
   return undefined;
+}
+
+// TODO: Setup webpack, extract these into a new file
+function isMustacheStatement(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.MustacheStatement {
+  return statement.type === 'MustacheStatement';
+}
+
+function isSubExpression(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.SubExpression {
+  return statement.type === 'SubExpression';
+}
+
+function isPathExpression(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.PathExpression {
+  return statement.type === 'PathExpression';
+}
+
+function isStringLiteral(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.StringLiteral {
+  return statement.type === 'StringLiteral';
+}
+
+function isBooleanLiteral(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.BooleanLiteral {
+  return statement.type === 'BooleanLiteral';
+}
+
+function isNumberLiteral(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.NumberLiteral {
+  return statement.type === 'NumberLiteral';
+}
+
+function isUndefinedLiteral(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.UndefinedLiteral {
+  return statement.type === 'UndefinedLiteral';
+}
+
+function isNullLiteral(
+  statement: hbs.AST.Expression,
+): statement is hbs.AST.NullLiteral {
+  return statement.type === 'NullLiteral';
 }
