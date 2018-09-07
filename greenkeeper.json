@@ -3,17 +3,21 @@
     "default": {
       "packages": [
         "package.json",
+        "packages/builders/builder-flowtype/package.json",
+        "packages/builders/builder-typescript/package.json",
         "packages/core/cli/package.json",
         "packages/core/core/package.json",
+        "packages/core/flowtype-helpers/package.json",
+        "packages/core/helpers-builder/package.json",
         "packages/core/helpers/package.json",
         "packages/core/runtime/package.json",
+        "packages/core/test-helpers/package.json",
         "packages/core/typescript-helpers/package.json",
-        "packages/plugins/plugin-builder-typescript/package.json",
-        "packages/plugins/plugin-mock-example/package.json",
-        "packages/plugins/plugin-mock-faker/package.json",
-        "packages/plugins/plugin-mock-iterate/package.json",
-        "packages/plugins/plugin-mock-range/package.json",
-        "packages/plugins/plugin-mock-qotd/package.json"
+        "packages/mocks/mock-example/package.json",
+        "packages/mocks/mock-faker/package.json",
+        "packages/mocks/mock-iterate/package.json",
+        "packages/mocks/mock-qotd/package.json",
+        "packages/mocks/mock-range/package.json"
       ]
     }
   }
