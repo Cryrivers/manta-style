@@ -24,7 +24,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
     var type = Type.argumentTypes([_runtime.default.ExistentialKeyword]);
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;

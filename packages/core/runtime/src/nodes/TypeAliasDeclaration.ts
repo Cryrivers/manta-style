@@ -1,12 +1,16 @@
 import TypeParameter from './TypeParameter';
-import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  MantaStyleAnnotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 import { ErrorType } from '../utils/pseudoTypes';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';
 
 export default class TypeAliasDeclaration extends Type {
   protected readonly name: string;
-  protected readonly annotations: annotationUtils.MantaStyleAnnotation;
+  protected readonly annotations: MantaStyleAnnotation;
   protected readonly preserveUnion: boolean;
 
   private typeParameterTypes: Type[] = [];
@@ -16,7 +20,7 @@ export default class TypeAliasDeclaration extends Type {
   );
   constructor(
     name: string,
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     preserveUnion: boolean,
   ) {
     super();
@@ -43,7 +47,7 @@ export default class TypeAliasDeclaration extends Type {
     return this.annotations;
   }
   public async deriveLiteral(
-    parentAnnotations: annotationUtils.MantaStyleAnnotation,
+    parentAnnotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const combinedAnnotations = this.annotations.inherit(parentAnnotations);

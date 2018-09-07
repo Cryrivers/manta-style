@@ -1,8 +1,7 @@
 import ArrayLiteral from './ArrayLiteral';
 import {
-  Annotation,
   MantaStyleContext,
-  annotationUtils,
+  MantaStyleAnnotation,
   Type,
 } from '@manta-style/core';
 
@@ -13,7 +12,7 @@ export default class ArrayType extends Type {
     this.elementType = elementType;
   }
   public async deriveLiteral(
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const array: Type[] = [];

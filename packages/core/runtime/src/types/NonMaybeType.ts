@@ -1,8 +1,7 @@
 import {
-  Annotation,
   MantaStyleContext,
   Type,
-  annotationUtils,
+  MantaStyleAnnotation,
 } from '@manta-style/core';
 import UnionType from './UnionType';
 import NullKeyword from './NullKeyword';
@@ -21,7 +20,7 @@ export default class NonMaybeType extends Type {
     this.type = type;
   }
   public async deriveLiteral(
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     if (!this.initiated) {

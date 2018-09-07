@@ -15,14 +15,30 @@
   },
   "license": "MIT",
   "scripts": {
-    "test": "echo 'No test yet'",
+    "test": "jest",
     "build": "tsc -p ./tsconfig.json"
   },
   "devDependencies": {
-    "typescript": "^3.0.3"
+    "typescript": "^3.0.3",
+    "@types/handlebars": "^4.0.39"
   },
   "dependencies": {
-    "@types/handlebars": "^4.0.39",
     "handlebars": "^4.0.12"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testURL": "http://localhost",
+    "collectCoverageFrom": [
+      "src/**"
+    ]
   }
 }

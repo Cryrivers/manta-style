@@ -1,9 +1,13 @@
 import Literal from './Literal';
-import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  MantaStyleAnnotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 
 export default class NumberKeyword extends Type {
   public async deriveLiteral(
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const { plugins } = context;

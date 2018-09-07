@@ -1,0 +1,131 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Annotation nested 1`] = `
+Object {
+  "FROM": "{{ plugin \\"abc\\" nested }}",
+  "TO": Object {
+    "hash": Object {},
+    "name": "plugin",
+    "params": Array [
+      Object {
+        "type": "literal",
+        "value": "abc",
+      },
+      Object {
+        "hash": Object {},
+        "name": "nested",
+        "params": Array [],
+        "type": "expression",
+      },
+    ],
+    "type": "expression",
+  },
+}
+`;
+
+exports[`Annotation nested 2`] = `
+Object {
+  "FROM": "{{ plugin \\"abc\\" (nested \\"def\\") 123 }}",
+  "TO": Object {
+    "hash": Object {},
+    "name": "plugin",
+    "params": Array [
+      Object {
+        "type": "literal",
+        "value": "abc",
+      },
+      Object {
+        "hash": Object {},
+        "name": "nested",
+        "params": Array [
+          Object {
+            "type": "literal",
+            "value": "def",
+          },
+        ],
+        "type": "expression",
+      },
+      Object {
+        "type": "literal",
+        "value": 123,
+      },
+    ],
+    "type": "expression",
+  },
+}
+`;
+
+exports[`Annotation simple 1`] = `
+Object {
+  "FROM": "{{ plugin }}",
+  "TO": Object {
+    "hash": Object {},
+    "name": "plugin",
+    "params": Array [],
+    "type": "expression",
+  },
+}
+`;
+
+exports[`Annotation simple 2`] = `
+Object {
+  "FROM": "{{ plugin \\"abc\\" 123 true }}",
+  "TO": Object {
+    "hash": Object {},
+    "name": "plugin",
+    "params": Array [
+      Object {
+        "type": "literal",
+        "value": "abc",
+      },
+      Object {
+        "type": "literal",
+        "value": 123,
+      },
+      Object {
+        "type": "literal",
+        "value": true,
+      },
+    ],
+    "type": "expression",
+  },
+}
+`;
+
+exports[`Annotation simple 3`] = `
+Object {
+  "FROM": "{{ plugin \\"abc\\" 123 true d=\\"123\\" e=12 f=false }}",
+  "TO": Object {
+    "hash": Object {
+      "d": Object {
+        "type": "literal",
+        "value": "123",
+      },
+      "e": Object {
+        "type": "literal",
+        "value": 12,
+      },
+      "f": Object {
+        "type": "literal",
+        "value": false,
+      },
+    },
+    "name": "plugin",
+    "params": Array [
+      Object {
+        "type": "literal",
+        "value": "abc",
+      },
+      Object {
+        "type": "literal",
+        "value": 123,
+      },
+      Object {
+        "type": "literal",
+        "value": true,
+      },
+    ],
+    "type": "expression",
+  },
+}
+`;

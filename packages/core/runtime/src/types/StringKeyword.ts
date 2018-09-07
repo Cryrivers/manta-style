@@ -1,12 +1,16 @@
 import Literal from './Literal';
-import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  MantaStyleAnnotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 
 const DEFAULT_STATIC_STRING =
   'This is a string message. Customize it with JSDoc tag @example';
 
 export default class StringKeyword extends Type {
   public async deriveLiteral(
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const { plugins } = context;

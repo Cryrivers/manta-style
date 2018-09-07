@@ -37,6 +37,7 @@
     "@babel/plugin-syntax-flow": "^7.0.0",
     "@babel/plugin-syntax-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.0.0",
+    "@manta-style/annotation-parser": "0.1.0",
     "@manta-style/core": "^0.2.0-alpha.4",
     "@manta-style/flowtype-helpers": "^0.2.0-alpha.4",
     "@manta-style/test-helpers": "^0.2.0-alpha.4",

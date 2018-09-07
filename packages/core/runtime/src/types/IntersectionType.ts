@@ -1,6 +1,10 @@
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { intersection } from '../utils/intersection';
-import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  MantaStyleAnnotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 
 export default class IntersectionType extends Type {
   private readonly types: Type[];
@@ -9,7 +13,7 @@ export default class IntersectionType extends Type {
     this.types = types;
   }
   public async deriveLiteral(
-    parentAnnotations: annotationUtils.MantaStyleAnnotation,
+    parentAnnotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const resolvedTypes = (await Promise.all(

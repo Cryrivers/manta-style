@@ -27,7 +27,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -62,7 +62,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -94,7 +94,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -124,7 +124,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -159,7 +159,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -191,7 +191,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -226,7 +226,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -258,7 +258,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;

@@ -7,5 +7,5 @@
     "declarationDir": "./lib/typings",
     "outDir": "./lib"
   },
-  "exclude": ["./lib"]
+  "exclude": ["./lib", "__tests__"]
 }

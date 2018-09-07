@@ -22,7 +22,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     ]);
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -45,7 +45,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     ]);
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -71,7 +71,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     ]);
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -94,25 +94,25 @@ var Keys = runtime_1['default'].TypeAliasDeclaration(
           'a',
           runtime_1['default'].NumberKeyword,
           false,
-          runtime_1['default'].MantaAnnotation(''),
+          runtime_1['default'].MantaAnnotation('undefined'),
         );
         typeLiteral.property(
           'b',
           runtime_1['default'].StringKeyword,
           false,
-          runtime_1['default'].MantaAnnotation(''),
+          runtime_1['default'].MantaAnnotation('undefined'),
         );
         typeLiteral.property(
           'c',
           runtime_1['default'].BooleanKeyword,
           false,
-          runtime_1['default'].MantaAnnotation(''),
+          runtime_1['default'].MantaAnnotation('undefined'),
         );
       }),
     );
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -134,24 +134,24 @@ var Obj = runtime_1['default'].TypeAliasDeclaration(
         'a',
         runtime_1['default'].NumberKeyword,
         false,
-        runtime_1['default'].MantaAnnotation(''),
+        runtime_1['default'].MantaAnnotation('undefined'),
       );
       typeLiteral.property(
         'b',
         runtime_1['default'].StringKeyword,
         false,
-        runtime_1['default'].MantaAnnotation(''),
+        runtime_1['default'].MantaAnnotation('undefined'),
       );
       typeLiteral.property(
         'c',
         runtime_1['default'].BooleanKeyword,
         false,
-        runtime_1['default'].MantaAnnotation(''),
+        runtime_1['default'].MantaAnnotation('undefined'),
       );
     });
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 var Keys = runtime_1['default'].TypeAliasDeclaration(
   'Keys',
@@ -159,7 +159,7 @@ var Keys = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].KeyOfKeyword(Obj);
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -180,7 +180,7 @@ var Keys = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].KeyOfKeyword(T);
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -203,7 +203,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     ]);
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -230,7 +230,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     ]);
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;

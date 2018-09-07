@@ -9,7 +9,11 @@ import {
 import { resolveReferencedType } from '../utils/referenceTypes';
 import NeverKeyword from './NeverKeyword';
 import { intersection } from '../utils/intersection';
-import { MantaStyleContext, annotationUtils, Type } from '@manta-style/core';
+import {
+  MantaStyleContext,
+  MantaStyleAnnotation,
+  Type,
+} from '@manta-style/core';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -27,7 +31,7 @@ export default class TypeLiteral extends Type {
     name: string,
     type: Type,
     questionMark: boolean,
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
   ) {
     this.properties.push({
       name,
@@ -42,7 +46,7 @@ export default class TypeLiteral extends Type {
     type: Type,
     operator: ComputedPropertyOperator,
     questionMark: boolean,
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
   ) {
     this.computedProperties.push({
       name,
@@ -54,7 +58,7 @@ export default class TypeLiteral extends Type {
     });
   }
   public async deriveLiteral(
-    parentAnnotations: annotationUtils.MantaStyleAnnotation,
+    parentAnnotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const typeLiteral = new TypeLiteral();
@@ -122,7 +126,7 @@ export default class TypeLiteral extends Type {
           name,
           subTypeLiteral,
           false,
-          annotationUtils.MantaStyleAnnotation.parseFromString(''),
+          MantaStyleAnnotation.empty(),
         );
         const { type: actualType } = await resolveReferencedType(
           keyType,
@@ -139,10 +143,7 @@ export default class TypeLiteral extends Type {
                   actualType
                     .getTypes()
                     .map((type) =>
-                      type.deriveLiteral(
-                        annotationUtils.MantaStyleAnnotation.empty(),
-                        context,
-                      ),
+                      type.deriveLiteral(MantaStyleAnnotation.empty(), context),
                     ),
                 )).map((type) => type.mock());
           for (const key of keys) {

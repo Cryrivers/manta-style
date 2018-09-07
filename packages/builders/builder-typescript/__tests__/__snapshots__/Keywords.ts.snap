@@ -15,7 +15,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].AnyKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -35,7 +35,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].BooleanKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -55,7 +55,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].NeverKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -75,7 +75,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].NullKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -95,7 +95,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].NumberKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -115,7 +115,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].ObjectKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -135,7 +135,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].StringKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;
@@ -155,7 +155,7 @@ var Test = runtime_1['default'].TypeAliasDeclaration(
     var type = runtime_1['default'].UndefinedKeyword;
     return type;
   },
-  runtime_1['default'].MantaAnnotation(''),
+  runtime_1['default'].MantaAnnotation('undefined'),
 );
 "
 `;

@@ -1,4 +1,5 @@
-import * as annotationUtils from './annotation';
+import { MantaStyleAnnotation } from './annotation';
+import { AnnotationAst } from '@manta-style/annotation-parser';
 import { PluginSystem } from './plugin';
 import { Annotation } from './utils/annotation';
 
@@ -7,11 +8,11 @@ export type MantaStyleContext = {
   plugins: PluginSystem;
 };
 export * from './plugin';
-export { annotationUtils, Annotation };
+export { MantaStyleAnnotation, AnnotationAst, Annotation };
 
 export abstract class Type {
   abstract deriveLiteral(
-    parentAnnotations: annotationUtils.MantaStyleAnnotation,
+    parentAnnotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ): Promise<Type>;
   public mock(): any {

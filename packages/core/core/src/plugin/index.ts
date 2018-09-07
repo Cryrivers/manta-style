@@ -79,7 +79,10 @@ export class PluginSystem {
               );
             }
             // @ts-ignore
-            this.mockPlugins[type][key] = mockFunction;
+            this.mockPlugins[type][key] = {
+              name,
+              mock: mockFunction,
+            };
           }
         }
       } else if (isBuilderPlugin(plugin)) {

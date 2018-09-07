@@ -33,31 +33,31 @@ var Test = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.NumberKeyword,
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
       typeLiteral.property(
         'b',
         _runtime.default.Literal(1),
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
       typeLiteral.property(
         'c',
         _runtime.default.StringKeyword,
         true,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
       typeLiteral.property(
         'd',
         _runtime.default.ArrayType(_runtime.default.StringKeyword),
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
     });
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -93,7 +93,7 @@ var Test = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.StringKeyword,
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
       typeLiteral.computedProperty(
         'key',
@@ -101,13 +101,13 @@ var Test = _runtime.default.TypeAliasDeclaration(
         _runtime.default.NumberKeyword,
         0,
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
     });
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;

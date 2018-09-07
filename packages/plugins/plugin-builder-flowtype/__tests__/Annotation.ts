@@ -74,4 +74,23 @@ describe('Annotation', () => {
     };`),
     ).toMatchSnapshot();
   });
+
+  test('Handles hash', () => {
+    expect(
+      testTranspiledString(`type A = {
+      /**
+       * @mantastyle {{ plugin "{{foo}}" bar="baz" }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ multiline 
+       *   "{{foo}} {{bar}}"
+       *   123
+       *   (as "ew" foo=(bar "foo" baz="bar"))
+       * }}
+       */
+      b: number;
+    };`),
+    ).toMatchSnapshot();
+  });
 });

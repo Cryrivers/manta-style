@@ -1,7 +1,11 @@
 import * as Babel from '@babel/core';
 import babelGenerate from '@babel/generator';
 import helperTypes from '../utils/builtin-types';
-import { annotationUtils } from '@manta-style/core';
+import {
+  parseAnnotationFromString,
+  extractMantaStyleJSDocContent,
+  AnnotationAst,
+} from '@manta-style/annotation-parser';
 
 const { types: t } = Babel;
 export function createTransformer(importHelpers: boolean) {
@@ -289,11 +293,9 @@ function generateJSDocAnnotations(
   const comment = comments
     ? comments.map((comment) => comment.value).join('\n')
     : '';
-  const annotation = annotationUtils.extractMantaStyleJSDocContent(
-    cleanComment(comment),
-  );
+  const annotation = extractMantaStyleJSDocContent(cleanComment(comment));
   return createRuntimeFunctionCall('MantaAnnotation', [
-    t.stringLiteral(annotation),
+    jsonToAst(parseAnnotationFromString(annotation)),
   ]);
 }
 
@@ -302,4 +304,42 @@ function cleanComment(comment: string): string {
     .split('\n')
     .map((line) => line.replace(/^[\*\s]*/, ''))
     .join('\n');
+}
+
+function jsonToAst(json: AnnotationAst): any {
+  if (json === undefined) {
+    return t.identifier('undefined');
+  } else if (json.type === 'literal') {
+    return t.objectExpression([
+      t.objectProperty(t.identifier('type'), t.stringLiteral('literal')),
+      t.objectProperty(
+        t.identifier('value'),
+        typeof json.value === 'string'
+          ? t.stringLiteral(json.value)
+          : typeof json.value === 'number'
+            ? t.numericLiteral(json.value)
+            : typeof json.value === 'boolean'
+              ? t.booleanLiteral(json.value)
+              : json.value === null
+                ? t.nullLiteral()
+                : t.identifier('undefined'),
+      ),
+    ]);
+  } else {
+    const hash = [];
+    for (const h in json.hash) {
+      if (json.hash.hasOwnProperty(h)) {
+        hash.push(t.objectProperty(t.identifier(h), jsonToAst(json.hash[h])));
+      }
+    }
+    return t.objectExpression([
+      t.objectProperty(t.identifier('type'), t.stringLiteral('expression')),
+      t.objectProperty(t.identifier('name'), t.stringLiteral(json.name)),
+      t.objectProperty(
+        t.identifier('params'),
+        t.arrayExpression(json.params.map(jsonToAst)),
+      ),
+      t.objectProperty(t.identifier('hash'), t.objectExpression(hash)),
+    ]);
+  }
 }

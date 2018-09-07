@@ -2,7 +2,12 @@ import * as ts from 'typescript';
 import { MANTASTYLE_RUNTIME_NAME, MANTASTYLE_HELPER_NAME } from './constants';
 import { isOptionalTypeNode, isRestTypeNode } from './typescript';
 import MANTASTYLE_HELPER_TYPES from '../utils/builtin-types';
-import { annotationUtils } from '@manta-style/core';
+import {
+  parseAnnotationFromString,
+  cleanMantaStyleJSDocContent,
+  AnnotationAst,
+  JsdocKey as MantaStyleJsDocKey,
+} from '@manta-style/annotation-parser';
 
 const enum QuestionToken {
   None,
@@ -193,14 +198,56 @@ function createTypeReferenceOrIdentifier(
 
 function generateJSDocParam(jsdocArray: ReadonlyArray<ts.JSDocTag>) {
   const mantaTag = jsdocArray.find(
-    (tag) => tag.tagName.text === annotationUtils.MantaStyleAnnotation.JsdocKey,
+    (tag) => tag.tagName.text === MantaStyleJsDocKey,
   );
   const value = mantaTag
-    ? annotationUtils.cleanMantaStyleJSDocContent(mantaTag.comment || '') || ''
+    ? cleanMantaStyleJSDocContent(mantaTag.comment || '') || ''
     : '';
   return createRuntimeFunctionCall('MantaAnnotation', [
-    ts.createStringLiteral(value),
+    jsonToAst(parseAnnotationFromString(value)),
   ]);
+}
+
+function jsonToAst(
+  json: AnnotationAst,
+): ts.StringLiteral | ts.ObjectLiteralExpression {
+  if (json === undefined) {
+    return ts.createLiteral('undefined');
+  } else if (json.type === 'literal') {
+    return ts.createObjectLiteral([
+      ts.createPropertyAssignment('type', ts.createStringLiteral('literal')),
+      ts.createPropertyAssignment(
+        'value',
+        typeof json.value === 'string'
+          ? ts.createStringLiteral(json.value)
+          : typeof json.value === 'number'
+            ? ts.createNumericLiteral(String(json.value))
+            : typeof json.value === 'boolean'
+              ? json.value
+                ? ts.createTrue()
+                : ts.createFalse()
+              : json.value === null
+                ? ts.createNull()
+                : ts.createLiteral('undefined'),
+      ),
+    ]);
+  } else {
+    const hash = [];
+    for (const h in json.hash) {
+      if (json.hash.hasOwnProperty(h)) {
+        hash.push(ts.createPropertyAssignment(h, jsonToAst(json.hash[h])));
+      }
+    }
+    return ts.createObjectLiteral([
+      ts.createPropertyAssignment('type', ts.createStringLiteral('expression')),
+      ts.createPropertyAssignment('name', ts.createStringLiteral(json.name)),
+      ts.createPropertyAssignment(
+        'params',
+        ts.createArrayLiteral(json.params.map(jsonToAst)),
+      ),
+      ts.createPropertyAssignment('hash', ts.createObjectLiteral(hash)),
+    ]);
+  }
 }
 
 function createTypeLiteralProperties(

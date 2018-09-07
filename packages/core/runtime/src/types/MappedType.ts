@@ -6,7 +6,11 @@ import TypeLiteral from './TypeLiteral';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from './UnionType';
 import IndexedAccessType from './IndexedAccessType';
-import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  MantaStyleAnnotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 
 const ErrType = new ErrorType("MappedType hasn't been initialized");
 
@@ -26,7 +30,7 @@ export default class MappedType extends Type {
   private constraint: Type = ErrType;
   private questionToken: QuestionToken = QuestionToken.None;
   public async deriveLiteral(
-    parentAnnotations: annotationUtils.MantaStyleAnnotation,
+    parentAnnotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     /**
@@ -76,7 +80,7 @@ export default class MappedType extends Type {
           keyType.mock(),
           finalTypeForThisProperty,
           modifyQuestionMark(this.questionToken, originalQuestionMark),
-          annotationUtils.MantaStyleAnnotation.empty(),
+          MantaStyleAnnotation.empty(),
         );
       }
       return newTypeLiteral.deriveLiteral(parentAnnotations, context);

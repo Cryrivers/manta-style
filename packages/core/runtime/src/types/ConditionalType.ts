@@ -2,7 +2,7 @@ import UnionType from './UnionType';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { isAssignable } from '../utils/assignable';
 import { normalizeUnion } from '../utils/union';
-import { Type, annotationUtils } from '@manta-style/core';
+import { Type, MantaStyleAnnotation } from '@manta-style/core';
 import { MantaStyleContext } from '@manta-style/core';
 
 export default class ConditionalType extends Type {
@@ -23,7 +23,7 @@ export default class ConditionalType extends Type {
     this.falseType = falseType;
   }
   public async deriveLiteral(
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     /*

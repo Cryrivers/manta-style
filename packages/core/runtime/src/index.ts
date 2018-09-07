@@ -23,11 +23,10 @@ import IntersectionType from './types/IntersectionType';
 import ParenthesizedType from './types/ParenthesizedType';
 import ObjectKeyword from './types/ObjectKeyword';
 import ArrayLiteral from './types/ArrayLiteral';
-import { Annotation, Type } from '@manta-style/core';
 import Shape from './types/Shape';
 import NullableType from './types/NullableType';
 import NonMaybeType from './types/NonMaybeType';
-import { annotationUtils } from '@manta-style/core';
+import { MantaStyleAnnotation, AnnotationAst, Type } from '@manta-style/core';
 
 export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 export type TypeLiteral = TypeLiteral;
@@ -36,7 +35,7 @@ class MantaStyle {
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     preserveUnion: boolean = false,
   ) {
     const newType = new LazyTypeAliasDeclaration(
@@ -110,8 +109,8 @@ class MantaStyle {
     return new KeyOfKeyword(type);
   }
 
-  public static MantaAnnotation(comment: string) {
-    return annotationUtils.MantaStyleAnnotation.parseFromString(comment);
+  public static MantaAnnotation(annotation: AnnotationAst) {
+    return new MantaStyleAnnotation(annotation);
   }
 
   // Flow Specific

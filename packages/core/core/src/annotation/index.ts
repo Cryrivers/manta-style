@@ -1,65 +1,66 @@
-import { MantaStyleAnnotation } from '@manta-style/annotation-parser';
-export interface Annotation {
-  parentAnnotation?: Annotation;
-  annotation: string;
-}
+import { AnnotationAst } from '@manta-style/annotation-parser';
 
-const MANTA_STYLE_ANNOTATION_REGEX = new RegExp(
-  `@${MantaStyleAnnotation.JsdocKey}\\s+({{[\\s\\S]+(?=}})}})`,
-);
+type Plugins = {
+  [key: string]: { name: string; mock: Function };
+};
 
-export function inheritAnnotations(
-  parentAnnotation: Annotation,
-  child: Annotation,
-) {
-  child.parentAnnotation = parentAnnotation;
-}
-
-export function extractMantaStyleJSDocContent(
-  multilineComment: string,
-): string {
-  const match = multilineComment.match(MANTA_STYLE_ANNOTATION_REGEX);
-  if (match) {
-    return cleanMantaStyleJSDocContent(match[1]);
+export class MantaStyleAnnotation {
+  static empty() {
+    return new MantaStyleAnnotation(undefined);
   }
-  return '';
-}
 
-export function cleanMantaStyleJSDocContent(multilineContent: string): string {
-  multilineContent = multilineContent.trimLeft();
-  if (multilineContent.startsWith('{{')) {
-    let bracketEnd = 2;
-    let quoteMode = false;
-    let singleQuote = false;
-    loop: while (true) {
-      switch (multilineContent[bracketEnd]) {
-        case '\\':
-          bracketEnd++;
-          break;
-        case '}': {
-          if (!quoteMode && multilineContent[bracketEnd + 1] === '}') {
-            break loop;
-          }
-        }
-        case '"':
-        case "'":
-          if (quoteMode) {
-            if (
-              (singleQuote && multilineContent[bracketEnd] === "'") ||
-              (!singleQuote && multilineContent[bracketEnd] === '"')
-            ) {
-              quoteMode = false;
-            }
-          } else {
-            quoteMode = true;
-            singleQuote = multilineContent[bracketEnd] === "'";
-          }
-      }
-      bracketEnd++;
+  private annotation: AnnotationAst;
+  constructor(annotation: AnnotationAst) {
+    this.annotation = annotation;
+  }
+
+  public execute(plugins: Plugins) {
+    return execute(plugins, this.annotation);
+  }
+
+  public inherit(parentAnnotation: MantaStyleAnnotation): MantaStyleAnnotation {
+    if (this.annotation != null) {
+      return this;
     }
-    return multilineContent.substring(0, bracketEnd + 2);
+    return parentAnnotation;
   }
-  return '';
 }
 
-export { MantaStyleAnnotation };
+async function execute(
+  plugins: Plugins,
+  statement: AnnotationAst,
+): Promise<any> {
+  if (!statement) {
+    return null;
+  }
+  switch (statement.type) {
+    case 'literal':
+      return statement.value;
+    case 'expression': {
+      // TODO: LAZY Plugin?
+      const lazy = false;
+      const plugin = plugins[statement.name];
+      if (!plugin) {
+        throw new Error(`@manta-style Plugin "${statement.name}" not found`);
+      }
+      if (!lazy) {
+        const params = [];
+        const hash: { [key: string]: any } = {};
+        for (const param of statement.params) {
+          params.push(await execute(plugins, param));
+        }
+        for (const h in statement.hash) {
+          hash[h] = await execute(plugins, statement.hash[h]);
+        }
+        if (Object.keys(hash).length > 0) {
+          // only add hash if hash is not empty
+          params.push(hash);
+        }
+
+        return await plugin.mock(...params);
+      }
+    }
+    default:
+      return null;
+  }
+}

@@ -26,19 +26,19 @@ var A = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.StringKeyword,
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
       typeLiteral.property(
         'b',
         _runtime.default.NumberKeyword,
         false,
-        _runtime.default.MantaAnnotation(''),
+        _runtime.default.MantaAnnotation(undefined),
       );
     });
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 
 var B = _runtime.default.TypeAliasDeclaration(
@@ -48,7 +48,7 @@ var B = _runtime.default.TypeAliasDeclaration(
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;

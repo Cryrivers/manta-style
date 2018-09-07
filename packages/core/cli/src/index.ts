@@ -20,7 +20,7 @@ import {
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
-import { annotationUtils } from '@manta-style/core';
+import { MantaStyleAnnotation } from '@manta-style/core';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 const METHODS: HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
@@ -146,7 +146,7 @@ if (generateSnapshot && useSnapshot) {
           );
         if (endpointInfo && endpointMockTable[method][endpoint.name]) {
           const literalType = await endpoint.type.deriveLiteral(
-            annotationUtils.MantaStyleAnnotation.empty(),
+            MantaStyleAnnotation.empty(),
             context,
           );
           const mockData = literalType.mock();

@@ -37,19 +37,67 @@ var A = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.StringKeyword,
         false,
-        _runtime.default.MantaAnnotation('{{ plugin a b c }}'),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'plugin',
+          params: [
+            {
+              type: 'expression',
+              name: 'a',
+              params: [],
+              hash: {},
+            },
+            {
+              type: 'expression',
+              name: 'b',
+              params: [],
+              hash: {},
+            },
+            {
+              type: 'expression',
+              name: 'c',
+              params: [],
+              hash: {},
+            },
+          ],
+          hash: {},
+        }),
       );
       typeLiteral.property(
         'b',
         _runtime.default.NumberKeyword,
         false,
-        _runtime.default.MantaAnnotation('{{ multiline a\\\\nb\\\\nc }}'),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'multiline',
+          params: [
+            {
+              type: 'expression',
+              name: 'a',
+              params: [],
+              hash: {},
+            },
+            {
+              type: 'expression',
+              name: 'b',
+              params: [],
+              hash: {},
+            },
+            {
+              type: 'expression',
+              name: 'c',
+              params: [],
+              hash: {},
+            },
+          ],
+          hash: {},
+        }),
       );
     });
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -89,19 +137,39 @@ var A = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.StringKeyword,
         false,
-        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'plugin',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}}',
+            },
+          ],
+          hash: {},
+        }),
       );
       typeLiteral.property(
         'b',
         _runtime.default.NumberKeyword,
         false,
-        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}} {{bar}}\\" }}'),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'plugin',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}} {{bar}}',
+            },
+          ],
+          hash: {},
+        }),
       );
     });
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -143,19 +211,152 @@ var A = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.StringKeyword,
         false,
-        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'plugin',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}}',
+            },
+          ],
+          hash: {},
+        }),
       );
       typeLiteral.property(
         'b',
         _runtime.default.NumberKeyword,
         false,
-        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}} {{bar}}\\" }}'),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'plugin',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}} {{bar}}',
+            },
+          ],
+          hash: {},
+        }),
       );
     });
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
+);
+"
+`;
+
+exports[`Annotation Handles hash 1`] = `
+"FROM:
+type A = {
+      /**
+       * @mantastyle {{ plugin \\"{{foo}}\\" bar=\\"baz\\" }}
+       */
+      a: string;
+      /**
+       * @mantastyle {{ multiline 
+       *   \\"{{foo}} {{bar}}\\"
+       *   123
+       *   (as \\"ew\\" foo=(bar \\"foo\\" baz=\\"bar\\"))
+       * }}
+       */
+      b: number;
+    };
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+var A = _runtime.default.TypeAliasDeclaration(
+  'A',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {
+      typeLiteral.property(
+        'a',
+        _runtime.default.StringKeyword,
+        false,
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'plugin',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}}',
+            },
+          ],
+          hash: {
+            bar: {
+              type: 'literal',
+              value: 'baz',
+            },
+          },
+        }),
+      );
+      typeLiteral.property(
+        'b',
+        _runtime.default.NumberKeyword,
+        false,
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'multiline',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}} {{bar}}',
+            },
+            {
+              type: 'literal',
+              value: 123,
+            },
+            {
+              type: 'expression',
+              name: 'as',
+              params: [
+                {
+                  type: 'literal',
+                  value: 'ew',
+                },
+              ],
+              hash: {
+                foo: {
+                  type: 'expression',
+                  name: 'bar',
+                  params: [
+                    {
+                      type: 'literal',
+                      value: 'foo',
+                    },
+                  ],
+                  hash: {
+                    baz: {
+                      type: 'literal',
+                      value: 'bar',
+                    },
+                  },
+                },
+              },
+            },
+          ],
+          hash: {},
+        }),
+      );
+    });
+
+    return type;
+  },
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;
@@ -201,21 +402,54 @@ var A = _runtime.default.TypeAliasDeclaration(
         'a',
         _runtime.default.StringKeyword,
         false,
-        _runtime.default.MantaAnnotation('{{ plugin \\"{{foo}}\\" }}'),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'plugin',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}}',
+            },
+          ],
+          hash: {},
+        }),
       );
       typeLiteral.property(
         'b',
         _runtime.default.NumberKeyword,
         false,
-        _runtime.default.MantaAnnotation(
-          '{{ multiline \\\\n\\"{{foo}} {{bar}}\\"\\\\n123\\\\n(as \\"ew\\")\\\\n}}',
-        ),
+        _runtime.default.MantaAnnotation({
+          type: 'expression',
+          name: 'multiline',
+          params: [
+            {
+              type: 'literal',
+              value: '{{foo}} {{bar}}',
+            },
+            {
+              type: 'literal',
+              value: 123,
+            },
+            {
+              type: 'expression',
+              name: 'as',
+              params: [
+                {
+                  type: 'literal',
+                  value: 'ew',
+                },
+              ],
+              hash: {},
+            },
+          ],
+          hash: {},
+        }),
       );
     });
 
     return type;
   },
-  _runtime.default.MantaAnnotation(''),
+  _runtime.default.MantaAnnotation(undefined),
 );
 "
 `;

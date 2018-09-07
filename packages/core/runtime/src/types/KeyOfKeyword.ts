@@ -2,7 +2,11 @@ import TypeLiteral from './TypeLiteral';
 import UnionType from './UnionType';
 import Literal from './Literal';
 import { resolveReferencedType } from '../utils/referenceTypes';
-import { annotationUtils, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  MantaStyleAnnotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 
 export default class KeyOfKeyword extends Type {
   private type: Type;
@@ -23,7 +27,7 @@ export default class KeyOfKeyword extends Type {
     }
   }
   public async deriveLiteral(
-    annotations: annotationUtils.MantaStyleAnnotation,
+    annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const keys = await this.getKeys(context);
