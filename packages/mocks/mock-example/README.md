@@ -1,9 +1,9 @@
-# @manta-style/plugin-mock-example
+# @manta-style/mock-example
 
 ## Installation
 
 ```sh
-$ yarn add @manta-style/plugin-mock-example
+$ yarn add @manta-style/mock-example
 ```
 
 ## Usage

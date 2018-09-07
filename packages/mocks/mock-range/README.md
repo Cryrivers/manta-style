@@ -1,19 +1,19 @@
-# @manta-style/plugin-mock-range
+# @manta-style/mock-range
 
 ## Installation
+
 ```sh
-$ yarn add @manta-style/plugin-mock-range
+$ yarn add @manta-style/mock-range
 ```
 
 ## Usage
 
 ```js
- /**
-  * @range {min} {max}
-  */
-  value: number;
+/**
+ * @range {min} {max}
+ */
+value: number;
 ```
 
 - For numbers only
 - Generate random number between `{min}` and `{max}`
-

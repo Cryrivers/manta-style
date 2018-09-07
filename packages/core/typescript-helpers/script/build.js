@@ -1,5 +1,5 @@
 // @ts-check
-const { build } = require('@manta-style/plugin-builder-typescript');
+const { build } = require('@manta-style/builder-typescript');
 const path = require('path');
 build(
   path.join(__dirname, '..', 'src', 'index.ts'),
