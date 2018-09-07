@@ -1,29 +1,28 @@
 {
-  "name": "@manta-style/plugin-mock-example",
+  "name": "@manta-style/mock-range",
   "version": "0.2.0-alpha.4",
-  "description": "Manta Style Mock Plugin - Example",
+  "description": "Manta Style Mock Plugin - Range",
   "main": "./lib/index.js",
-  "typings": "./lib/typings/index.d.ts",
   "scripts": {
     "build": "webpack",
     "test": "echo 'No test yet'"
   },
   "author": {
-    "name": "Zhongliang Wang",
-    "email": "zwang@rebelworks.io",
-    "url": "https://github.com/Cryrivers"
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/Cryrivers/manta-style"
   },
   "license": "MIT",
-  "publishConfig": {
-    "access": "public"
-  },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.4",
     "lodash-es": "^4.17.10"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.1",
