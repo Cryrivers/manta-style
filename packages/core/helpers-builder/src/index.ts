@@ -10,22 +10,18 @@ export function extractExportName(sourceFile: string, destFile: string) {
     true,
     ts.ScriptKind.TS,
   );
-  const typeAliasDeclarationArray = tsSourceFile.statements
-    .filter(
-      (statement) =>
-        ts.isTypeAliasDeclaration(statement) &&
-        statement.modifiers &&
-        statement.modifiers.findIndex(
-          (modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
-        ) > -1,
-    )
-    .map(
-      // @ts-ignore
-      (typeAliasDeclaration: ts.TypeAliasDeclaration) =>
-        typeAliasDeclaration.name.text,
-    );
+  const typeAliasDeclarationArray = (tsSourceFile.statements.filter(
+    (statement) =>
+      ts.isTypeAliasDeclaration(statement) &&
+      statement.modifiers &&
+      statement.modifiers.findIndex(
+        (modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword,
+      ) > -1,
+  ) as ts.TypeAliasDeclaration[]).map(
+    (typeAliasDeclaration) => typeAliasDeclaration.name.text,
+  );
   const code = `// Generated content. Do not modify.\n// prettier-ignore\nexport default ${JSON.stringify(
     typeAliasDeclarationArray,
-  )};`;
+  )};\n`;
   fs.writeFileSync(destFile, code, 'utf-8');
 }

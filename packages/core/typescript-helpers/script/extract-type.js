@@ -11,6 +11,11 @@ const output = path.join(
 
 console.log('Generating "typescript-helpers-types"');
 extractExportName(input, output);
-execSync(`git add ${output}`, { cwd: process.env.INIT_CWD });
+
+try {
+  execSync(`git add ${output}`, { cwd: process.env.INIT_CWD });
+} catch (ex) {
+  // Empty
+}
 
 console.log(`${output} generated.`);
