@@ -13,11 +13,8 @@ export default class StringKeyword extends Type {
     annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
-    const { plugins } = context;
-
-    const pluginValue = await plugins.getMockValueFromPlugin(
-      'StringType',
-      (plugin: any) => annotations.execute(plugin),
+    const pluginValue = await annotations.execute(
+      context.plugins.getPluginForNode('StringType'),
     );
     let stringValue =
       pluginValue !== null ? String(pluginValue) : DEFAULT_STATIC_STRING;

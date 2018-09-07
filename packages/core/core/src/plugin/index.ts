@@ -103,6 +103,13 @@ export class PluginSystem {
       }
     }
   }
+
+  public getPluginForNode(
+    type: SupportedMockType,
+  ): { [key: string]: { name: string; mock: SupportedMockFunction } } {
+    return this.mockPlugins[type] || {};
+  }
+
   public async getMockValueFromPlugin(
     type: SupportedMockType,
     callback: Function,

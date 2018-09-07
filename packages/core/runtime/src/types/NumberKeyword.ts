@@ -10,11 +10,8 @@ export default class NumberKeyword extends Type {
     annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
-    const { plugins } = context;
-
-    const pluginValue = await plugins.getMockValueFromPlugin(
-      'NumberType',
-      (plugin: any) => annotations.execute(plugin),
+    const pluginValue = await annotations.execute(
+      context.plugins.getPluginForNode('NumberType'),
     );
     const numberValue =
       pluginValue !== null ? Number(pluginValue) : Math.random() * 100;
