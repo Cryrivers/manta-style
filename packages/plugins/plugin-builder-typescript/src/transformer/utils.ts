@@ -1,10 +1,7 @@
 import * as ts from 'typescript';
-import {
-  MANTASTYLE_RUNTIME_NAME,
-  MANTASTYLE_HELPER_NAME,
-  MANTASTYLE_HELPER_TYPES,
-} from './constants';
+import { MANTASTYLE_RUNTIME_NAME, MANTASTYLE_HELPER_NAME } from './constants';
 import { isOptionalTypeNode, isRestTypeNode } from './typescript';
+import MANTASTYLE_HELPER_TYPES from '../utils/builtin-types';
 
 const enum QuestionToken {
   None,

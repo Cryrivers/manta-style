@@ -24,7 +24,7 @@ export function extractExportName(sourceFile: string, destFile: string) {
       (typeAliasDeclaration: ts.TypeAliasDeclaration) =>
         typeAliasDeclaration.name.text,
     );
-  const code = `// Generated content. Do not modify.\nexport default ${JSON.stringify(
+  const code = `// Generated content. Do not modify.\n// prettier-ignore\nexport default ${JSON.stringify(
     typeAliasDeclarationArray,
   )};`;
   fs.writeFileSync(destFile, code, 'utf-8');

@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "test": "echo 'No test yet'",
-    "build": "node ./script/build.js",
+    "build": "node ./script/build.js && node ./script/extract-type.js",
     "precommit": "lint-staged"
   },
   "publishConfig": {
