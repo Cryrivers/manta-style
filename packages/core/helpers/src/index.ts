@@ -1,5 +1,6 @@
 import QueryType from './types/QueryType';
 import MantaStyle from '@manta-style/runtime';
+import { MantaStyleAnnotation } from '@manta-style/core';
 
 export const Query = MantaStyle.TypeAliasDeclaration(
   'Query',
@@ -7,5 +8,5 @@ export const Query = MantaStyle.TypeAliasDeclaration(
     const T = typeFactory.TypeParameter('T');
     return new QueryType(T);
   },
-  [],
+  MantaStyleAnnotation.empty(),
 );

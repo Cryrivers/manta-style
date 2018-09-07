@@ -2,7 +2,11 @@ import MantaStyle, {
   LiteralType,
   resolveReferencedType,
 } from '@manta-style/runtime';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  MantaStyleAnnotation,
+  MantaStyleContext,
+  Type,
+} from '@manta-style/core';
 
 export default class QueryType extends Type {
   private readonly type: Type;
@@ -11,7 +15,7 @@ export default class QueryType extends Type {
     this.type = type;
   }
   public async deriveLiteral(
-    annotations: Annotation[],
+    annotations: MantaStyleAnnotation,
     context: MantaStyleContext,
   ) {
     const { query } = context;
