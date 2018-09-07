@@ -52,6 +52,7 @@
     "find-root": "^1.1.0",
     "inquirer": "^6.2.0",
     "log-update": "^2.3.0",
+    "pretty-error": "^2.1.1",
     "query-string": "^6.1.0",
     "read-pkg-up": "^4.0.0",
     "resolve-from": "^4.0.0"

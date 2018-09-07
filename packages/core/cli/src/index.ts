@@ -17,12 +17,14 @@ import {
   TypeLiteral,
   Property,
 } from '@manta-style/runtime';
+import * as PrettyError from 'pretty-error';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 const METHODS: HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
+const pe = new PrettyError();
 
 program
   .version('0.0.11')
@@ -386,6 +388,18 @@ async function showOfficialPluginList() {
     return url;
   }
 })().catch((exception) => {
-  console.log(exception);
+  if (exception instanceof Error) {
+    if (verbose) {
+      console.log(pe.render(exception));
+    } else {
+      console.log(chalk.red(exception.message + '\n'));
+    }
+  } else {
+    console.log(
+      chalk.red(
+        'Unexpected Error caught. Please create an issue on https://github.com/Cryrivers/manta-style. Sorry for the inconvenience caused.\n',
+      ),
+    );
+  }
   process.exit(1);
 });

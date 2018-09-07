@@ -1,4 +1,5 @@
 import { Annotation } from '../utils/annotation';
+import { generateErrorMessage, ErrorCode } from '../utils/errorMessage';
 
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
@@ -134,7 +135,7 @@ export class PluginSystem {
       );
     } else {
       throw new Error(
-        `Extension "${extension}" is not handled by any builder plugins.`,
+        generateErrorMessage(ErrorCode.UNSUPPORTED_EXTENSION, extension),
       );
     }
   }
@@ -147,7 +148,7 @@ export class PluginSystem {
       return handler.buildConfigSource(sourceCode);
     } else {
       throw new Error(
-        `Extension "${extension}" is not handled by any builder plugins.`,
+        generateErrorMessage(ErrorCode.UNSUPPORTED_EXTENSION, extension),
       );
     }
   }

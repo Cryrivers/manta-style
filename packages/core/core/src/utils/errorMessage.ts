@@ -1,4 +1,4 @@
-const enum ErrorCode {
+export const enum ErrorCode {
   UNSUPPORTED_EXTENSION = 0,
   BUILDER_PLUGIN_ERROR = 1,
   MOCK_PLUGIN_ERROR = 2,
@@ -44,6 +44,14 @@ export function generateErrorMessage<T extends ErrorCode>(
   errorCode: T,
   ...args: ErrorDetail[T] extends (...args: infer R) => string ? R : []
 ) {
+  // touch the limitation of TypeScript again, :facepalm:
   // @ts-ignore
   return `MS-${errorCode}: ${errorMessages[errorCode](...args)}`;
+}
+
+export function parseErrorMessage(
+  message: string,
+): { errorCode: ErrorCode; params: string[] } {
+  // TODO: Implement this
+  return { errorCode: 0, params: [] };
 }
