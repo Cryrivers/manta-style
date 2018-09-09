@@ -132,9 +132,27 @@ message: string;
 
 ### `plugin-mock-range`
 
-<!-- draft -->
+Generates a random number between given range.
 
-- [plugin-mock-range](./packages/plugins/plugin-mock-range/README.md)
+#### @manta-style/plugin-mock-range
+
+#### Installation
+
+```sh
+$ yarn add @manta-style/plugin-mock-range
+```
+
+#### Usage
+
+```js
+/**
+ * @range {min} {max}
+ */
+value: number;
+```
+
+- For numbers only
+- Generate random number between `{min}` and `{max}`
 
 ### Building Your Mock Plugins
 
