@@ -47,9 +47,42 @@ score: number; // 6.27
 
 ### `plugin-mock-faker`
 
-<!-- draft -->
+Generate mock data using [faker.js](https://github.com/marak/faker.js/)
 
-- [plugin-mock-faker](./packages/plugins/plugin-mock-faker/README.md)
+#### @manta-style/plugin-mock-faker
+
+#### Installation
+
+```sh
+$ yarn add @manta-style/plugin-mock-faker
+```
+
+#### Usage
+
+For strings, our Mock Faker users Faker.js's `Faker.fake()`.
+
+Mock Faker is transparent to Faker.js's. You may use any available Faker.js's API.
+
+You can check out Faker.js's `Faker.fake()` API [here](http://marak.github.io/faker.js/#toc7__anchor)
+
+For numbers, `plugin-mock-faker` calls `faker.method.path()`.
+
+Here's a few examples.
+
+```js
+/**
+ * @faker {{internet.userName}}
+ */
+userName: string;
+/**
+ * @faker {{address.city}}, {{address.state}}, {{address.country}}
+ */
+address: string;
+/**
+ * @faker date.past
+ */
+lastLoggedIn: number;
+```
 
 ### `plugin-mock-qotd`
 
