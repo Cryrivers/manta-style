@@ -1,5 +1,10 @@
 # Installation
 
+To use Manta-Style, add the packages to your project.
+
+The common package you will always need is the CLI.
+Then depending on which type system and mock plugins you will use, you will add specific packages as plugins.
+
 ## CLI
 
 ```sh
@@ -26,8 +31,6 @@ This adds a command line tool `ms` to your system.
 
 Manta Style supports generation of mock data from different typing systems via binding builders.
 You need to add the corresponding builder plugin to your project.
-
-In [Quick Start](#quick-start) we show an example using TypeScript.
 
 ```sh
 npm install --save-dev @manta-style/plugin-builder-typescript
