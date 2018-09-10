@@ -2,77 +2,44 @@
 
 > 🚀 Futuristic API Mock Server for Frontend
 
-[Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates API mock endpoints from TypeScript type definitions automatically.
+## Motivation
 
-Contents
+[Manta Style](https://github.com/Cryrivers/manta-style/issues/1) generates "real" _(enough)_ mock data from your type definitions.
 
-- [Installation](#installation)
-- [Quick Start](#quick-start)
-- [Usage](#usage)
-- [Plugins](#plugins)
-- [Contributing](#contributing)
-- [Acknowledgments](#acknowledgments)
-- [License](#license)
+With _Manta Style_, you can start implementing feature once your data schema is defined.
+But _Manta Style_ is more than just that.
 
-## Installation
+### Generates mock data directly from your type declarations
 
-### CLI
+Manta Style officially supports [TypeScript](TypeScript) and [Flow](http://flowtype.org/) at the moment.
 
-```sh
-npm install --save-dev @manta-style/cli
-```
+<!-- some more words goes here @TODO wgao19 -->
 
-You could also install it globally, which adds a command line tool `ms` to your system.
-
-### Plugins
-
-Manta Style needs plugins to support different file types and generate mock data.
-
-The example of Quick Start below is using TypeScript. So first you might want to install TypeScript support to Manta Style.
-
-```sh
-npm install --save-dev @manta-style/builder-typescript
-```
-
-If you are new to Manta Style, please install the plugins below. We are going to use them in [Quick Start](#quick-start).
-
-```sh
-npm install --save-dev @manta-style/mock-example @manta-style/mock-faker
-```
-
-You could check [Plugins](#plugins) for the usages of official plugins. You could make our own plugins as well.
-
-## Quick Start
-
-### Create mock API configuration
-
-You could use following configuration for test purpose. For more information about syntax, please check out [Syntax](./documentation/syntax.md).
+### Mock data with respect to real world scenario such as past dates, addresses, names
 
 ```ts
 interface User {
   /**
    * @faker {{internet.userName}}
+   *
    */
-  userName: string;
-  gender: 0 | 1 | 2;
+  userName: string; // Amina.Langosh49
+
   /**
    * @faker date.past
    */
-  birthday: number;
-  /**
-   * @faker {{address.country}}
-   */
-  country: string;
-  /**
-   * @faker {{address.state}}
-   */
-  state: string;
-  /**
-   * @faker {{address.city}}
-   */
-  city: string;
-}
+  birthday: number; // 1529370938452
 
+  /**
+   * @example Croatia
+   */
+  country: string; // Croatia
+}
+```
+
+### Mock conditions specific to your type definitions
+
+```ts
 type WithResponseSuccess<T> = {
   status: 'ok';
   data: T;
@@ -87,95 +54,37 @@ type WithResponseFailure = {
 };
 
 type WithResponse<T> = WithResponseSuccess<T> | WithResponseFailure;
-
-export type GET = {
-  '/user': WithResponse<User>;
-};
 ```
 
-### Launch Manta Style
+Manta Style will generate either the error case or the normal case according to your declarations.
+Already have your list of error conditions and messages well-defined with your back end? You are in the luck! Manta Style will generate those cases for you just like in real world.
 
-```sh
-ms -c ./config.ts
-```
+This also gives us one more motivation to fine-tune the typing to our codebase.
 
-Manta Style launches a mock server at port 3000 by default. The above-stated example would generate following output in the terminal:
+### Fix a test case like a snapshot.
 
-```
-Manta Style launched at http://localhost:3000
-┌────────┬────────────────────────────┬────────┬───────┐
-│ Method │ Endpoint                   │ Mocked │ Proxy │
-├────────┼────────────────────────────┼────────┼───────┤
-│ GET    │ http://localhost:3000/user │ Y      │       │
-└────────┴────────────────────────────┴────────┴───────┘
-Press O to configure selective mocking
-[FAKER MODE] Press S to take an instant snapshot
-```
+Implementing boundary cases has been hair pulling. With Manta Style you can supply a snapshot and have it returned every time until you finish.
 
-### Access endpoints in your browser
+### ... and more
 
-To view the mock data of the example above-stated, just launch a browser (or `curl`, `wget`) and access `http://localhost:3000/user`. Manta Style understands your type definition and generates mock data that respects it.
+Need more feature? [Create an issue](https://github.com/Cryrivers/manta-style/issues/new/choose) and let us know how Manta Style can help you.
 
-As `WithResponse<User> = WithResponseSuccess<User> | WithResponseFailure`, Manta Style would randomly choose one of the types in the union type. Therefore, it could randomly generate mock data for any of following cases:
+## Documentation
 
-1. `WithResponseSuccess<User>`:
+<!-- TODO: move to docsite url -->
 
-```json
-{
-  "status": "ok",
-  "data": {
-    "userName": "Zachariah.VonRueden20",
-    "gender": 2,
-    "birthday": 646869600,
-    "country": "Holy See (Vatican City State)",
-    "state": "Massachusetts",
-    "city": "South Evietown"
-  }
-}
-```
+You can find the documentation [here](./documentation/Introduction.md)
 
-2. `WithResponseFailure`:
+Check out the [Quick Start](./documentation/QuickStart.md) page for a quick overview.
 
-```json
-{ "status": "error", "message": "Bad Request" }
-```
+The documentation is divided into the following sections:
 
-Press <kbd>S</kbd> to enable snapshot mode for a constant output.
-
-Press <kbd>O</kbd> to interactively disable or proxy a mocked endpoint.
-
-## Usage
-
-```
-$ ms --help
-
-  Usage: ms [options]
-
-  Options:
-
-    -V, --version              output the version number
-    -c --configFile <file>     the TypeScript config file to generate entry points
-    -p --port <i> [3000]       To use a port different than 3000
-    --proxyUrl <url>           To enable proxy for disabled endpoints
-    --generateSnapshot <file>  To generate a API mock data snapshot (Not yet implemented.)
-    --useSnapshot <file>       To launch a server with data snapshot
-    -v --verbose               show debug information
-    -h, --help                 output usage information
-```
-
-## Plugins
-
-### Mock
-
-- [mock-example](./packages/mocks/mock-example/README.md)
-- [mock-faker](./packages/mocks/mock-faker/README.md)
-- [mock-iterate](./packages/mocks/mock-iterate/README.md)
-- [mock-qotd](./packages/mocks/mock-qotd/README.md)
-- [mock-range](./packages/mocks/mock-range/README.md)
-
-### Builder
-
-Manta Style supports TypeScript only at the moment via `builder-typescript`. More language support is coming soon.
+- [Introduction](./documentation/Introduction.md)
+- [Installation](./documentation/Installation.md)
+- [Quick Start](./documentation/QuickStart.md)
+- [Usage](./documentation/Usage.md)
+- [Plugins](./documentation/Plugins.md)
+- API Reference
 
 ## Contributing
 
