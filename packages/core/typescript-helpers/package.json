@@ -15,7 +15,7 @@
   "license": "MIT",
   "scripts": {
     "test": "echo 'No test yet'",
-    "build": "node ./script/build.js",
+    "build": "node ./script/build.js && node ./script/extract-type.js",
     "precommit": "lint-staged"
   },
   "publishConfig": {
@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@manta-style/helpers-builder": "^0.2.0-alpha.4",
-    "@manta-style/plugin-builder-typescript": "^0.2.0-alpha.4",
+    "@manta-style/builder-typescript": "^0.2.0-alpha.4",
     "lint-staged": "^7.2.2",
     "typescript": "3.0.3",
     "webpack": "^4.16.5",

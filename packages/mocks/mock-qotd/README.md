@@ -1,0 +1,20 @@
+# @manta-style/mock-qotd
+
+## Installation
+
+```sh
+$ yarn add @manta-style/mock-qotd
+```
+
+## Usage
+
+```js
+/**
+ * @qotd
+ */
+value: string;
+```
+
+- For string only
+- Generate random quote of the day from [API](https://talaikis.com/random_quotes_api/)
+- A demostration of asynchronous mock plugins
