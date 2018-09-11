@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-$ yarn add @manta-style/mock-example
+$ npm install --save-dev @manta-style/mock-example
 ```
 
 ## Usage

@@ -7,14 +7,14 @@ The ones that help building certain type systems with Manta Style, and the ones 
 
 <!-- TODO: separate pages -->
 
-### `plugin-mock-example`
+### `mock-example`
 
 Provides Manta Style examples for returns. Currently supports `string` and `number`.
 
 #### Installation
 
 ```sh
-$ yarn add @manta-style/plugin-mock-example
+$ npm install --save-dev @manta-style/mock-example
 ```
 
 #### Usage
@@ -45,16 +45,16 @@ Manta Style returns a random value between all `@example` numbers rounded to `@p
 score: number; // 6.27
 ```
 
-### `plugin-mock-faker`
+### `mock-faker`
 
 Generate mock data using [faker.js](https://github.com/marak/faker.js/)
 
-#### @manta-style/plugin-mock-faker
+#### @manta-style/mock-faker
 
 #### Installation
 
 ```sh
-$ yarn add @manta-style/plugin-mock-faker
+$ npm install --save-dev @manta-style/mock-faker
 ```
 
 #### Usage
@@ -65,7 +65,7 @@ Mock Faker is transparent to Faker.js's. You may use any available Faker.js's AP
 
 You can check out Faker.js's `Faker.fake()` API [here](http://marak.github.io/faker.js/#toc7__anchor)
 
-For numbers, `plugin-mock-faker` calls `faker.method.path()`.
+For numbers, `mock-faker` calls `faker.method.path()`.
 
 Here's a few examples.
 
@@ -84,14 +84,14 @@ address: string;
 lastLoggedIn: number;
 ```
 
-### `plugin-mock-qotd`
+### `mock-qotd`
 
 This `string` only mock plugin generates random quote of the day from [talaikis](https://talaikis.com/random_quotes_api/)
 
 #### Installation
 
 ```
-npm install --save-dev @manta-style/plugin-mock-qotd
+npm install --save-dev @manta-style/mock-qotd
 ```
 
 #### Usage
@@ -103,14 +103,14 @@ npm install --save-dev @manta-style/plugin-mock-qotd
 wiseWords: string; // My comedy is for children from three to 93. You do need a slightly childish sense of humour and if you haven't got that, it's very sad.
 ```
 
-### `plugin-mock-iterate`
+### `mock-iterate`
 
 Iterates and loops through all of the strings provided by the annotations.
 
 #### Installation
 
 ```sh
-$ yarn add @manta-style/plugin-mock-iterate
+$ npm install --save-dev @manta-style/mock-iterate
 ```
 
 #### Usage
@@ -130,16 +130,16 @@ message: string;
 - Every call will generate the next message
 - First call will return `'Happy'`, then `'Birthday'`, then `'To'`, then `'You'`, then back to `'Happy'` again.
 
-### `plugin-mock-range`
+### `mock-range`
 
 Generates a random number between given range.
 
-#### @manta-style/plugin-mock-range
+#### @manta-style/mock-range
 
 #### Installation
 
 ```sh
-$ yarn add @manta-style/plugin-mock-range
+$ npm install --save-dev @manta-style/mock-range
 ```
 
 #### Usage
@@ -212,6 +212,6 @@ const qotdPlugin: MockPlugin = {
 
 <!-- draft -->
 
-Manta Style supports TypeScript only at the moment via `plugin-builder-typescript`. More language support is coming soon.
+Manta Style supports TypeScript via `builder-typescript` and FlowType via `builder-flowtype`. More language support is coming soon.
 
 ### Building Your Builder Plugins

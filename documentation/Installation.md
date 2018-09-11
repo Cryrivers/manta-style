@@ -33,7 +33,7 @@ Manta Style supports generation of mock data from different typing systems via b
 You need to add the corresponding builder plugin to your project.
 
 ```sh
-npm install --save-dev @manta-style/plugin-builder-typescript
+npm install --save-dev @manta-style/builder-typescript
 ```
 
 Check out docs on [builder plugins](#) for more information on currently supported builders and for information on implementing your own type systems.
@@ -41,6 +41,6 @@ Check out docs on [builder plugins](#) for more information on currently support
 ### Plugins
 
 Manta Style supports a handful of data generating features via plugins.
-One major example is `@manta-style/plugin-mock-faker`. This is a plugin that enables you to generate fake datas that look real.
+One major example is `@manta-style/mock-faker`. This is a plugin that enables you to generate fake datas that look real.
 
 You could check [Plugins](#plugins) for the usages of official plugins. You could make our own plugins as well.
