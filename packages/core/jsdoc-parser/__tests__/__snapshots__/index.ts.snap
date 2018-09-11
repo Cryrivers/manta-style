@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`jsdocParser should parse jsdoc 1`] = `
+Array [
+  Object {
+    "key": "@mantastyle",
+    "value": "{{ asdf asdf asdf }}",
+  },
+  Object {
+    "key": "@random",
+    "value": "foo \\"bar\\"",
+  },
+  Object {
+    "key": "@test",
+    "value": "123 123 123",
+  },
+]
+`;
+
+exports[`jsdocParser should parse jsdoc 2`] = `
+Array [
+  Object {
+    "key": "@multiline",
+    "value": "{{
+      asdf 
+      \\"asdf\\"
+      1234
+      \\"1234\\"
+      (manta \\"rocks!\\" )
+    }}
+    random comment around",
+  },
+]
+`;
+
+exports[`jsdocParser should parse jsdoc 3`] = `
+Array [
+  Object {
+    "key": "@multiline",
+    "value": "{{
+      asdf 
+      \\"asdf\\"
+      1234
+      \\"1234\\"
+      (manta \\"rocks!\\" )
+    }}",
+  },
+  Object {
+    "key": "@example",
+    "value": "qwer 
+    Lorem Ipsum is simply dummy text of the printing and
+     typesetting industry. Lorem Ipsum has been the industry
+     's standard dummy text ever since the 1500s, 
+     when an unknown printer took a galley of type
+      and scrambled it to make a type specimen book. 
+      It has survived not only five centuries,",
+  },
+]
+`;
+
+exports[`jsdocParser should work with empty strings too 1`] = `Array []`;
+
+exports[`jsdocParser should work with empty strings too 2`] = `Array []`;
