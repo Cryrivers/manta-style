@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-$ yarn add @manta-style/mock-iterate
+$ npm install --save-dev @manta-style/mock-iterate
 ```
 
 ## Usage

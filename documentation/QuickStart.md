@@ -5,11 +5,19 @@ Ready to jump in?
 Here we show an example using TypeScript.
 
 As mentioned earlier in the [Installation](./Installation.md) section, we will always need the CLI.
-In this example, the type system we use is [TypeScript](http://www.typescriptlang.org/). Therefore, we will need `manta-style/plugin-builder-typescript`.
-Meanwhile, we need the [`plugin-mock-example`](./Plugins.md#plugin-mock-example) and the [`plugin-mock-faker`](./Plugins.md#plugin-mock-faker). Let's add all of them together:
+This example supports both [TypeScript](http://www.typescriptlang.org/) and [FlowType](http://flowtype.org). Therefore, we will need `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`.
+Meanwhile, we need the [`mock-example`](./Plugins.md#mock-example) and the [`mock-faker`](./Plugins.md#mock-faker). Let's add all of them together:
+
+- TypeScript users
 
 ```sh
-npm install --save-dev @manta-style/cli @manta-style/plugin-builder-typescript @manta-style/plugin-mock-example @manta-style/plugin-mock-faker
+npm install --save-dev @manta-style/cli @manta-style/builder-typescript @manta-style/mock-example @manta-style/mock-faker
+```
+
+- Flowtype Users
+
+```sh
+npm install --save-dev @manta-style/cli @manta-style/builder-flowtype @manta-style/mock-example @manta-style/mock-faker
 ```
 
 ## Basic Usages
@@ -141,7 +149,7 @@ There are a few other commands that Manta-Style provides. For more information a
 
 To use plugins, annotate the field with comments with `@${name}`, where `name` is the variable defined in your plugin, followed by a space and then the required parameter.
 
-The following example showcases several common usages with our `plugin-mock-example` and `plugin-mock-faker` plugins.
+The following example showcases several common usages with our `mock-example` and `mock-faker` plugins.
 
 ```ts
 interface User {

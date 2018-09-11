@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-$ yarn add @manta-style/mock-qotd
+$ npm install --save-dev @manta-style/mock-qotd
 ```
 
 ## Usage

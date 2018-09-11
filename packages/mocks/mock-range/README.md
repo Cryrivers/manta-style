@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-$ yarn add @manta-style/mock-range
+$ npm install --save-dev @manta-style/mock-range
 ```
 
 ## Usage

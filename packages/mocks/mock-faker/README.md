@@ -3,7 +3,7 @@
 ## Installation
 
 ```sh
-$ yarn add @manta-style/mock-faker
+$ npm install --save-dev @manta-style/mock-faker
 ```
 
 ## Usage
