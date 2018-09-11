@@ -1,0 +1,60 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Annotation jsdoc parser 1`] = `
+"FROM:
+
+    /**
+     * @mantastyle {{ asdf asdf asdf }}
+     * 
+     * @example 12345 67890
+     * @iterate 23456 34567
+     *
+     */
+    type Test = {};
+    
+
+--------------------------------------------------------
+TO:
+'use strict';
+
+var _flowtypeHelpers = _interopRequireDefault(
+  require('@manta-style/flowtype-helpers'),
+);
+
+var _runtime = _interopRequireDefault(require('@manta-style/runtime'));
+
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : { default: obj };
+}
+
+/**
+ * @mantastyle {{ asdf asdf asdf }}
+ *
+ * @example 12345 67890
+ * @iterate 23456 34567
+ *
+ */
+var Test = _runtime.default.TypeAliasDeclaration(
+  'Test',
+  function(typeFactory) {
+    var type = _runtime.default.TypeLiteral(function(typeLiteral) {});
+
+    return type;
+  },
+  [
+    {
+      key: '@mantastyle',
+      value: '{{ asdf asdf asdf }}',
+    },
+    {
+      key: '@example',
+      value: '12345 67890',
+    },
+    {
+      key: '@iterate',
+      value: '23456 34567',
+    },
+  ],
+);
+"
+`;

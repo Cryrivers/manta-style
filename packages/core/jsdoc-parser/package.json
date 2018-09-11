@@ -1,0 +1,46 @@
+{
+  "name": "@manta-style/jsdoc-parser",
+  "version": "0.1.0",
+  "description": "Parse comment to jsdoc",
+  "main": "./src/index.ts",
+  "author": {
+    "name": "Tan Li Hau",
+    "email": "lhtan93@gmail.com",
+    "url": "https://github.com/tanhauhau"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cryrivers/manta-style"
+  },
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "test": "jest",
+    "build": "echo \"no build\""
+  },
+  "dependencies": {
+    "@manta-style/core": "0.2.0-alpha.4",
+    "typescript": "^3.0.3"
+  },
+  "devDependencies": {
+    "jest": "^23.5.0"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "testURL": "http://localhost",
+    "collectCoverageFrom": [
+      "src/**"
+    ]
+  }
+}
