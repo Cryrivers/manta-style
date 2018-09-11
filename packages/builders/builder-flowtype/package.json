@@ -39,6 +39,7 @@
     "@babel/preset-env": "^7.0.0",
     "@manta-style/core": "^0.2.0-alpha.4",
     "@manta-style/flowtype-helpers": "^0.2.0-alpha.4",
+    "@manta-style/jsdoc-parser": "0.1.0",
     "@manta-style/test-helpers": "^0.2.0-alpha.4",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "fs-extra": "^7.0.0",

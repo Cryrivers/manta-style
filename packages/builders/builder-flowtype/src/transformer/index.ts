@@ -1,6 +1,7 @@
 import * as Babel from '@babel/core';
 import babelGenerate from '@babel/generator';
 import helperTypes from '../utils/builtin-types';
+import jsdocParser from '@manta-style/jsdoc-parser';
 
 const { types: t } = Babel;
 export function createTransformer(importHelpers: boolean) {
@@ -295,5 +296,21 @@ function secondParam(node: Babel.types.GenericTypeAnnotation) {
 function generateJSDocAnnotations(
   comments: ReadonlyArray<Babel.types.Comment> | null,
 ) {
-  return t.arrayExpression();
+  if (comments === null || comments === undefined) {
+    return t.arrayExpression();
+  }
+  const comment = comments
+    .map((cmt) => cmt.value)
+    .join('\n')
+    .split('\n')
+    .map((cmt) => cmt.replace(/^\s*\*/, '').trim())
+    .join('\n');
+  return t.arrayExpression(
+    jsdocParser(comment).map(({ key, value }) => {
+      return t.objectExpression([
+        t.objectProperty(t.stringLiteral('key'), t.stringLiteral(key)),
+        t.objectProperty(t.stringLiteral('value'), t.stringLiteral(value)),
+      ]);
+    }),
+  );
 }
