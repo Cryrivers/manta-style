@@ -16,6 +16,7 @@ module.exports = {
   },
   externals: {
     '@manta-style/runtime': '@manta-style/runtime',
+    '@manta-style/core': '@manta-style/core',
   },
   module: {
     rules: [

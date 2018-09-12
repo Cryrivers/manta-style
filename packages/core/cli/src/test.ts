@@ -1,4 +1,4 @@
-import { Query } from '@manta-style/helpers';
+import { Query, Unsplash } from '@manta-style/helpers';
 type Test = Query<'haha'>;
 
 export type GET = {
@@ -10,5 +10,5 @@ export type GET = {
    * @proxy https://www.google.com
    */
   '/errorExample': { haha: number };
-  '/test': { haha: number };
+  '/test': { haha: Unsplash };
 };
