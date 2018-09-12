@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/mock-iterate",
-  "version": "0.2.0-alpha.4",
+  "version": "0.2.0-alpha.5",
   "description": "Manta Style Mock Plugin - Iterate",
   "main": "./lib/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.4"
+    "@manta-style/core": "^0.2.0-alpha.5"
   },
   "devDependencies": {
     "awesome-typescript-loader": "^5.2.1",

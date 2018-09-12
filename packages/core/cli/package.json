@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/cli",
-  "version": "0.2.0-alpha.4",
+  "version": "0.2.0-alpha.5",
   "description": "A command line tool for Manta Style",
   "author": {
     "name": "Zhongliang Wang",
@@ -24,8 +24,8 @@
     "watch": "tsc --watch -p tsconfig.json"
   },
   "devDependencies": {
-    "@manta-style/builder-typescript": "^0.2.0-alpha.4",
-    "@manta-style/helpers": "^0.2.0-alpha.4",
+    "@manta-style/builder-typescript": "^0.2.0-alpha.5",
+    "@manta-style/helpers": "^0.2.0-alpha.5",
     "@types/chokidar": "^1.7.5",
     "@types/cli-table": "^0.3.0",
     "@types/express": "^4.16.0",
@@ -38,9 +38,9 @@
     "typescript": "3.0.3"
   },
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.4",
-    "@manta-style/runtime": "^0.2.0-alpha.4",
-    "@manta-style/typescript-helpers": "^0.2.0-alpha.4",
+    "@manta-style/core": "^0.2.0-alpha.5",
+    "@manta-style/runtime": "^0.2.0-alpha.5",
+    "@manta-style/typescript-helpers": "^0.2.0-alpha.5",
     "axios": "^0.18.0",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",
