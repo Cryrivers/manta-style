@@ -91,9 +91,9 @@ The documentation is divided into the following sections:
 ### Getting Started
 
 ```sh
-yarn install
-yarn run bootstrap
-yarn run build
+npm install
+npm run bootstrap
+npm run build
 ```
 
 ## Acknowledgments
