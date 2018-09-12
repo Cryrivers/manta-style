@@ -10,6 +10,7 @@
         "packages/core/flowtype-helpers/package.json",
         "packages/core/helpers-builder/package.json",
         "packages/core/helpers/package.json",
+        "packages/core/jsdoc-parser/package.json",
         "packages/core/runtime/package.json",
         "packages/core/test-helpers/package.json",
         "packages/core/typescript-helpers/package.json",
