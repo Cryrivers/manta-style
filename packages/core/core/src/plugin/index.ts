@@ -1,4 +1,5 @@
 import { Annotation } from '../utils/annotation';
+import { generateErrorMessage, ErrorCode } from '../utils/errorMessage';
 
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
@@ -59,6 +60,12 @@ export class PluginSystem {
   private builderPlugins: {
     [key: string]: BuilderPlugin | undefined;
   } = {};
+  public getMockPluginCount() {
+    return Object.keys(this.mockPlugins).length;
+  }
+  public getBuilderPluginCount() {
+    return Object.keys(this.builderPlugins).length;
+  }
   constructor(plugins: PluginEntry[]) {
     for (const plugin of plugins) {
       if (isMockPlugin(plugin)) {
@@ -128,7 +135,7 @@ export class PluginSystem {
       );
     } else {
       throw new Error(
-        `Extension "${extension}" is not handled by any builder plugins.`,
+        generateErrorMessage(ErrorCode.UNSUPPORTED_EXTENSION, extension),
       );
     }
   }
@@ -141,7 +148,7 @@ export class PluginSystem {
       return handler.buildConfigSource(sourceCode);
     } else {
       throw new Error(
-        `Extension "${extension}" is not handled by any builder plugins.`,
+        generateErrorMessage(ErrorCode.UNSUPPORTED_EXTENSION, extension),
       );
     }
   }

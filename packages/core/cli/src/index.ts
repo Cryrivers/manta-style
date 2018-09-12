@@ -17,12 +17,14 @@ import {
   TypeLiteral,
   Property,
 } from '@manta-style/runtime';
+import * as PrettyError from 'pretty-error';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 const METHODS: HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
+const pe = new PrettyError();
 
 program
   .version('0.0.11')
@@ -38,9 +40,11 @@ program
   )
   .option('--useSnapshot <file>', 'To launch a server with data snapshot')
   .option('-v --verbose', 'show debug information')
+  .option('--official-plugins', 'show all available official plugins')
   .parse(process.argv);
 
 const {
+  officialPlugins,
   configFile,
   port,
   generateSnapshot,
@@ -49,21 +53,68 @@ const {
   proxyUrl,
 } = program;
 
-if (!configFile) {
-  console.log(
-    'Please specifiy a entry point config file by using --configFile.',
+const queryOfficialPlugin = (type: 'mock' | 'builder') =>
+  axios.get(
+    `https://api.npms.io/v2/search?q=scope:manta-style+keywords:${type}`,
   );
-  process.exit(1);
-}
-if (generateSnapshot && useSnapshot) {
-  console.log(
-    'You cannot use --generateSnapshot and --useSnapshot at the same time.',
-  );
-  process.exit(1);
+
+async function showOfficialPluginList() {
+  const [{ data: builderPlugins }, { data: mockPlugins }] = await Promise.all([
+    queryOfficialPlugin('builder'),
+    queryOfficialPlugin('mock'),
+  ]);
+  const table = new Table({ colors: false });
+  table.push([chalk.yellow('Builders'), chalk.yellow('Description')]);
+  // @ts-ignore
+  builderPlugins.results.forEach((item) => {
+    table.push([item.package.name || '', item.package.description || '']);
+  });
+  table.push([chalk.yellow('Mocks'), chalk.yellow('Description')]);
+  // @ts-ignore
+  mockPlugins.results.forEach((item) => {
+    table.push([item.package.name || '', item.package.description || '']);
+  });
+  console.log(table.toString());
+  process.exit(0);
 }
 
 (async function() {
   const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
+  // Check plugin nums
+  if (pluginSystem.getBuilderPluginCount() === 0) {
+    console.log(
+      chalk.bold(
+        chalk.yellow(
+          "\nHi there! It seems that you don't have any builder plugins installed. Manta Style needs them to support different languages. Please check out the following table and install one.\n",
+        ),
+      ),
+    );
+    await showOfficialPluginList();
+  }
+  if (officialPlugins) {
+    await showOfficialPluginList();
+  }
+  if (!configFile) {
+    console.log(
+      'Please specifiy a entry point config file by using --configFile.',
+    );
+    process.exit(1);
+  }
+  if (generateSnapshot && useSnapshot) {
+    console.log(
+      'You cannot use --generateSnapshot and --useSnapshot at the same time.',
+    );
+    process.exit(1);
+  }
+  if (pluginSystem.getMockPluginCount() === 0) {
+    console.log(
+      chalk.bold(
+        chalk.yellow(
+          '\nNo mock plugin installed. You might want to run `ms --official-plugins` and install one.\n',
+        ),
+      ),
+    );
+  }
   let server: Server | undefined;
   let endpointTable: {
     method: string;
@@ -337,6 +388,18 @@ if (generateSnapshot && useSnapshot) {
     return url;
   }
 })().catch((exception) => {
-  console.log(exception);
+  if (exception instanceof Error) {
+    if (verbose) {
+      console.log(pe.render(exception));
+    } else {
+      console.log(chalk.red(exception.message + '\n'));
+    }
+  } else {
+    console.log(
+      chalk.red(
+        'Unexpected Error caught. Please create an issue on https://github.com/Cryrivers/manta-style. Sorry for the inconvenience caused.\n',
+      ),
+    );
+  }
   process.exit(1);
 });

@@ -1,6 +1,7 @@
 {
   "name": "@manta-style/builder-typescript",
   "version": "0.2.0-alpha.5",
+  "description": "TypeScript Language Support",
   "main": "./lib/typescript-builder.js",
   "typings": "./lib/index.d.js",
   "author": {
@@ -16,6 +17,9 @@
     "access": "public"
   },
   "license": "MIT",
+  "keywords": [
+    "builder"
+  ],
   "scripts": {
     "test": "jest",
     "build": "webpack",
