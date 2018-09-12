@@ -1,0 +1,4 @@
+export type Query<T: string> = any;
+export type Delay<T, MS: number> = T;
+
+export type Unsplash<Keyword: string, Width: number, Height: number> = string;
