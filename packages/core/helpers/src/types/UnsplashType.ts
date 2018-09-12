@@ -24,10 +24,13 @@ export default class UnsplashType extends Type {
       resolveReferencedType(this.width, context),
       resolveReferencedType(this.height, context),
     ]);
-    // TODO: Improve this naive implementation
-    const keyword = keywordType.mock();
-    const width = widthType.mock();
-    const height = heightType.mock();
+
+    const [keyword, width, height] = (await Promise.all([
+      keywordType.deriveLiteral(annotations, context),
+      widthType.deriveLiteral(annotations, context),
+      heightType.deriveLiteral(annotations, context),
+    ])).map((itemType) => itemType.mock());
+
     return MantaStyle.Literal(
       `https://source.unsplash.com/${width}x${height}/?${keyword}`,
     );

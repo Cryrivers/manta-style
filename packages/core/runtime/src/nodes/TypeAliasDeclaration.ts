@@ -23,8 +23,12 @@ export default class TypeAliasDeclaration extends Type {
     this.name = name;
     this.annotations = annotations;
   }
-  public TypeParameter(name: string) {
-    const newTypeParam = new TypeParameter(name);
+  public TypeParameter(
+    name: string,
+    constraintType?: Type,
+    defaultType?: Type,
+  ) {
+    const newTypeParam = new TypeParameter(name, constraintType, defaultType);
     this.typeParameters.push(newTypeParam);
     return newTypeParam;
   }

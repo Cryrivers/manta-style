@@ -16,7 +16,11 @@ export const Delay = MantaStyle.TypeAliasDeclaration(
   'Delay',
   (typeFactory) => {
     const T = typeFactory.TypeParameter('T');
-    const MS = typeFactory.TypeParameter('MS');
+    const MS = typeFactory.TypeParameter(
+      'MS',
+      MantaStyle.NumberKeyword,
+      MantaStyle.Literal(5000),
+    );
     return new DelayType(T, MS);
   },
   [],
@@ -25,9 +29,21 @@ export const Delay = MantaStyle.TypeAliasDeclaration(
 export const Unsplash = MantaStyle.TypeAliasDeclaration(
   'Unsplash',
   (typeFactory) => {
-    const K = typeFactory.TypeParameter('K');
-    const W = typeFactory.TypeParameter('W');
-    const H = typeFactory.TypeParameter('H');
+    const K = typeFactory.TypeParameter(
+      'K',
+      MantaStyle.StringKeyword,
+      MantaStyle.Literal(''),
+    );
+    const W = typeFactory.TypeParameter(
+      'W',
+      MantaStyle.NumberKeyword,
+      MantaStyle.Literal(1024),
+    );
+    const H = typeFactory.TypeParameter(
+      'H',
+      MantaStyle.NumberKeyword,
+      MantaStyle.Literal(768),
+    );
     return new UnsplashType(K, W, H);
   },
   [],

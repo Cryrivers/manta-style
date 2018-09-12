@@ -18,11 +18,12 @@ export default class DelayType extends Type {
       resolveReferencedType(this.type, context),
       resolveReferencedType(this.timeout, context),
     ]);
-    if (timeoutType instanceof LiteralType) {
-      const result = timeoutType.mock();
-      if (typeof result === 'number') {
-        await timeout(result);
-      }
+    const result = (await timeoutType.deriveLiteral(
+      annotations,
+      context,
+    )).mock();
+    if (typeof result === 'number') {
+      await timeout(result);
     }
     return type.deriveLiteral(annotations, context);
   }

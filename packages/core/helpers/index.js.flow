@@ -1,4 +1,7 @@
 export type Query<T: string> = any;
-export type Delay<T, MS: number> = T;
-
-export type Unsplash<Keyword: string, Width: number, Height: number> = string;
+export type Delay<T, MS: number = 5000> = T;
+export type Unsplash<
+  Keyword: string = '',
+  Width: number = 1024,
+  Height: number = 768,
+> = string;

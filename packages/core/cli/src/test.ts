@@ -10,5 +10,5 @@ export type GET = {
    * @proxy https://www.google.com
    */
   '/errorExample': { haha: number };
-  '/test': { haha: Unsplash<'cat', 1600, 900> };
+  '/test': { haha: Unsplash };
 };
