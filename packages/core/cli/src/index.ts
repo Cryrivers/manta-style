@@ -28,10 +28,7 @@ const pe = new PrettyError();
 
 program
   .version('0.0.11')
-  .option(
-    '-c --configFile <file>',
-    'the TypeScript config file to generate entry points',
-  )
+  .option('-c --configFile <file>', 'the config file to generate entry points')
   .option('-p --port <i> [3000]', 'To use a port different than 3000')
   .option('--proxyUrl <url>', 'To enable proxy for disabled endpoints')
   .option(

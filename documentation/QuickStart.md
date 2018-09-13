@@ -141,8 +141,6 @@ Note that Manta-Style randomly chooses one of the types in our `WithResponse<Use
 Try pressing `S`, you will find a file under your project directory with filename `ms.snapshot.json` that is exactly the last call return.
 You may use that for other purposes such as saving as test case snapshot or feed in to your `json-server`, etc.
 
-There are a few other commands that Manta-Style provides. For more information about syntax, check out [Syntax](./documentation/syntax.md).
-
 <!-- TODO add this section and put a link here -->
 
 ## Using Mock Plugins
@@ -220,4 +218,4 @@ Check in the browser, refresh a few times and notice that Manta-Style returns th
 { "status": "error", "message": "Bad Request" }
 ```
 
-Next, you may move on to read about [Manta-Style's CLI commands](./syntax.md).
+Next, you may move on to read about [Manta-Style's CLI commands](./Usage.md).
