@@ -19,10 +19,6 @@ Access `/getUserInfo` to get mock user info, the response JSON contains `userid`
 
 Builder: `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`
 
-Mock: (None)
-
-Packages: (None)
-
 ### Config File
 
 ```typescript
@@ -218,9 +214,21 @@ Package: `@manta-style/helpers`
 
 ### Config File
 
+Import `@manta-style/helpers`:
+
+- TypeScript
+
 ```typescript
 import { Unsplash } from '@manta-style/helpers';
+```
 
+- Flow
+
+```flow
+import type { Unsplash } from '@manta-style/helpers';
+```
+
+```typescript
 export type GET = {
   '/iwantcats': {
     url: Unsplash<'cats', 1600, 900>;
@@ -306,3 +314,54 @@ It randomly generates one of following 4 responses. The `adjective` will always 
   "adjective": "dumb"
 }
 ```
+
+## Read information from URL
+
+**This example supports TypeScript only**
+
+Back to our `/getUserInfo` examples, say we need to have an upgraded `/getInfo` endpoint, which gets a `UserInfo` given URL queries `type=user&userid={userid}` or gets a `GroupInfo` given URL queries `type=group&groupid={groupid}`.
+
+### Packages needed
+
+Builder: `@manta-style/builder-typescript`
+
+Mock: `@manta-style/mock-faker`, `@manta-style/mock-range`
+
+Package: `@manta-style/helpers`
+
+### Config File
+
+```typescript
+import { Query } from '@manta-style/helpers';
+
+type Type = Query<'type'>;
+type UserId = Query<'userid'>;
+type GroupId = Query<'groupid'>;
+
+type UserInfo<UID> = {
+  userid: UID;
+  /**
+   * @faker {{internet.userName}}
+   */
+  userName: string;
+  gender: 'male' | 'female';
+};
+
+type GroupInfo<GID> = {
+  groupid: GID;
+  /**
+   * @faker {{commerce.productAdjective}} {{commerce.productName}}
+   */
+  groupName: string;
+  /**
+   * @faker {{address.streetAddress}}, {{address.zipCode}}
+   */
+  address: string;
+};
+
+export type GET = {
+  '/getUserInfo': Type extends 'user' ? UserInfo<UserId> : GroupInfo<GroupId>;
+};
+```
+
+### Result
