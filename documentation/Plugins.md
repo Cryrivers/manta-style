@@ -214,4 +214,6 @@ const qotdPlugin: MockPlugin = {
 
 Manta Style supports TypeScript via `builder-typescript` and FlowType via `builder-flowtype`. More language support is coming soon.
 
+You can check the language support for [TypeScript Syntax](../packages/builders/builder-typescript/documentation/Syntax.md) and [Flow Syntax](../packages/builders/builder-flowtype/documentation/Syntax.md)
+
 ### Building Your Builder Plugins
