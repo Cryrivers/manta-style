@@ -73,13 +73,10 @@ Need more feature? [Create an issue](https://github.com/Cryrivers/manta-style/is
 
 <!-- TODO: move to docsite url -->
 
-You can find the documentation [here](./documentation/Introduction.md)
-
 Check out the [Quick Start](./documentation/QuickStart.md) page for a quick overview.
 
 The documentation is divided into the following sections:
 
-- [Introduction](./documentation/Introduction.md)
 - [Installation](./documentation/Installation.md)
 - [Quick Start](./documentation/QuickStart.md)
 - [Usage](./documentation/Usage.md)
