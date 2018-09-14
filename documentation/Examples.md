@@ -10,6 +10,7 @@ Contents
 - [Conditional Types](#conditional-types)
 - [Read information from URL](#read-information-from-url)
 - [Simulate server delay](#simulate-server-delay)
+- [Proxy to real servers](#proxy-to-real-servers)
 
 ## Mock Simple Data Structure
 
@@ -405,3 +406,30 @@ The output looks like the following, but server will randomly have 5-second dela
   "gender": "male"
 }
 ```
+
+## Proxy to real servers
+
+### Packages needed
+
+Builder: `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`
+
+Mock: (None)
+
+Package: (None)
+
+### Config File
+
+```typescript
+export type GET = {
+  /**
+   * @proxy https://jsonplaceholder.typicode.com
+   */
+  '/todos/1': { message: 'This is from Manta Style' };
+  /**
+   * @proxy https://www.google.com
+   */
+  '/errorExample': { haha: number };
+};
+```
+
+### Result
