@@ -37,7 +37,7 @@ export type GET = {
 ```json
 {
   "userid": 6.427734778350991,
-  "userName": "This is a string message. Customize it with JSDoc tag @example",
+  "userName": "This is a string message. Customize it mock plugins. (https://github.com/Cryrivers/manta-style/blob/master/documentation/Plugins.md)",
   "gender": "male"
 }
 ```
@@ -401,7 +401,7 @@ The output looks like the following, but server will randomly have 5-second dela
 ```json
 {
   "userid": 6.427734778350991,
-  "userName": "This is a string message. Customize it with JSDoc tag @example",
+  "userName": "This is a string message. Customize it mock plugins. (https://github.com/Cryrivers/manta-style/blob/master/documentation/Plugins.md)",
   "gender": "male"
 }
 ```
