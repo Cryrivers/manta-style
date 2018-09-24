@@ -16,7 +16,6 @@ module.exports = {
   },
   externals: {
     '@manta-style/core': '@manta-style/core',
-    'lodash-es': 'lodash-es',
   },
   module: {
     rules: [
