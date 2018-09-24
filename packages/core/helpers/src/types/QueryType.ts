@@ -2,13 +2,24 @@ import MantaStyle, {
   LiteralType,
   resolveReferencedType,
 } from '@manta-style/runtime';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  Annotation,
+  MantaStyleContext,
+  Type,
+  CustomType,
+} from '@manta-style/core';
 
-export default class QueryType extends Type {
+export default class QueryType extends CustomType {
   private readonly type: Type;
   constructor(type: Type) {
     super();
     this.type = type;
+  }
+  public typeForAssignabilityTest(
+    annotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
+    return this.deriveLiteral(annotations, context);
   }
   public async deriveLiteral(
     annotations: Annotation[],

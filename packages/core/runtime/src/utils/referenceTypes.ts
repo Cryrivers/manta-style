@@ -7,6 +7,7 @@ import {
   MantaStyleContext,
   annotationUtils,
   Type,
+  CustomType,
 } from '@manta-style/core';
 
 /**
@@ -24,12 +25,18 @@ export async function resolveReferencedType(
   let actualType = type;
   let annotations: Annotation[] = [];
   while (
+    actualType instanceof CustomType ||
     actualType instanceof TypeAliasDeclaration ||
     actualType instanceof TypeParameter ||
     actualType instanceof ParenthesizedType ||
     actualType instanceof KeyOfKeyword
   ) {
-    if (actualType instanceof TypeAliasDeclaration) {
+    if (actualType instanceof CustomType) {
+      actualType = await actualType.typeForAssignabilityTest(
+        annotations,
+        context,
+      );
+    } else if (actualType instanceof TypeAliasDeclaration) {
       // Make sure type parameters has been initialized
       // as we moved the initialization from `argumentTypes`
       // to `deriveLiteral`.

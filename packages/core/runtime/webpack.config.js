@@ -14,6 +14,10 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
+  externals: {
+    '@manta-style/core': '@manta-style/core',
+    'lodash-es': 'lodash-es',
+  },
   module: {
     rules: [
       {
