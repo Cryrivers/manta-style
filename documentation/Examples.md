@@ -315,8 +315,9 @@ It randomly generates one of following 4 responses. The `adjective` will always 
   "adjective": "dumb"
 }
 ```
+## Read information from URL (Basic)
 
-## Read information from URL
+## Read information from URL (Advanced)
 
 **This example supports TypeScript only**
 
