@@ -1,4 +1,5 @@
 export type Query<T extends string> = any;
+export type Param<T extends string> = any;
 export type Delay<T, MS extends number = 5000> = T;
 export type Unsplash<
   Keyword extends string = '',

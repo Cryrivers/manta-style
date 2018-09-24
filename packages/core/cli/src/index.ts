@@ -21,6 +21,7 @@ import * as PrettyError from 'pretty-error';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
+import { MantaStyleContext } from '@manta-style/core';
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
 const METHODS: HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
@@ -180,8 +181,12 @@ async function showOfficialPluginList() {
       }
 
       app.use(async (req, res, next) => {
-        const { path, query } = req;
-        const context = { query, plugins: pluginSystem };
+        const { path, query, params } = req;
+        const context: MantaStyleContext = {
+          query,
+          param: params,
+          plugins: pluginSystem,
+        };
         const queryString = qs.stringify(query);
         const endpoint = endpointMap[trimEndingSlash(path)];
         const endpointInfo =

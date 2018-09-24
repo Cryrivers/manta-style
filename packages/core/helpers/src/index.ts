@@ -1,4 +1,5 @@
 import QueryType from './types/QueryType';
+import ParamType from './types/ParamType';
 import DelayType from './types/DelayType';
 import UnsplashType from './types/UnsplashType';
 import MantaStyle from '@manta-style/runtime';
@@ -8,6 +9,15 @@ export const Query = MantaStyle.TypeAliasDeclaration(
   (typeFactory) => {
     const T = typeFactory.TypeParameter('T');
     return new QueryType(T);
+  },
+  [],
+);
+
+export const Param = MantaStyle.TypeAliasDeclaration(
+  'Param',
+  (typeFactory) => {
+    const T = typeFactory.TypeParameter('T');
+    return new ParamType(T);
   },
   [],
 );

@@ -4,6 +4,7 @@ import { Annotation } from './utils/annotation';
 
 export type MantaStyleContext = {
   query: { [key: string]: unknown };
+  param: { [key: string]: unknown };
   plugins: PluginSystem;
 };
 export * from './plugin';
