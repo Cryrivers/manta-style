@@ -1,11 +1,11 @@
-import { Query, Unsplash } from '@manta-style/helpers';
-type Test = Query<'haha'>;
+import { Query, Param, Unsplash } from '@manta-style/helpers';
+type Test = Param<'id'>;
 
 export type GET = {
   /**
    * @proxy https://jsonplaceholder.typicode.com
    */
-  '/todos/1': { haha: number; haha2: Test };
+  '/todos/:id': { haha: number; haha2: Test };
   /**
    * @proxy https://www.google.com
    */

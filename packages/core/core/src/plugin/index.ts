@@ -56,7 +56,7 @@ export interface BuilderPlugin {
   buildConfigSource(sourceCode: string): Promise<string>;
 }
 
-export type Plugin = MockPlugin | BuilderPlugin;
+export type Plugin = MockPlugin | BuilderPlugin | ServerPlugin;
 
 type PluginEntry<T extends Plugin = Plugin> = {
   name: string;
@@ -77,6 +77,7 @@ export class PluginSystem {
   private builderPlugins: {
     [key: string]: BuilderPlugin | undefined;
   } = {};
+  private serverPlugin!: PluginEntry<ServerPlugin>;
   public getMockPluginCount() {
     return Object.keys(this.mockPlugins).length;
   }
@@ -112,6 +113,8 @@ export class PluginSystem {
             );
           }
         }
+      } else if (isServerPlugin(plugin)) {
+        this.serverPlugin = plugin;
       }
     }
   }
@@ -169,6 +172,9 @@ export class PluginSystem {
       );
     }
   }
+  public getServer(): ServerPlugin {
+    return this.serverPlugin.module;
+  }
 }
 
 function extractNormalizedExtension(filePath: string) {
@@ -188,4 +194,10 @@ function isBuilderPlugin(
   plugin: PluginEntry,
 ): plugin is PluginEntry<BuilderPlugin> {
   return BUILDER_PLUGIN_REGEX.test(plugin.name);
+}
+
+function isServerPlugin(
+  plugin: PluginEntry,
+): plugin is PluginEntry<ServerPlugin> {
+  return SERVER_PLUGIN_REGEX.test(plugin.name);
 }

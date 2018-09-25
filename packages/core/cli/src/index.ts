@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 import * as express from 'express';
-import { Express } from 'express-serve-static-core';
 import { Server } from 'http';
 import * as path from 'path';
 import * as program from 'commander';
@@ -12,19 +11,12 @@ import chalk from 'chalk';
 import * as chokidar from 'chokidar';
 import * as qs from 'query-string';
 import axios from 'axios';
-import {
-  TypeAliasDeclarationFactory,
-  TypeLiteral,
-  Property,
-} from '@manta-style/runtime';
 import * as PrettyError from 'pretty-error';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
-import { MantaStyleContext } from '@manta-style/core';
+import { MantaStyleContext, CompiledTypes, Core } from '@manta-style/core';
 
-export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
-const METHODS: HTTPMethods[] = ['get', 'post', 'put', 'delete', 'patch'];
 const pe = new PrettyError();
 
 program
@@ -78,6 +70,9 @@ async function showOfficialPluginList() {
 
 (async function() {
   const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
+  const core = new Core();
+  const serverPlugin = pluginSystem.getServer();
+
   // Check plugin nums
   if (pluginSystem.getBuilderPluginCount() === 0) {
     console.log(
@@ -113,15 +108,9 @@ async function showOfficialPluginList() {
       ),
     );
   }
+
   let server: Server | undefined;
-  let endpointTable: {
-    method: string;
-    endpoint: string;
-    proxy: string | null;
-  }[] = [];
-  let endpointMockTable: {
-    [method: string]: { [endpoint: string]: boolean };
-  } = {};
+
   const snapshotFilePath = path.join(
     path.dirname(configFile),
     'ms.snapshot.json',
@@ -132,13 +121,10 @@ async function showOfficialPluginList() {
   const configFileWatcher = chokidar.watch(path.resolve(configFile));
 
   let isSnapshotMode = Boolean(useSnapshot);
+
   const snapshot = useSnapshot
     ? Snapshot.fromDisk(useSnapshot)
     : new Snapshot();
-
-  type MantaStyleConfig = {
-    [key: string]: ReturnType<TypeAliasDeclarationFactory> | undefined;
-  };
 
   snapshotWatcher.on('change', () => {
     snapshot.reloadFromFile(snapshotFilePath);
@@ -152,84 +138,53 @@ async function showOfficialPluginList() {
     printMessage();
   });
 
-  function buildEndpoints(
-    method: HTTPMethods,
-    compileConfig: MantaStyleConfig,
-    app: Express,
-  ) {
-    const methodTypeDef = compileConfig[method.toUpperCase()];
-    if (methodTypeDef) {
-      const endpoints = (methodTypeDef.getType() as TypeLiteral)._getProperties();
-      const endpointMap: { [key: string]: Property } = {};
-      for (const endpoint of endpoints) {
-        const proxyAnnotation = endpoint.annotations.find(
-          (item) => item.key === 'proxy',
-        );
-        endpointTable.push({
-          method,
-          endpoint: endpoint.name,
-          proxy: proxyAnnotation
-            ? proxyAnnotation.value
-            : proxyUrl
-              ? proxyUrl
-              : null,
-        });
-        (endpointMockTable[method] = endpointMockTable[method] || {})[
-          endpoint.name
-        ] = true;
-        endpointMap[trimEndingSlash(endpoint.name)] = endpoint;
-      }
+  async function setupMockServer() {
+    if (server) {
+      server.close();
+    }
+    core.clearEndpoints();
 
-      app.use(async (req, res, next) => {
-        const { path, query, params } = req;
+    const app = express();
+    const compiledFilePath = await pluginSystem.buildConfigFile(
+      path.resolve(configFile),
+      tmpDir,
+      verbose,
+    );
+
+    delete require.cache[compiledFilePath];
+
+    const compileConfig: CompiledTypes = require(compiledFilePath || '');
+    const endpoints = serverPlugin.generateEndpoints(compileConfig, {
+      proxyUrl,
+    });
+
+    for (const endpoint of endpoints) {
+      core.registerEndpoint(endpoint);
+      app[endpoint.method](endpoint.url, async function(req, res) {
+        const { query, params } = req;
         const context: MantaStyleContext = {
           query,
           param: params,
           plugins: pluginSystem,
         };
-        const queryString = qs.stringify(query);
-        const endpoint = endpointMap[trimEndingSlash(path)];
-        const endpointInfo =
-          endpoint &&
-          endpointTable.find(
-            (item) => item.method === method && item.endpoint === endpoint.name,
-          );
-        if (endpointInfo && endpointMockTable[method][endpoint.name]) {
-          const literalType = await endpoint.type.deriveLiteral([], context);
-          const mockData = literalType.mock();
-          if (isSnapshotMode) {
-            const snapshotData = snapshot.fetchSnapshot(
-              method,
-              endpoint.name,
-              queryString,
-            );
-            if (snapshotData) {
-              res.send(snapshotData);
-              return;
-            }
-          }
-          snapshot.updateSnapshot(method, endpoint.name, queryString, mockData);
-          res.send(mockData);
-          return;
-        } else if (
-          endpointInfo &&
-          !endpointMockTable[method][endpoint.name] &&
-          endpointInfo.proxy
-        ) {
+        if (endpoint.enabled) {
+          const result = await endpoint.callback(endpoint, context);
+          res.send(result);
+        } else if (endpoint.proxy) {
           axios
             .request({
-              method,
-              url: endpoint.name,
-              baseURL: endpointInfo.proxy,
+              method: endpoint.method,
+              url: req.path,
+              baseURL: endpoint.proxy,
               params: req.query,
             })
             .then((result) => {
-              snapshot.updateSnapshot(
-                method,
-                endpoint.name,
-                queryString,
-                result.data,
-              );
+              // snapshot.updateSnapshot(
+              //   method,
+              //   endpoint.name,
+              //   queryString,
+              //   result.data,
+              // );
               res.send(result.data);
             })
             .catch((result: Error) => {
@@ -244,7 +199,7 @@ async function showOfficialPluginList() {
                 </head>
                 <body>
                   <h2>Manta Style Proxy Error</h2>
-                  <p>Unable to connect to <strong>${endpoint.name}</strong></p>
+                  <p>Unable to connect to <strong>${endpoint.url}</strong></p>
                   <p>Reason:</p>
                   <blockquote>
                     <p>${result.message}</p>
@@ -254,28 +209,13 @@ async function showOfficialPluginList() {
             `);
             });
           return;
+        } else {
+          res.status(404);
+          res.send();
         }
-        next();
       });
     }
-  }
 
-  async function setupMockServer() {
-    if (server) {
-      server.close();
-    }
-    const app = express();
-    endpointTable = [];
-    endpointMockTable = {};
-    const compiledFilePath = await pluginSystem.buildConfigFile(
-      path.resolve(configFile),
-      tmpDir,
-      verbose,
-    );
-    delete require.cache[compiledFilePath];
-    const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
-    console.log(compileConfig);
-    METHODS.forEach((method) => buildEndpoints(method, compileConfig, app));
     server = app.listen(port || 3000);
   }
 
@@ -290,16 +230,17 @@ async function showOfficialPluginList() {
       colors: false,
       head: ['Method', 'Endpoint', 'Mocked', 'Proxy'],
     });
+    const endpointTable = core.getEndpoints();
     for (const row of endpointTable) {
       table.push([
         row.method.toUpperCase(),
-        `http://localhost:${port || 3000}${row.endpoint}`,
-        endpointMockTable[row.method][row.endpoint]
+        `http://localhost:${port || 3000}${row.url}`,
+        row.enabled
           ? chalk.green('Y')
           : row.proxy
             ? chalk.yellow('~>')
             : chalk.red('N'),
-        row.proxy ? row.proxy + row.endpoint : '',
+        row.proxy ? row.proxy + row.url : '',
       ]);
     }
     console.log(table.toString());
@@ -325,25 +266,22 @@ async function showOfficialPluginList() {
 
   async function selectiveMock() {
     clear();
+    const endpointTable = core.getEndpoints();
     const selection = await multiSelect(
       'Select endpoint to mock.',
       endpointTable.map((endpoint) => ({
-        name: `${endpoint.method.toUpperCase()} ${endpoint.endpoint}`,
+        name: `${endpoint.method.toUpperCase()} ${endpoint.url}`,
         value: endpoint,
       })),
-      endpointTable.filter(
-        (endpoint) => endpointMockTable[endpoint.method][endpoint.endpoint],
-      ),
+      endpointTable.filter((endpoint) => endpoint.enabled),
     );
     for (const endpoint of endpointTable) {
-      endpointMockTable[endpoint.method][endpoint.endpoint] =
-        selection.indexOf(endpoint) > -1;
+      endpoint.enabled = selection.indexOf(endpoint) > -1;
     }
     clear();
     printMessage();
     console.log('');
     toggleSnapshotMode(true);
-
     stdin.setRawMode && stdin.setRawMode(true);
     stdin.resume();
   }
