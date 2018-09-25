@@ -6,6 +6,7 @@ export default class PluginDiscovery {
   static async findPlugins(file: string) {
     const { pkg } = await readPkgUp({ cwd: file, normalize: true });
     const plugins = [
+      '@manta-style/server-restful',
       ...filterDependency(pkg.dependencies),
       ...filterDependency(pkg.devDependencies),
     ];
