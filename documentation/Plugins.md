@@ -13,9 +13,7 @@ Provides Manta Style examples for returns. Currently supports `string` and `numb
 
 #### Installation
 
-```sh
-$ npm install --save-dev @manta-style/mock-example
-```
+This plugin is included by default.
 
 #### Usage
 
@@ -138,9 +136,7 @@ Generates a random number between given range.
 
 #### Installation
 
-```sh
-$ npm install --save-dev @manta-style/mock-range
-```
+This plugin is included by default.
 
 #### Usage
 

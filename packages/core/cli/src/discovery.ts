@@ -2,6 +2,12 @@ import * as readPkgUp from 'read-pkg-up';
 import * as resolveFrom from 'resolve-from';
 import { PluginSystem, PLUGIN_REGEX } from '@manta-style/core';
 
+const DEFAULT_PLUGINS = [
+  '@manta-style/server-restful',
+  '@manta-style/mock-example',
+  '@manta-style/mock-range',
+];
+
 export default class PluginDiscovery {
   static async findPlugins(file: string) {
     const { pkg } = await readPkgUp({ cwd: file, normalize: true });
@@ -10,10 +16,7 @@ export default class PluginDiscovery {
       ...filterDependency(pkg.devDependencies),
     ];
     return new PluginSystem([
-      {
-        name: '@manta-style/server-restful',
-        module: defaultInterops(require('@manta-style/server-restful')),
-      },
+      ...defaultPlugins(DEFAULT_PLUGINS),
       ...plugins.map((plugin) => {
         return {
           name: plugin,
@@ -24,9 +27,18 @@ export default class PluginDiscovery {
   }
 }
 
+function defaultPlugins(packageNames: string[]) {
+  return packageNames.map((name) => ({
+    name,
+    module: defaultInterops(require(name)),
+  }));
+}
+
 function filterDependency(dep: { [name: string]: string } | undefined) {
   if (dep) {
-    return Object.keys(dep).filter((name) => PLUGIN_REGEX.test(name));
+    return Object.keys(dep).filter(
+      (name) => PLUGIN_REGEX.test(name) && !DEFAULT_PLUGINS.includes(name),
+    );
   }
   return [];
 }

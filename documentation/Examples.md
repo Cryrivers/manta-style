@@ -51,7 +51,7 @@ Previous example can generate the data structure we want. However, some fields l
 
 Builder: `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`
 
-Mock: `@manta-style/mock-faker`, `@manta-style/mock-range`
+Mock: `@manta-style/mock-faker`
 
 ### Config File
 
@@ -90,7 +90,7 @@ A new endpoint `/getUserInfoList` is added, which returns `UserInfo` of muliple 
 
 Builder: `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`
 
-Mock: `@manta-style/mock-faker`, `@manta-style/mock-range`
+Mock: `@manta-style/mock-faker`
 
 ### Config File
 
@@ -146,7 +146,7 @@ In practice, an API endpoint does not always return a payload without error. So 
 
 Builder: `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`
 
-Mock: `@manta-style/mock-faker`, `@manta-style/mock-range`
+Mock: `@manta-style/mock-faker`
 
 ### Config File
 
@@ -255,7 +255,7 @@ Sometimes there are some constraints among several fields. Say we need to have a
 
 Builder: `@manta-style/builder-typescript`
 
-Mock: `@manta-style/mock-example`
+Mock: (None)
 
 ### Config File
 
@@ -384,7 +384,7 @@ Back to our `/getUserInfo` example, say we need to have an upgraded `/getInfo` e
 
 Builder: `@manta-style/builder-typescript`
 
-Mock: `@manta-style/mock-faker`, `@manta-style/mock-range`
+Mock: `@manta-style/mock-faker`
 
 Package: `@manta-style/helpers`
 

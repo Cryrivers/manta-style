@@ -18,9 +18,6 @@
     "url": "https://github.com/Cryrivers/manta-style"
   },
   "license": "MIT",
-  "keywords": [
-    "mock"
-  ],
   "publishConfig": {
     "access": "public"
   },

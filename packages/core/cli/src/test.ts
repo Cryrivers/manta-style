@@ -5,7 +5,20 @@ export type GET = {
   /**
    * @proxy https://jsonplaceholder.typicode.com
    */
-  '/todos/:id': { haha: number; haha2: Test };
+  '/todos/:id': {
+    /**
+     * @range 2000 5000
+     */
+
+    haha: number;
+    /**
+     * @example a
+     * @example b
+     */
+
+    hoho: string;
+    haha2: Test;
+  };
   /**
    * @proxy https://www.google.com
    */

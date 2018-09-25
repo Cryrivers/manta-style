@@ -11,13 +11,13 @@ Meanwhile, we need the [`mock-example`](./Plugins.md#mock-example) and the [`moc
 - TypeScript users
 
 ```sh
-npm install --save-dev @manta-style/cli @manta-style/builder-typescript @manta-style/mock-example @manta-style/mock-faker
+npm install --save-dev @manta-style/cli @manta-style/builder-typescript @manta-style/mock-faker
 ```
 
 - Flowtype Users
 
 ```sh
-npm install --save-dev @manta-style/cli @manta-style/builder-flowtype @manta-style/mock-example @manta-style/mock-faker
+npm install --save-dev @manta-style/cli @manta-style/builder-flowtype @manta-style/mock-faker
 ```
 
 ## Basic Usages

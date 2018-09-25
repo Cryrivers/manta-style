@@ -2,9 +2,7 @@
 
 ## Installation
 
-```sh
-$ npm install --save-dev @manta-style/mock-range
-```
+This plugin is included by default
 
 ## Usage
 

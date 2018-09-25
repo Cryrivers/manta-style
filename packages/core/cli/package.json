@@ -40,6 +40,8 @@
   },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.6",
+    "@manta-style/mock-example": "^0.2.0-alpha.6",
+    "@manta-style/mock-range": "^0.2.0-alpha.6",
     "@manta-style/runtime": "^0.2.0-alpha.6",
     "@manta-style/server-restful": "^0.2.0-alpha.6",
     "@manta-style/typescript-helpers": "^0.2.0-alpha.6",
