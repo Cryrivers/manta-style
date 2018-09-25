@@ -315,13 +315,70 @@ It randomly generates one of following 4 responses. The `adjective` will always 
   "adjective": "dumb"
 }
 ```
+
 ## Read information from URL (Basic)
+
+Sometimes we might be interested in information in URLs. URL queries for example, say we have a request `/test?country=Singapore`, we want to read the `country` as a Type. Another example is URL params, say we have a request `/todo/1`, we want to read the id `1`.
+
+### Packages needed
+
+Builder: `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`
+
+Mock: (None)
+
+Package: `@manta-style/helpers`
+
+### Config File
+
+Import `@manta-style/helpers`:
+
+- TypeScript
+
+```typescript
+import { Query, Param } from '@manta-style/helpers';
+```
+
+- Flow
+
+```flow
+import type { Query, Param } from '@manta-style/helpers';
+```
+
+```typescript
+type Country = Query<'country'>;
+type TodoId = Param<'id'>;
+
+export type GET = {
+  '/test': { country: Country };
+  '/todo/:id': { id: TodoId };
+};
+```
+
+### Result
+
+Result for URL `/test?country=Singapore`
+
+```json
+{
+  "country": "Singapore"
+}
+```
+
+Result for URL `/todo/1`
+
+```json
+{
+  "id": "1"
+}
+```
 
 ## Read information from URL (Advanced)
 
 **This example supports TypeScript only**
 
-Back to our `/getUserInfo` examples, say we need to have an upgraded `/getInfo` endpoint, which gets a `UserInfo` given URL queries `type=user&userid={userid}` or gets a `GroupInfo` given URL queries `type=group&groupid={groupid}`.
+Since we read information from URL as TypeScript types, not only do they support to display, but also support conditional types.
+
+Back to our `/getUserInfo` example, say we need to have an upgraded `/getInfo` endpoint, which gets a `UserInfo` given URL queries `type=user&userid={userid}` or gets a `GroupInfo` given URL queries `type=group&groupid={groupid}`.
 
 ### Packages needed
 
