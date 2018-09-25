@@ -142,6 +142,7 @@ async function showOfficialPluginList() {
     if (server) {
       server.close();
     }
+
     core.clearEndpoints();
 
     const app = express();
