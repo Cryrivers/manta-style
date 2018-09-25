@@ -16,7 +16,6 @@ import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
 import { MantaStyleContext, CompiledTypes, Core } from '@manta-style/core';
-import * as os from 'os';
 
 const pe = new PrettyError();
 
@@ -160,13 +159,31 @@ async function showOfficialPluginList() {
     for (const endpoint of endpoints) {
       app[endpoint.method](endpoint.url, async function(req, res) {
         const { query, params } = req;
+        const queryString = qs.stringify(query);
         const context: MantaStyleContext = {
           query,
           param: params,
           plugins: core.pluginSystem,
         };
         if (endpoint.enabled) {
+          if (isSnapshotMode) {
+            const snapshotData = snapshot.fetchSnapshot(
+              endpoint.method,
+              endpoint.url,
+              queryString,
+            );
+            if (snapshotData) {
+              res.send(snapshotData);
+              return;
+            }
+          }
           const result = await endpoint.callback(endpoint, context);
+          snapshot.updateSnapshot(
+            endpoint.method,
+            endpoint.url,
+            queryString,
+            result,
+          );
           res.send(result);
         } else if (endpoint.proxy) {
           axios
@@ -177,12 +194,12 @@ async function showOfficialPluginList() {
               params: req.query,
             })
             .then((result) => {
-              // snapshot.updateSnapshot(
-              //   method,
-              //   endpoint.name,
-              //   queryString,
-              //   result.data,
-              // );
+              snapshot.updateSnapshot(
+                endpoint.method,
+                endpoint.url,
+                queryString,
+                result.data,
+              );
               res.send(result.data);
             })
             .catch((result: Error) => {
