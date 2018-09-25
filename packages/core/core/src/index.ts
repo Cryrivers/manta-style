@@ -1,5 +1,5 @@
 import * as annotationUtils from './utils/annotation';
-import { PluginSystem } from './plugin';
+import { PluginSystem, CompiledTypes } from './plugin';
 import { Annotation } from './utils/annotation';
 
 export type MantaStyleContext = {
@@ -23,24 +23,38 @@ export type Endpoint = {
 };
 
 export class Core {
+  public pluginSystem: PluginSystem;
   private endpoints: Endpoint[] = [];
-  public registerEndpoint(endpoint: Endpoint) {
-    if (!this.getEndpointByMethodURL(endpoint.method, endpoint.url)) {
-      this.endpoints.push(endpoint);
-    } else {
-      throw new Error('Duplicated endpoints');
-    }
+  constructor(plugins: PluginSystem) {
+    this.pluginSystem = plugins;
   }
-  public clearEndpoints() {
-    this.endpoints = [];
+  public get builderPluginCount() {
+    return this.pluginSystem.getBuilderPluginCount();
+  }
+  public get mockPluginCount() {
+    return this.pluginSystem.getMockPluginCount();
   }
   public getEndpoints() {
     return this.endpoints;
   }
-  public getEndpointByMethodURL(method: HTTPMethods, url: string) {
-    return this.endpoints.find(
-      (item) => item.method === method && item.url === url,
-    );
+  public buildConfigFile(
+    configFilePath: string,
+    destDir: string,
+    verbose?: boolean,
+  ) {
+    this.endpoints = [];
+    return this.pluginSystem.buildConfigFile(configFilePath, destDir, verbose);
+  }
+  public generateEndpoints(
+    compiled: CompiledTypes,
+    options: { proxyUrl?: string },
+  ) {
+    const endpoints = this.pluginSystem
+      .getServer()
+      .generateEndpoints(compiled, options);
+
+    this.endpoints = endpoints;
+    return endpoints;
   }
 }
 

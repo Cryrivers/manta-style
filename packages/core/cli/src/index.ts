@@ -16,11 +16,12 @@ import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import PluginDiscovery from './discovery';
 import { MantaStyleContext, CompiledTypes, Core } from '@manta-style/core';
+import * as os from 'os';
 
 const pe = new PrettyError();
 
 program
-  .version('0.0.11')
+  .version('0.2.0')
   .option('-c --configFile <file>', 'the config file to generate entry points')
   .option('-p --port <i> [3000]', 'To use a port different than 3000')
   .option('--proxyUrl <url>', 'To enable proxy for disabled endpoints')
@@ -69,12 +70,9 @@ async function showOfficialPluginList() {
 }
 
 (async function() {
-  const pluginSystem = await PluginDiscovery.findPlugins(process.cwd());
-  const core = new Core();
-  const serverPlugin = pluginSystem.getServer();
-
+  const core = new Core(await PluginDiscovery.findPlugins(process.cwd()));
   // Check plugin nums
-  if (pluginSystem.getBuilderPluginCount() === 0) {
+  if (core.builderPluginCount === 0) {
     console.log(
       chalk.bold(
         chalk.yellow(
@@ -99,7 +97,8 @@ async function showOfficialPluginList() {
     );
     process.exit(1);
   }
-  if (pluginSystem.getMockPluginCount() === 0) {
+
+  if (core.mockPluginCount === 0) {
     console.log(
       chalk.bold(
         chalk.yellow(
@@ -116,7 +115,8 @@ async function showOfficialPluginList() {
     'ms.snapshot.json',
   );
 
-  const tmpDir = findRoot(process.cwd()) + '/.mantastyle-tmp';
+  const tmpDir = path.join(findRoot(process.cwd()), '.mantastyle-tmp');
+
   const snapshotWatcher = chokidar.watch(snapshotFilePath);
   const configFileWatcher = chokidar.watch(path.resolve(configFile));
 
@@ -142,11 +142,8 @@ async function showOfficialPluginList() {
     if (server) {
       server.close();
     }
-
-    core.clearEndpoints();
-
     const app = express();
-    const compiledFilePath = await pluginSystem.buildConfigFile(
+    const compiledFilePath = await core.buildConfigFile(
       path.resolve(configFile),
       tmpDir,
       verbose,
@@ -155,18 +152,18 @@ async function showOfficialPluginList() {
     delete require.cache[compiledFilePath];
 
     const compileConfig: CompiledTypes = require(compiledFilePath || '');
-    const endpoints = serverPlugin.generateEndpoints(compileConfig, {
+
+    const endpoints = core.generateEndpoints(compileConfig, {
       proxyUrl,
     });
 
     for (const endpoint of endpoints) {
-      core.registerEndpoint(endpoint);
       app[endpoint.method](endpoint.url, async function(req, res) {
         const { query, params } = req;
         const context: MantaStyleContext = {
           query,
           param: params,
-          plugins: pluginSystem,
+          plugins: core.pluginSystem,
         };
         if (endpoint.enabled) {
           const result = await endpoint.callback(endpoint, context);
@@ -322,13 +319,6 @@ async function showOfficialPluginList() {
 
   stdin.setRawMode && stdin.setRawMode(true);
   stdin.resume();
-
-  function trimEndingSlash(url: string) {
-    if (url.endsWith('/')) {
-      return url.substring(0, url.length - 1);
-    }
-    return url;
-  }
 })().catch((exception) => {
   if (exception instanceof Error) {
     if (verbose) {
