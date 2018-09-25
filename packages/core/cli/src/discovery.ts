@@ -6,18 +6,21 @@ export default class PluginDiscovery {
   static async findPlugins(file: string) {
     const { pkg } = await readPkgUp({ cwd: file, normalize: true });
     const plugins = [
-      '@manta-style/server-restful',
       ...filterDependency(pkg.dependencies),
       ...filterDependency(pkg.devDependencies),
     ];
-    return new PluginSystem(
-      plugins.map((plugin) => {
+    return new PluginSystem([
+      {
+        name: '@manta-style/server-restful',
+        module: defaultInterops(require('@manta-style/server-restful')),
+      },
+      ...plugins.map((plugin) => {
         return {
           name: plugin,
           module: defaultInterops(require(resolveFrom(file, plugin))),
         };
       }),
-    );
+    ]);
   }
 }
 
