@@ -18,6 +18,20 @@ export type GET = {
 
     hoho: string;
     haha2: Test;
+    /**
+     * @length 10
+     * @example a
+     * @example b
+     */
+    zzzz: string[];
+    yyyy: {
+      /**
+       * @key some
+       * @key nice
+       * @key key
+       */
+      [key: string]: number;
+    };
   };
   /**
    * @proxy https://www.google.com
