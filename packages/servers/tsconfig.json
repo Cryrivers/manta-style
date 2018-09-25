@@ -1,0 +1,13 @@
+{
+  "extends": "../../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es5",
+    "strict": true,
+    "sourceMap": true,
+    "module": "esnext",
+    "declaration": true,
+    "declarationDir": "./lib/typings"
+  },
+  "include": ["./src"],
+  "exclude": ["./node_modules", "./__tests__", "./__mocks__", "./lib"]
+}

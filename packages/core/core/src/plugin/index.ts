@@ -5,7 +5,7 @@ import { Type, Endpoint } from '..';
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
 export const PLUGIN_REGEX = new RegExp(
-  PLUGIN_PREFIX.map((prefix) => `(^${prefix}(mock|builder)-)`).join('|'),
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}(mock|builder|server)-)`).join('|'),
 );
 
 const MOCK_PLUGIN_REGEX = new RegExp(
@@ -14,6 +14,10 @@ const MOCK_PLUGIN_REGEX = new RegExp(
 
 const BUILDER_PLUGIN_REGEX = new RegExp(
   PLUGIN_PREFIX.map((prefix) => `(^${prefix}builder-)`).join('|'),
+);
+
+const SERVER_PLUGIN_REGEX = new RegExp(
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}server-)`).join('|'),
 );
 
 type AnyObject = { [key: string]: any };
@@ -25,9 +29,10 @@ export type CompiledTypes = {
 
 export interface ServerPlugin {
   name: string;
-  generateEndpoints(compiled: CompiledTypes): Endpoint[];
-  serialize(payload: any): string;
-  deserialize(payload: string): any;
+  generateEndpoints(
+    compiled: CompiledTypes,
+    options: { proxyUrl?: string },
+  ): Endpoint[];
 }
 
 export interface MockPlugin {

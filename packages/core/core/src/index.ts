@@ -16,7 +16,10 @@ export type Endpoint = {
   url: string;
   proxy: string | null;
   enabled: boolean;
-  callback: () => void;
+  callback: (
+    matchedEndpoint: Endpoint,
+    context: MantaStyleContext,
+  ) => Promise<any>;
 };
 
 export class Core {
