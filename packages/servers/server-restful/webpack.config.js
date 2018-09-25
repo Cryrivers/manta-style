@@ -4,7 +4,7 @@ module.exports = {
   devtool: 'source-map',
   output: {
     path: __dirname + '/lib',
-    filename: 'index.js',
+    filename: 'server-restful.js',
     library: 'MantaStylePluginServerRestful',
     libraryTarget: 'umd',
     // See https://github.com/webpack/webpack/issues/6522

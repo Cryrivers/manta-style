@@ -9,7 +9,7 @@ export default class PluginDiscovery {
       ...filterDependency(pkg.dependencies),
       ...filterDependency(pkg.devDependencies),
     ];
-
+    console.log(plugins);
     return new PluginSystem(
       plugins.map((plugin) => {
         return {

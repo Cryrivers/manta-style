@@ -41,6 +41,7 @@
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.6",
     "@manta-style/runtime": "^0.2.0-alpha.6",
+    "@manta-style/server-restful": "^0.2.0-alpha.6",
     "@manta-style/typescript-helpers": "^0.2.0-alpha.6",
     "axios": "^0.18.0",
     "chalk": "^2.4.1",
