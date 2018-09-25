@@ -274,6 +274,7 @@ async function showOfficialPluginList() {
     );
     delete require.cache[compiledFilePath];
     const compileConfig: MantaStyleConfig = require(compiledFilePath || '');
+    console.log(compileConfig);
     METHODS.forEach((method) => buildEndpoints(method, compileConfig, app));
     server = app.listen(port || 3000);
   }

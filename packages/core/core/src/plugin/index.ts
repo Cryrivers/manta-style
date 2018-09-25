@@ -1,5 +1,6 @@
 import { Annotation } from '../utils/annotation';
 import { generateErrorMessage, ErrorCode } from '../utils/errorMessage';
+import { Type, Endpoint } from '..';
 
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
@@ -17,6 +18,17 @@ const BUILDER_PLUGIN_REGEX = new RegExp(
 
 type AnyObject = { [key: string]: any };
 type MockResult<T> = T | null | Promise<T | null>;
+
+export type CompiledTypes = {
+  [key: string]: Type | undefined;
+};
+
+export interface ServerPlugin {
+  name: string;
+  generateEndpoints(compiled: CompiledTypes): Endpoint[];
+  serialize(payload: any): string;
+  deserialize(payload: string): any;
+}
 
 export interface MockPlugin {
   name: string;

@@ -10,6 +10,37 @@ export type MantaStyleContext = {
 export * from './plugin';
 export { annotationUtils, Annotation };
 
+export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
+export type Endpoint = {
+  method: HTTPMethods;
+  url: string;
+  proxy: string | null;
+  enabled: boolean;
+  callback: () => void;
+};
+
+export class Core {
+  private endpoints: Endpoint[] = [];
+  public registerEndpoint(endpoint: Endpoint) {
+    if (!this.getEndpointByMethodURL(endpoint.method, endpoint.url)) {
+      this.endpoints.push(endpoint);
+    } else {
+      throw new Error('Duplicated endpoints');
+    }
+  }
+  public clearEndpoints() {
+    this.endpoints = [];
+  }
+  public getEndpoints() {
+    return this.endpoints;
+  }
+  public getEndpointByMethodURL(method: HTTPMethods, url: string) {
+    return this.endpoints.find(
+      (item) => item.method === method && item.url === url,
+    );
+  }
+}
+
 export abstract class Type {
   public abstract deriveLiteral(
     parentAnnotations: Annotation[],
