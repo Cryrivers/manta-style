@@ -4,7 +4,7 @@ import { PluginSystem, annotationUtils, Annotation } from '@manta-style/core';
 const { inheritAnnotations } = annotationUtils;
 
 describe('Annotation Test', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
 
   test('Inherit Annotations', () => {
     const parent: Annotation[] = [

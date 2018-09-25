@@ -3,7 +3,7 @@ import { PluginSystem } from '@manta-style/core';
 import UnionType from '../../src/types/UnionType';
 
 describe('IndexedAccessType', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
   test('Basic T[K]', async () => {
     /*
         type obj = {

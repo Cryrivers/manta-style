@@ -6,6 +6,7 @@ describe('Plugin Test', () => {
   test('Test original @example annotation', async () => {
     const context = {
       query: {},
+      param: {},
       plugins: new PluginSystem([
         {
           name: '@manta-style/mock-example',

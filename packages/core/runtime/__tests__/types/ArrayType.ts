@@ -6,7 +6,7 @@ import { PluginSystem } from '@manta-style/core';
 const type = MS.ArrayType(MS.NumberKeyword);
 
 describe('AnyKeyword', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
 
   test('deriveLiteral', async () => {
     const literals = await type.deriveLiteral([], context);

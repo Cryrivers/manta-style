@@ -2,7 +2,7 @@ import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
 
 describe('TypeLiteral Test', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
 
   test('TypeLiteral can mock', async () => {
     const GenericTypeLiteral = MS.TypeAliasDeclaration(

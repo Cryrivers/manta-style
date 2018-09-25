@@ -2,7 +2,7 @@ import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
 
 describe('KeyOfKeyword', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
   test('Basic properties', async () => {
     const obj = MS.TypeLiteral((currentType) => {
       currentType.property('a', MS.NumberKeyword, false, []);

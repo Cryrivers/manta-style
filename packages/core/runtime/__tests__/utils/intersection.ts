@@ -3,7 +3,7 @@ import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
 
 describe('Intersection Test', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
 
   test('number & number = number', async () => {
     expect(
