@@ -13,7 +13,7 @@ export default class StringKeyword extends Type {
 
     const pluginValue = await plugins.getMockValueFromPlugin(
       'StringType',
-      (plugin: any) => plugin(annotations, context),
+      (plugin) => plugin(annotations, context),
     );
     let stringValue =
       pluginValue !== null ? String(pluginValue) : DEFAULT_STATIC_STRING;

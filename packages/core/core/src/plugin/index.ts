@@ -1,6 +1,6 @@
 import { Annotation } from '../utils/annotation';
 import { generateErrorMessage, ErrorCode } from '../utils/errorMessage';
-import { Type, Endpoint } from '..';
+import { Type, Endpoint, MantaStyleContext } from '..';
 
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
@@ -20,9 +20,6 @@ const SERVER_PLUGIN_REGEX = new RegExp(
   PLUGIN_PREFIX.map((prefix) => `(^${prefix}server-)`).join('|'),
 );
 
-type AnyObject = { [key: string]: any };
-type MockResult<T> = T | null | Promise<T | null>;
-
 export type CompiledTypes = {
   [key: string]: Type | undefined;
 };
@@ -35,14 +32,24 @@ export interface ServerPlugin {
   ): Endpoint[];
 }
 
+type MockResult<T> = T | null | Promise<T | null>;
+type MockPrimitiveResult<T extends SupportedMockType> = T extends 'StringType'
+  ? string
+  : T extends 'NumberType' ? number : T extends 'BooleanType' ? boolean : any;
+type MockFunction<T extends SupportedMockType> = (
+  annotations: Annotation[],
+  context: MantaStyleContext,
+) => MockResult<MockPrimitiveResult<T>>;
+
+type SupportedMockType = 'StringType' | 'NumberType' | 'BooleanType';
+
+type MockCallback<T extends SupportedMockType> = (
+  mockFunction: MockFunction<T>,
+) => MockResult<MockPrimitiveResult<T>>;
+
 export interface MockPlugin {
   name: string;
-  mock: {
-    StringType?: (annotations: Annotation[]) => MockResult<string>;
-    NumberType?: (annotations: Annotation[]) => MockResult<number>;
-    BooleanType?: (annotations: Annotation[]) => MockResult<boolean>;
-    TypeLiteral?: (annotations: Annotation[]) => MockResult<AnyObject>;
-  };
+  mock: { [key in SupportedMockType]?: MockFunction<key> };
 }
 export interface BuilderPlugin {
   name: string;
@@ -62,17 +69,16 @@ type PluginEntry<T extends Plugin = Plugin> = {
   name: string;
   module: T;
 };
-type SupportedMockType = keyof MockPlugin['mock'];
-type SupportedMockFunction = Required<MockPlugin['mock']>[SupportedMockType];
 
 export class PluginSystem {
   static default() {
     return new PluginSystem([]);
   }
   private mockPlugins: {
-    [key: string]:
-      | Array<{ name: string; mock: SupportedMockFunction }>
-      | undefined;
+    [key in SupportedMockType]?: Array<{
+      name: string;
+      mock: Required<MockPlugin['mock']>[key];
+    }>
   } = {};
   private builderPlugins: {
     [key: string]: BuilderPlugin | undefined;
@@ -92,6 +98,7 @@ export class PluginSystem {
         for (const type of types) {
           const mockFunction = mock[type];
           if (mockFunction) {
+            // @ts-ignore
             (this.mockPlugins[type] = this.mockPlugins[type] || []).push({
               name,
               mock: mockFunction,
@@ -118,12 +125,13 @@ export class PluginSystem {
       }
     }
   }
-  public async getMockValueFromPlugin(
-    type: SupportedMockType,
-    callback: Function,
+  public async getMockValueFromPlugin<T extends SupportedMockType>(
+    type: T,
+    callback: MockCallback<T>,
   ) {
     const plugins = this.mockPlugins[type];
     if (plugins) {
+      // @ts-ignore
       for (const plugin of plugins) {
         try {
           const value = await callback(plugin.mock);
