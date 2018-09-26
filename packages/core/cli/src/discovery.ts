@@ -1,6 +1,6 @@
 import * as readPkgUp from 'read-pkg-up';
 import * as resolveFrom from 'resolve-from';
-import { PluginSystem, PLUGIN_REGEX } from '@manta-style/core';
+import { PLUGIN_REGEX } from '@manta-style/core';
 
 const DEFAULT_PLUGINS = [
   '@manta-style/server-restful',
@@ -8,23 +8,22 @@ const DEFAULT_PLUGINS = [
   '@manta-style/mock-range',
 ];
 
-export default class PluginDiscovery {
-  static async findPlugins(file: string) {
-    const { pkg } = await readPkgUp({ cwd: file, normalize: true });
-    const plugins = [
-      ...filterDependency(pkg.dependencies),
-      ...filterDependency(pkg.devDependencies),
-    ];
-    return new PluginSystem([
-      ...defaultPlugins(DEFAULT_PLUGINS),
-      ...plugins.map((plugin) => {
-        return {
-          name: plugin,
-          module: defaultInterops(require(resolveFrom(file, plugin))),
-        };
-      }),
-    ]);
-  }
+export async function findPlugins() {
+  const file = process.cwd();
+  const { pkg } = await readPkgUp({ cwd: file, normalize: true });
+  const plugins = [
+    ...filterDependency(pkg.dependencies),
+    ...filterDependency(pkg.devDependencies),
+  ];
+  return [
+    ...defaultPlugins(DEFAULT_PLUGINS),
+    ...plugins.map((plugin) => {
+      return {
+        name: plugin,
+        module: defaultInterops(require(resolveFrom(file, plugin))),
+      };
+    }),
+  ];
 }
 
 function defaultPlugins(packageNames: string[]) {

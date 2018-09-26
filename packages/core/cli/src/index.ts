@@ -14,8 +14,8 @@ import axios from 'axios';
 import * as PrettyError from 'pretty-error';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
-import PluginDiscovery from './discovery';
 import { MantaStyleContext, CompiledTypes, Core } from '@manta-style/core';
+import { findPlugins } from './discovery';
 
 const pe = new PrettyError();
 
@@ -69,7 +69,7 @@ async function showOfficialPluginList() {
 }
 
 (async function() {
-  const core = new Core(await PluginDiscovery.findPlugins(process.cwd()));
+  const core = new Core(await findPlugins());
   // Check plugin nums
   if (core.builderPluginCount === 0) {
     console.log(

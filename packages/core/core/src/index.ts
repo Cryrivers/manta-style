@@ -1,5 +1,5 @@
 import * as annotationUtils from './utils/annotation';
-import { PluginSystem, CompiledTypes } from './plugin';
+import { PluginSystem, CompiledTypes, PluginEntry } from './plugin';
 import { Annotation } from './utils/annotation';
 
 export type MantaStyleContext = {
@@ -25,8 +25,8 @@ export type Endpoint = {
 export class Core {
   public pluginSystem: PluginSystem;
   private endpoints: Endpoint[] = [];
-  constructor(plugins: PluginSystem) {
-    this.pluginSystem = plugins;
+  constructor(plugins: PluginEntry[]) {
+    this.pluginSystem = new PluginSystem(plugins);
   }
   public get builderPluginCount() {
     return this.pluginSystem.getBuilderPluginCount();

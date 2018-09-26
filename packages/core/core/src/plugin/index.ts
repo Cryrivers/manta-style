@@ -65,7 +65,7 @@ export interface BuilderPlugin {
 
 export type Plugin = MockPlugin | BuilderPlugin | ServerPlugin;
 
-type PluginEntry<T extends Plugin = Plugin> = {
+export type PluginEntry<T extends Plugin = Plugin> = {
   name: string;
   module: T;
 };
