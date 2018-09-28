@@ -36,7 +36,7 @@
     "@types/query-string": "^6.1.0",
     "@types/read-pkg-up": "^3.0.1",
     "@types/resolve-from": "^0.0.18",
-    "typescript": "3.0.3"
+    "typescript": "3.1.1"
   },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.6",
