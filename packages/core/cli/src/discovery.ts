@@ -15,15 +15,7 @@ export async function findPlugins() {
     ...filterDependency(pkg.dependencies),
     ...filterDependency(pkg.devDependencies),
   ];
-  return [
-    ...defaultPlugins(DEFAULT_PLUGINS),
-    ...plugins.map((plugin) => {
-      return {
-        name: plugin,
-        module: defaultInterops(require(resolveFrom(file, plugin))),
-      };
-    }),
-  ];
+  return [...defaultPlugins(DEFAULT_PLUGINS), ...customPlugins(plugins, file)];
 }
 
 function defaultPlugins(packageNames: string[]) {
@@ -31,6 +23,15 @@ function defaultPlugins(packageNames: string[]) {
     name,
     module: defaultInterops(require(name)),
   }));
+}
+
+function customPlugins(packageNames: string[], resolvePath: string) {
+  return packageNames.map((plugin) => {
+    return {
+      name: plugin,
+      module: defaultInterops(require(resolveFrom(resolvePath, plugin))),
+    };
+  });
 }
 
 function filterDependency(dep: { [name: string]: string } | undefined) {
