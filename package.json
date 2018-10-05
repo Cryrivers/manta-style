@@ -20,7 +20,8 @@
   "workspaces": [
     "packages/core/*",
     "packages/builders/*",
-    "packages/mocks/*"
+    "packages/mocks/*",
+    "packages/servers/*"
   ],
   "lint-staged": {
     "linters": {

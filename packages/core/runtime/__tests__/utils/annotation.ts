@@ -4,7 +4,7 @@ import { PluginSystem, annotationUtils, Annotation } from '@manta-style/core';
 const { inheritAnnotations } = annotationUtils;
 
 describe('Annotation Test', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
 
   test('Inherit Annotations', () => {
     const parent: Annotation[] = [
@@ -35,7 +35,8 @@ describe('Annotation Test', () => {
     expect(result).toEqual(
       Array.from(
         new Array(100),
-        () => 'This is a string message. Customize it with JSDoc tag @example',
+        () =>
+          'This is a string message. Customize it mock plugins. (https://github.com/Cryrivers/manta-style/blob/master/documentation/Plugins.md)',
       ),
     );
   });

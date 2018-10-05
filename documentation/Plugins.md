@@ -13,9 +13,7 @@ Provides Manta Style examples for returns. Currently supports `string` and `numb
 
 #### Installation
 
-```sh
-$ npm install --save-dev @manta-style/mock-example
-```
+This plugin is included by default.
 
 #### Usage
 
@@ -138,9 +136,7 @@ Generates a random number between given range.
 
 #### Installation
 
-```sh
-$ npm install --save-dev @manta-style/mock-range
-```
+This plugin is included by default.
 
 #### Usage
 
@@ -213,5 +209,7 @@ const qotdPlugin: MockPlugin = {
 <!-- draft -->
 
 Manta Style supports TypeScript via `builder-typescript` and FlowType via `builder-flowtype`. More language support is coming soon.
+
+You can check the language support for [TypeScript Syntax](../packages/builders/builder-typescript/documentation/Syntax.md) and [Flow Syntax](../packages/builders/builder-flowtype/documentation/Syntax.md)
 
 ### Building Your Builder Plugins

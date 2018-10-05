@@ -23,13 +23,13 @@
     "access": "public"
   },
   "devDependencies": {
-    "@manta-style/core": "^0.2.0-alpha.4",
-    "@manta-style/runtime": "^0.2.0-alpha.4",
+    "@manta-style/core": "^0.2.0-alpha.6",
+    "@manta-style/runtime": "^0.2.0-alpha.6",
     "awesome-typescript-loader": "^5.2.1",
     "source-map-loader": "^0.2.4",
-    "typescript": "3.0.3",
-    "webpack": "^4.18.0",
-    "webpack-cli": "^3.1.0"
+    "typescript": "3.1.1",
+    "webpack": "^4.20.2",
+    "webpack-cli": "^3.1.2"
   },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.6",

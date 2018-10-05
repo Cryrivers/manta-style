@@ -1,6 +1,6 @@
-import { HTTPMethods } from '..';
 import * as fs from 'fs';
 import * as path from 'path';
+import { HTTPMethods } from '@manta-style/core';
 
 type AnyObject = {
   [key: string]: any;

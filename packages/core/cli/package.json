@@ -32,15 +32,18 @@
     "@types/find-root": "^1.1.1",
     "@types/inquirer": "^0.0.43",
     "@types/log-update": "^2.0.0",
-    "@types/node": "^10.9.4",
+    "@types/node": "^10.11.4",
     "@types/query-string": "^6.1.0",
     "@types/read-pkg-up": "^3.0.1",
     "@types/resolve-from": "^0.0.18",
-    "typescript": "3.0.3"
+    "typescript": "3.1.1"
   },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.6",
+    "@manta-style/mock-example": "^0.2.0-alpha.6",
+    "@manta-style/mock-range": "^0.2.0-alpha.6",
     "@manta-style/runtime": "^0.2.0-alpha.6",
+    "@manta-style/server-restful": "^0.2.0-alpha.6",
     "@manta-style/typescript-helpers": "^0.2.0-alpha.6",
     "axios": "^0.18.0",
     "chalk": "^2.4.1",
@@ -53,7 +56,7 @@
     "inquirer": "^6.2.0",
     "log-update": "^2.3.0",
     "pretty-error": "^2.1.1",
-    "query-string": "^6.1.0",
+    "query-string": "^6.2.0",
     "read-pkg-up": "^4.0.0",
     "resolve-from": "^4.0.0"
   }

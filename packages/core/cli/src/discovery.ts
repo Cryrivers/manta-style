@@ -1,29 +1,44 @@
 import * as readPkgUp from 'read-pkg-up';
 import * as resolveFrom from 'resolve-from';
-import { PluginSystem, PLUGIN_REGEX } from '@manta-style/core';
+import { PLUGIN_REGEX } from '@manta-style/core';
 
-export default class PluginDiscovery {
-  static async findPlugins(file: string) {
-    const { pkg } = await readPkgUp({ cwd: file, normalize: true });
-    const plugins = [
-      ...filterDependency(pkg.dependencies),
-      ...filterDependency(pkg.devDependencies),
-    ];
+const DEFAULT_PLUGINS = [
+  '@manta-style/server-restful',
+  '@manta-style/mock-example',
+  '@manta-style/mock-range',
+];
 
-    return new PluginSystem(
-      plugins.map((plugin) => {
-        return {
-          name: plugin,
-          module: defaultInterops(require(resolveFrom(file, plugin))),
-        };
-      }),
-    );
-  }
+export async function findPlugins() {
+  const file = process.cwd();
+  const { pkg } = await readPkgUp({ cwd: file, normalize: true });
+  const plugins = [
+    ...filterDependency(pkg.dependencies),
+    ...filterDependency(pkg.devDependencies),
+  ];
+  return [...defaultPlugins(DEFAULT_PLUGINS), ...customPlugins(plugins, file)];
+}
+
+function defaultPlugins(packageNames: string[]) {
+  return packageNames.map((name) => ({
+    name,
+    module: defaultInterops(require(name)),
+  }));
+}
+
+function customPlugins(packageNames: string[], resolvePath: string) {
+  return packageNames.map((plugin) => {
+    return {
+      name: plugin,
+      module: defaultInterops(require(resolveFrom(resolvePath, plugin))),
+    };
+  });
 }
 
 function filterDependency(dep: { [name: string]: string } | undefined) {
   if (dep) {
-    return Object.keys(dep).filter((name) => PLUGIN_REGEX.test(name));
+    return Object.keys(dep).filter(
+      (name) => PLUGIN_REGEX.test(name) && !DEFAULT_PLUGINS.includes(name),
+    );
   }
   return [];
 }

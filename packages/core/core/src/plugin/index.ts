@@ -1,10 +1,11 @@
 import { Annotation } from '../utils/annotation';
 import { generateErrorMessage, ErrorCode } from '../utils/errorMessage';
+import { Type, Endpoint, MantaStyleContext } from '..';
 
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
 export const PLUGIN_REGEX = new RegExp(
-  PLUGIN_PREFIX.map((prefix) => `(^${prefix}(mock|builder)-)`).join('|'),
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}(mock|builder|server)-)`).join('|'),
 );
 
 const MOCK_PLUGIN_REGEX = new RegExp(
@@ -15,17 +16,40 @@ const BUILDER_PLUGIN_REGEX = new RegExp(
   PLUGIN_PREFIX.map((prefix) => `(^${prefix}builder-)`).join('|'),
 );
 
-type AnyObject = { [key: string]: any };
+const SERVER_PLUGIN_REGEX = new RegExp(
+  PLUGIN_PREFIX.map((prefix) => `(^${prefix}server-)`).join('|'),
+);
+
+export type CompiledTypes = {
+  [key: string]: Type | undefined;
+};
+
+export interface ServerPlugin {
+  name: string;
+  generateEndpoints(
+    compiled: CompiledTypes,
+    options: { proxyUrl?: string },
+  ): Endpoint[];
+}
+
 type MockResult<T> = T | null | Promise<T | null>;
+type MockPrimitiveResult<T extends SupportedMockType> = T extends 'StringType'
+  ? string
+  : T extends 'NumberType' ? number : T extends 'BooleanType' ? boolean : any;
+type MockFunction<T extends SupportedMockType> = (
+  annotations: Annotation[],
+  context: MantaStyleContext,
+) => MockResult<MockPrimitiveResult<T>>;
+
+type SupportedMockType = 'StringType' | 'NumberType' | 'BooleanType';
+
+type MockCallback<T extends SupportedMockType> = (
+  mockFunction: MockFunction<T>,
+) => MockResult<MockPrimitiveResult<T>>;
 
 export interface MockPlugin {
   name: string;
-  mock: {
-    StringType?: (annotations: Annotation[]) => MockResult<string>;
-    NumberType?: (annotations: Annotation[]) => MockResult<number>;
-    BooleanType?: (annotations: Annotation[]) => MockResult<boolean>;
-    TypeLiteral?: (annotations: Annotation[]) => MockResult<AnyObject>;
-  };
+  mock: { [key in SupportedMockType]?: MockFunction<key> };
 }
 export interface BuilderPlugin {
   name: string;
@@ -39,27 +63,27 @@ export interface BuilderPlugin {
   buildConfigSource(sourceCode: string): Promise<string>;
 }
 
-export type Plugin = MockPlugin | BuilderPlugin;
+export type Plugin = MockPlugin | BuilderPlugin | ServerPlugin;
 
-type PluginEntry<T extends Plugin = Plugin> = {
+export type PluginEntry<T extends Plugin = Plugin> = {
   name: string;
   module: T;
 };
-type SupportedMockType = keyof MockPlugin['mock'];
-type SupportedMockFunction = Required<MockPlugin['mock']>[SupportedMockType];
 
 export class PluginSystem {
   static default() {
     return new PluginSystem([]);
   }
   private mockPlugins: {
-    [key: string]:
-      | Array<{ name: string; mock: SupportedMockFunction }>
-      | undefined;
+    [key in SupportedMockType]?: Array<{
+      name: string;
+      mock: Required<MockPlugin['mock']>[key];
+    }>
   } = {};
   private builderPlugins: {
     [key: string]: BuilderPlugin | undefined;
   } = {};
+  private serverPlugin!: PluginEntry<ServerPlugin>;
   public getMockPluginCount() {
     return Object.keys(this.mockPlugins).length;
   }
@@ -74,6 +98,7 @@ export class PluginSystem {
         for (const type of types) {
           const mockFunction = mock[type];
           if (mockFunction) {
+            // @ts-ignore
             (this.mockPlugins[type] = this.mockPlugins[type] || []).push({
               name,
               mock: mockFunction,
@@ -95,15 +120,18 @@ export class PluginSystem {
             );
           }
         }
+      } else if (isServerPlugin(plugin)) {
+        this.serverPlugin = plugin;
       }
     }
   }
-  public async getMockValueFromPlugin(
-    type: SupportedMockType,
-    callback: Function,
+  public async getMockValueFromPlugin<T extends SupportedMockType>(
+    type: T,
+    callback: MockCallback<T>,
   ) {
     const plugins = this.mockPlugins[type];
     if (plugins) {
+      // @ts-ignore
       for (const plugin of plugins) {
         try {
           const value = await callback(plugin.mock);
@@ -152,6 +180,9 @@ export class PluginSystem {
       );
     }
   }
+  public getServer(): ServerPlugin {
+    return this.serverPlugin.module;
+  }
 }
 
 function extractNormalizedExtension(filePath: string) {
@@ -171,4 +202,10 @@ function isBuilderPlugin(
   plugin: PluginEntry,
 ): plugin is PluginEntry<BuilderPlugin> {
   return BUILDER_PLUGIN_REGEX.test(plugin.name);
+}
+
+function isServerPlugin(
+  plugin: PluginEntry,
+): plugin is PluginEntry<ServerPlugin> {
+  return SERVER_PLUGIN_REGEX.test(plugin.name);
 }

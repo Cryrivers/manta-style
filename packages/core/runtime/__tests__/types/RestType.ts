@@ -2,7 +2,7 @@ import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
 
 describe('RestType', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
   test('mock', async () => {
     const tuple = MS.TupleType([
       MS.Literal(1),

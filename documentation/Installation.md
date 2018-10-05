@@ -7,6 +7,8 @@ Then depending on which type system and mock plugins you will use, you will add 
 
 ## CLI
 
+Note: CLI could be only installed per project at the moment.
+
 ```sh
 npm install --save-dev @manta-style/cli
 ```
@@ -43,4 +45,4 @@ Check out docs on [builder plugins](#) for more information on currently support
 Manta Style supports a handful of data generating features via plugins.
 One major example is `@manta-style/mock-faker`. This is a plugin that enables you to generate fake datas that look real.
 
-You could check [Plugins](#plugins) for the usages of official plugins. You could make our own plugins as well.
+You could check [Plugins](./Plugins.md) for the usages of official plugins. You could make our own plugins as well.

@@ -2,7 +2,7 @@ import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
 
 describe('ConditionalType', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
   test('1 extends number ? true : false / "haha" extends number ? true : false', async () => {
     const literalOne = MS.Literal(1);
     const literalHaha = MS.Literal('haha');

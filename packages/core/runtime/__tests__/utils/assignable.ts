@@ -3,7 +3,7 @@ import MS from '../../src';
 import { PluginSystem } from '@manta-style/core';
 
 describe('Assignablity Test', () => {
-  const context = { query: {}, plugins: PluginSystem.default() };
+  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
 
   test('String Keyword and literals', async () => {
     const LiteralA = MS.Literal('Hello');

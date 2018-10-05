@@ -9,7 +9,7 @@ import {
   CustomType,
 } from '@manta-style/core';
 
-export default class QueryType extends CustomType {
+export default class ParamType extends CustomType {
   private readonly type: Type;
   constructor(type: Type) {
     super();
@@ -25,10 +25,10 @@ export default class QueryType extends CustomType {
     annotations: Annotation[],
     context: MantaStyleContext,
   ) {
-    const { query } = context;
+    const { param } = context;
     const { type } = await resolveReferencedType(this.type, context);
-    if (type instanceof LiteralType && typeof query === 'object') {
-      const content = query[type.mock()];
+    if (type instanceof LiteralType && typeof param === 'object') {
+      const content = param[type.mock()];
       if (content) {
         if (typeof content === 'string') {
           return MantaStyle.Literal(content);

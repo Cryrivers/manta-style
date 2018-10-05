@@ -1,7 +1,12 @@
 import MantaStyle, { resolveReferencedType } from '@manta-style/runtime';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  Annotation,
+  MantaStyleContext,
+  Type,
+  CustomType,
+} from '@manta-style/core';
 
-export default class UnsplashType extends Type {
+export default class UnsplashType extends CustomType {
   private readonly keyword: Type;
   private readonly width: Type;
   private readonly height: Type;
@@ -10,6 +15,9 @@ export default class UnsplashType extends Type {
     this.keyword = keyword;
     this.width = width;
     this.height = height;
+  }
+  public async typeForAssignabilityTest() {
+    return MantaStyle.StringKeyword;
   }
   public async deriveLiteral(
     annotations: Annotation[],
