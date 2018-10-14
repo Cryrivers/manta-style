@@ -8,10 +8,13 @@
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
     "test": "lerna run test -- --coverage && codecov -t $CODECOV_TOKEN",
-    "precommit": "lerna run precommit && lint-staged"
+    "precommit": "lerna run precommit && lint-staged",
+    "commit": "git-cz"
   },
   "devDependencies": {
     "codecov": "^3.1.0",
+    "commitizen": "^3.0.2",
+    "cz-emoji": "^1.1.2",
     "husky": "^0.14.3",
     "lerna": "^3.3.1",
     "lint-staged": "^7.2.2",
@@ -28,6 +31,90 @@
       "*.{ts,json}": [
         "prettier --write",
         "git add"
+      ]
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-emoji"
+    },
+    "cz-emoji": {
+      "types": [
+        {
+          "emoji": "🌟",
+          "code": ":sparkles:",
+          "description": "A new feature",
+          "name": "feature"
+        },
+        {
+          "emoji": "🐛",
+          "entity": "&#x1f41b;",
+          "code": ":bug:",
+          "description": "A bug fix",
+          "name": "bugfix"
+        },
+        {
+          "emoji": "💩",
+          "code": ":hankey:",
+          "description": "Shit code, improve later",
+          "name": "hankey"
+        },
+        {
+          "emoji": "⚡️",
+          "entity": "&#x26a1;",
+          "code": ":zap:",
+          "description": "Improving performance.",
+          "name": "zap"
+        },
+        {
+          "emoji": "🔥",
+          "entity": "&#x1f525;",
+          "code": ":fire:",
+          "description": "Removing code or files.",
+          "name": "fire"
+        },
+        {
+          "emoji": "🔖",
+          "entity": "&#x1f516;",
+          "code": ":bookmark:",
+          "description": "Releasing / Version tags.",
+          "name": "bookmark"
+        },
+        {
+          "emoji": "🚧",
+          "entity": "&#x1f6a7;",
+          "code": ":construction:",
+          "description": "Work in progress.",
+          "name": "construction"
+        },
+        {
+          "emoji": "✏️",
+          "entity": "&#59161;",
+          "code": ":pencil2:",
+          "description": "Fixing typos.",
+          "name": "pencil"
+        },
+        {
+          "emoji": "💥",
+          "entity": "&#x1f4a5;",
+          "code": ":boom:",
+          "description": "Introducing breaking changes.",
+          "name": "boom"
+        },
+        {
+          "emoji": "👌",
+          "entity": "&#x1f44c;",
+          "code": ":ok_hand:",
+          "description": "Updating code due to code review changes.",
+          "name": "ok-hand"
+        },
+        {
+          "emoji": "⚗",
+          "entity": "&#128248;",
+          "code": ":alembic:",
+          "description": "Experimenting new things",
+          "name": "alembic"
+        }
       ]
     }
   }
