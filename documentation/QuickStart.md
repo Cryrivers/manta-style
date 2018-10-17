@@ -6,7 +6,7 @@ Here we show an example using TypeScript.
 
 As mentioned earlier in the [Installation](./Installation.md) section, we will always need the CLI.
 This example supports both [TypeScript](http://www.typescriptlang.org/) and [FlowType](http://flowtype.org). Therefore, we will need `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`.
-Meanwhile, we need the [`mock-example`](./Plugins.md#mock-example) and the [`mock-faker`](./Plugins.md#mock-faker). Let's add all of them together:
+Meanwhile, we need [`mock-faker`](./Plugins.md#mock-faker). Let's add all of them together:
 
 - TypeScript users
 
