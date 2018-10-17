@@ -425,6 +425,28 @@ export type GET = {
 
 ### Result
 
+Access `/getUserInfo?type=user&userid=12345`:
+
+```json
+{
+  "userid": "12345",
+  "userName": "Cletus79",
+  "gender": "female"
+}
+```
+
+Access `/getUserInfo?type=group&groupid=10086`:
+
+```json
+{
+  "groupid": "10086",
+  "groupName": "Handmade Ergonomic Cotton Bike",
+  "address": "3202 Fabian Turnpike, 67924"
+}
+```
+
+As you can see, the data type it returns respects the conditional type and what user inputs from URL queries.
+
 ## Simulate Server Delay
 
 Sometime we might need to test against [chaos monkey](https://en.wikipedia.org/wiki/Chaos_Monkey) situations to make sure our service is robust. While `@manta-style/helpers` will include more type to simulate `chaos monkey` situation (for example, simulate server errors), we can now use `Delay` to simulate server delay.
