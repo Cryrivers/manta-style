@@ -87,7 +87,7 @@ export type GET = {
 };
 ```
 
-In real world an API call often fails. Your mock data shall be able to generate error return as well. To do that, simply define your error type and pass it in as an `or` with the `User` type:
+To mock error type returned by API alongside meaningful data, define the endpoint with a union type of a type for success (`WithResponseSuccess<T>`) and one for failure (`WithResponseFailure`):
 
 ```ts
 // config.js
@@ -136,10 +136,9 @@ Press O to configure selective mocking
 
 Now you can visit the endpoint in browser or call `curl`, `wget` and see that Manta Style returns the mock data according to your type definitions.
 
-Note that Manta-Style randomly chooses one of the types in our `WithResponse<User>` union type.
+Note that Manta-Style randomly chooses one of the types in our `WithResponse<User>` union type. If you want to get a fixed response, try pressing <kbd>S</kbd> to enter **Snapshot Mode**. You will find a file under your project directory with filename `ms.snapshot.json` that is exactly the last call return, and the server will always return the response in the snapshot file. You may modify the content of `ms.snapshot.json` to make server return the response you want; or use it for other purposes such as saving as test case snapshot or feed in to your `json-server`, etc.
 
-Try pressing `S`, you will find a file under your project directory with filename `ms.snapshot.json` that is exactly the last call return.
-You may use that for other purposes such as saving as test case snapshot or feed in to your `json-server`, etc.
+Try pressing <kbd>O</kbd> to enter **Selective Mocking** UI where you can disable or proxy an endpoint, which could also be a quick way to switch between mock server and real server.
 
 <!-- TODO add this section and put a link here -->
 
@@ -147,7 +146,7 @@ You may use that for other purposes such as saving as test case snapshot or feed
 
 To use plugins, annotate the field with comments with `@${name}`, where `name` is the variable defined in your plugin, followed by a space and then the required parameter.
 
-The following example showcases several common usages with our `mock-example` and `mock-faker` plugins.
+The following example showcases several common usages with our built-in `@example` comment and `mock-faker` plugins.
 
 ```ts
 interface User {
