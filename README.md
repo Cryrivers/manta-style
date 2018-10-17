@@ -21,7 +21,6 @@ Manta Style officially supports [TypeScript](https://www.typescriptlang.org) and
 interface User {
   /**
    * @faker {{internet.userName}}
-   *
    */
   userName: string; // Amina.Langosh49
 

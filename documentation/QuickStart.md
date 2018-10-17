@@ -43,7 +43,7 @@ As an example, let's say we want to mock a `/user` API to get user info.
 <!-- _The following config works on both TypeScript and Flow._ -->
 
 ```ts
-// config.js
+// config.ts (TypeScript) or config.js (Flow)
 export type GET = {
   '/user': {
     id: number;
@@ -56,7 +56,7 @@ export type GET = {
 You may define a `User` type separately and pass it in as return, like this:
 
 ```ts
-// config.js
+// config.ts (TypeScript) or config.js (Flow)
 interface User {
   id: number;
   userName: string;
@@ -74,7 +74,7 @@ export type GET = {
 Normally, a server success return is not directly the `User` object. Instead, it normally is an object that _contains_ a field of the `User` object. It may contain some other field indicating its return status. You can follow the type system's convention and define a `WithResponseSuccess<T>` generic and use it with type `User`:
 
 ```ts
-// config.js
+// config.ts (TypeScript) or config.js (Flow)
 
 // ...
 type WithResponseSuccess<T> = {
@@ -90,7 +90,7 @@ export type GET = {
 To mock error type returned by API alongside meaningful data, define the endpoint with a union type of a type for success (`WithResponseSuccess<T>`) and one for failure (`WithResponseFailure`):
 
 ```ts
-// config.js
+// config.ts (TypeScript) or config.js (Flow)
 
 // ...
 type WithResponseFailure = {
