@@ -136,7 +136,9 @@ Press O to configure selective mocking
 
 Now you can visit the endpoint in browser or call `curl`, `wget` and see that Manta Style returns the mock data according to your type definitions.
 
-Note that Manta-Style randomly chooses one of the types in our `WithResponse<User>` union type. If you want to get a fixed response, try pressing <kbd>S</kbd> to enter **Snapshot Mode**. You will find a file under your project directory with filename `ms.snapshot.json` that is exactly the last call return, and the server will always return the response in the snapshot file. You may modify the content of `ms.snapshot.json` to make server return the response you want; or use it for other purposes such as saving as test case snapshot or feed in to your `json-server`, etc.
+Note that Manta-Style randomly chooses one of the types in our `WithResponse<User>` union type. If you want to get a fixed response, try pressing <kbd>S</kbd> to enter **Snapshot Mode**. You will find a file under your project directory with filename `ms.snapshot.json` that is exactly the last call return, and the server will always return the response in the snapshot file.
+
+You may also modify the content of `ms.snapshot.json` to make server return the response you want; or use it for other purposes such as saving as test case snapshot or feed in to your `json-server`, etc.
 
 Try pressing <kbd>O</kbd> to enter **Selective Mocking** UI where you can disable or proxy an endpoint, which could also be a quick way to switch between mock server and real server.
 
