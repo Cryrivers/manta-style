@@ -218,4 +218,4 @@ Check in the browser, refresh a few times and notice that Manta-Style returns th
 { "status": "error", "message": "Bad Request" }
 ```
 
-Next, you may move on to read about [Manta-Style's CLI commands](./Usage.md).
+Next, you may move on to read about more advanced and fun [Examples](./Examples.md) and [Manta-Style's CLI commands](./Usage.md).
