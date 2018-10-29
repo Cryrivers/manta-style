@@ -1,5 +1,7 @@
 # Examples
 
+> If you are still not sure about how to use Manta Style, you might want to check out [Quick Start](./QuickStart.md).
+
 Contents
 
 - [Mock Simple Data Structure](#mock-simple-data-structure)
