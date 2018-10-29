@@ -2,8 +2,7 @@
   <img src="./resources/manta-style.svg" height="100"/>
 </p>
 <p align="center">🚀 Futuristic API Mock Server for Frontend</p>
-
-[![CircleCI](https://img.shields.io/circleci/project/github/Cryrivers/manta-style.svg?style=flat-square)](https://circleci.com/gh/Cryrivers/manta-style) [![Codecov](https://img.shields.io/codecov/c/github/Cryrivers/manta-style.svg?style=flat-square)](https://codecov.io/gh/Cryrivers/manta-style/) [![GitHub](https://img.shields.io/github/license/Cryrivers/manta-style.svg?style=flat-square)](https://github.com/Cryrivers/manta-style/blob/master/LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/Cryrivers/manta-style.svg?style=flat-square)](https://greenkeeper.io/) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square)](https://lernajs.io/)
+<p align="center"><a href="https://circleci.com/gh/Cryrivers/manta-style"><img src="https://img.shields.io/circleci/project/github/Cryrivers/manta-style.svg?style=flat-square" alt="CircleCI" /></a> <a href="https://codecov.io/gh/Cryrivers/manta-style/"><img src="https://img.shields.io/codecov/c/github/Cryrivers/manta-style.svg?style=flat-square" alt="Codecov" /></a> <a href="https://github.com/Cryrivers/manta-style/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Cryrivers/manta-style.svg?style=flat-square" alt="GitHub" /></a> <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Cryrivers/manta-style.svg?style=flat-square" alt="Greenkeeper badge" /></a> <a href="https://lernajs.io/"><img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square" alt="lerna" /></a></p>
 
 ---
 
