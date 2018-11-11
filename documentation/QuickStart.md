@@ -121,7 +121,7 @@ Now run
 ms -c ./config.ts
 ```
 
-Manta Style will a mock server at port 3000 by default. The example would generate following output in the terminal:
+Manta Style will start a mock server at port 3000 by default. The example would generate following output in the terminal:
 
 ```
 Manta Style launched at http://localhost:3000
