@@ -1,5 +1,7 @@
 # Examples
 
+> If you are still not sure about how to use Manta Style, you might want to check out [Quick Start](./QuickStart.md).
+
 Contents
 
 - [Mock Simple Data Structure](#mock-simple-data-structure)
@@ -424,6 +426,28 @@ export type GET = {
 ```
 
 ### Result
+
+Access `/getUserInfo?type=user&userid=12345`:
+
+```json
+{
+  "userid": "12345",
+  "userName": "Cletus79",
+  "gender": "female"
+}
+```
+
+Access `/getUserInfo?type=group&groupid=10086`:
+
+```json
+{
+  "groupid": "10086",
+  "groupName": "Handmade Ergonomic Cotton Bike",
+  "address": "3202 Fabian Turnpike, 67924"
+}
+```
+
+As you can see, the data type it returns respects the conditional type and what user inputs from URL queries.
 
 ## Simulate Server Delay
 
