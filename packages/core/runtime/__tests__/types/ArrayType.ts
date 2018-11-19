@@ -23,4 +23,14 @@ describe('AnyKeyword', () => {
     )).mock();
     expect(data.length).toBe(10);
   });
+  test('validate', async () => {
+    expect(await type.validate(3, context)).toBe(false);
+    expect(await type.validate({}, context)).toBe(false);
+    expect(await type.validate('hahah', context)).toBe(false);
+    expect(await type.validate(false, context)).toBe(false);
+    expect(await type.validate([], context)).toBe(true);
+    expect(await type.validate([1, 2, 3], context)).toBe(true);
+    expect(await type.validate([1, '2', 3], context)).toBe(false);
+    expect(await type.validate(['1', '2', '3'], context)).toBe(false);
+  });
 });

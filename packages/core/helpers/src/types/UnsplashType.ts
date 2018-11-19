@@ -19,6 +19,9 @@ export default class UnsplashType extends CustomType {
   public async typeForAssignabilityTest() {
     return MantaStyle.StringKeyword;
   }
+  public async validate(value: unknown) {
+    return typeof value === 'string';
+  }
   public async deriveLiteral(
     annotations: Annotation[],
     context: MantaStyleContext,

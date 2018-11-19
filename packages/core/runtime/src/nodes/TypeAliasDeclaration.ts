@@ -83,4 +83,14 @@ export default class TypeAliasDeclaration extends Type {
     }
     return this.type.deriveLiteral(combinedAnnotations, context);
   }
+  public async validate(value: unknown, context: MantaStyleContext) {
+    for (let i = 0; i < this.typeParameterTypes.length; i++) {
+      const { type } = await resolveReferencedType(
+        this.typeParameterTypes[i],
+        context,
+      );
+      await this.typeParameters[i].setActualType(type, context);
+    }
+    return this.type.validate(value, context);
+  }
 }

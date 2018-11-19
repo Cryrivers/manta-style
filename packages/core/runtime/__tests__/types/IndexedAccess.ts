@@ -19,6 +19,8 @@ describe('IndexedAccessType', () => {
     const indexedAccess = MS.IndexedAccessType(obj, MS.Literal('a'));
     const literalOne = await indexedAccess.deriveLiteral([], context);
     expect(literalOne.mock()).toEqual(1);
+    expect(await literalOne.validate(1, context)).toBe(true);
+    expect(await literalOne.validate(2, context)).toBe(false);
   });
   test('T[keyof T]; a.k.a $Values<T>', async () => {
     /*
@@ -42,5 +44,8 @@ describe('IndexedAccessType', () => {
     } else {
       throw Error('Result is not a UnionType.');
     }
+    expect(await result.validate(1, context)).toBe(true);
+    expect(await result.validate(2, context)).toBe(true);
+    expect(await result.validate(3, context)).toBe(false);
   });
 });

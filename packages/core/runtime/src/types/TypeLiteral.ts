@@ -15,6 +15,8 @@ import {
   annotationUtils,
   Type,
 } from '@manta-style/core';
+import MantaStyle from '..';
+import { everyPromise } from '../utils/assignable';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -162,6 +164,34 @@ export default class TypeLiteral extends Type {
       }
     }
     return typeLiteral;
+  }
+  public validate(value: unknown, context: MantaStyleContext) {
+    if (
+      typeof value !== 'object' ||
+      value === null ||
+      Object.keys(value).length <
+        this.properties.filter((item) => !item.questionMark).length
+    ) {
+      return Promise.resolve(false);
+    } else {
+      return everyPromise(
+        Object.keys(value).map(async (property) => {
+          const foundProperty = this.properties.find(
+            (type) => type.name === property,
+          );
+          if (foundProperty) {
+            // @ts-ignore
+            const propertyValue = value[property];
+            return foundProperty.questionMark
+              ? (await foundProperty.type.validate(propertyValue, context)) ||
+                  MantaStyle.UndefinedKeyword.validate(propertyValue)
+              : foundProperty.type.validate(propertyValue, context);
+          }
+          return false;
+        }),
+      );
+    }
+    // TODO: take account of computed properties
   }
   public mock() {
     const obj: AnyObject = {};

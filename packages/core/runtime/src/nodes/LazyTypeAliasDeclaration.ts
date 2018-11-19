@@ -42,6 +42,10 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
     return super.deriveLiteral(parentAnnotations, context);
   }
 
+  public async validate(value: unknown, context: MantaStyleContext) {
+    return super.validate(value, context);
+  }
+
   public argumentTypes(types: Type[]) {
     // need to create a different instance of TypeAliasDeclaration
     // for each call of argumentTypes(...);

@@ -5,6 +5,7 @@ import {
   annotationUtils,
   Type,
 } from '@manta-style/core';
+import { everyPromise } from '../utils/assignable';
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -31,5 +32,13 @@ export default class ArrayType extends Type {
       array.push(await this.elementType.deriveLiteral(annotations, context));
     }
     return new ArrayLiteral(array);
+  }
+  public async validate(value: unknown, context: MantaStyleContext) {
+    return (
+      Array.isArray(value) &&
+      (await everyPromise(
+        value.map((item) => this.elementType.validate(item, context)),
+      ))
+    );
   }
 }

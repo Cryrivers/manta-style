@@ -33,6 +33,9 @@ export default class DelayType extends CustomType {
     }
     return type.deriveLiteral(annotations, context);
   }
+  public validate(value: unknown, context: MantaStyleContext) {
+    return this.type.validate(value, context);
+  }
   public typeForAssignabilityTest(
     annotations: Annotation[],
     context: MantaStyleContext,

@@ -22,10 +22,7 @@ export default class ConditionalType extends Type {
     this.trueType = trueType;
     this.falseType = falseType;
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
+  private async getResolvedType(context: MantaStyleContext) {
     /*
       From: http://koerbitz.me/posts/a-look-at-typescripts-conditional-types.html
       The Distributive Rule of Conditional and Union Types
@@ -67,7 +64,7 @@ export default class ConditionalType extends Type {
         ),
         context,
       );
-      return resolvedType.deriveLiteral(annotations, context);
+      return resolvedType;
     } else {
       const resolvedType = await resolveConditionalType(
         checkType,
@@ -76,8 +73,19 @@ export default class ConditionalType extends Type {
         falseType,
         context,
       );
-      return resolvedType.deriveLiteral(annotations, context);
+      return resolvedType;
     }
+  }
+  public async deriveLiteral(
+    annotations: Annotation[],
+    context: MantaStyleContext,
+  ) {
+    const resolvedType = await this.getResolvedType(context);
+    return resolvedType.deriveLiteral(annotations, context);
+  }
+  public async validate(value: unknown, context: MantaStyleContext) {
+    const resolvedType = await this.getResolvedType(context);
+    return resolvedType.validate(value, context);
   }
 }
 

@@ -29,4 +29,8 @@ export default class KeyOfKeyword extends Type {
     const keys = await this.getKeys(context);
     return new UnionType(keys.map((key) => new Literal(key)));
   }
+  public async validate(value: unknown, context: MantaStyleContext) {
+    const keys = await this.getKeys(context);
+    return typeof value === 'string' && keys.includes(value);
+  }
 }

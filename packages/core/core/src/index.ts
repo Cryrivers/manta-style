@@ -66,6 +66,10 @@ export abstract class Type {
   public mock(): any {
     throw new Error('Literal types should be derived before mock.');
   }
+  public abstract validate(
+    value: unknown,
+    context: MantaStyleContext,
+  ): Promise<boolean>;
 }
 
 export abstract class CustomType extends Type {

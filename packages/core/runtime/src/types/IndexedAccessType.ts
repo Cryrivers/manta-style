@@ -67,6 +67,44 @@ export default class IndexedAccessType extends Type {
       return objectType.deriveLiteral(parentAnnotations, context);
     }
   }
+  public async validate(value: unknown, context: MantaStyleContext) {
+    const {
+      objectType: maybeReferencedObjectType,
+      indexType: maybeReferencedIndexType,
+    } = this;
+    const objectType = (await resolveReferencedType(
+      maybeReferencedObjectType,
+      context,
+    )).type;
+    const { type: indexType } = await resolveReferencedType(
+      maybeReferencedIndexType,
+      context,
+    );
+    if (objectType instanceof TypeLiteral) {
+      if (indexType instanceof Literal) {
+        return indexedAccessTypeLiteral(objectType, indexType).validate(
+          value,
+          context,
+        );
+      } else if (indexType instanceof UnionType) {
+        const indexTypes = (await indexType.derivePreservedUnionLiteral(
+          [],
+          context,
+        )).getTypes();
+        return new UnionType(
+          indexTypes.map((indType) =>
+            indexedAccessTypeLiteral(objectType, indType),
+          ),
+        ).validate(value, context);
+      } else {
+        // search for index signatures
+        // TODO: Implement for index signatures
+        throw Error('Unimplemented');
+      }
+    } else {
+      return objectType.validate(value, context);
+    }
+  }
 }
 
 function indexedAccessTypeLiteral(

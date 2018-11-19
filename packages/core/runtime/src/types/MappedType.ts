@@ -86,6 +86,9 @@ export default class MappedType extends Type {
       );
     }
   }
+  public validate(): never {
+    throw Error('MappedType does not support validation yet');
+  }
   public TypeParameter(name: string) {
     const newTypeParam = new TypeParameter(name);
     this.typeParameter = newTypeParam;

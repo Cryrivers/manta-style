@@ -5,6 +5,7 @@
     "strict": true,
     "sourceMap": true,
     "module": "esnext",
+    "esModuleInterop": true,
     "declaration": true,
     "declarationDir": "./lib/typings"
   },
