@@ -5,6 +5,6 @@ export default class NeverKeyword extends Type {
     return this;
   }
   public validate(): never {
-    throw Error('`never` keyword does not support `validate` method.');
+    throw new Error('`never` keyword does not support `validate` method.');
   }
 }

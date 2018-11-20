@@ -4,7 +4,7 @@ import UnionType from '../../src/types/UnionType';
 
 describe('IndexedAccessType', () => {
   const context = { query: {}, param: {}, plugins: PluginSystem.default() };
-  test('Basic T[K]', async () => {
+  test('mock: Basic T[K], where T is an object', async () => {
     /*
         type obj = {
             a:1,
@@ -22,7 +22,7 @@ describe('IndexedAccessType', () => {
     expect(await literalOne.validate(1, context)).toBe(true);
     expect(await literalOne.validate(2, context)).toBe(false);
   });
-  test('T[keyof T]; a.k.a $Values<T>', async () => {
+  test('mock: T[keyof T]; a.k.a $Values<T>, where T is an object', async () => {
     /*
         type obj = {
             a:1,
@@ -47,5 +47,25 @@ describe('IndexedAccessType', () => {
     expect(await result.validate(1, context)).toBe(true);
     expect(await result.validate(2, context)).toBe(true);
     expect(await result.validate(3, context)).toBe(false);
+  });
+  test('mock: T[K], where K is a union of strings', async () => {
+    /*
+        type obj = string;
+        type indexedAccess = obj['a'] // should be `string`
+    */
+    const obj = MS.TypeLiteral((currentType) => {
+      currentType.property('a', MS.Literal(1), false, []);
+      currentType.property('b', MS.Literal(2), false, []);
+    });
+    const indexedAccess = MS.IndexedAccessType(
+      obj,
+      MS.UnionType([MS.Literal('a'), MS.Literal('b')]),
+    );
+    const unionOneOrTwo = await indexedAccess.deriveLiteral([], context);
+    expect(
+      [1, 2].includes((await unionOneOrTwo.deriveLiteral([], context)).mock()),
+    ).toBe(true);
+    expect(await unionOneOrTwo.validate(1, context)).toBe(true);
+    expect(await unionOneOrTwo.validate(2, context)).toBe(true);
   });
 });
