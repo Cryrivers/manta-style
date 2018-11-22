@@ -4,6 +4,7 @@ const path = require('path');
 build({
   fileName: path.join(__dirname, '..', 'src', 'index.ts'),
   destDir: path.join(__dirname, '..', 'lib'),
+  transpileModule: true,
   verbose: true,
   importHelpers: false,
 });

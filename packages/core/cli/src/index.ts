@@ -16,6 +16,7 @@ import clear = require('clear');
 import { multiSelect } from './inquirer-util';
 import { MantaStyleContext, CompiledTypes, Core } from '@manta-style/core';
 import { findPlugins } from './discovery';
+import { rollup } from 'rollup';
 
 const pe = new PrettyError();
 
@@ -23,6 +24,10 @@ program
   .version('0.2.0')
   .option('-c --configFile <file>', 'the config file to generate entry points')
   .option('-p --port <i> [3000]', 'To use a port different than 3000')
+  .option(
+    '-o --outputFile <file>',
+    'Instead of setting up a server, output a single file for various purpose',
+  )
   .option('--proxyUrl <url>', 'To enable proxy for disabled endpoints')
   .option(
     '--generateSnapshot <file>',
@@ -36,6 +41,7 @@ program
 const {
   officialPlugins,
   configFile,
+  outputFile,
   port,
   generateSnapshot,
   useSnapshot,
@@ -107,15 +113,39 @@ async function showOfficialPluginList() {
     );
   }
 
+  const tmpDir = path.join(findRoot(process.cwd()), '.mantastyle-tmp');
+
+  function buildFromConfigFile(transpileModule: boolean = true) {
+    return core.buildConfigFile({
+      configFilePath: path.resolve(configFile),
+      destDir: tmpDir,
+      transpileModule,
+      verbose,
+    });
+  }
+
+  if (outputFile) {
+    const resolvedPath = path.resolve(outputFile);
+    const compiledPath = await buildFromConfigFile(false);
+    console.log('Compiling to', outputFile, 'from', compiledPath);
+    const bundle = await rollup({
+      input: compiledPath,
+    });
+    await bundle.write({
+      file: path.basename(resolvedPath),
+      dir: path.dirname(resolvedPath),
+      format: 'cjs',
+      sourcemap: true,
+    });
+    process.exit(0);
+  }
+
   let server: Server | undefined;
 
   const snapshotFilePath = path.join(
     path.dirname(configFile),
     'ms.snapshot.json',
   );
-
-  const tmpDir = path.join(findRoot(process.cwd()), '.mantastyle-tmp');
-
   const snapshotWatcher = chokidar.watch(snapshotFilePath);
   const configFileWatcher = chokidar.watch(path.resolve(configFile));
 
@@ -142,11 +172,7 @@ async function showOfficialPluginList() {
       server.close();
     }
     const app = express();
-    const compiledFilePath = await core.buildConfigFile({
-      configFilePath: path.resolve(configFile),
-      destDir: tmpDir,
-      verbose,
-    });
+    const compiledFilePath = await buildFromConfigFile();
 
     delete require.cache[compiledFilePath];
 

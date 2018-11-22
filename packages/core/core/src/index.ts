@@ -40,16 +40,19 @@ export class Core {
   public buildConfigFile({
     configFilePath,
     destDir,
+    transpileModule,
     verbose,
   }: {
     configFilePath: string;
     destDir: string;
+    transpileModule: boolean;
     verbose?: boolean;
   }) {
     this.endpoints = [];
     return this.pluginSystem.buildConfigFile({
       configFilePath,
       destDir,
+      transpileModule,
       verbose,
     });
   }

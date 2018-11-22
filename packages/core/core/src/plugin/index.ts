@@ -57,6 +57,7 @@ export interface BuilderPlugin {
   buildConfigFile(options: {
     configFilePath: string;
     destDir: string;
+    transpileModule: boolean;
     verbose?: boolean;
     importHelpers?: boolean;
   }): Promise<string>;
@@ -149,11 +150,13 @@ export class PluginSystem {
   public async buildConfigFile({
     configFilePath,
     destDir,
+    transpileModule,
     verbose,
     importHelpers,
   }: {
     configFilePath: string;
     destDir: string;
+    transpileModule: boolean;
     verbose?: boolean;
     importHelpers?: boolean;
   }): Promise<string> {
@@ -163,6 +166,7 @@ export class PluginSystem {
       return handler.buildConfigFile({
         configFilePath,
         destDir,
+        transpileModule,
         verbose,
         importHelpers,
       });
