@@ -24,6 +24,7 @@
     "watch": "tsc --watch -p tsconfig.json"
   },
   "devDependencies": {
+    "@manta-style/builder-flowtype": "^0.2.0-alpha.7",
     "@manta-style/builder-typescript": "^0.2.0-alpha.7",
     "@manta-style/helpers": "^0.2.0-alpha.7",
     "@types/chokidar": "^1.7.5",
@@ -45,6 +46,7 @@
     "@manta-style/runtime": "^0.2.0-alpha.7",
     "@manta-style/server-restful": "^0.2.0-alpha.7",
     "@manta-style/typescript-helpers": "^0.2.0-alpha.7",
+    "@manta-style/flowtype-helpers": "^0.2.0-alpha.7",
     "axios": "^0.18.0",
     "chalk": "^2.4.1",
     "chokidar": "^2.0.4",

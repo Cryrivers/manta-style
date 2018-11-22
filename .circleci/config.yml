@@ -40,5 +40,8 @@ jobs:
       - run: yarn build
 
       # run tests!
-      - run: yarn test
+      - run:
+          name: Test Cases
+          command: 'yarn test'
+          no_output_timeout: 60m
       - run: greenkeeper-lockfile-upload
