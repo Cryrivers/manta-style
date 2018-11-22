@@ -37,13 +37,21 @@ export class Core {
   public getEndpoints() {
     return this.endpoints;
   }
-  public buildConfigFile(
-    configFilePath: string,
-    destDir: string,
-    verbose?: boolean,
-  ) {
+  public buildConfigFile({
+    configFilePath,
+    destDir,
+    verbose,
+  }: {
+    configFilePath: string;
+    destDir: string;
+    verbose?: boolean;
+  }) {
     this.endpoints = [];
-    return this.pluginSystem.buildConfigFile(configFilePath, destDir, verbose);
+    return this.pluginSystem.buildConfigFile({
+      configFilePath,
+      destDir,
+      verbose,
+    });
   }
   public generateEndpoints(
     compiled: CompiledTypes,

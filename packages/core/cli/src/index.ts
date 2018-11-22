@@ -142,11 +142,11 @@ async function showOfficialPluginList() {
       server.close();
     }
     const app = express();
-    const compiledFilePath = await core.buildConfigFile(
-      path.resolve(configFile),
-      tmpDir,
+    const compiledFilePath = await core.buildConfigFile({
+      configFilePath: path.resolve(configFile),
+      destDir: tmpDir,
       verbose,
-    );
+    });
 
     delete require.cache[compiledFilePath];
 

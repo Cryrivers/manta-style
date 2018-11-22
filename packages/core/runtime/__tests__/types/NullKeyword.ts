@@ -5,6 +5,6 @@ describe('NullKeyword', () => {
     expect(MS.NullKeyword.mock()).toBe(null);
   });
   test('validate', async () => {
-    expect(MS.NullKeyword.validate(null)).toBe(true);
+    expect(await MS.NullKeyword.validate(null)).toBe(true);
   });
 });

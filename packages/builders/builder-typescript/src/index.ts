@@ -5,13 +5,13 @@ import transpile from './utils/transpile';
 const typescriptBuilderPlugin: BuilderPlugin = {
   name: 'TypeScript Builder',
   supportedExtensions: ['ts'],
-  async buildConfigFile(configFilePath, destDir, verbose, importHelpers) {
-    const compiledFilePath = build(
-      configFilePath,
+  async buildConfigFile({ configFilePath, destDir, verbose, importHelpers }) {
+    const compiledFilePath = build({
+      fileName: configFilePath,
       destDir,
       verbose,
       importHelpers,
-    );
+    });
     if (compiledFilePath) {
       return compiledFilePath;
     } else {

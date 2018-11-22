@@ -3,7 +3,7 @@
   "version": "0.2.0-alpha.7",
   "description": "TypeScript Language Support",
   "main": "./lib/typescript-builder.js",
-  "typings": "./lib/index.d.js",
+  "typings": "./lib/typings/index.d.js",
   "author": {
     "name": "Zhongliang Wang",
     "email": "zwang@rebelworks.io",
