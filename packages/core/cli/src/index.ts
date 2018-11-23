@@ -135,7 +135,6 @@ async function showOfficialPluginList() {
       file: path.basename(resolvedPath),
       dir: path.dirname(resolvedPath),
       format: 'cjs',
-      sourcemap: true,
     });
     process.exit(0);
   }
