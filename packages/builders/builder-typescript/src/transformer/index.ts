@@ -6,13 +6,32 @@ import {
   MANTASTYLE_HELPER_NAME,
   HELPER_PACKAGE_NAME,
 } from './constants';
+import * as fs from 'fs';
+import * as path from 'path';
 
-export function createTransformer(importHelpers: boolean) {
+function generateDeclarationForTypeAlias(
+  node: ts.TypeAliasDeclaration | ts.InterfaceDeclaration,
+) {
+  const isExport =
+    node.modifiers &&
+    node.modifiers.find((item) => item.kind === ts.SyntaxKind.ExportKeyword);
+  return [
+    node.getText(),
+    `${
+      isExport ? 'export ' : ''
+    }declare const ${node.name.getText()}: Type<${node.name.getText()}>;`,
+  ];
+}
+
+export function createTransformer(importHelpers: boolean, destDir?: string) {
   const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
+    const declarationFile: string[] = [];
     const MantaStyleRuntimeTypeVisitor: ts.Visitor = (node) => {
       if (ts.isTypeAliasDeclaration(node)) {
+        declarationFile.push(...generateDeclarationForTypeAlias(node));
         return createTypeAliasDeclaration(node);
       } else if (ts.isInterfaceDeclaration(node)) {
+        declarationFile.push(...generateDeclarationForTypeAlias(node));
         return createTypeAliasDeclaration(
           ts.createTypeAliasDeclaration(
             node.decorators,
@@ -27,6 +46,7 @@ export function createTransformer(importHelpers: boolean) {
         // TODO: It might be wrong
         return ts.createImportSpecifier(node.propertyName, node.name);
       } else if (ts.isExportAssignment(node)) {
+        declarationFile.push(node.getText());
         // Do not erase type export
         // TODO: It might be wrong
         return ts.createExportAssignment(
@@ -35,6 +55,8 @@ export function createTransformer(importHelpers: boolean) {
           node.isExportEquals || false,
           node.expression,
         );
+      } else if (ts.isExportDeclaration(node) || ts.isImportDeclaration(node)) {
+        declarationFile.push(node.getText());
       }
       return ts.visitEachChild(node, MantaStyleRuntimeTypeVisitor, context);
     };
@@ -43,6 +65,27 @@ export function createTransformer(importHelpers: boolean) {
         sourceFile,
         MantaStyleRuntimeTypeVisitor,
       );
+      if (importHelpers) {
+        declarationFile.unshift(
+          `import * as ${MANTASTYLE_HELPER_NAME} from "${HELPER_PACKAGE_NAME}";`,
+        );
+      }
+      declarationFile.unshift(
+        `import { Type } from "@manta-style/core";`,
+        `import ${MANTASTYLE_RUNTIME_NAME} from "${MANTASTYLE_PACKAGE_NAME}";`,
+      );
+      if (destDir) {
+        // it only supports files without external reference.
+        // TODO: Resolve module references and put them to the correct folder
+        const srcFullName = path.basename(
+          sourceFile.fileName.replace(/\.ts$/g, '.d.ts'),
+        );
+        // Write down the declaration file if targetDir and targetFileName are specified
+        fs.writeFileSync(
+          path.resolve(destDir, srcFullName),
+          declarationFile.join('\n'),
+        );
+      }
       return ts.updateSourceFileNode(transformedNode, [
         ts.createImportDeclaration(
           [],

@@ -69,12 +69,12 @@ export class Core {
   }
 }
 
-export abstract class Type {
+export abstract class Type<T = any> {
   public abstract deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
-  ): Promise<Type>;
-  public mock(): any {
+  ): Promise<Type<T>>;
+  public mock(): T {
     throw new Error('Literal types should be derived before mock.');
   }
   public abstract validate(
@@ -89,3 +89,9 @@ export abstract class CustomType extends Type {
     context: MantaStyleContext,
   ): Promise<Type>;
 }
+
+export const EmptyContext: MantaStyleContext = {
+  query: {},
+  param: {},
+  plugins: PluginSystem.default(),
+};

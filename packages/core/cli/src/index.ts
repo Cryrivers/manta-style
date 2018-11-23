@@ -17,11 +17,12 @@ import { multiSelect } from './inquirer-util';
 import { MantaStyleContext, CompiledTypes, Core } from '@manta-style/core';
 import { findPlugins } from './discovery';
 import { rollup } from 'rollup';
+import * as Package from '../package.json';
 
 const pe = new PrettyError();
 
 program
-  .version('0.2.0')
+  .version(Package.version)
   .option('-c --configFile <file>', 'the config file to generate entry points')
   .option('-p --port <i> [3000]', 'To use a port different than 3000')
   .option(
