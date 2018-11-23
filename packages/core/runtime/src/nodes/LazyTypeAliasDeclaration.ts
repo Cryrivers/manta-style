@@ -43,6 +43,7 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
   }
 
   public async validate(value: unknown, context: MantaStyleContext) {
+    this.initialize();
     return super.validate(value, context);
   }
 

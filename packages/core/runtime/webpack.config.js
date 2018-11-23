@@ -16,6 +16,7 @@ module.exports = {
   },
   externals: {
     '@manta-style/core': '@manta-style/core',
+    tslib: 'tslib',
   },
   module: {
     rules: [
