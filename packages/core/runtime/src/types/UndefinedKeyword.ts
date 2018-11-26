@@ -7,4 +7,7 @@ export default class UndefinedKeyword extends Type {
   public mock() {
     return undefined;
   }
+  public async validate(value: unknown) {
+    return typeof value === 'undefined';
+  }
 }

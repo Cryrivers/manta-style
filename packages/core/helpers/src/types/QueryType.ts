@@ -21,24 +21,31 @@ export default class QueryType extends CustomType {
   ) {
     return this.deriveLiteral(annotations, context);
   }
+  public async getQueryContent(context: MantaStyleContext) {
+    const { query } = context;
+    const { type } = await resolveReferencedType(this.type, context);
+    if (type instanceof LiteralType && typeof query === 'object') {
+      return query[type.mock()];
+    }
+  }
   public async deriveLiteral(
     annotations: Annotation[],
     context: MantaStyleContext,
   ) {
-    const { query } = context;
-    const { type } = await resolveReferencedType(this.type, context);
-    if (type instanceof LiteralType && typeof query === 'object') {
-      const content = query[type.mock()];
-      if (content) {
-        if (typeof content === 'string') {
-          return MantaStyle.Literal(content);
-        } else if (Array.isArray(content)) {
-          return MantaStyle.ArrayLiteral(
-            content.map((item) => MantaStyle.Literal(item)),
-          );
-        }
+    const content = await this.getQueryContent(context);
+    if (content) {
+      if (typeof content === 'string') {
+        return MantaStyle.Literal(content);
+      } else if (Array.isArray(content)) {
+        return MantaStyle.ArrayLiteral(
+          content.map((item) => MantaStyle.Literal(item)),
+        );
       }
     }
     return MantaStyle.NeverKeyword;
+  }
+  public async validate(value: unknown, context: MantaStyleContext) {
+    const content = await this.getQueryContent(context);
+    return value === content;
   }
 }

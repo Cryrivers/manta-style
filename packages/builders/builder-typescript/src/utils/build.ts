@@ -5,13 +5,20 @@ import * as glob from 'glob';
 import * as babelCore from '@babel/core';
 import { createTransformer } from '../transformer';
 
-export default function build(
-  fileName: string,
-  destDir: string,
-  verbose: boolean = false,
-  importHelpers: boolean = true,
-) {
-  const MantaStyleTranformer = createTransformer(importHelpers);
+export default function build({
+  fileName,
+  destDir,
+  transpileModule,
+  verbose = false,
+  importHelpers = true,
+}: {
+  fileName: string;
+  destDir: string;
+  transpileModule: boolean;
+  verbose?: boolean;
+  importHelpers?: boolean;
+}) {
+  const MantaStyleTranformer = createTransformer(importHelpers, destDir);
   const program = ts.createProgram([fileName], {
     strict: true,
     noEmitOnError: true,
@@ -38,20 +45,22 @@ export default function build(
   if (verbose) {
     console.log('[TYPESCRIPT] Compile Result', result);
   }
-  const jsModuleFiles = glob.sync(path.join(destDir, '**/*.js'));
-  for (const file of jsModuleFiles) {
-    if (verbose) {
-      console.log('[BABEL] Processing file: ' + file);
-    }
-    const result = babelCore.transformFileSync(file, {
-      presets: [require('@babel/preset-env')],
-      plugins: [require('@babel/plugin-transform-modules-commonjs')],
-    });
+  if (transpileModule) {
+    const jsModuleFiles = glob.sync(path.join(destDir, '**/*.js'));
+    for (const file of jsModuleFiles) {
+      if (verbose) {
+        console.log('[BABEL] Processing file: ' + file);
+      }
+      const result = babelCore.transformFileSync(file, {
+        presets: [require('@babel/preset-env')],
+        plugins: [require('@babel/plugin-transform-modules-commonjs')],
+      });
 
-    if (result) {
-      fs.writeFileSync(file, result.code);
-    } else {
-      throw new Error('Babel failed to compile the config file.');
+      if (result) {
+        fs.writeFileSync(file, result.code);
+      } else {
+        throw new Error('Babel failed to compile the config file.');
+      }
     }
   }
   return (

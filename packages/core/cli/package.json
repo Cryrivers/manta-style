@@ -24,6 +24,7 @@
     "watch": "tsc --watch -p tsconfig.json"
   },
   "devDependencies": {
+    "@manta-style/builder-flowtype": "^0.2.0-alpha.8",
     "@manta-style/builder-typescript": "^0.2.0-alpha.8",
     "@manta-style/helpers": "^0.2.0-alpha.8",
     "@types/chokidar": "^1.7.5",
@@ -40,6 +41,7 @@
   },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.8",
+    "@manta-style/flowtype-helpers": "^0.2.0-alpha.8",
     "@manta-style/mock-example": "^0.2.0-alpha.8",
     "@manta-style/mock-range": "^0.2.0-alpha.8",
     "@manta-style/runtime": "^0.2.0-alpha.8",
@@ -58,6 +60,7 @@
     "pretty-error": "^2.1.1",
     "query-string": "^6.2.0",
     "read-pkg-up": "^4.0.0",
-    "resolve-from": "^4.0.0"
+    "resolve-from": "^4.0.0",
+    "rollup": "^0.67.3"
   }
 }

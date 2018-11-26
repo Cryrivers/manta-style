@@ -54,12 +54,13 @@ export interface MockPlugin {
 export interface BuilderPlugin {
   name: string;
   supportedExtensions: string[];
-  buildConfigFile(
-    configFilePath: string,
-    destDir: string,
-    verbose?: boolean,
-    importHelpers?: boolean,
-  ): Promise<string>;
+  buildConfigFile(options: {
+    configFilePath: string;
+    destDir: string;
+    transpileModule: boolean;
+    verbose?: boolean;
+    importHelpers?: boolean;
+  }): Promise<string>;
   buildConfigSource(sourceCode: string): Promise<string>;
 }
 
@@ -146,21 +147,29 @@ export class PluginSystem {
     }
     return null;
   }
-  public async buildConfigFile(
-    configFilePath: string,
-    destDir: string,
-    verbose?: boolean,
-    importHelpers?: boolean,
-  ): Promise<string> {
+  public async buildConfigFile({
+    configFilePath,
+    destDir,
+    transpileModule,
+    verbose,
+    importHelpers,
+  }: {
+    configFilePath: string;
+    destDir: string;
+    transpileModule: boolean;
+    verbose?: boolean;
+    importHelpers?: boolean;
+  }): Promise<string> {
     const extension = extractNormalizedExtension(configFilePath);
     const handler = this.builderPlugins[extension];
     if (handler) {
-      return handler.buildConfigFile(
+      return handler.buildConfigFile({
         configFilePath,
         destDir,
+        transpileModule,
         verbose,
         importHelpers,
-      );
+      });
     } else {
       throw new Error(
         generateErrorMessage(ErrorCode.UNSUPPORTED_EXTENSION, extension),

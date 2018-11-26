@@ -40,4 +40,7 @@ export default class TypeParameter extends Type {
   ) {
     return this.getActualType().deriveLiteral(parentAnnotations, context);
   }
+  public validate(value: unknown, context: MantaStyleContext) {
+    return this.getActualType().validate(value, context);
+  }
 }

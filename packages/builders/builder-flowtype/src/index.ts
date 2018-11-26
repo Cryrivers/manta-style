@@ -5,10 +5,17 @@ import transpile from './utils/transpile';
 const typescriptBuilderPlugin: BuilderPlugin = {
   name: 'FlowType Builder',
   supportedExtensions: ['js'],
-  async buildConfigFile(configFilePath, destDir, verbose, importHelpers) {
+  async buildConfigFile({
+    configFilePath,
+    destDir,
+    verbose,
+    importHelpers,
+    transpileModule,
+  }) {
     const compiledFilePath = build(
       configFilePath,
       destDir,
+      transpileModule,
       verbose,
       importHelpers,
     );

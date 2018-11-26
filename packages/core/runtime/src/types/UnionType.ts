@@ -2,6 +2,7 @@ import { sample } from 'lodash-es';
 import NeverKeyword from './NeverKeyword';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { somePromise } from '../utils/assignable';
 
 export default class UnionType extends Type {
   private readonly types: Type[] = [];
@@ -52,6 +53,9 @@ export default class UnionType extends Type {
       return chosenType.mock();
     }
     throw Error('Something bad happens :(');
+  }
+  public validate(value: unknown, context: MantaStyleContext) {
+    return somePromise(this.types.map((type) => type.validate(value, context)));
   }
   public getTypes(): Type[] {
     return this.types;

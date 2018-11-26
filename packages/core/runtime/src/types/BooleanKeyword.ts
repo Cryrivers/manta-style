@@ -16,4 +16,7 @@ export default class BooleanKeyword extends Type {
       typeof pluginValue === 'boolean' ? pluginValue : Math.random() >= 0.5,
     );
   }
+  public async validate(value: unknown) {
+    return typeof value === 'boolean';
+  }
 }

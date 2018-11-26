@@ -19,4 +19,7 @@ export default class StringKeyword extends Type {
       pluginValue !== null ? String(pluginValue) : DEFAULT_STATIC_STRING;
     return new Literal(stringValue);
   }
+  public async validate(value: unknown) {
+    return typeof value === 'string';
+  }
 }

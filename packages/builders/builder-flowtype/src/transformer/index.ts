@@ -4,7 +4,10 @@ import helperTypes from '../utils/builtin-types';
 import jsdocParser from '@manta-style/jsdoc-parser';
 
 const { types: t } = Babel;
-export function createTransformer(importHelpers: boolean) {
+export function createTransformer(
+  importHelpers: boolean,
+  transpileModule: boolean,
+) {
   return function(code: string) {
     const ast = Babel.parse(code, {
       sourceType: 'module',
@@ -22,12 +25,14 @@ export function createTransformer(importHelpers: boolean) {
               t.stringLiteral('@manta-style/runtime'),
             ),
           );
-          path.node.body.unshift(
-            t.importDeclaration(
-              [t.importDefaultSpecifier(t.identifier('RuntimeHelpers'))],
-              t.stringLiteral('@manta-style/flowtype-helpers'),
-            ),
-          );
+          if (importHelpers) {
+            path.node.body.unshift(
+              t.importDeclaration(
+                [t.importDefaultSpecifier(t.identifier('RuntimeHelpers'))],
+                t.stringLiteral('@manta-style/flowtype-helpers'),
+              ),
+            );
+          }
         },
         TypeAlias(path) {
           // type T = ...
@@ -100,7 +105,12 @@ export function createTransformer(importHelpers: boolean) {
       // transpile
       const transformedCode = babelGenerate(ast).code;
       const transpiledAst = Babel.transformSync(transformedCode, {
-        presets: [require('@babel/preset-env')],
+        presets: [
+          [
+            require('@babel/preset-env'),
+            { modules: transpileModule ? 'cjs' : false },
+          ],
+        ],
       });
       if (transpiledAst && transpiledAst.code) {
         return transpiledAst.code;

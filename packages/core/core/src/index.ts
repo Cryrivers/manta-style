@@ -37,13 +37,24 @@ export class Core {
   public getEndpoints() {
     return this.endpoints;
   }
-  public buildConfigFile(
-    configFilePath: string,
-    destDir: string,
-    verbose?: boolean,
-  ) {
+  public buildConfigFile({
+    configFilePath,
+    destDir,
+    transpileModule,
+    verbose,
+  }: {
+    configFilePath: string;
+    destDir: string;
+    transpileModule: boolean;
+    verbose?: boolean;
+  }) {
     this.endpoints = [];
-    return this.pluginSystem.buildConfigFile(configFilePath, destDir, verbose);
+    return this.pluginSystem.buildConfigFile({
+      configFilePath,
+      destDir,
+      transpileModule,
+      verbose,
+    });
   }
   public generateEndpoints(
     compiled: CompiledTypes,
@@ -58,14 +69,18 @@ export class Core {
   }
 }
 
-export abstract class Type {
+export abstract class Type<T = any> {
   public abstract deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
-  ): Promise<Type>;
-  public mock(): any {
+  ): Promise<Type<T>>;
+  public mock(): T {
     throw new Error('Literal types should be derived before mock.');
   }
+  public abstract validate(
+    value: unknown,
+    context: MantaStyleContext,
+  ): Promise<boolean>;
 }
 
 export abstract class CustomType extends Type {
@@ -74,3 +89,9 @@ export abstract class CustomType extends Type {
     context: MantaStyleContext,
   ): Promise<Type>;
 }
+
+export const EmptyContext: MantaStyleContext = {
+  query: {},
+  param: {},
+  plugins: PluginSystem.default(),
+};

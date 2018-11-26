@@ -6,6 +6,8 @@ import {
   CustomType,
 } from '@manta-style/core';
 
+const UNSPLASH_PREFIX = 'https://source.unsplash.com';
+
 export default class UnsplashType extends CustomType {
   private readonly keyword: Type;
   private readonly width: Type;
@@ -18,6 +20,9 @@ export default class UnsplashType extends CustomType {
   }
   public async typeForAssignabilityTest() {
     return MantaStyle.StringKeyword;
+  }
+  public async validate(value: unknown) {
+    return typeof value === 'string' && value.startsWith(UNSPLASH_PREFIX);
   }
   public async deriveLiteral(
     annotations: Annotation[],
@@ -40,7 +45,7 @@ export default class UnsplashType extends CustomType {
     ])).map((itemType) => itemType.mock());
 
     return MantaStyle.Literal(
-      `https://source.unsplash.com/${width}x${height}/?${keyword}`,
+      `${UNSPLASH_PREFIX}/${width}x${height}/?${keyword}`,
     );
   }
 }

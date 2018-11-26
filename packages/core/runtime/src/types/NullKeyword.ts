@@ -1,4 +1,4 @@
-import { Type } from '@manta-style/core';
+import { Type, MantaStyleContext } from '@manta-style/core';
 
 export default class NullKeyword extends Type {
   public async deriveLiteral() {
@@ -6,5 +6,8 @@ export default class NullKeyword extends Type {
   }
   public mock() {
     return null;
+  }
+  public async validate(value: unknown) {
+    return value === null;
   }
 }

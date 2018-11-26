@@ -17,4 +17,20 @@ describe('OptionalType', () => {
       typeof result[2] === 'number' || typeof result[2] === 'undefined',
     ).toBe(true);
   });
+  test('validate', async () => {
+    /* type Tuple = ['haha', 'heihei', 'hoho'?] */
+    const tuple = MS.TupleType([
+      MS.Literal('haha'),
+      MS.Literal('heihei'),
+      MS.OptionalType(MS.Literal('hoho')),
+    ]);
+    expect(await tuple.validate(['haha', 'heihei'], context)).toBe(true);
+    expect(await tuple.validate(['haha', 'heihei', 'hoho'], context)).toBe(
+      true,
+    );
+    expect(await tuple.validate(['haha', 'heihei', 'lala'], context)).toBe(
+      false,
+    );
+    expect(await tuple.validate(['haha'], context)).toBe(false);
+  });
 });

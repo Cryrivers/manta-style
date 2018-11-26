@@ -16,4 +16,7 @@ export default class NumberKeyword extends Type {
       pluginValue !== null ? Number(pluginValue) : Math.random() * 100;
     return new Literal(numberValue);
   }
+  public async validate(value: unknown) {
+    return typeof value === 'number';
+  }
 }

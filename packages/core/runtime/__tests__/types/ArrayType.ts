@@ -23,4 +23,34 @@ describe('AnyKeyword', () => {
     )).mock();
     expect(data.length).toBe(10);
   });
+  test('validate: ArrayType', async () => {
+    expect(await type.validate(3, context)).toBe(false);
+    expect(await type.validate({}, context)).toBe(false);
+    expect(await type.validate('hahah', context)).toBe(false);
+    expect(await type.validate(false, context)).toBe(false);
+    expect(await type.validate([], context)).toBe(true);
+    expect(await type.validate([1, 2, 3], context)).toBe(true);
+    expect(await type.validate([1, '2', 3], context)).toBe(false);
+    expect(await type.validate(['1', '2', '3'], context)).toBe(false);
+  });
+  test('validate: ArrayLiteral', async () => {
+    const arrayLiteralType = MS.ArrayLiteral([
+      MS.Literal('a'),
+      MS.Literal('b'),
+      MS.Literal('c'),
+    ]);
+    expect(await arrayLiteralType.validate(3, context)).toBe(false);
+    expect(await arrayLiteralType.validate({}, context)).toBe(false);
+    expect(await arrayLiteralType.validate('hahah', context)).toBe(false);
+    expect(await arrayLiteralType.validate(false, context)).toBe(false);
+    expect(await arrayLiteralType.validate([], context)).toBe(false);
+    expect(await arrayLiteralType.validate([1, 2, 3], context)).toBe(false);
+    expect(await arrayLiteralType.validate([1, '2', 3], context)).toBe(false);
+    expect(await arrayLiteralType.validate(['1', '2', '3'], context)).toBe(
+      false,
+    );
+    expect(await arrayLiteralType.validate(['a', 'b', 'c'], context)).toBe(
+      true,
+    );
+  });
 });

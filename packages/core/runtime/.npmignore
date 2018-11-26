@@ -1,3 +1,5 @@
 src/
+benchmark/
+coverage/
 tsconfig.json
 webpack.config.js

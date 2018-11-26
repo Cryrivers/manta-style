@@ -108,10 +108,12 @@ export async function isAssignable(
   return false;
 }
 
-async function everyPromise(array: Promise<boolean>[]): Promise<boolean> {
+export async function everyPromise(
+  array: Promise<boolean>[],
+): Promise<boolean> {
   return (await Promise.all(array)).every((t) => t);
 }
 
-async function somePromise(array: Promise<boolean>[]): Promise<boolean> {
+export async function somePromise(array: Promise<boolean>[]): Promise<boolean> {
   return (await Promise.all(array)).some((t) => t);
 }
