@@ -16,3 +16,7 @@ Manta Style supports most TypeScript syntax. If you are new to TypeScript, pleas
 - Function types
 - `infer` keyword
 - `ReturnType<T>` and `InstanceType<T>` are not supported due to `infer` keyword and function types.
+
+## Unsupported Features
+
+- Import third-party type declarations
