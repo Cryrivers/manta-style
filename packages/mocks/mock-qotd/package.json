@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/mock-qotd",
-  "version": "0.2.0-alpha.7",
+  "version": "0.2.0-alpha.8",
   "description": "Manta Style Mock Plugin - Quote of the Day",
   "main": "./lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "mock"
   ],
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.7",
+    "@manta-style/core": "^0.2.0-alpha.8",
     "isomorphic-fetch": "^2.2.1",
     "lodash-es": "^4.17.11"
   },

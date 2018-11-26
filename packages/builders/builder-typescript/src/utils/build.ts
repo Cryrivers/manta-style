@@ -25,6 +25,11 @@ export default function build({
     target: ts.ScriptTarget.ES5,
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
     module: ts.ModuleKind.ESNext,
+    // Do not scan and compile third-party libraries
+    // which make the compiling process likely to fail
+    // and very slow
+    types: [],
+    typeRoots: [],
     outDir: destDir,
     listEmittedFiles: true,
   });
