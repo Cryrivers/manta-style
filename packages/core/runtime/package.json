@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@manta-style/mock-example": "^0.2.0-alpha.8",
+    "@manta-style/mock-qotd": "^0.2.0-alpha.8",
     "@types/jest": "^23.3.3",
     "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.1",

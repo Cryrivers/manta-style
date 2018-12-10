@@ -28,11 +28,8 @@ export default class QueryType extends CustomType {
       return query[type.mock()];
     }
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    const content = await this.getQueryContent(context);
+  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+    const content = this.getQueryContent(context);
     if (content) {
       if (typeof content === 'string') {
         return MantaStyle.Literal(content);
@@ -44,8 +41,8 @@ export default class QueryType extends CustomType {
     }
     return MantaStyle.NeverKeyword;
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
-    const content = await this.getQueryContent(context);
+  public validate(value: unknown, context: MantaStyleContext): value is any {
+    const content = this.getQueryContent(context);
     return value === content;
   }
 }

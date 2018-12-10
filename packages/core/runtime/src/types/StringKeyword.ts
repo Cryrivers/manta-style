@@ -1,5 +1,10 @@
 import Literal from './Literal';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import {
+  Annotation,
+  MantaStyleContext,
+  Type,
+  Fetcher,
+} from '@manta-style/core';
 
 const DEFAULT_STATIC_STRING =
   'This is a string message. Customize it mock plugins. (https://github.com/Cryrivers/manta-style/blob/master/documentation/Plugins.md)';
@@ -12,7 +17,7 @@ export default class StringKeyword extends Type {
       plugin(annotations, context),
     );
     let stringValue =
-      pluginValue !== null ? String(pluginValue) : DEFAULT_STATIC_STRING;
+      pluginValue !== null ? pluginValue : DEFAULT_STATIC_STRING;
     return new Literal(stringValue);
   }
   public validate(value: unknown): value is string {

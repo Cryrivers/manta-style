@@ -3,6 +3,7 @@
   "version": "0.2.0-alpha.8",
   "description": "Manta Style Mock Plugin - Quote of the Day",
   "main": "./lib/index.js",
+  "typings": "./lib/typings/index.d.ts",
   "scripts": {
     "build": "webpack",
     "test": "echo 'No test yet'"

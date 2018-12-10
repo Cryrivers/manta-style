@@ -21,18 +21,15 @@ export default class ParamType extends CustomType {
   ) {
     return this.deriveLiteral(annotations, context);
   }
-  public async getParamContent(context: MantaStyleContext) {
+  public getParamContent(context: MantaStyleContext) {
     const { param } = context;
-    const { type } = await resolveReferencedType(this.type, context);
+    const { type } = resolveReferencedType(this.type, context);
     if (type instanceof LiteralType && typeof param === 'object') {
       return param[type.mock()];
     }
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    const content = await this.getParamContent(context);
+  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+    const content = this.getParamContent(context);
     if (content) {
       if (typeof content === 'string') {
         return MantaStyle.Literal(content);
@@ -44,8 +41,8 @@ export default class ParamType extends CustomType {
     }
     return MantaStyle.NeverKeyword;
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
-    const content = await this.getParamContent(context);
+  public validate(value: unknown, context: MantaStyleContext): value is any {
+    const content = this.getParamContent(context);
     return value === content;
   }
 }

@@ -1,7 +1,7 @@
 import { Literals } from '../utils/baseType';
-import { Type } from '@manta-style/core';
+import { Type, Fetcher } from '@manta-style/core';
 
-export default class Literal<T extends Literals> extends Type {
+export default class Literal<T extends Literals | Fetcher<any>> extends Type {
   private readonly literal: T;
   constructor(literal: T) {
     super();
@@ -11,9 +11,13 @@ export default class Literal<T extends Literals> extends Type {
     return this;
   }
   public validate(value: unknown): value is T {
-    return value === this.literal;
+    return this.literal instanceof Fetcher
+      ? value === this.literal.read()
+      : value === this.literal;
   }
   public mock() {
-    return this.literal;
+    console.log('Value:', this.literal);
+    console.log('isFetcher:', Fetcher.isFetcher(this.literal));
+    return this.literal instanceof Fetcher ? this.literal.read() : this.literal;
   }
 }

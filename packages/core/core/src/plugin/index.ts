@@ -1,6 +1,7 @@
 import { Annotation } from '../utils/annotation';
 import { generateErrorMessage, ErrorCode } from '../utils/errorMessage';
 import { Type, Endpoint, MantaStyleContext } from '..';
+import { Fetcher } from '../utils/context';
 
 const PLUGIN_PREFIX = ['@manta-style/', 'manta-style-'];
 
@@ -33,9 +34,13 @@ export interface ServerPlugin {
 }
 
 type MockResult<T> = T | null;
-type MockPrimitiveResult<T extends SupportedMockType> = T extends 'StringType'
-  ? string
-  : T extends 'NumberType' ? number : T extends 'BooleanType' ? boolean : any;
+type MockPrimitiveResult<T extends SupportedMockType> =
+  | (T extends 'StringType'
+      ? string | Fetcher<string>
+      : T extends 'NumberType'
+        ? number | Fetcher<number>
+        : T extends 'BooleanType' ? boolean | Fetcher<boolean> : any)
+  | Fetcher<any>;
 type MockFunction<T extends SupportedMockType> = (
   annotations: Annotation[],
   context: MantaStyleContext,
