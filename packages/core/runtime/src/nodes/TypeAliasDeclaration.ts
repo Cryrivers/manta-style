@@ -45,7 +45,7 @@ export default class TypeAliasDeclaration extends Type {
   public getAnnotations() {
     return this.annotations;
   }
-  public async deriveLiteral(
+  public deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
   ) {
@@ -61,7 +61,7 @@ export default class TypeAliasDeclaration extends Type {
       this.annotations,
     );
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
-      const { type, annotations } = await resolveReferencedType(
+      const { type, annotations } = resolveReferencedType(
         this.typeParameterTypes[i],
         context,
       );
@@ -70,26 +70,26 @@ export default class TypeAliasDeclaration extends Type {
         annotations,
       );
       if (type instanceof UnionType && preserveUnionType) {
-        await this.typeParameters[i].setActualType(
-          await type.derivePreservedUnionLiteral(mergedAnnotations, context),
+        this.typeParameters[i].setActualType(
+          type.derivePreservedUnionLiteral(mergedAnnotations, context),
           context,
         );
       } else {
-        await this.typeParameters[i].setActualType(
-          await type.deriveLiteral(mergedAnnotations, context),
+        this.typeParameters[i].setActualType(
+          type.deriveLiteral(mergedAnnotations, context),
           context,
         );
       }
     }
     return this.type.deriveLiteral(combinedAnnotations, context);
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown, context: MantaStyleContext): value is any {
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
-      const { type } = await resolveReferencedType(
+      const { type } = resolveReferencedType(
         this.typeParameterTypes[i],
         context,
       );
-      await this.typeParameters[i].setActualType(type, context);
+      this.typeParameters[i].setActualType(type, context);
     }
     return this.type.validate(value, context);
   }

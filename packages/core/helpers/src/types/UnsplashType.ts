@@ -18,31 +18,24 @@ export default class UnsplashType extends CustomType {
     this.width = width;
     this.height = height;
   }
-  public async typeForAssignabilityTest() {
+  public typeForAssignabilityTest() {
     return MantaStyle.StringKeyword;
   }
-  public async validate(value: unknown) {
+  public validate(value: unknown): value is any {
     return typeof value === 'string' && value.startsWith(UNSPLASH_PREFIX);
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    const [
-      { type: keywordType },
-      { type: widthType },
-      { type: heightType },
-    ] = await Promise.all([
+  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+    const [{ type: keywordType }, { type: widthType }, { type: heightType }] = [
       resolveReferencedType(this.keyword, context),
       resolveReferencedType(this.width, context),
       resolveReferencedType(this.height, context),
-    ]);
+    ];
 
-    const [keyword, width, height] = (await Promise.all([
+    const [keyword, width, height] = [
       keywordType.deriveLiteral(annotations, context),
       widthType.deriveLiteral(annotations, context),
       heightType.deriveLiteral(annotations, context),
-    ])).map((itemType) => itemType.mock());
+    ].map((itemType) => itemType.mock());
 
     return MantaStyle.Literal(
       `${UNSPLASH_PREFIX}/${width}x${height}/?${keyword}`,

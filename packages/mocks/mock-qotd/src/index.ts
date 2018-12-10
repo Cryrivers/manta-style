@@ -1,11 +1,9 @@
 import { annotationUtils, MockPlugin } from '@manta-style/core';
-// @ts-ignore
-import * as fetch from 'isomorphic-fetch';
 
 const qotdPlugin: MockPlugin = {
   name: 'qotd',
   mock: {
-    async StringType(annotations) {
+    StringType(annotations) {
       const jsdocRange = annotationUtils.getAnnotationsByKey(
         'qotd',
         annotations,
@@ -15,9 +13,10 @@ const qotdPlugin: MockPlugin = {
       }
 
       try {
-        const response = await fetch('https://talaikis.com/api/quotes/random/');
-        const json = await response.json();
-        return json.quote;
+        // const response = await fetch('https://talaikis.com/api/quotes/random/');
+        // const json = await response.json();
+        // return json.quote;
+        return 'TBD';
       } catch (e) {
         return null;
       }

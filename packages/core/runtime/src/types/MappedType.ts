@@ -25,7 +25,7 @@ export default class MappedType extends Type {
   private type: Type = ErrType;
   private constraint: Type = ErrType;
   private questionToken: QuestionToken = QuestionToken.None;
-  public async deriveLiteral(
+  public deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
   ) {
@@ -35,11 +35,11 @@ export default class MappedType extends Type {
      * }
      */
     const { typeParameter } = this;
-    const { type: constraint } = await resolveReferencedType(
+    const { type: constraint } = resolveReferencedType(
       this.constraint,
       context,
     );
-    const { type } = await resolveReferencedType(this.type, context);
+    const { type } = resolveReferencedType(this.type, context);
     const newTypeLiteral = new TypeLiteral();
     if (
       (constraint instanceof UnionType || constraint instanceof Literal) &&
@@ -47,22 +47,18 @@ export default class MappedType extends Type {
     ) {
       const unionKeyTypes =
         constraint instanceof UnionType
-          ? (await constraint.derivePreservedUnionLiteral(
-              parentAnnotations,
-              context,
-            )).getTypes()
+          ? constraint
+              .derivePreservedUnionLiteral(parentAnnotations, context)
+              .getTypes()
           : [constraint];
 
       for (const keyType of unionKeyTypes) {
         let finalTypeForThisProperty: Type = ErrType;
         let originalQuestionMark = false;
-        let literalKeyType = await keyType.deriveLiteral(
-          parentAnnotations,
-          context,
-        );
-        await typeParameter.setActualType(literalKeyType, context);
+        let literalKeyType = keyType.deriveLiteral(parentAnnotations, context);
+        typeParameter.setActualType(literalKeyType, context);
         if (type instanceof IndexedAccessType) {
-          const property = await type.getProperty(context);
+          const property = type.getProperty(context);
           if (property) {
             originalQuestionMark = property.questionMark;
             finalTypeForThisProperty = property.type;
@@ -86,7 +82,7 @@ export default class MappedType extends Type {
       );
     }
   }
-  public validate(): never {
+  public validate(value: any): value is any {
     throw Error('MappedType does not support validation yet');
   }
   public TypeParameter(name: string) {

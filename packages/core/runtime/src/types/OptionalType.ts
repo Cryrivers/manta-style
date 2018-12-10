@@ -10,7 +10,7 @@ export default class OptionalType extends Type {
   public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
     return this.type.deriveLiteral(annotations, context);
   }
-  public validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown, context: MantaStyleContext): value is any {
     return (
       this.type.validate(value, context) ||
       MantaStyle.UndefinedKeyword.validate(value)

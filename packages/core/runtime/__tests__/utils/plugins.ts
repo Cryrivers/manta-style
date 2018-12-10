@@ -3,7 +3,7 @@ import { PluginSystem } from '@manta-style/core';
 import ExamplePlugin from '@manta-style/mock-example';
 
 describe('Plugin Test', () => {
-  test('Test original @example annotation', async () => {
+  test('Test original @example annotation', () => {
     const context = {
       query: {},
       param: {},
@@ -21,7 +21,7 @@ describe('Plugin Test', () => {
       },
       [{ key: 'length', value: '100' }, { key: 'example', value: 'yes' }],
     );
-    const result = (await type.deriveLiteral([], context)).mock();
+    const result = type.deriveLiteral([], context).mock();
     expect(result).toHaveLength(100);
     expect(result).toEqual(Array.from(new Array(100), () => 'yes'));
   });

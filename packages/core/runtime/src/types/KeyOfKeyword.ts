@@ -10,9 +10,9 @@ export default class KeyOfKeyword extends Type {
     super();
     this.type = type;
   }
-  public async getKeys(context: MantaStyleContext): Promise<string[]> {
+  public getKeys(context: MantaStyleContext): string[] {
     const { type: maybeReferencedType } = this;
-    const { type }: { type: Type } = await resolveReferencedType(
+    const { type }: { type: Type } = resolveReferencedType(
       maybeReferencedType,
       context,
     );
@@ -22,15 +22,12 @@ export default class KeyOfKeyword extends Type {
       throw new Error('Unsupported Type in "keyof" keyword');
     }
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    const keys = await this.getKeys(context);
+  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+    const keys = this.getKeys(context);
     return new UnionType(keys.map((key) => new Literal(key)));
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
-    const keys = await this.getKeys(context);
+  public validate(value: unknown, context: MantaStyleContext): value is any {
+    const keys = this.getKeys(context);
     return typeof value === 'string' && keys.includes(value);
   }
 }

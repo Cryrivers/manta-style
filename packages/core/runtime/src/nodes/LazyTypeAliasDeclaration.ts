@@ -34,15 +34,15 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
     return super.getAnnotations();
   }
 
-  public async deriveLiteral(
+  public deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
-  ): Promise<Type> {
+  ): Type {
     this.initialize();
     return super.deriveLiteral(parentAnnotations, context);
   }
 
-  public async validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown, context: MantaStyleContext): value is any {
     this.initialize();
     return super.validate(value, context);
   }

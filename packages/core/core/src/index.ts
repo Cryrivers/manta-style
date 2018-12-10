@@ -8,6 +8,8 @@ export type MantaStyleContext = {
   plugins: PluginSystem;
 };
 export * from './plugin';
+export * from './utils/context';
+
 export { annotationUtils, Annotation };
 
 export type HTTPMethods = 'get' | 'post' | 'put' | 'delete' | 'patch';
@@ -73,21 +75,21 @@ export abstract class Type<T = any> {
   public abstract deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
-  ): Promise<Type<T>>;
+  ): Type<T>;
   public mock(): T {
     throw new Error('Literal types should be derived before mock.');
   }
   public abstract validate(
     value: unknown,
     context: MantaStyleContext,
-  ): Promise<boolean>;
+  ): value is T;
 }
 
 export abstract class CustomType extends Type {
   public abstract typeForAssignabilityTest(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
-  ): Promise<Type>;
+  ): Type;
 }
 
 export const EmptyContext: MantaStyleContext = {

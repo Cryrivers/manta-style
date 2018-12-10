@@ -16,13 +16,10 @@ export default class NullableType extends Type {
       new UndefinedKeyword(),
     ]);
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
+  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
     return this.nullableType.deriveLiteral(annotations, context);
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown, context: MantaStyleContext): value is any {
     return (
       this.type.validate(value, context) ||
       MantaStyle.UndefinedKeyword.validate(value) ||

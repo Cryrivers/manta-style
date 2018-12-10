@@ -13,23 +13,17 @@ export default class IndexedAccessType extends Type {
     this.objectType = objectType;
     this.indexType = indexType;
   }
-  public async getProperty(context: MantaStyleContext) {
-    const { type: objType } = await resolveReferencedType(
-      this.objectType,
-      context,
-    );
-    const { type: indexType } = await resolveReferencedType(
-      this.indexType,
-      context,
-    );
-    const indexName = (await indexType.deriveLiteral([], context)).mock();
+  public getProperty(context: MantaStyleContext) {
+    const { type: objType } = resolveReferencedType(this.objectType, context);
+    const { type: indexType } = resolveReferencedType(this.indexType, context);
+    const indexName = indexType.deriveLiteral([], context).mock();
     if (objType instanceof TypeLiteral) {
       return objType
         ._getProperties()
         .find((property) => property.name === indexName);
     }
   }
-  public async deriveLiteral(
+  public deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
   ) {
@@ -37,11 +31,11 @@ export default class IndexedAccessType extends Type {
       objectType: maybeReferencedObjectType,
       indexType: maybeReferencedIndexType,
     } = this;
-    const objectType = await (await resolveReferencedType(
+    const objectType = resolveReferencedType(
       maybeReferencedObjectType,
       context,
-    )).type.deriveLiteral(parentAnnotations, context);
-    const { type: indexType } = await resolveReferencedType(
+    ).type.deriveLiteral(parentAnnotations, context);
+    const { type: indexType } = resolveReferencedType(
       maybeReferencedIndexType,
       context,
     );
@@ -49,10 +43,9 @@ export default class IndexedAccessType extends Type {
       if (indexType instanceof Literal) {
         return indexedAccessTypeLiteral(objectType, indexType);
       } else if (indexType instanceof UnionType) {
-        const indexTypes = (await indexType.derivePreservedUnionLiteral(
-          [],
-          context,
-        )).getTypes();
+        const indexTypes = indexType
+          .derivePreservedUnionLiteral([], context)
+          .getTypes();
         return new UnionType(
           indexTypes.map((indType) =>
             indexedAccessTypeLiteral(objectType, indType),
@@ -67,16 +60,14 @@ export default class IndexedAccessType extends Type {
       return objectType.deriveLiteral(parentAnnotations, context);
     }
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown, context: MantaStyleContext): value is any {
     const {
       objectType: maybeReferencedObjectType,
       indexType: maybeReferencedIndexType,
     } = this;
-    const objectType = (await resolveReferencedType(
-      maybeReferencedObjectType,
-      context,
-    )).type;
-    const { type: indexType } = await resolveReferencedType(
+    const objectType = resolveReferencedType(maybeReferencedObjectType, context)
+      .type;
+    const { type: indexType } = resolveReferencedType(
       maybeReferencedIndexType,
       context,
     );
@@ -87,10 +78,9 @@ export default class IndexedAccessType extends Type {
           context,
         );
       } else if (indexType instanceof UnionType) {
-        const indexTypes = (await indexType.derivePreservedUnionLiteral(
-          [],
-          context,
-        )).getTypes();
+        const indexTypes = indexType
+          .derivePreservedUnionLiteral([], context)
+          .getTypes();
         return new UnionType(
           indexTypes.map((indType) =>
             indexedAccessTypeLiteral(objectType, indType),

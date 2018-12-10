@@ -32,7 +32,7 @@ export interface ServerPlugin {
   ): Endpoint[];
 }
 
-type MockResult<T> = T | null | Promise<T | null>;
+type MockResult<T> = T | null;
 type MockPrimitiveResult<T extends SupportedMockType> = T extends 'StringType'
   ? string
   : T extends 'NumberType' ? number : T extends 'BooleanType' ? boolean : any;
@@ -126,7 +126,7 @@ export class PluginSystem {
       }
     }
   }
-  public async getMockValueFromPlugin<T extends SupportedMockType>(
+  public getMockValueFromPlugin<T extends SupportedMockType>(
     type: T,
     callback: MockCallback<T>,
   ) {
@@ -135,7 +135,7 @@ export class PluginSystem {
       // @ts-ignore
       for (const plugin of plugins) {
         try {
-          const value = await callback(plugin.mock);
+          const value = callback(plugin.mock);
           if (value !== null) {
             return value;
           }

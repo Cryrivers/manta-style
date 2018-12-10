@@ -22,7 +22,7 @@ export default class ConditionalType extends Type {
     this.trueType = trueType;
     this.falseType = falseType;
   }
-  private async getResolvedType(context: MantaStyleContext) {
+  private getResolvedType(context: MantaStyleContext) {
     /*
       From: http://koerbitz.me/posts/a-look-at-typescripts-conditional-types.html
       The Distributive Rule of Conditional and Union Types
@@ -36,37 +36,31 @@ export default class ConditionalType extends Type {
       trueType: maybeReferencedTrueType,
       falseType: maybeReferencedFalseType,
     } = this;
-    const [
-      { type: checkType },
-      { type: trueType },
-      { type: falseType },
-    ] = await Promise.all([
+    const [{ type: checkType }, { type: trueType }, { type: falseType }] = [
       resolveReferencedType(maybeReferencedCheckType, context),
       resolveReferencedType(maybeReferencedTrueType, context),
       resolveReferencedType(maybeReferencedFalseType, context),
-    ]);
+    ];
     if (checkType instanceof UnionType) {
-      const resolvedType = await normalizeUnion(
+      const resolvedType = normalizeUnion(
         new UnionType(
-          await Promise.all(
-            checkType
-              .getTypes()
-              .map((type) =>
-                resolveConditionalType(
-                  type,
-                  extendsType,
-                  checkType === trueType ? type : trueType,
-                  checkType === falseType ? type : falseType,
-                  context,
-                ),
+          checkType
+            .getTypes()
+            .map((type) =>
+              resolveConditionalType(
+                type,
+                extendsType,
+                checkType === trueType ? type : trueType,
+                checkType === falseType ? type : falseType,
+                context,
               ),
-          ),
+            ),
         ),
         context,
       );
       return resolvedType;
     } else {
-      const resolvedType = await resolveConditionalType(
+      const resolvedType = resolveConditionalType(
         checkType,
         extendsType,
         trueType,
@@ -76,27 +70,22 @@ export default class ConditionalType extends Type {
       return resolvedType;
     }
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    const resolvedType = await this.getResolvedType(context);
+  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
+    const resolvedType = this.getResolvedType(context);
     return resolvedType.deriveLiteral(annotations, context);
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
-    const resolvedType = await this.getResolvedType(context);
+  public validate(value: unknown, context: MantaStyleContext): value is any {
+    const resolvedType = this.getResolvedType(context);
     return resolvedType.validate(value, context);
   }
 }
 
-async function resolveConditionalType(
+function resolveConditionalType(
   checkType: Type,
   extendsType: Type,
   trueType: Type,
   falseType: Type,
   context: MantaStyleContext,
-): Promise<Type> {
-  return (await isAssignable(checkType, extendsType, context))
-    ? trueType
-    : falseType;
+): Type {
+  return isAssignable(checkType, extendsType, context) ? trueType : falseType;
 }

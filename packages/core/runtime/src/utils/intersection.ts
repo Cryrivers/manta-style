@@ -5,21 +5,19 @@ import MantaStyle from '..';
 import { normalizeUnion } from './union';
 import { MantaStyleContext, Type } from '@manta-style/core';
 
-export async function intersection(
+export function intersection(
   S: Type,
   T: Type,
   context: MantaStyleContext,
-): Promise<Type> {
+): Type {
   if (S instanceof UnionType) {
     const unionType = new UnionType(
-      await Promise.all(
-        S.getTypes().map((type) => intersection(type, T, context)),
-      ),
+      S.getTypes().map((type) => intersection(type, T, context)),
     );
     return normalizeUnion(unionType, context);
   } else {
-    const ST = await isAssignable(S, T, context);
-    const TS = await isAssignable(T, S, context);
+    const ST = isAssignable(S, T, context);
+    const TS = isAssignable(T, S, context);
     if (!ST && !TS) {
       return MantaStyle.NeverKeyword;
     } else if (ST && TS) {

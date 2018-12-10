@@ -7,10 +7,10 @@ export default class Literal<T extends Literals> extends Type {
     super();
     this.literal = literal;
   }
-  public async deriveLiteral() {
+  public deriveLiteral() {
     return this;
   }
-  public async validate(value: unknown) {
+  public validate(value: unknown): value is T {
     return value === this.literal;
   }
   public mock() {

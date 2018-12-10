@@ -2,7 +2,6 @@ import ArrayLiteral from './ArrayLiteral';
 import OptionalType from './OptionalType';
 import RestType from './RestType';
 import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
-import { everyPromise } from '../utils/assignable';
 
 export default class TupleType extends Type {
   private readonly elementTypes: Type[];
@@ -10,7 +9,7 @@ export default class TupleType extends Type {
     super();
     this.elementTypes = elementTypes;
   }
-  public async deriveLiteral(
+  public deriveLiteral(
     parentAnnotations: Annotation[],
     context: MantaStyleContext,
   ) {
@@ -20,32 +19,25 @@ export default class TupleType extends Type {
       if (chance > 0.5) {
         if (type instanceof RestType) {
           arrayLiteral.push(
-            ...(await type.deriveLiteral(
-              parentAnnotations,
-              context,
-            )).getElements(),
+            ...type.deriveLiteral(parentAnnotations, context).getElements(),
           );
         } else {
-          arrayLiteral.push(
-            await type.deriveLiteral(parentAnnotations, context),
-          );
+          arrayLiteral.push(type.deriveLiteral(parentAnnotations, context));
         }
       }
     }
     return new ArrayLiteral(arrayLiteral);
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown, context: MantaStyleContext): value is any {
     // TODO: Calculate the correct length based on OptionalTypes and RestType
     return (
       Array.isArray(value) &&
       value.length >=
         this.elementTypes.filter((type) => !(type instanceof OptionalType))
           .length &&
-      (await everyPromise(
-        value.map((item, index) =>
-          this.elementTypes[index].validate(item, context),
-        ),
-      ))
+      value.every((item, index) =>
+        this.elementTypes[index].validate(item, context),
+      )
     );
   }
 }
