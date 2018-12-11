@@ -1,5 +1,5 @@
 import MS from '../../src';
-import { PluginSystem } from '@manta-style/core';
+import { PluginSystem, flushFetcher } from '@manta-style/core';
 import ExamplePlugin from '@manta-style/mock-example';
 import QotdPlugin from '@manta-style/mock-qotd';
 
@@ -44,7 +44,10 @@ describe('Plugin Test', () => {
       },
       [{ key: 'length', value: '1' }, { key: 'qotd', value: '' }],
     );
-    const result = type.deriveLiteral([], context).mock();
-    expect(result).toHaveLength(1);
+    const result = type.deriveLiteral([], context);
+    await flushFetcher();
+    const mockData = result.mock();
+    console.log(mockData);
+    expect(mockData).toHaveLength(1);
   });
 });
