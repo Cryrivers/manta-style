@@ -9,7 +9,7 @@ export default class NumberKeyword extends Type {
       plugin(annotations),
     );
     const numberValue =
-      pluginValue !== null ? Number(pluginValue) : Math.random() * 100;
+      pluginValue !== null ? pluginValue : Math.random() * 100;
     return new Literal(numberValue);
   }
   public validate(value: unknown): value is number {
