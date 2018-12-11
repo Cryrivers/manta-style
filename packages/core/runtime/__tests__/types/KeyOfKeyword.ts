@@ -1,5 +1,4 @@
 import MS from '../../src';
-import { PluginSystem } from '@manta-style/core';
 
 describe('KeyOfKeyword', () => {
   /* type Obj = { a:number, b:number, c:number, d:number } */
@@ -11,9 +10,8 @@ describe('KeyOfKeyword', () => {
   });
   /* type KeyOfObj = keyof Obj */
   const keyOfObj = MS.KeyOfKeyword(obj);
-  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
   test('Basic properties', () => {
-    const abcdUnion = keyOfObj.deriveLiteral([], context);
+    const abcdUnion = keyOfObj.deriveLiteral();
     expect(abcdUnion.getTypes().map((item) => item.mock())).toEqual([
       'a',
       'b',
@@ -22,10 +20,10 @@ describe('KeyOfKeyword', () => {
     ]);
   });
   test('Validate', () => {
-    expect(keyOfObj.validate('a', context)).toBe(true);
-    expect(keyOfObj.validate('b', context)).toBe(true);
-    expect(keyOfObj.validate('c', context)).toBe(true);
-    expect(keyOfObj.validate('d', context)).toBe(true);
-    expect(keyOfObj.validate('e', context)).toBe(false);
+    expect(keyOfObj.validate('a')).toBe(true);
+    expect(keyOfObj.validate('b')).toBe(true);
+    expect(keyOfObj.validate('c')).toBe(true);
+    expect(keyOfObj.validate('d')).toBe(true);
+    expect(keyOfObj.validate('e')).toBe(false);
   });
 });

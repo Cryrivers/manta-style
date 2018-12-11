@@ -62,11 +62,11 @@ export default class TypeAliasDeclaration extends Type {
       );
       if (type instanceof UnionType && preserveUnionType) {
         this.typeParameters[i].setActualType(
-          type.derivePreservedUnionLiteral(mergedAnnotations, context),
+          type.derivePreservedUnionLiteral(mergedAnnotations),
         );
       } else {
         this.typeParameters[i].setActualType(
-          type.deriveLiteral(mergedAnnotations, context),
+          type.deriveLiteral(mergedAnnotations),
         );
       }
     }

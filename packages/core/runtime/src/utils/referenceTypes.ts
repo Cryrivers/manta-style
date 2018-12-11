@@ -44,7 +44,7 @@ export function resolveReferencedType(
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();
     } else if (actualType instanceof KeyOfKeyword) {
-      actualType = actualType.deriveLiteral(annotations);
+      actualType = actualType.deriveLiteral();
     } else {
       actualType = actualType.getType();
     }

@@ -10,8 +10,8 @@ export default class QueryType extends CustomType {
     super();
     this.type = type;
   }
-  public typeForAssignabilityTest(annotations: Annotation[]) {
-    return this.deriveLiteral(annotations);
+  public typeForAssignabilityTest() {
+    return this.deriveLiteral();
   }
   public async getQueryContent() {
     const [query] = useQuery();

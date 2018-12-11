@@ -11,7 +11,7 @@ export default class ParamType extends CustomType {
     this.type = type;
   }
   public typeForAssignabilityTest(annotations: Annotation[]) {
-    return this.deriveLiteral(annotations);
+    return this.deriveLiteral();
   }
   public getParamContent() {
     const [param] = useParam();
