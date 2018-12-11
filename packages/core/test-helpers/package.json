@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/test-helpers",
-  "version": "0.2.0-alpha.8",
+  "version": "0.2.0-alpha.9",
   "main": "src/index.ts",
   "dependencies": {
     "prettier": "^1.14.3"
