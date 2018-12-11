@@ -4,6 +4,7 @@ import {
   Endpoint,
   HTTPMethods,
   Type,
+  flushFetcher,
 } from '@manta-style/core';
 
 const HTTP_METHODS: HTTPMethods[] = ['get', 'post', 'put', 'patch', 'delete'];
@@ -21,7 +22,8 @@ function isTypeLiteral(type: any): type is TypeLiteral {
 async function restfulServerCallback(matchedEndpoint: Endpoint) {
   const type = typeMapping[generateHashString(matchedEndpoint)];
   if (type) {
-    const literalType = await type.deriveLiteral([]);
+    const literalType = type.deriveLiteral([]);
+    await flushFetcher();
     return literalType.mock();
   }
   throw Error(
