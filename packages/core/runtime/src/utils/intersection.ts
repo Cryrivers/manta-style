@@ -3,29 +3,22 @@ import UnionType from '../types/UnionType';
 import TypeLiteral from '../types/TypeLiteral';
 import MantaStyle from '..';
 import { normalizeUnion } from './union';
-import { MantaStyleContext, Type } from '@manta-style/core';
+import { Type } from '@manta-style/core';
 
-export function intersection(
-  S: Type,
-  T: Type,
-  context: MantaStyleContext,
-): Type {
+export function intersection(S: Type, T: Type): Type {
   if (S instanceof UnionType) {
     const unionType = new UnionType(
-      S.getTypes().map((type) => intersection(type, T, context)),
+      S.getTypes().map((type) => intersection(type, T)),
     );
-    return normalizeUnion(unionType, context);
+    return normalizeUnion(unionType);
   } else {
-    const ST = isAssignable(S, T, context);
-    const TS = isAssignable(T, S, context);
+    const ST = isAssignable(S, T);
+    const TS = isAssignable(T, S);
     if (!ST && !TS) {
       return MantaStyle.NeverKeyword;
     } else if (ST && TS) {
       if (S instanceof TypeLiteral && T instanceof TypeLiteral) {
-        return S.compose(
-          T,
-          context,
-        );
+        return S.compose(T);
       } else {
         return S;
       }

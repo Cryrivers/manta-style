@@ -2,12 +2,7 @@ import MantaStyle, {
   LiteralType,
   resolveReferencedType,
 } from '@manta-style/runtime';
-import {
-  Annotation,
-  MantaStyleContext,
-  Type,
-  CustomType,
-} from '@manta-style/core';
+import { Annotation, Type, CustomType, useParam } from '@manta-style/core';
 
 export default class ParamType extends CustomType {
   private readonly type: Type;
@@ -15,21 +10,18 @@ export default class ParamType extends CustomType {
     super();
     this.type = type;
   }
-  public typeForAssignabilityTest(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    return this.deriveLiteral(annotations, context);
+  public typeForAssignabilityTest(annotations: Annotation[]) {
+    return this.deriveLiteral(annotations);
   }
-  public getParamContent(context: MantaStyleContext) {
-    const { param } = context;
-    const { type } = resolveReferencedType(this.type, context);
+  public getParamContent() {
+    const [param] = useParam();
+    const { type } = resolveReferencedType(this.type);
     if (type instanceof LiteralType && typeof param === 'object') {
       return param[type.mock()];
     }
   }
-  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
-    const content = this.getParamContent(context);
+  public deriveLiteral() {
+    const content = this.getParamContent();
     if (content) {
       if (typeof content === 'string') {
         return MantaStyle.Literal(content);
@@ -41,8 +33,8 @@ export default class ParamType extends CustomType {
     }
     return MantaStyle.NeverKeyword;
   }
-  public validate(value: unknown, context: MantaStyleContext): value is any {
-    const content = this.getParamContent(context);
+  public validate(value: unknown): value is any {
+    const content = this.getParamContent();
     return value === content;
   }
 }

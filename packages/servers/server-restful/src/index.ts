@@ -3,7 +3,6 @@ import {
   CompiledTypes,
   Endpoint,
   HTTPMethods,
-  MantaStyleContext,
   Type,
 } from '@manta-style/core';
 
@@ -19,13 +18,10 @@ function isTypeLiteral(type: any): type is TypeLiteral {
   return typeof type === 'object' && typeof type._getProperties === 'function';
 }
 
-async function restfulServerCallback(
-  matchedEndpoint: Endpoint,
-  context: MantaStyleContext,
-) {
+async function restfulServerCallback(matchedEndpoint: Endpoint) {
   const type = typeMapping[generateHashString(matchedEndpoint)];
   if (type) {
-    const literalType = await type.deriveLiteral([], context);
+    const literalType = await type.deriveLiteral([]);
     return literalType.mock();
   }
   throw Error(

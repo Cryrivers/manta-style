@@ -1,10 +1,5 @@
 import TypeParameter from './TypeParameter';
-import {
-  Annotation,
-  annotationUtils,
-  MantaStyleContext,
-  Type,
-} from '@manta-style/core';
+import { Annotation, annotationUtils, Type } from '@manta-style/core';
 import { ErrorType } from '../utils/pseudoTypes';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';
@@ -45,10 +40,7 @@ export default class TypeAliasDeclaration extends Type {
   public getAnnotations() {
     return this.annotations;
   }
-  public deriveLiteral(
-    parentAnnotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
+  public deriveLiteral(parentAnnotations: Annotation[]) {
     const combinedAnnotations = annotationUtils.inheritAnnotations(
       parentAnnotations,
       this.annotations,
@@ -63,7 +55,6 @@ export default class TypeAliasDeclaration extends Type {
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
       const { type, annotations } = resolveReferencedType(
         this.typeParameterTypes[i],
-        context,
       );
       const mergedAnnotations = annotationUtils.inheritAnnotations(
         combinedAnnotations,
@@ -72,25 +63,20 @@ export default class TypeAliasDeclaration extends Type {
       if (type instanceof UnionType && preserveUnionType) {
         this.typeParameters[i].setActualType(
           type.derivePreservedUnionLiteral(mergedAnnotations, context),
-          context,
         );
       } else {
         this.typeParameters[i].setActualType(
           type.deriveLiteral(mergedAnnotations, context),
-          context,
         );
       }
     }
-    return this.type.deriveLiteral(combinedAnnotations, context);
+    return this.type.deriveLiteral(combinedAnnotations);
   }
-  public validate(value: unknown, context: MantaStyleContext): value is any {
+  public validate(value: unknown): value is any {
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
-      const { type } = resolveReferencedType(
-        this.typeParameterTypes[i],
-        context,
-      );
-      this.typeParameters[i].setActualType(type, context);
+      const { type } = resolveReferencedType(this.typeParameterTypes[i]);
+      this.typeParameters[i].setActualType(type);
     }
-    return this.type.validate(value, context);
+    return this.type.validate(value);
   }
 }

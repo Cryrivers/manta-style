@@ -1,4 +1,4 @@
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { Annotation, Type } from '@manta-style/core';
 import UnionType from './UnionType';
 import NullKeyword from './NullKeyword';
 import UndefinedKeyword from './UndefinedKeyword';
@@ -16,12 +16,12 @@ export default class NullableType extends Type {
       new UndefinedKeyword(),
     ]);
   }
-  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
-    return this.nullableType.deriveLiteral(annotations, context);
+  public deriveLiteral(annotations: Annotation[]) {
+    return this.nullableType.deriveLiteral(annotations);
   }
-  public validate(value: unknown, context: MantaStyleContext): value is any {
+  public validate(value: unknown): value is any {
     return (
-      this.type.validate(value, context) ||
+      this.type.validate(value) ||
       MantaStyle.UndefinedKeyword.validate(value) ||
       MantaStyle.NullKeyword.validate(value)
     );

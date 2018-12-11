@@ -1,4 +1,4 @@
-import { PluginSystem } from '../plugin';
+import { PluginSystem, Plugin } from '../plugin';
 
 let param: { [key: string]: any } = {};
 let query: { [key: string]: any } = {};
@@ -25,18 +25,27 @@ export class Fetcher<T> {
   }
 }
 
-export function usePluginSystem() {
+export function usePluginSystem(): [
+  PluginSystem,
+  (mutator: PluginSystem) => PluginSystem
+] {
   return [plugins, (pluginMutator: PluginSystem) => (plugins = pluginMutator)];
 }
 
-export function useParam() {
+export function useParam(): [
+  { [key: string]: any },
+  (mutator: { [key: string]: any }) => { [key: string]: any }
+] {
   return [
     param,
     (paramMutator: { [key: string]: any }) => (param = paramMutator),
   ];
 }
 
-export function useQuery() {
+export function useQuery(): [
+  { [key: string]: any },
+  (mutator: { [key: string]: any }) => { [key: string]: any }
+] {
   return [
     query,
     (queryMutator: { [key: string]: any }) => (param = queryMutator),

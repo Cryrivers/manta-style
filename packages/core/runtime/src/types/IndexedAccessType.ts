@@ -3,7 +3,7 @@ import { resolveReferencedType } from '../utils/referenceTypes';
 import TypeLiteral from './TypeLiteral';
 import UnionType from './UnionType';
 import MantaStyle from '..';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { Annotation, Type } from '@manta-style/core';
 
 export default class IndexedAccessType extends Type {
   private readonly objectType: Type;
@@ -13,39 +13,30 @@ export default class IndexedAccessType extends Type {
     this.objectType = objectType;
     this.indexType = indexType;
   }
-  public getProperty(context: MantaStyleContext) {
-    const { type: objType } = resolveReferencedType(this.objectType, context);
-    const { type: indexType } = resolveReferencedType(this.indexType, context);
-    const indexName = indexType.deriveLiteral([], context).mock();
+  public getProperty() {
+    const { type: objType } = resolveReferencedType(this.objectType);
+    const { type: indexType } = resolveReferencedType(this.indexType);
+    const indexName = indexType.deriveLiteral([]).mock();
     if (objType instanceof TypeLiteral) {
       return objType
         ._getProperties()
         .find((property) => property.name === indexName);
     }
   }
-  public deriveLiteral(
-    parentAnnotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
+  public deriveLiteral(parentAnnotations: Annotation[]) {
     const {
       objectType: maybeReferencedObjectType,
       indexType: maybeReferencedIndexType,
     } = this;
     const objectType = resolveReferencedType(
       maybeReferencedObjectType,
-      context,
-    ).type.deriveLiteral(parentAnnotations, context);
-    const { type: indexType } = resolveReferencedType(
-      maybeReferencedIndexType,
-      context,
-    );
+    ).type.deriveLiteral(parentAnnotations);
+    const { type: indexType } = resolveReferencedType(maybeReferencedIndexType);
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
         return indexedAccessTypeLiteral(objectType, indexType);
       } else if (indexType instanceof UnionType) {
-        const indexTypes = indexType
-          .derivePreservedUnionLiteral([], context)
-          .getTypes();
+        const indexTypes = indexType.derivePreservedUnionLiteral([]).getTypes();
         return new UnionType(
           indexTypes.map((indType) =>
             indexedAccessTypeLiteral(objectType, indType),
@@ -57,42 +48,33 @@ export default class IndexedAccessType extends Type {
         return new Literal('Unimplemented');
       }
     } else {
-      return objectType.deriveLiteral(parentAnnotations, context);
+      return objectType.deriveLiteral(parentAnnotations);
     }
   }
-  public validate(value: unknown, context: MantaStyleContext): value is any {
+  public validate(value: unknown): value is any {
     const {
       objectType: maybeReferencedObjectType,
       indexType: maybeReferencedIndexType,
     } = this;
-    const objectType = resolveReferencedType(maybeReferencedObjectType, context)
-      .type;
-    const { type: indexType } = resolveReferencedType(
-      maybeReferencedIndexType,
-      context,
-    );
+    const objectType = resolveReferencedType(maybeReferencedObjectType).type;
+    const { type: indexType } = resolveReferencedType(maybeReferencedIndexType);
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
-        return indexedAccessTypeLiteral(objectType, indexType).validate(
-          value,
-          context,
-        );
+        return indexedAccessTypeLiteral(objectType, indexType).validate(value);
       } else if (indexType instanceof UnionType) {
-        const indexTypes = indexType
-          .derivePreservedUnionLiteral([], context)
-          .getTypes();
+        const indexTypes = indexType.derivePreservedUnionLiteral([]).getTypes();
         return new UnionType(
           indexTypes.map((indType) =>
             indexedAccessTypeLiteral(objectType, indType),
           ),
-        ).validate(value, context);
+        ).validate(value);
       } else {
         // search for index signatures
         // TODO: Implement for index signatures
         throw Error('Unimplemented');
       }
     } else {
-      return objectType.validate(value, context);
+      return objectType.validate(value);
     }
   }
 }

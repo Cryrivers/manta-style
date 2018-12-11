@@ -2,16 +2,13 @@ import UnionType from '../types/UnionType';
 import MantaStyle from '..';
 import NeverKeyword from '../types/NeverKeyword';
 import { resolveReferencedType } from './referenceTypes';
-import { MantaStyleContext, Type } from '@manta-style/core';
+import { Type } from '@manta-style/core';
 
-export function normalizeUnion(
-  unionType: UnionType,
-  context: MantaStyleContext,
-): Type {
+export function normalizeUnion(unionType: UnionType): Type {
   // Filter out all 'never' keyword, since X | never = X
   const types = unionType
     .getTypes()
-    .map((type) => resolveReferencedType(type, context).type)
+    .map((type) => resolveReferencedType(type).type)
     .filter((type) => !(type instanceof NeverKeyword));
   const { length } = types;
   if (length === 0) {

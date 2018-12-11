@@ -3,7 +3,6 @@ import { resolveReferencedType } from '../utils/referenceTypes';
 import { isAssignable } from '../utils/assignable';
 import { normalizeUnion } from '../utils/union';
 import { Annotation, Type } from '@manta-style/core';
-import { MantaStyleContext } from '@manta-style/core';
 
 export default class ConditionalType extends Type {
   private checkType: Type;
@@ -22,7 +21,7 @@ export default class ConditionalType extends Type {
     this.trueType = trueType;
     this.falseType = falseType;
   }
-  private getResolvedType(context: MantaStyleContext) {
+  private getResolvedType() {
     /*
       From: http://koerbitz.me/posts/a-look-at-typescripts-conditional-types.html
       The Distributive Rule of Conditional and Union Types
@@ -37,9 +36,9 @@ export default class ConditionalType extends Type {
       falseType: maybeReferencedFalseType,
     } = this;
     const [{ type: checkType }, { type: trueType }, { type: falseType }] = [
-      resolveReferencedType(maybeReferencedCheckType, context),
-      resolveReferencedType(maybeReferencedTrueType, context),
-      resolveReferencedType(maybeReferencedFalseType, context),
+      resolveReferencedType(maybeReferencedCheckType),
+      resolveReferencedType(maybeReferencedTrueType),
+      resolveReferencedType(maybeReferencedFalseType),
     ];
     if (checkType instanceof UnionType) {
       const resolvedType = normalizeUnion(
@@ -52,11 +51,9 @@ export default class ConditionalType extends Type {
                 extendsType,
                 checkType === trueType ? type : trueType,
                 checkType === falseType ? type : falseType,
-                context,
               ),
             ),
         ),
-        context,
       );
       return resolvedType;
     } else {
@@ -65,18 +62,17 @@ export default class ConditionalType extends Type {
         extendsType,
         trueType,
         falseType,
-        context,
       );
       return resolvedType;
     }
   }
-  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
-    const resolvedType = this.getResolvedType(context);
-    return resolvedType.deriveLiteral(annotations, context);
+  public deriveLiteral(annotations: Annotation[]) {
+    const resolvedType = this.getResolvedType();
+    return resolvedType.deriveLiteral(annotations);
   }
-  public validate(value: unknown, context: MantaStyleContext): value is any {
-    const resolvedType = this.getResolvedType(context);
-    return resolvedType.validate(value, context);
+  public validate(value: unknown): value is any {
+    const resolvedType = this.getResolvedType();
+    return resolvedType.validate(value);
   }
 }
 
@@ -85,7 +81,6 @@ function resolveConditionalType(
   extendsType: Type,
   trueType: Type,
   falseType: Type,
-  context: MantaStyleContext,
 ): Type {
-  return isAssignable(checkType, extendsType, context) ? trueType : falseType;
+  return isAssignable(checkType, extendsType) ? trueType : falseType;
 }

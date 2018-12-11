@@ -9,12 +9,7 @@ import {
 import { resolveReferencedType } from '../utils/referenceTypes';
 import NeverKeyword from './NeverKeyword';
 import { intersection } from '../utils/intersection';
-import {
-  Annotation,
-  MantaStyleContext,
-  annotationUtils,
-  Type,
-} from '@manta-style/core';
+import { Annotation, annotationUtils, Type } from '@manta-style/core';
 import MantaStyle from '..';
 
 export default class TypeLiteral extends Type {
@@ -59,10 +54,7 @@ export default class TypeLiteral extends Type {
       annotations,
     });
   }
-  public deriveLiteral(
-    parentAnnotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
+  public deriveLiteral(parentAnnotations: Annotation[]) {
     const typeLiteral = new TypeLiteral();
 
     for (const property of this.properties) {
@@ -73,7 +65,6 @@ export default class TypeLiteral extends Type {
             parentAnnotations,
             property.annotations,
           ),
-          context,
         ),
         property.questionMark,
         property.annotations,
@@ -95,10 +86,7 @@ export default class TypeLiteral extends Type {
         if (jsDocForKeys.length > 0) {
           for (let i = 0; i < jsDocForKeys.length; i++) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
-            const literal = computedProperty.type.deriveLiteral(
-              jsDocForValues,
-              context,
-            );
+            const literal = computedProperty.type.deriveLiteral(jsDocForValues);
             // TODO: Remove the assumption of string index signature.
             // support number in future
             if (chance > 0.5) {
@@ -113,7 +101,7 @@ export default class TypeLiteral extends Type {
         } else {
           typeLiteral.property(
             'This is a key. Customize it with JSDoc tag @key',
-            computedProperty.type.deriveLiteral(jsDocForValues, context),
+            computedProperty.type.deriveLiteral(jsDocForValues),
             false,
             jsDocForValues,
           );
@@ -126,17 +114,17 @@ export default class TypeLiteral extends Type {
         const subTypeLiteral = new TypeLiteral();
         // TODO: Correct annotation
         typeLiteral.property(name, subTypeLiteral, false, []);
-        const { type: actualType } = resolveReferencedType(keyType, context);
+        const { type: actualType } = resolveReferencedType(keyType);
         if (
           actualType instanceof KeyOfKeyword ||
           actualType instanceof UnionType
         ) {
           const keys =
             actualType instanceof KeyOfKeyword
-              ? actualType.getKeys(context)
+              ? actualType.getKeys()
               : actualType
                   .getTypes()
-                  .map((type) => type.deriveLiteral([], context).mock());
+                  .map((type) => type.deriveLiteral([]).mock());
           for (const key of keys) {
             const chance = computedProperty.questionMark ? Math.random() : 1;
             if (chance > 0.5) {
@@ -144,7 +132,6 @@ export default class TypeLiteral extends Type {
                 key,
                 computedProperty.type.deriveLiteral(
                   computedProperty.annotations,
-                  context,
                 ),
                 false,
                 computedProperty.annotations,
@@ -159,7 +146,7 @@ export default class TypeLiteral extends Type {
     }
     return typeLiteral;
   }
-  public validate(value: unknown, context: MantaStyleContext): value is any {
+  public validate(value: unknown): value is any {
     if (
       typeof value !== 'object' ||
       value === null ||
@@ -176,9 +163,9 @@ export default class TypeLiteral extends Type {
           // @ts-ignore
           const propertyValue = value[property];
           return foundProperty.questionMark
-            ? foundProperty.type.validate(propertyValue, context) ||
+            ? foundProperty.type.validate(propertyValue) ||
                 MantaStyle.UndefinedKeyword.validate(propertyValue)
-            : foundProperty.type.validate(propertyValue, context);
+            : foundProperty.type.validate(propertyValue);
         }
         return false;
       });
@@ -195,7 +182,7 @@ export default class TypeLiteral extends Type {
     }
     return obj;
   }
-  public compose(type: TypeLiteral, context: MantaStyleContext): TypeLiteral {
+  public compose(type: TypeLiteral): TypeLiteral {
     const composedTypeLiteral = new TypeLiteral();
     const SProperties = this.properties;
     const TProperties = type.properties;
@@ -204,7 +191,7 @@ export default class TypeLiteral extends Type {
       if (propT) {
         composedTypeLiteral.property(
           propS.name,
-          intersection(propS.type, propT.type, context),
+          intersection(propS.type, propT.type),
           [propS.questionMark, propT.questionMark].every(Boolean),
           [...propS.annotations, ...propT.annotations],
         );

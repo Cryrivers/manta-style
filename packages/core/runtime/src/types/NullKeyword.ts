@@ -1,4 +1,4 @@
-import { Type, MantaStyleContext } from '@manta-style/core';
+import { Type } from '@manta-style/core';
 
 export default class NullKeyword extends Type {
   public deriveLiteral() {

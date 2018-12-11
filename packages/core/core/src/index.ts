@@ -2,11 +2,6 @@ import * as annotationUtils from './utils/annotation';
 import { PluginSystem, CompiledTypes, PluginEntry } from './plugin';
 import { Annotation } from './utils/annotation';
 
-export type MantaStyleContext = {
-  query: { [key: string]: unknown };
-  param: { [key: string]: unknown };
-  plugins: PluginSystem;
-};
 export * from './plugin';
 export * from './utils/context';
 
@@ -18,10 +13,7 @@ export type Endpoint = {
   url: string;
   proxy: string | null;
   enabled: boolean;
-  callback: (
-    matchedEndpoint: Endpoint,
-    context: MantaStyleContext,
-  ) => Promise<any>;
+  callback: (matchedEndpoint: Endpoint) => Promise<any>;
 };
 
 export class Core {
@@ -72,28 +64,15 @@ export class Core {
 }
 
 export abstract class Type<T = any> {
-  public abstract deriveLiteral(
-    parentAnnotations: Annotation[],
-    context: MantaStyleContext,
-  ): Type<T>;
+  public abstract deriveLiteral(parentAnnotations: Annotation[]): Type<T>;
   public mock(): T {
     throw new Error('Literal types should be derived before mock.');
   }
-  public abstract validate(
-    value: unknown,
-    context: MantaStyleContext,
-  ): value is T;
+  public abstract validate(value: unknown): value is T;
 }
 
 export abstract class CustomType extends Type {
   public abstract typeForAssignabilityTest(
     parentAnnotations: Annotation[],
-    context: MantaStyleContext,
   ): Type;
 }
-
-export const EmptyContext: MantaStyleContext = {
-  query: {},
-  param: {},
-  plugins: PluginSystem.default(),
-};

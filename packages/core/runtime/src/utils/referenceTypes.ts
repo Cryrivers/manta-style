@@ -4,7 +4,6 @@ import KeyOfKeyword from '../types/KeyOfKeyword';
 import ParenthesizedType from '../types/ParenthesizedType';
 import {
   Annotation,
-  MantaStyleContext,
   annotationUtils,
   Type,
   CustomType,
@@ -20,7 +19,6 @@ import {
  */
 export function resolveReferencedType(
   type: Type,
-  context: MantaStyleContext,
 ): { type: Type; annotations: Annotation[] } {
   let actualType = type;
   let annotations: Annotation[] = [];
@@ -32,12 +30,12 @@ export function resolveReferencedType(
     actualType instanceof KeyOfKeyword
   ) {
     if (actualType instanceof CustomType) {
-      actualType = actualType.typeForAssignabilityTest(annotations, context);
+      actualType = actualType.typeForAssignabilityTest(annotations);
     } else if (actualType instanceof TypeAliasDeclaration) {
       // Make sure type parameters has been initialized
       // as we moved the initialization from `argumentTypes`
       // to `deriveLiteral`.
-      actualType.deriveLiteral(annotations, context);
+      actualType.deriveLiteral(annotations);
       annotations = annotationUtils.inheritAnnotations(
         annotations,
         actualType.getAnnotations(),
@@ -46,7 +44,7 @@ export function resolveReferencedType(
     } else if (actualType instanceof TypeParameter) {
       actualType = actualType.getActualType();
     } else if (actualType instanceof KeyOfKeyword) {
-      actualType = actualType.deriveLiteral(annotations, context);
+      actualType = actualType.deriveLiteral(annotations);
     } else {
       actualType = actualType.getType();
     }

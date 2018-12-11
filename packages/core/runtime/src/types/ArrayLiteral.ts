@@ -1,4 +1,4 @@
-import { Type, MantaStyleContext } from '@manta-style/core';
+import { Type } from '@manta-style/core';
 
 export default class ArrayLiteral extends Type {
   private readonly elements: Type[];
@@ -13,11 +13,11 @@ export default class ArrayLiteral extends Type {
     return this;
   }
   // TODO: Fix type guard
-  public validate(value: unknown, context: MantaStyleContext): value is any[] {
+  public validate(value: unknown): value is any[] {
     return (
       Array.isArray(value) &&
       value.length === this.elements.length &&
-      value.every((item, index) => this.elements[index].validate(item, context))
+      value.every((item, index) => this.elements[index].validate(item))
     );
   }
   public mock() {
