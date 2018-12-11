@@ -23,8 +23,6 @@
     "access": "public"
   },
   "devDependencies": {
-    "@manta-style/core": "^0.2.0-alpha.7",
-    "@manta-style/runtime": "^0.2.0-alpha.7",
     "awesome-typescript-loader": "^5.2.1",
     "source-map-loader": "^0.2.4",
     "typescript": "3.2.2",
