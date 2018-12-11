@@ -69,6 +69,7 @@ export abstract class Type<T = any> {
     throw new Error('Literal types should be derived before mock.');
   }
   public abstract validate(value: unknown): value is T;
+  public abstract format(value: unknown): T;
 }
 
 export abstract class CustomType extends Type {

@@ -20,11 +20,10 @@ export default class NullableType extends Type {
     return this.nullableType.deriveLiteral(annotations);
   }
   public validate(value: unknown): value is any {
-    return (
-      this.type.validate(value) ||
-      MantaStyle.UndefinedKeyword.validate(value) ||
-      MantaStyle.NullKeyword.validate(value)
-    );
+    return this.nullableType.validate(value);
+  }
+  public format(value: unknown) {
+    return this.nullableType.format(value);
   }
   public _getUnderlyingType() {
     return this.type;

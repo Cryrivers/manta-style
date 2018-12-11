@@ -18,4 +18,7 @@ export default class StringKeyword extends Type {
   public validate(value: unknown): value is string {
     return typeof value === 'string';
   }
+  public format(value: unknown) {
+    return String(value);
+  }
 }

@@ -7,4 +7,7 @@ export default class NeverKeyword extends Type {
   public validate(value: any): value is never {
     throw new Error('`never` keyword does not support `validate` method.');
   }
+  public format(value: unknown) {
+    throw new Error('Cannot format as the value cannot be validated.');
+  }
 }

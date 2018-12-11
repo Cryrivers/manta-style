@@ -12,7 +12,6 @@ export default class ArrayLiteral extends Type {
   public deriveLiteral() {
     return this;
   }
-  // TODO: Fix type guard
   public validate(value: unknown): value is any[] {
     return (
       Array.isArray(value) &&
@@ -22,5 +21,11 @@ export default class ArrayLiteral extends Type {
   }
   public mock() {
     return this.elements.map((type) => type.mock());
+  }
+  public format(value: unknown) {
+    if (Array.isArray(value) && value.length === this.elements.length) {
+      return this.elements.map((type, index) => type.format(value[index]));
+    }
+    throw new Error('Cannot format as the value cannot be validated.');
   }
 }

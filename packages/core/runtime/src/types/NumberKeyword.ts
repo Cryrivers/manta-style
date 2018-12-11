@@ -15,4 +15,12 @@ export default class NumberKeyword extends Type {
   public validate(value: unknown): value is number {
     return typeof value === 'number';
   }
+  public format(value: unknown) {
+    if (typeof value === 'number') {
+      return value;
+    } else if (typeof value === 'string' && !isNaN(Number(value))) {
+      return Number(value);
+    }
+    throw new Error('Cannot format as the value cannot be validated.');
+  }
 }
