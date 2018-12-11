@@ -16,8 +16,6 @@ export default class Literal<T extends Literals | Fetcher<any>> extends Type {
       : value === this.literal;
   }
   public mock() {
-    console.log('Value:', this.literal);
-    console.log('isFetcher:', Fetcher.isFetcher(this.literal));
     return this.literal instanceof Fetcher ? this.literal.read() : this.literal;
   }
 }

@@ -15,6 +15,10 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
+  externals: {
+    '@manta-style/core': '@manta-style/core',
+    'isomorphic-fetch': 'isomorphic-fetch'
+  },
   module: {
     rules: [
       {

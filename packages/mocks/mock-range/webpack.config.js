@@ -15,6 +15,9 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
   },
+  externals: {
+    '@manta-style/core': '@manta-style/core'
+  },
   module: {
     rules: [
       {

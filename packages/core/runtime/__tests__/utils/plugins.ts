@@ -47,7 +47,7 @@ describe('Plugin Test', () => {
     const result = type.deriveLiteral([], context);
     await flushFetcher();
     const mockData = result.mock();
-    console.log(mockData);
+    expect(typeof mockData).toBe('string');
     expect(mockData).toHaveLength(1);
   });
 });

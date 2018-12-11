@@ -16,10 +16,11 @@ const qotdPlugin: MockPlugin = {
       }
 
       try {
-        // @ts-ignore
         return new Fetcher(
           fetch('https://talaikis.com/api/quotes/random/')
+            // @ts-ignore
             .then((response) => response.json())
+            // @ts-ignore
             .then((json) => json.quote),
         );
       } catch (e) {
