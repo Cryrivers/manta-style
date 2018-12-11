@@ -4,7 +4,7 @@ describe('NeverKeyword', () => {
   test('mock', () => {
     expect(MS.NeverKeyword.mock).toThrowError();
   });
-  test('validate', async () => {
+  test('validate', () => {
     expect(MS.NeverKeyword.validate).toThrowError();
   });
 });

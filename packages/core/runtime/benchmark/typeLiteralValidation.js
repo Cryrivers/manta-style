@@ -40,8 +40,8 @@ const TestType = MS.TypeAliasDeclaration(
 async function benchmark() {
   const timeStart = process.hrtime();
   let result = false;
-  for (let i = 0; i < 100000; i++) {
-    result = await TestType.validate(
+  for (let i = 0; i < 5000000; i++) {
+    result = TestType.validate(
       {
         a: 134,
         b: { a: true, b: 'heiheihei', c: null, d: false, e: true },

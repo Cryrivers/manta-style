@@ -1,10 +1,10 @@
 import { Type } from '@manta-style/core';
 
 export default class AnyKeyword extends Type {
-  public async deriveLiteral() {
+  public deriveLiteral() {
     return this;
   }
-  public async validate(value: unknown) {
+  public validate(value: unknown): value is any {
     return true;
   }
 }

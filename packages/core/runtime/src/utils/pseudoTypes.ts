@@ -6,10 +6,10 @@ export class ErrorType extends Type {
     super();
     this.message = errorMessage;
   }
-  public async deriveLiteral() {
+  public deriveLiteral() {
     return this;
   }
-  public validate(): never {
+  public validate(value: any): value is never {
     throw Error('ErrorType does not support `validate` method.');
   }
   public mock() {

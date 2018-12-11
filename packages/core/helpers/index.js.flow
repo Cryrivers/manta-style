@@ -1,7 +1,6 @@
 declare module '@manta-style/helpers' {
   declare export type Query<T: string> = any;
   declare export type Param<T: string> = any;
-  declare export type Delay<T, MS: number = 5000> = T;
   declare export type Unsplash<
     Keyword: string = '',
     Width: number = 1024,

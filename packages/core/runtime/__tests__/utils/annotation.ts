@@ -1,11 +1,9 @@
 import MS from '../../src';
-import { PluginSystem, annotationUtils, Annotation } from '@manta-style/core';
+import { annotationUtils, Annotation } from '@manta-style/core';
 
 const { inheritAnnotations } = annotationUtils;
 
 describe('Annotation Test', () => {
-  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
-
   test('Inherit Annotations', () => {
     const parent: Annotation[] = [
       { key: 'length', value: '0' },
@@ -22,7 +20,7 @@ describe('Annotation Test', () => {
       { key: 'length', value: '1' },
     ]);
   });
-  test('Array can inherit @length from TypeAliasDeclaration', async () => {
+  test('Array can inherit @length from TypeAliasDeclaration', () => {
     const type = MS.TypeAliasDeclaration(
       'Test',
       () => {
@@ -30,7 +28,7 @@ describe('Annotation Test', () => {
       },
       [{ key: 'length', value: '100' }],
     );
-    const result = (await type.deriveLiteral([], context)).mock();
+    const result = type.deriveLiteral([]).mock();
     expect(result).toHaveLength(100);
     expect(result).toEqual(
       Array.from(
@@ -40,7 +38,7 @@ describe('Annotation Test', () => {
       ),
     );
   });
-  test('resolveReferencedType could correctly inherit annotations #1', async () => {
+  test('resolveReferencedType could correctly inherit annotations #1', () => {
     /*
      * type GenericType<T> = T;
      * type SingleType = number;
@@ -68,10 +66,10 @@ describe('Annotation Test', () => {
       () => GenericType.argumentTypes([ArrayType]),
       [],
     );
-    const result = (await TestObject.deriveLiteral([], context)).mock();
+    const result = TestObject.deriveLiteral([]).mock();
     expect(result).toHaveLength(20);
   });
-  test('resolveReferencedType could correctly inherit annotations #2', async () => {
+  test('resolveReferencedType could correctly inherit annotations #2', () => {
     /*
      * type GenericType<T> = T;
      * type SingleType = number;
@@ -99,7 +97,7 @@ describe('Annotation Test', () => {
       () => GenericType.argumentTypes([ArrayType]),
       [{ key: 'length', value: '20' }],
     );
-    const result = (await TestObject.deriveLiteral([], context)).mock();
+    const result = TestObject.deriveLiteral([]).mock();
     expect(result).toHaveLength(20);
   });
 });

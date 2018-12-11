@@ -1,8 +1,6 @@
 import MS from '../../src';
-import { PluginSystem } from '@manta-style/core';
 
 describe('ConditionalType', () => {
-  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
   const literalOne = MS.Literal(1);
   const literalHaha = MS.Literal('haha');
   const literalTrue = MS.Literal(true);
@@ -19,20 +17,14 @@ describe('ConditionalType', () => {
     literalTrue,
     literalFalse,
   );
-  test('DeriveLiteral: 1 extends number ? true : false / "haha" extends number ? true : false', async () => {
-    const expectedLiteralTrue = await conditionNumber.deriveLiteral(
-      [],
-      context,
-    );
-    const expectedLiteralFalse = await conditionString.deriveLiteral(
-      [],
-      context,
-    );
+  test('DeriveLiteral: 1 extends number ? true : false / "haha" extends number ? true : false', () => {
+    const expectedLiteralTrue = conditionNumber.deriveLiteral([]);
+    const expectedLiteralFalse = conditionString.deriveLiteral([]);
     expect(expectedLiteralTrue).toBe(literalTrue);
     expect(expectedLiteralFalse).toBe(literalFalse);
   });
-  test('Validate: 1 extends number ? true : false / "haha" extends number ? true : false', async () => {
-    expect(await conditionNumber.validate(true, context)).toBe(true);
-    expect(await conditionString.validate(false, context)).toBe(true);
+  test('Validate: 1 extends number ? true : false / "haha" extends number ? true : false', () => {
+    expect(conditionNumber.validate(true)).toBe(true);
+    expect(conditionString.validate(false)).toBe(true);
   });
 });

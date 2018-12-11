@@ -10,8 +10,7 @@ Contents
 - [Mock Success and Failure Response](#mock-success-and-failure-response)
 - [Use custom types](#use-custom-types)
 - [Conditional Types](#conditional-types)
-- [Read information from URL](#read-information-from-url)
-- [Simulate server delay](#simulate-server-delay)
+- [Read information from URL](#read-information-from-url-basic)
 - [Proxy to real servers](#proxy-to-real-servers)
 
 ## Mock Simple Data Structure
@@ -448,46 +447,6 @@ Access `/getUserInfo?type=group&groupid=10086`:
 ```
 
 As you can see, the data type it returns respects the conditional type and what user inputs from URL queries.
-
-## Simulate Server Delay
-
-Sometime we might need to test against [chaos monkey](https://en.wikipedia.org/wiki/Chaos_Monkey) situations to make sure our service is robust. While `@manta-style/helpers` will include more type to simulate `chaos monkey` situation (for example, simulate server errors), we can now use `Delay` to simulate server delay.
-
-### Packages needed
-
-Builder: `@manta-style/builder-typescript` or `@manta-style/builder-flowtype`
-
-Mock: (None)
-
-Package: `@manta-style/helpers`
-
-### Config File
-
-```typescript
-import { Delay } from '@manta-style/helpers';
-
-type UserInfo = {
-  userid: number;
-  userName: string;
-  gender: 'male' | 'female';
-};
-
-export type GET = {
-  '/getUserInfo': Delay<UserInfo, 5000> | UserInfo;
-};
-```
-
-### Result
-
-The output looks like the following, but server will randomly have 5-second delay.
-
-```json
-{
-  "userid": 6.427734778350991,
-  "userName": "This is a string message. Customize it mock plugins. (https://github.com/Cryrivers/manta-style/blob/master/documentation/Plugins.md)",
-  "gender": "male"
-}
-```
 
 ## Proxy to real servers
 

@@ -14,7 +14,13 @@ import axios from 'axios';
 import * as PrettyError from 'pretty-error';
 import clear = require('clear');
 import { multiSelect } from './inquirer-util';
-import { MantaStyleContext, CompiledTypes, Core } from '@manta-style/core';
+import {
+  CompiledTypes,
+  Core,
+  useParam,
+  usePluginSystem,
+  useQuery,
+} from '@manta-style/core';
 import { findPlugins } from './discovery';
 import { rollup } from 'rollup';
 import * as Package from '../package.json';
@@ -186,11 +192,15 @@ async function showOfficialPluginList() {
       app[endpoint.method](endpoint.url, async function(req, res) {
         const { query, params } = req;
         const queryString = qs.stringify(query);
-        const context: MantaStyleContext = {
-          query,
-          param: params,
-          plugins: core.pluginSystem,
-        };
+
+        const [, setQuery] = useQuery();
+        const [, setParam] = useParam();
+        const [, setPlugins] = usePluginSystem();
+
+        setQuery(query);
+        setParam(params);
+        setPlugins(core.pluginSystem);
+
         if (endpoint.enabled) {
           if (isSnapshotMode) {
             const snapshotData = snapshot.fetchSnapshot(
@@ -203,7 +213,7 @@ async function showOfficialPluginList() {
               return;
             }
           }
-          const result = await endpoint.callback(endpoint, context);
+          const result = await endpoint.callback(endpoint);
           snapshot.updateSnapshot(
             endpoint.method,
             endpoint.url,

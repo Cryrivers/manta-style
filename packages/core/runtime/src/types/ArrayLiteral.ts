@@ -1,5 +1,4 @@
-import { Type, MantaStyleContext } from '@manta-style/core';
-import { everyPromise } from '../utils/assignable';
+import { Type } from '@manta-style/core';
 
 export default class ArrayLiteral extends Type {
   private readonly elements: Type[];
@@ -10,18 +9,15 @@ export default class ArrayLiteral extends Type {
   public getElements() {
     return this.elements;
   }
-  public async deriveLiteral() {
+  public deriveLiteral() {
     return this;
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
+  // TODO: Fix type guard
+  public validate(value: unknown): value is any[] {
     return (
       Array.isArray(value) &&
       value.length === this.elements.length &&
-      (await everyPromise(
-        value.map((item, index) =>
-          this.elements[index].validate(item, context),
-        ),
-      ))
+      value.every((item, index) => this.elements[index].validate(item))
     );
   }
   public mock() {

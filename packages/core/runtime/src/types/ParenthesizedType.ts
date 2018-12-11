@@ -1,4 +1,4 @@
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { Annotation, Type } from '@manta-style/core';
 
 export default class ParenthesizedType extends Type {
   private readonly type: Type;
@@ -9,10 +9,10 @@ export default class ParenthesizedType extends Type {
   public getType() {
     return this.type;
   }
-  public deriveLiteral(annotations: Annotation[], context: MantaStyleContext) {
-    return this.type.deriveLiteral(annotations, context);
+  public deriveLiteral(annotations: Annotation[]) {
+    return this.type.deriveLiteral(annotations);
   }
-  public validate(value: unknown, context: MantaStyleContext) {
-    return this.type.validate(value, context);
+  public validate(value: unknown): value is any {
+    return this.type.validate(value);
   }
 }

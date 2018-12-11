@@ -3,6 +3,7 @@
   "version": "0.2.0-alpha.8",
   "description": "Manta Style Mock Plugin - Quote of the Day",
   "main": "./lib/index.js",
+  "typings": "./lib/typings/index.d.ts",
   "scripts": {
     "build": "webpack",
     "test": "echo 'No test yet'"
@@ -31,7 +32,7 @@
   "devDependencies": {
     "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.1",
-    "webpack": "^4.20.2",
+    "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
   }
 }

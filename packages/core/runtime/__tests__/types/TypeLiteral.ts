@@ -1,8 +1,6 @@
 import MS from '../../src';
-import { PluginSystem } from '@manta-style/core';
 
 describe('TypeLiteral Test', () => {
-  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
   /*
    type GenericTypeLiteral<T> = {
      test: T
@@ -18,19 +16,19 @@ describe('TypeLiteral Test', () => {
     },
     [],
   );
-  test('mock', async () => {
+  test('mock', () => {
     const TestObject = GenericTypeLiteral.argumentTypes([MS.NumberKeyword]);
-    const result = (await TestObject.deriveLiteral([], context)).mock();
+    const result = TestObject.deriveLiteral([]).mock();
     expect(typeof result.test === 'number').toBe(true);
   });
-  test('validate (simple case)', async () => {
+  test('validate (simple case)', () => {
     const TestObject = GenericTypeLiteral.argumentTypes([MS.NumberKeyword]);
-    expect(await TestObject.validate(3, context)).toBe(false);
-    expect(await TestObject.validate({}, context)).toBe(false);
-    expect(await TestObject.validate('hahah', context)).toBe(false);
-    expect(await TestObject.validate(false, context)).toBe(false);
-    expect(await TestObject.validate([], context)).toBe(false);
-    expect(await TestObject.validate({ test: 'haha' }, context)).toBe(false);
-    expect(await TestObject.validate({ test: 123 }, context)).toBe(true);
+    expect(TestObject.validate(3)).toBe(false);
+    expect(TestObject.validate({})).toBe(false);
+    expect(TestObject.validate('hahah')).toBe(false);
+    expect(TestObject.validate(false)).toBe(false);
+    expect(TestObject.validate([])).toBe(false);
+    expect(TestObject.validate({ test: 'haha' })).toBe(false);
+    expect(TestObject.validate({ test: 123 })).toBe(true);
   });
 });

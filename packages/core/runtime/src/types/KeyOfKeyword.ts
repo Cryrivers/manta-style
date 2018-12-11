@@ -2,7 +2,7 @@ import TypeLiteral from './TypeLiteral';
 import UnionType from './UnionType';
 import Literal from './Literal';
 import { resolveReferencedType } from '../utils/referenceTypes';
-import { Annotation, MantaStyleContext, Type } from '@manta-style/core';
+import { Annotation, Type } from '@manta-style/core';
 
 export default class KeyOfKeyword extends Type {
   private type: Type;
@@ -10,27 +10,21 @@ export default class KeyOfKeyword extends Type {
     super();
     this.type = type;
   }
-  public async getKeys(context: MantaStyleContext): Promise<string[]> {
+  public getKeys(): string[] {
     const { type: maybeReferencedType } = this;
-    const { type }: { type: Type } = await resolveReferencedType(
-      maybeReferencedType,
-      context,
-    );
+    const { type }: { type: Type } = resolveReferencedType(maybeReferencedType);
     if (type instanceof TypeLiteral) {
       return type.getKeys();
     } else {
       throw new Error('Unsupported Type in "keyof" keyword');
     }
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    const keys = await this.getKeys(context);
+  public deriveLiteral() {
+    const keys = this.getKeys();
     return new UnionType(keys.map((key) => new Literal(key)));
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
-    const keys = await this.getKeys(context);
+  public validate(value: unknown): value is any {
+    const keys = this.getKeys();
     return typeof value === 'string' && keys.includes(value);
   }
 }

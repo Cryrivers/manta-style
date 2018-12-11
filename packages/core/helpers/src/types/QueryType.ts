@@ -2,12 +2,7 @@ import MantaStyle, {
   LiteralType,
   resolveReferencedType,
 } from '@manta-style/runtime';
-import {
-  Annotation,
-  MantaStyleContext,
-  Type,
-  CustomType,
-} from '@manta-style/core';
+import { Annotation, Type, CustomType, useQuery } from '@manta-style/core';
 
 export default class QueryType extends CustomType {
   private readonly type: Type;
@@ -15,24 +10,18 @@ export default class QueryType extends CustomType {
     super();
     this.type = type;
   }
-  public typeForAssignabilityTest(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    return this.deriveLiteral(annotations, context);
+  public typeForAssignabilityTest() {
+    return this.deriveLiteral();
   }
-  public async getQueryContent(context: MantaStyleContext) {
-    const { query } = context;
-    const { type } = await resolveReferencedType(this.type, context);
+  public async getQueryContent() {
+    const [query] = useQuery();
+    const { type } = await resolveReferencedType(this.type);
     if (type instanceof LiteralType && typeof query === 'object') {
       return query[type.mock()];
     }
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
-    const content = await this.getQueryContent(context);
+  public deriveLiteral() {
+    const content = this.getQueryContent();
     if (content) {
       if (typeof content === 'string') {
         return MantaStyle.Literal(content);
@@ -44,8 +33,8 @@ export default class QueryType extends CustomType {
     }
     return MantaStyle.NeverKeyword;
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
-    const content = await this.getQueryContent(context);
+  public validate(value: unknown): value is any {
+    const content = this.getQueryContent();
     return value === content;
   }
 }

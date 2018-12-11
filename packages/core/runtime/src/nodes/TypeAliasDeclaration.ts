@@ -1,10 +1,5 @@
 import TypeParameter from './TypeParameter';
-import {
-  Annotation,
-  annotationUtils,
-  MantaStyleContext,
-  Type,
-} from '@manta-style/core';
+import { Annotation, annotationUtils, Type } from '@manta-style/core';
 import { ErrorType } from '../utils/pseudoTypes';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from '../types/UnionType';
@@ -45,10 +40,7 @@ export default class TypeAliasDeclaration extends Type {
   public getAnnotations() {
     return this.annotations;
   }
-  public async deriveLiteral(
-    parentAnnotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
+  public deriveLiteral(parentAnnotations: Annotation[]) {
     const combinedAnnotations = annotationUtils.inheritAnnotations(
       parentAnnotations,
       this.annotations,
@@ -61,36 +53,30 @@ export default class TypeAliasDeclaration extends Type {
       this.annotations,
     );
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
-      const { type, annotations } = await resolveReferencedType(
+      const { type, annotations } = resolveReferencedType(
         this.typeParameterTypes[i],
-        context,
       );
       const mergedAnnotations = annotationUtils.inheritAnnotations(
         combinedAnnotations,
         annotations,
       );
       if (type instanceof UnionType && preserveUnionType) {
-        await this.typeParameters[i].setActualType(
-          await type.derivePreservedUnionLiteral(mergedAnnotations, context),
-          context,
+        this.typeParameters[i].setActualType(
+          type.derivePreservedUnionLiteral(mergedAnnotations),
         );
       } else {
-        await this.typeParameters[i].setActualType(
-          await type.deriveLiteral(mergedAnnotations, context),
-          context,
+        this.typeParameters[i].setActualType(
+          type.deriveLiteral(mergedAnnotations),
         );
       }
     }
-    return this.type.deriveLiteral(combinedAnnotations, context);
+    return this.type.deriveLiteral(combinedAnnotations);
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown): value is any {
     for (let i = 0; i < this.typeParameterTypes.length; i++) {
-      const { type } = await resolveReferencedType(
-        this.typeParameterTypes[i],
-        context,
-      );
-      await this.typeParameters[i].setActualType(type, context);
+      const { type } = resolveReferencedType(this.typeParameterTypes[i]);
+      this.typeParameters[i].setActualType(type);
     }
-    return this.type.validate(value, context);
+    return this.type.validate(value);
   }
 }

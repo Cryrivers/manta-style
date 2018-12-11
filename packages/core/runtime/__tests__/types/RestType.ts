@@ -1,15 +1,13 @@
 import MS from '../../src';
-import { PluginSystem } from '@manta-style/core';
 
 describe('RestType', () => {
-  const context = { query: {}, param: {}, plugins: PluginSystem.default() };
-  test('mock', async () => {
+  test('mock', () => {
     const tuple = MS.TupleType([
       MS.Literal(1),
       MS.Literal(2),
       MS.RestType(MS.StringKeyword),
     ]);
-    const result = (await tuple.deriveLiteral([], context)).mock();
+    const result = tuple.deriveLiteral([]).mock();
     const [, , ...strings] = result;
     expect(result.length).toBeGreaterThan(2);
     expect(result[0]).toBe(1);

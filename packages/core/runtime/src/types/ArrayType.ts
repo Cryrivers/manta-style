@@ -1,11 +1,5 @@
 import ArrayLiteral from './ArrayLiteral';
-import {
-  Annotation,
-  MantaStyleContext,
-  annotationUtils,
-  Type,
-} from '@manta-style/core';
-import { everyPromise } from '../utils/assignable';
+import { Annotation, annotationUtils, Type } from '@manta-style/core';
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -13,10 +7,7 @@ export default class ArrayType extends Type {
     super();
     this.elementType = elementType;
   }
-  public async deriveLiteral(
-    annotations: Annotation[],
-    context: MantaStyleContext,
-  ) {
+  public deriveLiteral(annotations: Annotation[]) {
     const array: Type[] = [];
     const lengthFromJSDoc = annotationUtils.getNumberFromAnnotationKey({
       key: 'length',
@@ -29,16 +20,14 @@ export default class ArrayType extends Type {
         : Math.floor(Math.random() * 5) + 1;
 
     for (let i = 0; i < length; i++) {
-      array.push(await this.elementType.deriveLiteral(annotations, context));
+      array.push(this.elementType.deriveLiteral(annotations));
     }
     return new ArrayLiteral(array);
   }
-  public async validate(value: unknown, context: MantaStyleContext) {
+  public validate(value: unknown): value is any[] {
     return (
       Array.isArray(value) &&
-      (await everyPromise(
-        value.map((item) => this.elementType.validate(item, context)),
-      ))
+      value.every((item) => this.elementType.validate(item))
     );
   }
 }

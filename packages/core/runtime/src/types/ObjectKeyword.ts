@@ -2,10 +2,10 @@ import TypeLiteral from './TypeLiteral';
 import { Type } from '@manta-style/core';
 
 export default class ObjectKeyword extends Type {
-  public async deriveLiteral() {
+  public deriveLiteral() {
     return new TypeLiteral();
   }
-  public async validate(value: unknown) {
+  public validate(value: unknown): value is object {
     return typeof value === 'object';
   }
 }

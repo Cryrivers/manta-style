@@ -81,7 +81,11 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
           sourceFile.fileName.replace(/\.ts$/g, '.d.ts'),
         );
         // Write down the declaration file if targetDir is specified
-        fs.mkdirSync(destDir);
+        try {
+          fs.mkdirSync(destDir);
+        } catch {
+          // Empty
+        }
         fs.writeFileSync(
           path.resolve(destDir, srcFullName),
           declarationFile.join('\n'),
