@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import { createTypeAliasDeclaration } from './utils';
+import { createTypeAliasDeclaration, createEnumDeclaration } from './utils';
 import {
   MANTASTYLE_RUNTIME_NAME,
   MANTASTYLE_PACKAGE_NAME,
@@ -9,8 +9,8 @@ import {
 import * as fs from 'fs';
 import * as path from 'path';
 
-function generateDeclarationForTypeAlias(
-  node: ts.TypeAliasDeclaration | ts.InterfaceDeclaration,
+function generateDeclaration(
+  node: ts.TypeAliasDeclaration | ts.InterfaceDeclaration | ts.EnumDeclaration,
 ) {
   const isExport =
     node.modifiers &&
@@ -28,10 +28,10 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
     const declarationFile: string[] = [];
     const MantaStyleRuntimeTypeVisitor: ts.Visitor = (node) => {
       if (ts.isTypeAliasDeclaration(node)) {
-        declarationFile.push(...generateDeclarationForTypeAlias(node));
+        declarationFile.push(...generateDeclaration(node));
         return createTypeAliasDeclaration(node);
       } else if (ts.isInterfaceDeclaration(node)) {
-        declarationFile.push(...generateDeclarationForTypeAlias(node));
+        declarationFile.push(...generateDeclaration(node));
         return createTypeAliasDeclaration(
           ts.createTypeAliasDeclaration(
             node.decorators,
@@ -41,6 +41,9 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
             ts.createTypeLiteralNode(node.members),
           ),
         );
+      } else if (ts.isEnumDeclaration(node)) {
+        declarationFile.push(...generateDeclaration(node));
+        return createEnumDeclaration(node);
       } else if (ts.isImportSpecifier(node)) {
         // Do not erase type import
         // TODO: It might be wrong

@@ -9,6 +9,7 @@ import UnionType from './types/UnionType';
 import AnyKeyword from './types/AnyKeyword';
 import NeverKeyword from './types/NeverKeyword';
 import StringKeyword from './types/StringKeyword';
+import EnumDeclaration from './nodes/EnumDeclaration';
 import TypeAliasDeclaration from './nodes/TypeAliasDeclaration';
 import LazyTypeAliasDeclaration from './nodes/LazyTypeAliasDeclaration';
 import ConditionalType from './types/ConditionalType';
@@ -30,6 +31,9 @@ export type TypeAliasDeclarationFactory = () => TypeAliasDeclaration;
 export type TypeLiteral = TypeLiteral;
 export type Property = Property;
 class MantaStyle {
+  public static EnumDeclaration(enums: { [key: string]: Literals }) {
+    return new EnumDeclaration(enums);
+  }
   public static TypeAliasDeclaration(
     typeName: string,
     typeCallback: (currentType: TypeAliasDeclaration) => Type,

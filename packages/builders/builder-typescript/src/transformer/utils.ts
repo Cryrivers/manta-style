@@ -40,6 +40,13 @@ export function createConstVariableStatement(
   );
 }
 
+export function createEnumDeclaration(node: ts.EnumDeclaration) {
+  const name = node.name.getText();
+  const { members } = node;
+  const varCreation = createConstVariableStatement('EnumDeclaration', []);
+  return varCreation;
+}
+
 export function createTypeAliasDeclaration(node: ts.TypeAliasDeclaration) {
   const name = node.name.getText();
   const typeParameters = node.typeParameters || ts.createNodeArray();
