@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/server-restful",
-  "version": "0.2.0-alpha.9",
+  "version": "0.2.0-alpha.10",
   "description": "Restful Server Support for Manta Style",
   "main": "./lib/server-restful.js",
   "typings": "./lib/index.d.js",
@@ -23,13 +23,13 @@
     "watch": "webpack --watch"
   },
   "devDependencies": {
-    "@manta-style/runtime": "^0.2.0-alpha.9",
+    "@manta-style/runtime": "^0.2.0-alpha.10",
     "typescript": "^3.2.2",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.9"
+    "@manta-style/core": "^0.2.0-alpha.10"
   },
   "jest": {
     "transform": {
