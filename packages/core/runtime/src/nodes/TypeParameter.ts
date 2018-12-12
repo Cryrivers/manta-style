@@ -37,4 +37,7 @@ export default class TypeParameter extends Type {
   public validate(value: unknown): value is any {
     return this.getActualType().validate(value);
   }
+  public format(value: unknown) {
+    return this.getActualType().format(value);
+  }
 }

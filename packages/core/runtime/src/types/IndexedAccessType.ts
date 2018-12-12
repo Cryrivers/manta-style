@@ -23,7 +23,7 @@ export default class IndexedAccessType extends Type {
         .find((property) => property.name === indexName);
     }
   }
-  public deriveLiteral(parentAnnotations: Annotation[]) {
+  private getObjectIndexTypes(parentAnnotations: Annotation[] = []) {
     const {
       objectType: maybeReferencedObjectType,
       indexType: maybeReferencedIndexType,
@@ -32,6 +32,10 @@ export default class IndexedAccessType extends Type {
       maybeReferencedObjectType,
     ).type.deriveLiteral(parentAnnotations);
     const { type: indexType } = resolveReferencedType(maybeReferencedIndexType);
+    return { objectType, indexType };
+  }
+  public deriveLiteral(parentAnnotations: Annotation[]) {
+    const { objectType, indexType } = this.getObjectIndexTypes();
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
         return indexedAccessTypeLiteral(objectType, indexType);
@@ -52,12 +56,7 @@ export default class IndexedAccessType extends Type {
     }
   }
   public validate(value: unknown): value is any {
-    const {
-      objectType: maybeReferencedObjectType,
-      indexType: maybeReferencedIndexType,
-    } = this;
-    const objectType = resolveReferencedType(maybeReferencedObjectType).type;
-    const { type: indexType } = resolveReferencedType(maybeReferencedIndexType);
+    const { objectType, indexType } = this.getObjectIndexTypes();
     if (objectType instanceof TypeLiteral) {
       if (indexType instanceof Literal) {
         return indexedAccessTypeLiteral(objectType, indexType).validate(value);
@@ -75,6 +74,27 @@ export default class IndexedAccessType extends Type {
       }
     } else {
       return objectType.validate(value);
+    }
+  }
+  public format(value: unknown) {
+    const { objectType, indexType } = this.getObjectIndexTypes();
+    if (objectType instanceof TypeLiteral) {
+      if (indexType instanceof Literal) {
+        return indexedAccessTypeLiteral(objectType, indexType).format(value);
+      } else if (indexType instanceof UnionType) {
+        const indexTypes = indexType.derivePreservedUnionLiteral([]).getTypes();
+        return new UnionType(
+          indexTypes.map((indType) =>
+            indexedAccessTypeLiteral(objectType, indType),
+          ),
+        ).format(value);
+      } else {
+        // search for index signatures
+        // TODO: Implement for index signatures
+        throw Error('Unimplemented');
+      }
+    } else {
+      return objectType.format(value);
     }
   }
 }

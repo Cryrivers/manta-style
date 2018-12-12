@@ -14,4 +14,13 @@ describe('Boolean Test', () => {
     expect(booleanKeyword.validate([])).toBe(false);
     expect(booleanKeyword.validate('haha')).toBe(false);
   });
+  test('BooleanKeyword can format', () => {
+    expect(() => booleanKeyword.format(3)).toThrow();
+    expect(booleanKeyword.format(1)).toBe(true);
+    expect(booleanKeyword.format(0)).toBe(false);
+    expect(booleanKeyword.format('')).toBe(false);
+    expect(booleanKeyword.format(true)).toBe(true);
+    expect(booleanKeyword.format(false)).toBe(false);
+    expect(() => booleanKeyword.format('haha')).toThrow();
+  });
 });

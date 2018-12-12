@@ -37,4 +37,12 @@ export default class QueryType extends CustomType {
     const content = this.getQueryContent();
     return value === content;
   }
+  public format(value: unknown) {
+    const content = this.getQueryContent();
+    if (value == content) {
+      return content;
+    } else {
+      throw new Error('Cannot format as the value cannot be validated.');
+    }
+  }
 }

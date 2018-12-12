@@ -19,6 +19,9 @@ export default class StringKeyword extends Type {
     return typeof value === 'string';
   }
   public format(value: unknown) {
+    console.log('original:', value);
+    // @ts-ignore
+    console.log('formatted:'.String(value));
     return String(value);
   }
 }

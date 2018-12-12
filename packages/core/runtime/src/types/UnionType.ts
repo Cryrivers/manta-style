@@ -49,6 +49,8 @@ export default class UnionType extends Type {
       try {
         return type.format(value);
       } catch {
+        console.log('cannot format: ', value);
+        console.log('type is ', type);
         // Empty
       }
     }

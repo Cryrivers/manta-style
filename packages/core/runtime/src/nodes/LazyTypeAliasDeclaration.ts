@@ -44,6 +44,11 @@ export default class LazyTypeAliasDeclaration extends TypeAliasDeclaration {
     return super.validate(value);
   }
 
+  public format(value: unknown) {
+    this.initialize();
+    return super.format(value);
+  }
+
   public argumentTypes(types: Type[]) {
     // need to create a different instance of TypeAliasDeclaration
     // for each call of argumentTypes(...);

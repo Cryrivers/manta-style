@@ -25,14 +25,26 @@ export default class TupleType extends Type {
     }
     return new ArrayLiteral(arrayLiteral);
   }
-  public validate(value: unknown): value is any {
+  private looseValidate(value: unknown): value is any[] {
     // TODO: Calculate the correct length based on OptionalTypes and RestType
     return (
       Array.isArray(value) &&
       value.length >=
         this.elementTypes.filter((type) => !(type instanceof OptionalType))
-          .length &&
+          .length
+    );
+  }
+  public validate(value: unknown): value is any[] {
+    return (
+      this.looseValidate(value) &&
       value.every((item, index) => this.elementTypes[index].validate(item))
     );
+  }
+  public format(value: unknown) {
+    if (this.looseValidate(value)) {
+      return value.map((item, index) => this.elementTypes[index].format(item));
+    } else {
+      throw new Error('Cannot format as the value cannot be validated.');
+    }
   }
 }

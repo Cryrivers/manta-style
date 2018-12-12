@@ -18,11 +18,9 @@ export default class BooleanKeyword extends Type {
     return typeof value === 'boolean';
   }
   public format(value: unknown) {
-    if ([1, 'true', 'True', true, 'TRUE'].includes(value as Literals)) {
+    if ([1, true].includes(value as number)) {
       return true;
-    } else if (
-      [0, 'false', 'False', false, 'FALSE', ''].includes(value as Literals)
-    ) {
+    } else if ([0, false, ''].includes(value as Literals)) {
       return false;
     }
     throw new Error('Cannot format as the value cannot be validated.');

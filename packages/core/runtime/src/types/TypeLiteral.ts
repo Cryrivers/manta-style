@@ -163,8 +163,10 @@ export default class TypeLiteral extends Type {
           // @ts-ignore
           const propertyValue = value[property];
           return foundProperty.questionMark
-            ? foundProperty.type.validate(propertyValue) ||
-                MantaStyle.UndefinedKeyword.validate(propertyValue)
+            ? new UnionType([
+                foundProperty.type,
+                MantaStyle.UndefinedKeyword,
+              ]).validate(propertyValue)
             : foundProperty.type.validate(propertyValue);
         }
         return false;
@@ -180,7 +182,42 @@ export default class TypeLiteral extends Type {
         obj[property.name] = property.type.mock();
       }
     }
+    // TODO: Support computed properties
     return obj;
+  }
+  public format(value: unknown) {
+    if (
+      // TODO: Could be extracted into a new function
+      typeof value !== 'object' ||
+      value === null ||
+      Object.keys(value).length <
+        this.properties.filter((item) => !item.questionMark).length
+    ) {
+      throw new Error('Cannot format as the value cannot be validated.');
+    } else {
+      const shallowCopy = { ...value };
+      const properties = Object.keys(shallowCopy);
+      for (const property of properties) {
+        const foundProperty = this.properties.find(
+          (type) => type.name === property,
+        );
+        if (foundProperty) {
+          // @ts-ignore
+          const propertyValue = shallowCopy[property];
+          // @ts-ignore
+          shallowCopy[property] = foundProperty.questionMark
+            ? new UnionType([
+                foundProperty.type,
+                MantaStyle.UndefinedKeyword,
+              ]).format(propertyValue)
+            : foundProperty.type.format(propertyValue);
+          console.log(shallowCopy);
+        } else {
+          throw new Error('Cannot format as the value cannot be validated.');
+        }
+        return shallowCopy;
+      }
+    }
   }
   public compose(type: TypeLiteral): TypeLiteral {
     const composedTypeLiteral = new TypeLiteral();

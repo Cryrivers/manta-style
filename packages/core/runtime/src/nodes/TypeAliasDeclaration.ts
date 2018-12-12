@@ -79,4 +79,11 @@ export default class TypeAliasDeclaration extends Type {
     }
     return this.type.validate(value);
   }
+  public format(value: unknown) {
+    for (let i = 0; i < this.typeParameterTypes.length; i++) {
+      const { type } = resolveReferencedType(this.typeParameterTypes[i]);
+      this.typeParameters[i].setActualType(type);
+    }
+    return this.type.format(value);
+  }
 }

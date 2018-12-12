@@ -31,4 +31,66 @@ describe('TypeLiteral Test', () => {
     expect(TestObject.validate({ test: 'haha' })).toBe(false);
     expect(TestObject.validate({ test: 123 })).toBe(true);
   });
+  test('format', () => {
+    /*
+   type TestGenerics = {
+     zz: number
+   }
+   type TestFormat<T> = {
+     heihei: {
+       x: boolean,
+       y: string
+       z: T,
+       a: 0 | 1 | '2'
+     }
+   }
+  */
+    const TestGenerics = MS.TypeAliasDeclaration(
+      'TestGenerics',
+      () => {
+        return MS.TypeLiteral((currentType) => {
+          currentType.property('zz', MS.NumberKeyword, false, []);
+        });
+      },
+      [],
+    );
+    const TestFormat = MS.TypeAliasDeclaration(
+      'TestFormat',
+      (type) => {
+        const T = type.TypeParameter('T');
+        return MS.TypeLiteral((currentType) => {
+          currentType.property(
+            'heihei',
+            MS.TypeLiteral((ct) => {
+              ct.property('x', MS.BooleanKeyword, false, []);
+              ct.property('y', MS.StringKeyword, false, []);
+              ct.property('z', T, false, []);
+              ct.property(
+                'a',
+                MS.UnionType([MS.Literal(0), MS.Literal(1), MS.Literal('2')]),
+                false,
+                [],
+              );
+            }),
+            false,
+            [],
+          );
+        });
+      },
+      [],
+    );
+    const TestObject = TestFormat.argumentTypes([TestGenerics]);
+    expect(
+      TestObject.format({ heihei: { x: 1, y: 222, z: { zz: '3' }, a: 2 } }),
+    ).toEqual({
+      heihei: {
+        x: true,
+        y: '222',
+        z: {
+          zz: 3,
+        },
+        a: '2',
+      },
+    });
+  });
 });
