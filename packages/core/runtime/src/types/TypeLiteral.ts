@@ -211,12 +211,11 @@ export default class TypeLiteral extends Type {
                 MantaStyle.UndefinedKeyword,
               ]).format(propertyValue)
             : foundProperty.type.format(propertyValue);
-          console.log(shallowCopy);
         } else {
           throw new Error('Cannot format as the value cannot be validated.');
         }
-        return shallowCopy;
       }
+      return shallowCopy;
     }
   }
   public compose(type: TypeLiteral): TypeLiteral {

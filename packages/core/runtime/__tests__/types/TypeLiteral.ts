@@ -31,7 +31,26 @@ describe('TypeLiteral Test', () => {
     expect(TestObject.validate({ test: 'haha' })).toBe(false);
     expect(TestObject.validate({ test: 123 })).toBe(true);
   });
-  test('format', () => {
+  test('format (simple case)', () => {
+    /**
+     * type TestGenerics = {
+     *   zz: number
+     * }
+     */
+    const TestSimple = MS.TypeAliasDeclaration(
+      'TestSimple',
+      () => {
+        return MS.TypeLiteral((currentType) => {
+          currentType.property('zz', MS.NumberKeyword, false, []);
+        });
+      },
+      [],
+    );
+    expect(TestSimple.format({ zz: '333' })).toEqual({ zz: 333 });
+    expect(TestSimple.format({ zz: 333 })).toEqual({ zz: 333 });
+    expect(() => TestSimple.format({ zz: 'heihei' })).toThrow();
+  });
+  test('format (complex case)', () => {
     /*
    type TestGenerics = {
      zz: number
