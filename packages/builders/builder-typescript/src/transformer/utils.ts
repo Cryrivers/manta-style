@@ -41,9 +41,30 @@ export function createConstVariableStatement(
 }
 
 export function createEnumDeclaration(node: ts.EnumDeclaration) {
+  let numericInitializerCounter = 0;
   const name = node.name.getText();
   const { members } = node;
-  const varCreation = createConstVariableStatement('EnumDeclaration', []);
+  const varCreation = createConstVariableStatement(
+    name,
+    createRuntimeFunctionCall('EnumDeclaration', [
+      ts.createObjectLiteral(
+        members.map((member) => {
+          const { initializer } = member;
+          if (initializer && ts.isNumericLiteral(initializer)) {
+            numericInitializerCounter = Number(initializer.getText());
+          }
+          const propertyAssignment = ts.createPropertyAssignment(
+            member.name.getText(),
+            initializer
+              ? initializer
+              : ts.createNumericLiteral(numericInitializerCounter.toString()),
+          );
+          numericInitializerCounter++;
+          return propertyAssignment;
+        }),
+      ),
+    ]),
+  );
   return varCreation;
 }
 
