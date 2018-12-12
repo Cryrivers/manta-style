@@ -1,7 +1,7 @@
 <p align="center">
   <img src="./resources/manta-style.svg" height="100"/>
 </p>
-<p align="center">🚀 Futuristic API Mock Server for Frontend</p>
+<p align="center">🚀 Mock, Validate and Format with your type definitions</p>
 <p align="center"><a href="https://circleci.com/gh/Cryrivers/manta-style"><img src="https://img.shields.io/circleci/project/github/Cryrivers/manta-style.svg?style=flat-square" alt="CircleCI" /></a> <a href="https://codecov.io/gh/Cryrivers/manta-style/"><img src="https://img.shields.io/codecov/c/github/Cryrivers/manta-style.svg?style=flat-square" alt="Codecov" /></a> <a href="https://github.com/Cryrivers/manta-style/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Cryrivers/manta-style.svg?style=flat-square" alt="GitHub" /></a> <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Cryrivers/manta-style.svg?style=flat-square" alt="Greenkeeper badge" /></a> <a href="https://lernajs.io/"><img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square" alt="lerna" /></a></p>
 
 ---
