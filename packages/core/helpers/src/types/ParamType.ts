@@ -37,4 +37,12 @@ export default class ParamType extends CustomType {
     const content = this.getParamContent();
     return value === content;
   }
+  public format(value: unknown) {
+    const content = this.getParamContent();
+    if (value == content) {
+      return content;
+    } else {
+      throw new Error('Cannot format as the value cannot be validated.');
+    }
+  }
 }

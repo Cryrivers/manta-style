@@ -89,20 +89,20 @@ var Keys = runtime_1['default'].TypeAliasDeclaration(
   'Keys',
   function(typeFactory) {
     var type = runtime_1['default'].KeyOfKeyword(
-      runtime_1['default'].TypeLiteral(function(typeLiteral) {
-        typeLiteral.property(
+      runtime_1['default'].TypeLiteral(function($$typeLiteral) {
+        $$typeLiteral.property(
           'a',
           runtime_1['default'].NumberKeyword,
           false,
           [],
         );
-        typeLiteral.property(
+        $$typeLiteral.property(
           'b',
           runtime_1['default'].StringKeyword,
           false,
           [],
         );
-        typeLiteral.property(
+        $$typeLiteral.property(
           'c',
           runtime_1['default'].BooleanKeyword,
           false,
@@ -129,10 +129,25 @@ var runtime_1 = require('@manta-style/runtime');
 var Obj = runtime_1['default'].TypeAliasDeclaration(
   'Obj',
   function(typeFactory) {
-    var type = runtime_1['default'].TypeLiteral(function(typeLiteral) {
-      typeLiteral.property('a', runtime_1['default'].NumberKeyword, false, []);
-      typeLiteral.property('b', runtime_1['default'].StringKeyword, false, []);
-      typeLiteral.property('c', runtime_1['default'].BooleanKeyword, false, []);
+    var type = runtime_1['default'].TypeLiteral(function($$typeLiteral) {
+      $$typeLiteral.property(
+        'a',
+        runtime_1['default'].NumberKeyword,
+        false,
+        [],
+      );
+      $$typeLiteral.property(
+        'b',
+        runtime_1['default'].StringKeyword,
+        false,
+        [],
+      );
+      $$typeLiteral.property(
+        'c',
+        runtime_1['default'].BooleanKeyword,
+        false,
+        [],
+      );
     });
     return type;
   },

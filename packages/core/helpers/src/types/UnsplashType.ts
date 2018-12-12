@@ -19,6 +19,13 @@ export default class UnsplashType extends CustomType {
   public validate(value: unknown): value is any {
     return typeof value === 'string' && value.startsWith(UNSPLASH_PREFIX);
   }
+  public format(value: unknown) {
+    if (this.validate(value)) {
+      return value;
+    } else {
+      return this.deriveLiteral([]).mock();
+    }
+  }
   public deriveLiteral(annotations: Annotation[]) {
     const [{ type: keywordType }, { type: widthType }, { type: heightType }] = [
       resolveReferencedType(this.keyword),

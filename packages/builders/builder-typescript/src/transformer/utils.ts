@@ -221,7 +221,7 @@ function createTypeLiteralProperties(
               member.questionToken ? ts.createTrue() : ts.createFalse(),
               generateJSDocParam(jsdocArray),
             ],
-            'typeLiteral',
+            '$$typeLiteral',
           ),
         ),
       );
@@ -244,7 +244,7 @@ function createTypeLiteralProperties(
                   member.questionToken ? ts.createTrue() : ts.createFalse(),
                   generateJSDocParam(jsdocArray),
                 ],
-                'typeLiteral',
+                '$$typeLiteral',
               ),
             ),
           );
@@ -387,7 +387,7 @@ export function createTypeLiteral(
           undefined,
           undefined,
           undefined,
-          'typeLiteral',
+          '$$typeLiteral',
           undefined,
           undefined,
           undefined,

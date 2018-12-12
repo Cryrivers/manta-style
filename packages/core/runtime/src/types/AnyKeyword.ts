@@ -7,4 +7,7 @@ export default class AnyKeyword extends Type {
   public validate(value: unknown): value is any {
     return true;
   }
+  public format(value: unknown) {
+    return value;
+  }
 }

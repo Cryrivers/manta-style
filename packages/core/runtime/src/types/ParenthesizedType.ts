@@ -15,4 +15,7 @@ export default class ParenthesizedType extends Type {
   public validate(value: unknown): value is any {
     return this.type.validate(value);
   }
+  public format(value: unknown) {
+    return this.type.format(value);
+  }
 }

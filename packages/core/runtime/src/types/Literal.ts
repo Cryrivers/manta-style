@@ -18,4 +18,10 @@ export default class Literal<T extends Literals | Fetcher<any>> extends Type {
   public mock() {
     return this.literal instanceof Fetcher ? this.literal.read() : this.literal;
   }
+  public format(value: unknown) {
+    if (value == this.literal) {
+      return this.literal;
+    }
+    throw new Error('Cannot format as the value cannot be validated.');
+  }
 }

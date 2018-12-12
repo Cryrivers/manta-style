@@ -49,8 +49,7 @@ async function benchmark() {
         d: { a: true, b: 'hoho', c: 'yes', d: true, e: true },
         e: 391,
         f: { a: true, b: 'zzz', c: 'elel', d: false, e: true },
-      },
-      context,
+      }
     );
   }
   const timeEnd = process.hrtime(timeStart);

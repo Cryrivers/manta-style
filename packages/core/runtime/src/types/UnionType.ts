@@ -44,6 +44,16 @@ export default class UnionType extends Type {
   public validate(value: unknown): value is any {
     return this.types.some((type) => type.validate(value));
   }
+  public format(value: unknown) {
+    for (const type of this.types) {
+      try {
+        return type.format(value);
+      } catch {
+        // Empty
+      }
+    }
+    throw new Error('Cannot format as the value cannot be validated.');
+  }
   public getTypes(): Type[] {
     return this.types;
   }

@@ -12,6 +12,9 @@ export class ErrorType extends Type {
   public validate(value: any): value is never {
     throw Error('ErrorType does not support `validate` method.');
   }
+  public format(vaue: unknown) {
+    throw Error('ErrorType does not support `format` method.');
+  }
   public mock() {
     throw new Error(this.message);
   }

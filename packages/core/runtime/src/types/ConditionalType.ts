@@ -74,6 +74,10 @@ export default class ConditionalType extends Type {
     const resolvedType = this.getResolvedType();
     return resolvedType.validate(value);
   }
+  public format(value: unknown) {
+    const resolvedType = this.getResolvedType();
+    return resolvedType.validate(value);
+  }
 }
 
 function resolveConditionalType(

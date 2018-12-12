@@ -30,4 +30,10 @@ export default class ArrayType extends Type {
       value.every((item) => this.elementType.validate(item))
     );
   }
+  public format(value: unknown) {
+    if (Array.isArray(value)) {
+      return value.map((item) => this.elementType.format(item));
+    }
+    throw new Error('Cannot format as the value cannot be validated.');
+  }
 }

@@ -27,4 +27,7 @@ export default class KeyOfKeyword extends Type {
     const keys = this.getKeys();
     return typeof value === 'string' && keys.includes(value);
   }
+  public format(value: unknown) {
+    return this.deriveLiteral().format(value);
+  }
 }
