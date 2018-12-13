@@ -5,7 +5,7 @@
 - Current language support
 
   1. TypeScript (`@manta-style/builder-typescript`)
-  2. Flowtype (WIP, `@manta-style/builder-flow`)
+  2. Flowtype (`@manta-style/builder-flow-type`)
   3. GraphQL (Under consideration, `@manta-style/builder-graphql`)
 
 ## Interface
