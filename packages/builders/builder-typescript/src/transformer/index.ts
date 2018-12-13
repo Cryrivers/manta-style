@@ -9,8 +9,8 @@ import {
 import * as fs from 'fs';
 import * as path from 'path';
 
-function generateDeclaration(
-  node: ts.TypeAliasDeclaration | ts.InterfaceDeclaration | ts.EnumDeclaration,
+function generateTypeDeclaration(
+  node: ts.TypeAliasDeclaration | ts.InterfaceDeclaration,
 ) {
   const isExport =
     node.modifiers &&
@@ -23,15 +23,40 @@ function generateDeclaration(
   ];
 }
 
+function generateEnumDeclaration(node: ts.EnumDeclaration) {
+  const isExport =
+    node.modifiers &&
+    node.modifiers.find((item) => item.kind === ts.SyntaxKind.ExportKeyword);
+  const tsEnumDeclarations: string[] = [];
+  tsEnumDeclarations.push(
+    `${isExport ? 'export ' : ''}declare const enum ${node.name.getText()} {`,
+  );
+  let numericInitializerCounter = 0;
+  for (const member of node.members) {
+    const { initializer } = member;
+    if (initializer && ts.isNumericLiteral(initializer)) {
+      numericInitializerCounter = Number(initializer.getText());
+    }
+    tsEnumDeclarations.push(
+      `    ${member.name.getText()} = ${
+        initializer ? initializer.getText() : numericInitializerCounter
+      },`,
+    );
+    numericInitializerCounter++;
+  }
+  tsEnumDeclarations.push('}');
+  return tsEnumDeclarations;
+}
+
 export function createTransformer(importHelpers: boolean, destDir?: string) {
   const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
     const declarationFile: string[] = [];
     const MantaStyleRuntimeTypeVisitor: ts.Visitor = (node) => {
       if (ts.isTypeAliasDeclaration(node)) {
-        declarationFile.push(...generateDeclaration(node));
+        declarationFile.push(...generateTypeDeclaration(node));
         return createTypeAliasDeclaration(node);
       } else if (ts.isInterfaceDeclaration(node)) {
-        declarationFile.push(...generateDeclaration(node));
+        declarationFile.push(...generateTypeDeclaration(node));
         return createTypeAliasDeclaration(
           ts.createTypeAliasDeclaration(
             node.decorators,
@@ -42,7 +67,7 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
           ),
         );
       } else if (ts.isEnumDeclaration(node)) {
-        declarationFile.push(...generateDeclaration(node));
+        declarationFile.push(...generateEnumDeclaration(node));
         return createEnumDeclaration(node);
       } else if (ts.isImportSpecifier(node)) {
         // Do not erase type import
