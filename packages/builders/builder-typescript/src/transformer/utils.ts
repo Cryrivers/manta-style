@@ -435,16 +435,31 @@ function createTypeReference(
   node: ts.TypeReferenceNode,
   typeParameters: ts.NodeArray<ts.TypeParameterDeclaration>,
 ): ts.Expression {
-  const typeName = node.typeName.getText();
+  const { typeName } = node;
 
-  let typeReferenceNode;
-  if (MANTASTYLE_HELPER_TYPES.indexOf(typeName) > -1) {
-    typeReferenceNode = ts.createPropertyAccess(
-      ts.createIdentifier(MANTASTYLE_HELPER_NAME),
-      ts.createIdentifier(typeName),
+  let typeReferenceNode: ts.Expression;
+
+  if (ts.isIdentifier(typeName)) {
+    const typeString = typeName.getText();
+    if (MANTASTYLE_HELPER_TYPES.indexOf(typeString) > -1) {
+      typeReferenceNode = ts.createPropertyAccess(
+        ts.createIdentifier(MANTASTYLE_HELPER_NAME),
+        ts.createIdentifier(typeString),
+      );
+    } else {
+      typeReferenceNode = ts.createIdentifier(typeString);
+    }
+  } else if (ts.isQualifiedName(typeName)) {
+    typeReferenceNode = ts.createCall(
+      ts.createPropertyAccess(
+        ts.createIdentifier(typeName.left.getText()),
+        'getValueByKey',
+      ),
+      [],
+      [ts.createStringLiteral(typeName.right.getText())],
     );
   } else {
-    typeReferenceNode = ts.createIdentifier(typeName);
+    throw new Error('Unhandled Node Type');
   }
 
   if (node.typeArguments) {

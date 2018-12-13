@@ -19,4 +19,11 @@ describe('Enums', () => {
       testTranspiledString("enum Test { A = 'A', B = 'B', C = 'C', D = 'D' };"),
     ).toMatchSnapshot();
   });
+  test('TypeReference to Enums', () => {
+    expect(
+      testTranspiledString(
+        "enum Test { A = 'A', B = 'B', C = 'C', D = 'D' }; type B = Test.D;",
+      ),
+    ).toMatchSnapshot();
+  });
 });
