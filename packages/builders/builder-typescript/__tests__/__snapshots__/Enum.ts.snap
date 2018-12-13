@@ -62,7 +62,7 @@ var Test = runtime_1['default'].EnumDeclaration({
 var B = runtime_1['default'].TypeAliasDeclaration(
   'B',
   function(typeFactory) {
-    var type = Test.getValueByKey('D');
+    var type = Test.getLiteralByKey('D');
     return type;
   },
   [],
