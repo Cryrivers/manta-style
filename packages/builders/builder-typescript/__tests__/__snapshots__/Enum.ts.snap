@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Enums Enums with numeric initializer 1`] = `
+"FROM:
+enum Test { A, B = 12, C, D };
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].EnumDeclaration({ A: 0, B: 12, C: 13, D: 14 });
+"
+`;
+
+exports[`Enums Enums with string initializer 1`] = `
+"FROM:
+enum Test { A = 'A', B = 'B', C = 'C', D = 'D' };
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].EnumDeclaration({
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+});
+"
+`;
+
+exports[`Enums Normal Enums 1`] = `
+"FROM:
+enum Test { A, B, C, D };
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].EnumDeclaration({ A: 0, B: 1, C: 2, D: 3 });
+"
+`;
+
+exports[`Enums TypeReference to Enums 1`] = `
+"FROM:
+enum Test { A = 'A', B = 'B', C = 'C', D = 'D' }; type B = Test.D;
+
+--------------------------------------------------------
+TO:
+'use strict';
+exports.__esModule = true;
+var runtime_1 = require('@manta-style/runtime');
+var Test = runtime_1['default'].EnumDeclaration({
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+});
+var B = runtime_1['default'].TypeAliasDeclaration(
+  'B',
+  function(typeFactory) {
+    var type = Test.getLiteralByKey('D');
+    return type;
+  },
+  [],
+);
+"
+`;
