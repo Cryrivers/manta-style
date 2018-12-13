@@ -14,6 +14,9 @@ export default class EnumDeclaration extends Type {
   public getValueByKey(key: string) {
     return this.enums[key];
   }
+  public getLiteralByKey(key: string) {
+    return new Literal(this.getValueByKey(key));
+  }
   public deriveLiteral() {
     const value = sample(Object.values(this.enums));
     if (value) {

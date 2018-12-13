@@ -453,7 +453,7 @@ function createTypeReference(
     typeReferenceNode = ts.createCall(
       ts.createPropertyAccess(
         ts.createIdentifier(typeName.left.getText()),
-        'getValueByKey',
+        'getLiteralByKey',
       ),
       [],
       [ts.createStringLiteral(typeName.right.getText())],
