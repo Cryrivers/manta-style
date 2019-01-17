@@ -2,6 +2,7 @@ import ArrayLiteral from './ArrayLiteral';
 import OptionalType from './OptionalType';
 import RestType from './RestType';
 import { Annotation, Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class TupleType extends Type {
   private readonly elementTypes: Type[];
@@ -44,7 +45,7 @@ export default class TupleType extends Type {
     if (this.looseValidate(value)) {
       return value.map((item, index) => this.elementTypes[index].format(item));
     } else {
-      throw new Error('Cannot format as the value cannot be validated.');
+      throwUnableToFormat({ typeName: 'TupleType', inputValue: value });
     }
   }
 }

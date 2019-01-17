@@ -1,4 +1,5 @@
 import { Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class NullKeyword extends Type {
   public deriveLiteral() {
@@ -11,9 +12,13 @@ export default class NullKeyword extends Type {
     return value === null;
   }
   public format(value: unknown) {
-    if ([null, 0, '', 'null', 'NULL'].includes(value as null)) {
+    if ([null, 0, ''].includes(value as null)) {
       return null;
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({
+      typeName: 'NullKeyword',
+      inputValue: value,
+      expectedValue: [null, 0, ''],
+    });
   }
 }

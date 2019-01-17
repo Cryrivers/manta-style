@@ -3,6 +3,7 @@ import UnionType from './UnionType';
 import Literal from './Literal';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { Annotation, Type } from '@manta-style/core';
+import { throwUnsupported } from '../utils/errorReporting';
 
 export default class KeyOfKeyword extends Type {
   private type: Type;
@@ -16,7 +17,10 @@ export default class KeyOfKeyword extends Type {
     if (type instanceof TypeLiteral) {
       return type.getKeys();
     } else {
-      throw new Error('Unsupported Type in "keyof" keyword');
+      return throwUnsupported({
+        typeName: 'KeyOfKeyword',
+        message: 'Unsupported Type in "keyof" keyword',
+      });
     }
   }
   public deriveLiteral() {

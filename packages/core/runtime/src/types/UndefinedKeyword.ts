@@ -1,4 +1,5 @@
 import { Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class UndefinedKeyword extends Type {
   public deriveLiteral() {
@@ -14,6 +15,10 @@ export default class UndefinedKeyword extends Type {
     if (typeof value === 'undefined') {
       return value;
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({
+      typeName: 'UndefinedKeyword',
+      inputValue: value,
+      expectedValue: undefined,
+    });
   }
 }

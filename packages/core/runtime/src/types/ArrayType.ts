@@ -1,5 +1,6 @@
 import ArrayLiteral from './ArrayLiteral';
 import { Annotation, annotationUtils, Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class ArrayType extends Type {
   private elementType: Type;
@@ -34,6 +35,10 @@ export default class ArrayType extends Type {
     if (Array.isArray(value)) {
       return value.map((item) => this.elementType.format(item));
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({
+      typeName: 'ArrayType',
+      reason: 'The value is not an array.',
+      inputValue: value,
+    });
   }
 }

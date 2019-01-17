@@ -11,6 +11,7 @@ import NeverKeyword from './NeverKeyword';
 import { intersection } from '../utils/intersection';
 import { Annotation, annotationUtils, Type } from '@manta-style/core';
 import MantaStyle from '..';
+import { throwUnableToFormat, throwUnsupported } from '../utils/errorReporting';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -139,8 +140,10 @@ export default class TypeLiteral extends Type {
             }
           }
         } else {
-          console.log(actualType);
-          throw new Error(`Unsupported Type after keyword "in"`);
+          throwUnsupported({
+            typeName: 'TypeLiteral',
+            message: `Unsupported Type after keyword "in", actual type is ${actualType}`,
+          });
         }
       }
     }
@@ -193,7 +196,7 @@ export default class TypeLiteral extends Type {
       Object.keys(value).length <
         this.properties.filter((item) => !item.questionMark).length
     ) {
-      throw new Error('Cannot format as the value cannot be validated.');
+      throwUnableToFormat({ typeName: 'TypeLiteral', inputValue: value });
     } else {
       const shallowCopy = { ...value };
       const properties = Object.keys(shallowCopy);
@@ -212,7 +215,7 @@ export default class TypeLiteral extends Type {
               ]).format(propertyValue)
             : foundProperty.type.format(propertyValue);
         } else {
-          throw new Error('Cannot format as the value cannot be validated.');
+          throwUnableToFormat({ typeName: 'TypeLiteral', inputValue: value });
         }
       }
       return shallowCopy;
