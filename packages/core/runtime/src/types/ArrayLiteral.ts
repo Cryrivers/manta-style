@@ -1,4 +1,5 @@
 import { Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class ArrayLiteral extends Type {
   private readonly elements: Type[];
@@ -26,6 +27,10 @@ export default class ArrayLiteral extends Type {
     if (Array.isArray(value) && value.length === this.elements.length) {
       return this.elements.map((type, index) => type.format(value[index]));
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({
+      typeName: 'ArrayLiteral',
+      inputValue: value,
+      expectedValue: this.mock(),
+    });
   }
 }

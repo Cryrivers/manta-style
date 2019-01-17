@@ -1,4 +1,5 @@
 import { Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class NeverKeyword extends Type {
   public deriveLiteral() {
@@ -8,6 +9,10 @@ export default class NeverKeyword extends Type {
     throw new Error('`never` keyword does not support `validate` method.');
   }
   public format(value: unknown) {
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({
+      typeName: 'NeverKeyword',
+      inputValue: value,
+      reason: 'Never type can never be formatted.',
+    });
   }
 }

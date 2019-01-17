@@ -2,6 +2,7 @@ import { sample } from 'lodash-es';
 import NeverKeyword from './NeverKeyword';
 import { resolveReferencedType } from '../utils/referenceTypes';
 import { Annotation, Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class UnionType extends Type {
   private readonly types: Type[] = [];
@@ -52,7 +53,22 @@ export default class UnionType extends Type {
         // Empty
       }
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    const potentialExpectedValues: any[] = [];
+    for (const type of this.types) {
+      try {
+        potentialExpectedValues.push(type.mock());
+      } catch {
+        // Empty
+      }
+    }
+    throwUnableToFormat({
+      typeName: 'UnionType',
+      reason:
+        'The input cannot be validated as any type in this UnionType. ' +
+        'Please check Expected Values for potentially expected values.',
+      inputValue: value,
+      expectedValue: potentialExpectedValues,
+    });
   }
   public getTypes(): Type[] {
     return this.types;

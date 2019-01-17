@@ -7,6 +7,7 @@ import { resolveReferencedType } from '../utils/referenceTypes';
 import UnionType from './UnionType';
 import IndexedAccessType from './IndexedAccessType';
 import { Annotation, Type } from '@manta-style/core';
+import { throwUnsupported } from '../utils/errorReporting';
 
 const ErrType = new ErrorType("MappedType hasn't been initialized");
 
@@ -75,10 +76,16 @@ export default class MappedType extends Type {
     }
   }
   public validate(value: any): value is any {
-    throw Error('MappedType does not support validation yet');
+    return throwUnsupported({
+      typeName: 'MappedType',
+      message: 'validate() is not supported yet.',
+    });
   }
   public format(value: unknown) {
-    throw new Error('MappedType doesn not support format yet');
+    throwUnsupported({
+      typeName: 'MappedType',
+      message: 'format() is not supported yet.',
+    });
   }
   public TypeParameter(name: string) {
     const newTypeParam = new TypeParameter(name);

@@ -1,5 +1,6 @@
 import Literal from './Literal';
 import { Annotation, usePluginSystem, Type } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class NumberKeyword extends Type {
   public deriveLiteral(annotations: Annotation[]) {
@@ -21,6 +22,6 @@ export default class NumberKeyword extends Type {
     } else if (typeof value === 'string' && !isNaN(Number(value))) {
       return Number(value);
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({ typeName: 'NumberKeyword', inputValue: value });
   }
 }

@@ -1,5 +1,6 @@
 import { Literals } from '../utils/baseType';
 import { Type, Fetcher } from '@manta-style/core';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class Literal<T extends Literals | Fetcher<any>> extends Type {
   private readonly literal: T;
@@ -22,6 +23,10 @@ export default class Literal<T extends Literals | Fetcher<any>> extends Type {
     if (value == this.literal) {
       return this.literal;
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({
+      typeName: 'Literal',
+      inputValue: value,
+      expectedValue: this.literal,
+    });
   }
 }

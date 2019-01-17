@@ -1,6 +1,7 @@
 import Literal from './Literal';
 import { Type, Annotation, usePluginSystem } from '@manta-style/core';
 import { Literals } from '../utils/baseType';
+import { throwUnableToFormat } from '../utils/errorReporting';
 
 export default class BooleanKeyword extends Type {
   public deriveLiteral(annotations: Annotation[]) {
@@ -23,6 +24,10 @@ export default class BooleanKeyword extends Type {
     } else if ([0, false, ''].includes(value as Literals)) {
       return false;
     }
-    throw new Error('Cannot format as the value cannot be validated.');
+    throwUnableToFormat({
+      typeName: 'BooleanKeyword',
+      inputValue: value,
+      expectedValue: [1, true, 0, false, ''],
+    });
   }
 }
