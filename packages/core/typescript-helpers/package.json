@@ -25,10 +25,10 @@
   "devDependencies": {
     "@manta-style/builder-typescript": "^0.2.0-alpha.12",
     "@manta-style/helpers-builder": "^0.2.0-alpha.12",
-    "lint-staged": "^7.3.0",
+    "lint-staged": "^8.1.0",
     "typescript": "3.2.2",
-    "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   },
   "lint-staged": {
     "./src/index.ts": [

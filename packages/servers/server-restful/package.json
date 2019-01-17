@@ -25,8 +25,8 @@
   "devDependencies": {
     "@manta-style/runtime": "^0.2.0-alpha.12",
     "typescript": "^3.2.2",
-    "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.12"

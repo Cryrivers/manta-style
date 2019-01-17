@@ -3,12 +3,12 @@
   "version": "0.2.0-alpha.12",
   "main": "src/index.ts",
   "dependencies": {
-    "prettier": "^1.14.3"
+    "prettier": "^1.15.3"
   },
   "publishConfig": {
     "access": "public"
   },
   "devDependencies": {
-    "@types/prettier": "^1.13.2"
+    "@types/prettier": "^1.15.2"
   }
 }
