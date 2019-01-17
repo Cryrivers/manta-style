@@ -16,5 +16,5 @@ value: string;
 ```
 
 - For string only
-- Generate random quote of the day from [API](https://talaikis.com/random_quotes_api/)
+- Generate random quote of the day from [FavQS](https://favqs.com)
 - A demostration of asynchronous mock plugins

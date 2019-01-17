@@ -26,19 +26,18 @@
     "watch": "webpack --watch"
   },
   "devDependencies": {
-    "@types/babel__core": "^7.0.1",
-    "@types/babel__generator": "^7.0.0",
-    "@types/babel__parser": "^7.0.0",
-    "@types/babel__template": "^7.0.0",
-    "@types/babel__traverse": "^7.0.0",
+    "@types/babel__core": "^7.0.4",
+    "@types/babel__generator": "^7.0.1",
+    "@types/babel__template": "^7.0.1",
+    "@types/babel__traverse": "^7.0.4",
     "@types/glob": "^7.1.1",
-    "webpack": "^4.27.1",
-    "webpack-cli": "^3.1.2"
+    "webpack": "^4.28.4",
+    "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@babel/core": "^7.0.1",
-    "@babel/plugin-transform-modules-commonjs": "^7.1.0",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-transform-modules-commonjs": "^7.2.0",
+    "@babel/preset-env": "^7.2.3",
     "@manta-style/core": "^0.2.0-alpha.12",
     "@manta-style/test-helpers": "^0.2.0-alpha.12",
     "glob": "^7.1.3",
