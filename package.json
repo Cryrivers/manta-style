@@ -20,7 +20,8 @@
     "packages/core/*",
     "packages/builders/*",
     "packages/mocks/*",
-    "packages/servers/*"
+    "packages/servers/*",
+    "packages/playground"
   ],
   "lint-staged": {
     "linters": {
