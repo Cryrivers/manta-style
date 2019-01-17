@@ -84,7 +84,7 @@ lastLoggedIn: number;
 
 ### `mock-qotd`
 
-This `string` only mock plugin generates random quote of the day from [talaikis](https://talaikis.com/random_quotes_api/)
+This `string` only mock plugin generates random quote of the day from [FavQs](https://favqs.com)
 
 #### Installation
 
@@ -193,9 +193,10 @@ const qotdPlugin: MockPlugin = {
       }
 
       try {
-        const response = await fetch('https://talaikis.com/api/quotes/random/');
+        // This is a deprecated method for async mock, new method to be documented.
+        const response = await fetch('https://favqs.com/api/qotd');
         const json = await response.json();
-        return json.quote;
+        return json.quote.body;
       } catch (e) {
         return null;
       }
