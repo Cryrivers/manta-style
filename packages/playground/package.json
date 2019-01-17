@@ -17,7 +17,7 @@
   "license": "MIT",
   "scripts": {
     "start": "webpack-dev-server",
-    "test": "jest",
+    "test": "echo 'No test yet'",
     "build": "tsc -p tsconfig.json && webpack"
   },
   "publishConfig": {
