@@ -7,8 +7,7 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
     "watch": "lerna run --parallel watch",
-    "test": "lerna run test -- --coverage && codecov -t $CODECOV_TOKEN",
-    "precommit": "lerna run precommit && lint-staged"
+    "test": "lerna run test -- --coverage && codecov -t $CODECOV_TOKEN"
   },
   "devDependencies": {
     "codecov": "^3.1.0",
@@ -29,6 +28,11 @@
         "prettier --write",
         "git add"
       ]
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lerna run precommit && lint-staged"
     }
   }
 }
