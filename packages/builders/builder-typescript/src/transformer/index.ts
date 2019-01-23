@@ -9,54 +9,13 @@ import {
 import * as fs from 'fs';
 import * as path from 'path';
 
-function generateTypeDeclaration(
-  node: ts.TypeAliasDeclaration | ts.InterfaceDeclaration,
-) {
-  const isExport =
-    node.modifiers &&
-    node.modifiers.find((item) => item.kind === ts.SyntaxKind.ExportKeyword);
-  return [
-    node.getText(),
-    `${
-      isExport ? 'export ' : ''
-    }declare const ${node.name.getText()}: Type<${node.name.getText()}>;`,
-  ];
-}
-
-function generateEnumDeclaration(node: ts.EnumDeclaration) {
-  const isExport =
-    node.modifiers &&
-    node.modifiers.find((item) => item.kind === ts.SyntaxKind.ExportKeyword);
-  const tsEnumDeclarations: string[] = [];
-  tsEnumDeclarations.push(
-    `${isExport ? 'export ' : ''}declare const enum ${node.name.getText()} {`,
-  );
-  let numericInitializerCounter = 0;
-  for (const member of node.members) {
-    const { initializer } = member;
-    if (initializer && ts.isNumericLiteral(initializer)) {
-      numericInitializerCounter = Number(initializer.getText());
-    }
-    tsEnumDeclarations.push(
-      `    ${member.name.getText()} = ${
-        initializer ? initializer.getText() : numericInitializerCounter
-      },`,
-    );
-    numericInitializerCounter++;
-  }
-  tsEnumDeclarations.push('}');
-  return tsEnumDeclarations;
-}
-
 export function createTransformer(importHelpers: boolean, destDir?: string) {
   const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
     const declarationFile: string[] = [];
     const MantaStyleRuntimeTypeVisitor: ts.Visitor = (node) => {
       if (ts.isTypeAliasDeclaration(node)) {
-        declarationFile.push(...generateTypeDeclaration(node));
         return createTypeAliasDeclaration(node);
       } else if (ts.isInterfaceDeclaration(node)) {
-        declarationFile.push(...generateTypeDeclaration(node));
         return createTypeAliasDeclaration(
           ts.createTypeAliasDeclaration(
             node.decorators,
@@ -67,7 +26,6 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
           ),
         );
       } else if (ts.isEnumDeclaration(node)) {
-        declarationFile.push(...generateEnumDeclaration(node));
         return createEnumDeclaration(node);
       } else if (ts.isImportSpecifier(node)) {
         // Do not erase type import
@@ -93,32 +51,6 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
         sourceFile,
         MantaStyleRuntimeTypeVisitor,
       );
-      if (importHelpers) {
-        declarationFile.unshift(
-          `import * as ${MANTASTYLE_HELPER_NAME} from "${HELPER_PACKAGE_NAME}";`,
-        );
-      }
-      declarationFile.unshift(
-        `import { Type } from "@manta-style/core";`,
-        `import ${MANTASTYLE_RUNTIME_NAME} from "${MANTASTYLE_PACKAGE_NAME}";`,
-      );
-      if (destDir) {
-        // it only supports files without external reference.
-        // TODO: Resolve module references and put them to the correct folder
-        const srcFullName = path.basename(
-          sourceFile.fileName.replace(/\.ts$/g, '.d.ts'),
-        );
-        // Write down the declaration file if targetDir is specified
-        try {
-          fs.mkdirSync(destDir);
-        } catch {
-          // Empty
-        }
-        fs.writeFileSync(
-          path.resolve(destDir, srcFullName),
-          declarationFile.join('\n'),
-        );
-      }
       return ts.updateSourceFileNode(transformedNode, [
         ts.createImportDeclaration(
           [],
