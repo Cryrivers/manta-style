@@ -56,24 +56,28 @@ export default function build({
       // Write declaration file
       if (sourceFiles) {
         sourceFiles.forEach((sourceFile) => {
+          const sourceCode = fs.readFileSync(sourceFile.fileName, {
+            encoding: 'utf8',
+          });
+          const originalSourceFile = ts.createSourceFile(
+            sourceFile.fileName,
+            sourceCode,
+            ts.ScriptTarget.Latest,
+            true,
+            ts.ScriptKind.TS,
+          );
           if (verbose) {
             console.log(
               'Generating Customized Declaration File for: ',
-              sourceFile.fileName,
+              originalSourceFile.fileName,
             );
-            console.log(sourceFile);
           }
           const declarationString = declarationGenerator(
-            sourceFile,
+            originalSourceFile,
             importHelpers,
           );
-          const srcFullName = path.basename(
-            sourceFile.fileName.replace(/\.ts$/g, '.d.ts'),
-          );
-          // fs.writeFileSync(path.resolve(srcFullName), declarationString);
-          if (verbose) {
-            console.log('Generated Result:', declarationString);
-          }
+          const srcFullName = fileName.replace(/\.[jt]s$/g, '.d.ts');
+          fs.writeFileSync(path.resolve(srcFullName), declarationString);
         });
       }
     },

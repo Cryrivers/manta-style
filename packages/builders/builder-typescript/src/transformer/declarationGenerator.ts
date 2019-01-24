@@ -55,6 +55,11 @@ export default function declarationGenerator(
       declaration.push(...generateTypeDeclaration(node));
     } else if (ts.isEnumDeclaration(node)) {
       declaration.push(...generateEnumDeclaration(node));
+    } else if (ts.isExportAssignment(node)) {
+      declaration.push(node.getText());
+    } else if (ts.isExportDeclaration(node) || ts.isImportDeclaration(node)) {
+      debugger;
+      declaration.push(node.getText());
     }
     ts.forEachChild(node, generateDeclarationByNode);
   }

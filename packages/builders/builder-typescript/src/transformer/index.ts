@@ -6,12 +6,9 @@ import {
   MANTASTYLE_HELPER_NAME,
   HELPER_PACKAGE_NAME,
 } from './constants';
-import * as fs from 'fs';
-import * as path from 'path';
 
 export function createTransformer(importHelpers: boolean, destDir?: string) {
   const transformer: ts.TransformerFactory<ts.SourceFile> = (context) => {
-    const declarationFile: string[] = [];
     const MantaStyleRuntimeTypeVisitor: ts.Visitor = (node) => {
       if (ts.isTypeAliasDeclaration(node)) {
         return createTypeAliasDeclaration(node);
@@ -32,7 +29,6 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
         // TODO: It might be wrong
         return ts.createImportSpecifier(node.propertyName, node.name);
       } else if (ts.isExportAssignment(node)) {
-        declarationFile.push(node.getText());
         // Do not erase type export
         // TODO: It might be wrong
         return ts.createExportAssignment(
@@ -41,8 +37,6 @@ export function createTransformer(importHelpers: boolean, destDir?: string) {
           node.isExportEquals || false,
           node.expression,
         );
-      } else if (ts.isExportDeclaration(node) || ts.isImportDeclaration(node)) {
-        declarationFile.push(node.getText());
       }
       return ts.visitEachChild(node, MantaStyleRuntimeTypeVisitor, context);
     };
