@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@manta-style/core": "^0.2.0-alpha.12",
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.4"
   },
   "devDependencies": {
     "jest": "^23.6.0"

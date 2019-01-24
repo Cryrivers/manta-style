@@ -21,6 +21,6 @@
     "build": "tsc -p ./tsconfig.json"
   },
   "dependencies": {
-    "typescript": "^3.2.2"
+    "typescript": "^3.2.4"
   }
 }
