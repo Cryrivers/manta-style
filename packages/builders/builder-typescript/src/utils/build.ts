@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as glob from 'glob';
 import * as babelCore from '@babel/core';
 import { createTransformer } from '../transformer';
+import declarationGenerator from '../transformer/declarationGenerator';
 
 export default function build({
   fileName,
@@ -25,6 +26,9 @@ export default function build({
     target: ts.ScriptTarget.ES5,
     moduleResolution: ts.ModuleResolutionKind.NodeJs,
     module: ts.ModuleKind.ESNext,
+    // We output our customized declaration file
+    // therefore we wont let TS compiler output dts
+    declaration: false,
     // Do not scan and compile third-party libraries
     // which make the compiling process likely to fail
     // and very slow
@@ -35,7 +39,48 @@ export default function build({
   });
   const result: ts.EmitResult = program.emit(
     undefined,
-    undefined,
+    function generateTypeDeclaration(
+      fileName,
+      data,
+      writeByteOrderMark,
+      onError,
+      sourceFiles,
+    ) {
+      try {
+        fs.mkdirSync(path.dirname(fileName));
+      } catch {
+        // Empty
+      }
+      // Write compiled file
+      fs.writeFileSync(fileName, data);
+      // Write declaration file
+      if (sourceFiles) {
+        sourceFiles.forEach((sourceFile) => {
+          const sourceCode = fs.readFileSync(sourceFile.fileName, {
+            encoding: 'utf8',
+          });
+          const originalSourceFile = ts.createSourceFile(
+            sourceFile.fileName,
+            sourceCode,
+            ts.ScriptTarget.Latest,
+            true,
+            ts.ScriptKind.TS,
+          );
+          if (verbose) {
+            console.log(
+              'Generating Customized Declaration File for: ',
+              originalSourceFile.fileName,
+            );
+          }
+          const declarationString = declarationGenerator(
+            originalSourceFile,
+            importHelpers,
+          );
+          const srcFullName = fileName.replace(/\.[jt]s$/g, '.d.ts');
+          fs.writeFileSync(path.resolve(srcFullName), declarationString);
+        });
+      }
+    },
     undefined,
     undefined,
     {
