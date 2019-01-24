@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/mock-range",
-  "version": "0.2.0-alpha.12",
+  "version": "0.2.0-alpha.13",
   "description": "Manta Style Mock Plugin - Range",
   "main": "./lib/index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.12",
+    "@manta-style/core": "^0.2.0-alpha.13",
     "lodash-es": "^4.17.11"
   },
   "publishConfig": {
