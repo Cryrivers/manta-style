@@ -1,7 +1,7 @@
 <p align="center">
   <img src="./resources/manta-style.svg" height="100"/>
 </p>
-<p align="center">🚀 Mock, Validate and Format with your type definitions</p>
+<p align="center">🚀 The futuristic API Mock Server for Frontend</p>
 <p align="center"><a href="https://circleci.com/gh/Cryrivers/manta-style"><img src="https://img.shields.io/circleci/project/github/Cryrivers/manta-style.svg?style=flat-square" alt="CircleCI" /></a> <a href="https://codecov.io/gh/Cryrivers/manta-style/"><img src="https://img.shields.io/codecov/c/github/Cryrivers/manta-style.svg?style=flat-square" alt="Codecov" /></a> <a href="https://github.com/Cryrivers/manta-style/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Cryrivers/manta-style.svg?style=flat-square" alt="GitHub" /></a> <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/Cryrivers/manta-style.svg?style=flat-square" alt="Greenkeeper badge" /></a> <a href="https://lernajs.io/"><img src="https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg?style=flat-square" alt="lerna" /></a></p>
 
 ---
@@ -20,6 +20,12 @@ Check out the [Quick Start](./documentation/QuickStart.md) page for a quick over
 
 With _Manta Style_, you can start implementing feature once your data schema is defined.
 But _Manta Style_ is more than just that.
+
+## ✨ UPDATE:
+
+Manta Style is designed to be a mock server which converts type definitions into mock data, though. The core of Manta Style compiles TypeScript / Flow definitions and make them usable at JavaScript runtime. The runtime also supports input formatting and validation other than mocking data.
+
+🔧 For more tools built with Manta Style core runtime, please check out [Tools](#tools).
 
 ### Generates mock data directly from your type declarations
 
@@ -89,6 +95,10 @@ npm install
 npm run bootstrap
 npm run build
 ```
+
+## Tools
+
+- [Magic Type](https://github.com/Cryrivers/magic-type), a CLI tool that compiles TypeScript definitions to type objects runnable at JavaScript runtime.
 
 ## Acknowledgments
 
