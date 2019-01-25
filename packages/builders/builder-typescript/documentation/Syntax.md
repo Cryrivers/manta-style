@@ -13,9 +13,9 @@ Manta Style supports most TypeScript syntax. If you are new to TypeScript, pleas
 
 - `extends` keyword in `interface` declaration will be ignored.
 - Union (`A | B`) and intersection(`A & B`) on index signatures are not supported.
-- Function types
+- Function
 - `infer` keyword
-- `ReturnType<T>` and `InstanceType<T>` are not supported due to `infer` keyword and function types.
+- `ReturnType<T>` and `InstanceType<T>` are not supported due to unsupported `infer` keyword and function.
 
 ## Unsupported Features
 

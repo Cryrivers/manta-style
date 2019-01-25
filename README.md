@@ -6,6 +6,14 @@
 
 ---
 
+**✨ UPDATE:**
+
+While Manta Style is designed to be a mock server that converts type definitions into mock data. The core of Manta Style compiles definitions and makes them usable at JavaScript runtime. The runtime also supports input formatting and validation other than mocking data.
+
+For more tools built with Manta Style core runtime, please check out [Tools](#tools).
+
+---
+
 Check out the [Quick Start](./documentation/QuickStart.md) page for a quick overview.
 
 - [Installation](./documentation/Installation.md)
@@ -20,12 +28,6 @@ Check out the [Quick Start](./documentation/QuickStart.md) page for a quick over
 
 With _Manta Style_, you can start implementing feature once your data schema is defined.
 But _Manta Style_ is more than just that.
-
-## ✨ UPDATE:
-
-Manta Style is designed to be a mock server which converts type definitions into mock data, though. The core of Manta Style compiles TypeScript / Flow definitions and make them usable at JavaScript runtime. The runtime also supports input formatting and validation other than mocking data.
-
-For more tools built with Manta Style core runtime, please check out [Tools](#tools).
 
 ### Generates mock data directly from your type declarations
 
