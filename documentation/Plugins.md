@@ -177,13 +177,17 @@ You may support one or more of the four types.
 
 #### Asynchronous Mock Plugins
 
-Your mock function may be `async`. Here is an example of an asynchronous mock function:
+Your mock data source may be `async`. However, as the mock function is synchronous, all asychronous request should be wrapped with a `Fetcher`.
+
+Here is an example of a mock function with asynchronous data source:
 
 ```ts
+import { annotationUtils, MockPlugin, Fetcher } from '@manta-style/core';
+
 const qotdPlugin: MockPlugin = {
   name: 'qotd',
   mock: {
-    async StringType(annotations) {
+    StringType(annotations) {
       const jsdocRange = annotationUtils.getAnnotationsByKey(
         'qotd',
         annotations,
@@ -193,10 +197,11 @@ const qotdPlugin: MockPlugin = {
       }
 
       try {
-        // This is a deprecated method for async mock, new method to be documented.
-        const response = await fetch('https://favqs.com/api/qotd');
-        const json = await response.json();
-        return json.quote.body;
+        return new Fetcher(
+          fetch('https://favqs.com/api/qotd')
+            .then((response) => response.json())
+            .then((json) => json.quote.body),
+        );
       } catch (e) {
         return null;
       }
