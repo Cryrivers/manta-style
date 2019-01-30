@@ -1,5 +1,5 @@
 import * as ts from 'typescript';
-import * as fs from 'fs';
+import * as fs from 'fs-extra';
 import * as path from 'path';
 import * as glob from 'glob';
 import * as babelCore from '@babel/core';
@@ -47,7 +47,7 @@ export default function build({
       sourceFiles,
     ) {
       try {
-        fs.mkdirSync(path.dirname(fileName));
+        fs.ensureFileSync(fileName);
       } catch {
         // Empty
       }
