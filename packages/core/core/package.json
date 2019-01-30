@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/core",
-  "version": "0.2.0-alpha.13",
+  "version": "0.2.0-alpha.14",
   "description": "Manta Style Core",
   "main": "./lib/manta-style-core.js",
   "typings": "./lib/typings/index.d.ts",

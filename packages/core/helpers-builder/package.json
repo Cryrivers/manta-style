@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/helpers-builder",
-  "version": "0.2.0-alpha.13",
+  "version": "0.2.0-alpha.14",
   "description": "Extract the exported helper type",
   "main": "./lib/index.js",
   "author": {
