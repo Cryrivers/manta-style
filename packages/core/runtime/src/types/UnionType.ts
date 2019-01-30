@@ -27,6 +27,7 @@ export default class UnionType extends Type {
     }
   }
   public derivePreservedUnionLiteral(parentAnnotations: Annotation[]) {
+    // TODO: Add a JSDoc property to intervene the random selection process
     const resolvedTypes = this.types.map((type) => resolveReferencedType(type));
     const derivedTypes = resolvedTypes
       .map((item) => item.type)
