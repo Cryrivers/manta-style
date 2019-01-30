@@ -22,6 +22,10 @@ export default class NumberKeyword extends Type {
     } else if (typeof value === 'string' && !isNaN(Number(value))) {
       return Number(value);
     }
-    throwUnableToFormat({ typeName: 'NumberKeyword', inputValue: value });
+    throwUnableToFormat({
+      typeName: 'NumberKeyword',
+      inputValue: value,
+      expectedValue: 'A valid number',
+    });
   }
 }

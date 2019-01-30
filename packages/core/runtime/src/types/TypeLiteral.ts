@@ -11,7 +11,11 @@ import NeverKeyword from './NeverKeyword';
 import { intersection } from '../utils/intersection';
 import { Annotation, annotationUtils, Type } from '@manta-style/core';
 import MantaStyle from '..';
-import { throwUnableToFormat, throwUnsupported } from '../utils/errorReporting';
+import {
+  throwUnableToFormat,
+  throwUnsupported,
+  UnableToFormatError,
+} from '../utils/errorReporting';
 
 export default class TypeLiteral extends Type {
   private properties: Property[] = [];
@@ -188,37 +192,61 @@ export default class TypeLiteral extends Type {
     // TODO: Support computed properties
     return obj;
   }
-  public format(value: unknown) {
-    if (
-      // TODO: Could be extracted into a new function
-      typeof value !== 'object' ||
-      value === null ||
-      Object.keys(value).length <
-        this.properties.filter((item) => !item.questionMark).length
-    ) {
-      throwUnableToFormat({ typeName: 'TypeLiteral', inputValue: value });
+  private findMissingProperties(value: unknown): string[] {
+    const requiredProperties = this.properties.filter(
+      (item) => !item.questionMark,
+    );
+    if (typeof value !== 'object' || value === null) {
+      return requiredProperties.map((item) => item.name);
     } else {
-      const shallowCopy = { ...value };
-      const properties = Object.keys(shallowCopy);
+      const inputProperties = Object.keys(value);
+      return requiredProperties
+        .filter((item) => !inputProperties.includes(item.name))
+        .map((item) => item.name);
+    }
+  }
+  public format(value: unknown) {
+    const missingProperties = this.findMissingProperties(value);
+    if (missingProperties.length > 0) {
+      throwUnableToFormat({
+        typeName: 'TypeLiteral',
+        reason: `Missing required properties: ${missingProperties.join(', ')}.`,
+        inputValue: value,
+      });
+    } else {
+      const formattedTypeLiteral = {};
+      const properties = Object.keys(value as object);
       for (const property of properties) {
         const foundProperty = this.properties.find(
           (type) => type.name === property,
         );
         if (foundProperty) {
-          // @ts-ignore
-          const propertyValue = shallowCopy[property];
-          // @ts-ignore
-          shallowCopy[property] = foundProperty.questionMark
-            ? new UnionType([
-                foundProperty.type,
-                MantaStyle.UndefinedKeyword,
-              ]).format(propertyValue)
-            : foundProperty.type.format(propertyValue);
-        } else {
-          throwUnableToFormat({ typeName: 'TypeLiteral', inputValue: value });
+          try {
+            // @ts-ignore
+            const propertyValue = value[property];
+            // @ts-ignore
+            formattedTypeLiteral[property] = foundProperty.questionMark
+              ? new UnionType([
+                  foundProperty.type,
+                  MantaStyle.UndefinedKeyword,
+                ]).format(propertyValue)
+              : foundProperty.type.format(propertyValue);
+          } catch (ex) {
+            if (ex instanceof UnableToFormatError) {
+              throwUnableToFormat({
+                typeName: `Property \'${foundProperty.name}\'`,
+                // @ts-ignore
+                inputValue: value[property],
+                reason: ex.getReason(),
+                expectedValue: ex.getExpectedValue(),
+              });
+            } else {
+              console.log('123');
+            }
+          }
         }
       }
-      return shallowCopy;
+      return formattedTypeLiteral;
     }
   }
   public compose(type: TypeLiteral): TypeLiteral {
