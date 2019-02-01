@@ -28,11 +28,11 @@
     "@types/jest": "^23.3.13",
     "@types/lodash-es": "^4.17.1",
     "awesome-typescript-loader": "^5.2.1",
-    "jest": "^23.6.0",
+    "jest": "^24.0.0",
     "pretty-hrtime": "^1.0.3",
     "source-map-loader": "^0.2.4",
     "ts-jest": "^23.10.5",
-    "typescript": "3.2.4",
+    "typescript": "3.3.1",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },

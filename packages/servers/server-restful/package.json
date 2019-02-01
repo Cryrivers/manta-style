@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@manta-style/runtime": "^0.2.0-alpha.15",
-    "typescript": "^3.2.4",
+    "typescript": "^3.3.1",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },

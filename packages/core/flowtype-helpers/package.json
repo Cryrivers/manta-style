@@ -24,8 +24,8 @@
   "devDependencies": {
     "@manta-style/builder-typescript": "^0.2.0-alpha.15",
     "@manta-style/helpers-builder": "^0.2.0-alpha.15",
-    "lint-staged": "^8.1.0",
-    "typescript": "3.2.4",
+    "lint-staged": "^8.1.1",
+    "typescript": "3.3.1",
     "webpack": "^4.29.0",
     "webpack-cli": "^3.2.1"
   },
