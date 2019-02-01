@@ -7,5 +7,5 @@
   ],
   "npmClient": "yarn",
   "useWorkspaces": true,
-  "version": "independent"
+  "version": "0.2.0-alpha.15"
 }
