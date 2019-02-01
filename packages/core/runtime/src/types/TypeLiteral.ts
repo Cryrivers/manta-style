@@ -232,17 +232,11 @@ export default class TypeLiteral extends Type {
                 ]).format(propertyValue)
               : foundProperty.type.format(propertyValue);
           } catch (ex) {
-            if (ex instanceof UnableToFormatError) {
-              throwUnableToFormat({
-                typeName: `Property \'${foundProperty.name}\'`,
-                // @ts-ignore
-                inputValue: value[property],
-                reason: ex.getReason(),
-                expectedValue: ex.getExpectedValue(),
-              });
-            } else {
-              console.log('123');
-            }
+            throwUnableToFormat({
+              typeName: `TypeLiteral (Property \'${foundProperty.name}\')`,
+              // @ts-ignore
+              inputValue: value[property],
+            });
           }
         }
       }
