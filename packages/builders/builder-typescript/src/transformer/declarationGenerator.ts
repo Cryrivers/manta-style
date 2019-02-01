@@ -12,11 +12,16 @@ function generateTypeDeclaration(
   const isExport =
     node.modifiers &&
     node.modifiers.find((item) => item.kind === ts.SyntaxKind.ExportKeyword);
+  const genericParams = node.typeParameters
+    ? node.typeParameters.map((_) => 'any')
+    : [];
   return [
-    node.getText(),
+    node.getFullText(),
     `${
       isExport ? 'export ' : ''
-    }declare const ${node.name.getText()}: Type<${node.name.getText()}>;`,
+    }declare const ${node.name.getText()}: Type<${node.name.getText()}${
+      genericParams ? '<' + genericParams.join(',') + '>' : ''
+    }>;`,
   ];
 }
 
