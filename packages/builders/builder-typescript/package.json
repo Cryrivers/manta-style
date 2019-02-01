@@ -29,7 +29,7 @@
     "@types/babel__core": "^7.0.4",
     "@types/babel__generator": "^7.0.1",
     "@types/babel__template": "^7.0.1",
-    "@types/babel__traverse": "^7.0.5",
+    "@types/babel__traverse": "^7.0.4",
     "@types/fs-extra": "^5.0.4",
     "@types/glob": "^7.1.1",
     "webpack": "^4.29.0",
@@ -43,7 +43,7 @@
     "@manta-style/test-helpers": "^0.2.0-alpha.15",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.3",
-    "typescript": "^3.3.1"
+    "typescript": "^3.2.4"
   },
   "jest": {
     "transform": {

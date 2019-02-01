@@ -3,7 +3,7 @@
   "version": "0.2.0-alpha.15",
   "main": "src/index.ts",
   "dependencies": {
-    "prettier": "^1.16.3"
+    "prettier": "^1.16.1"
   },
   "publishConfig": {
     "access": "public"
