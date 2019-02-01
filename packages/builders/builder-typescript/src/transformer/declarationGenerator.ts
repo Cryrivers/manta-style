@@ -20,7 +20,7 @@ function generateTypeDeclaration(
     `${
       isExport ? 'export ' : ''
     }declare const ${node.name.getText()}: Type<${node.name.getText()}${
-      genericParams ? '<' + genericParams.join(',') + '>' : ''
+      genericParams.length > 0 ? '<' + genericParams.join(',') + '>' : ''
     }>;`,
   ];
 }
