@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/typescript-helpers",
-  "version": "0.2.0-alpha.19",
+  "version": "0.2.0-alpha.20",
   "description": "Manta Style Helper for TypeScript",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -23,8 +23,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@manta-style/builder-typescript": "^0.2.0-alpha.19",
-    "@manta-style/helpers-builder": "^0.2.0-alpha.19",
+    "@manta-style/builder-typescript": "^0.2.0-alpha.20",
+    "@manta-style/helpers-builder": "^0.2.0-alpha.20",
     "lint-staged": "^8.1.0",
     "typescript": "3.2.4",
     "webpack": "^4.29.0",
