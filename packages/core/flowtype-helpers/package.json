@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/flowtype-helpers",
-  "version": "0.2.0-alpha.20",
+  "version": "0.2.0-alpha.21",
   "description": "Manta Style Helper for FlowType",
   "main": "./lib/index.js",
   "author": {
@@ -22,8 +22,8 @@
     "access": "public"
   },
   "devDependencies": {
-    "@manta-style/builder-typescript": "^0.2.0-alpha.20",
-    "@manta-style/helpers-builder": "^0.2.0-alpha.20",
+    "@manta-style/builder-typescript": "^0.2.0-alpha.21",
+    "@manta-style/helpers-builder": "^0.2.0-alpha.21",
     "lint-staged": "^8.1.0",
     "typescript": "3.2.4",
     "webpack": "^4.29.0",
