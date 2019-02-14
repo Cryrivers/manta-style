@@ -1,7 +1,7 @@
 import { annotationUtils, MockPlugin } from '@manta-style/core';
 import { sample } from 'lodash-es';
 
-const fakerPlugin: MockPlugin = {
+const examplePlugin: MockPlugin = {
   name: 'example',
   mock: {
     StringType(annotations) {
@@ -35,4 +35,4 @@ const fakerPlugin: MockPlugin = {
   },
 };
 
-export default fakerPlugin;
+export default examplePlugin;
