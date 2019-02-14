@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/jsdoc-parser",
-  "version": "0.2.0-alpha.18",
+  "version": "0.2.0-alpha.19",
   "description": "Parse comment to jsdoc",
   "main": "./src/index.ts",
   "author": {
@@ -21,7 +21,7 @@
     "build": "echo \"no build\""
   },
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.18",
+    "@manta-style/core": "^0.2.0-alpha.19",
     "typescript": "^3.2.4"
   },
   "devDependencies": {
