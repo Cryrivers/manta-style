@@ -1,4 +1,4 @@
-import { PluginSystem, Plugin } from '../plugin';
+import { PluginSystem } from '../plugin';
 
 let param: { [key: string]: any } = {};
 let query: { [key: string]: any } = {};
@@ -23,6 +23,21 @@ export class Fetcher<T> {
       return resolvedFetcherValue[this.fetcherId];
     }
   }
+}
+
+/**
+ * @description
+ * As it use `require`, this function is for Node.js only.
+ * Will be **deprecated** in near future
+ * @param packageNames Array of plugin names
+ */
+export function enablePlugins(packageNames: string[]) {
+  plugins = new PluginSystem(
+    packageNames.map((packageName) => ({
+      name: packageName,
+      module: require(packageName),
+    })),
+  );
 }
 
 export function usePluginSystem(): [
