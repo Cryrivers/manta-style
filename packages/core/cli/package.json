@@ -16,7 +16,7 @@
     "access": "public"
   },
   "bin": {
-    "ms": "./lib/index.js"
+    "ms": "./lib/src/index.js"
   },
   "scripts": {
     "test": "echo 'No test yet'",
