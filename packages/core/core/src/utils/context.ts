@@ -1,4 +1,4 @@
-import { PluginSystem, Plugin } from '../plugin';
+import { PluginSystem, MockPlugin } from '../plugin';
 
 let param: { [key: string]: any } = {};
 let query: { [key: string]: any } = {};
@@ -28,7 +28,7 @@ export class Fetcher<T> {
 /**
  * @param packages Array of plugin modules
  */
-export function enablePlugins(packages: Plugin[]) {
+export function enablePlugins(packages: MockPlugin[]) {
   plugins = new PluginSystem(
     packages.map((pkg) => ({
       name: 'AnonymousPlugin',
