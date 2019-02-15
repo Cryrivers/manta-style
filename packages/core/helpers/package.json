@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/helpers",
-  "version": "0.2.0-alpha.22",
+  "version": "0.2.0-alpha.23",
   "description": "Manta Style Helpers",
   "main": "./lib/manta-style-helpers.js",
   "typings": "./index.d.ts",
@@ -30,7 +30,7 @@
     "webpack-cli": "^3.2.1"
   },
   "dependencies": {
-    "@manta-style/core": "^0.2.0-alpha.22",
-    "@manta-style/runtime": "^0.2.0-alpha.22"
+    "@manta-style/core": "^0.2.0-alpha.23",
+    "@manta-style/runtime": "^0.2.0-alpha.23"
   }
 }

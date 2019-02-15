@@ -1,6 +1,6 @@
 {
   "name": "@manta-style/builder-flowtype",
-  "version": "0.2.0-alpha.22",
+  "version": "0.2.0-alpha.23",
   "description": "FlowType Language Support",
   "main": "./lib/flowtype-builder.js",
   "typings": "./lib/index.d.js",
@@ -40,10 +40,10 @@
     "@babel/plugin-syntax-flow": "^7.2.0",
     "@babel/plugin-syntax-object-rest-spread": "^7.2.0",
     "@babel/preset-env": "^7.3.1",
-    "@manta-style/core": "^0.2.0-alpha.22",
-    "@manta-style/flowtype-helpers": "^0.2.0-alpha.22",
-    "@manta-style/jsdoc-parser": "^0.2.0-alpha.22",
-    "@manta-style/test-helpers": "^0.2.0-alpha.22",
+    "@manta-style/core": "^0.2.0-alpha.23",
+    "@manta-style/flowtype-helpers": "^0.2.0-alpha.23",
+    "@manta-style/jsdoc-parser": "^0.2.0-alpha.23",
+    "@manta-style/test-helpers": "^0.2.0-alpha.23",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "fs-extra": "^7.0.1",
     "glob": "^7.1.3"
