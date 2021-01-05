@@ -47,7 +47,7 @@
     "@manta-style/runtime": "^0.2.0-alpha.24",
     "@manta-style/server-restful": "^0.2.0-alpha.24",
     "@manta-style/typescript-helpers": "^0.2.0-alpha.24",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "chalk": "^2.4.2",
     "chokidar": "^2.0.4",
     "clear": "^0.1.0",
